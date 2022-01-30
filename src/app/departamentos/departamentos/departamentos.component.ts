@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Departamento } from '../model/departamento';
 
 @Component({
   selector: 'app-departamentos',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DepartamentosComponent implements OnInit {
 
-  constructor() { }
+  departamentos: Departamento[] = [
+    { _id: '1', nombre: 'Angular', sucursal: 'Sucursal teste',situacion: 'Activo' }
+  ];
+  columnasVisibles = ['id', 'nombre', 'sucursal', 'situacion'];
+
+  constructor() {
+
+  }
 
   ngOnInit(): void {
+
   }
 
 }

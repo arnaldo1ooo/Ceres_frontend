@@ -1,5 +1,8 @@
-import { NgModule } from '@angular/core';
+import { AppMaterialModule } from '../materialModulos/app-material/app-material.module';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+
+
 
 import { DepartamentosRoutingModule } from './departamentos-routing.module';
 import { DepartamentosComponent } from './departamentos/departamentos.component';
@@ -11,7 +14,8 @@ import { DepartamentosComponent } from './departamentos/departamentos.component'
   ],
   imports: [
     CommonModule,
-    DepartamentosRoutingModule
+    DepartamentosRoutingModule,
+    AppMaterialModule
   ]
 })
 export class DepartamentosModule { }
