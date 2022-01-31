@@ -1,5 +1,7 @@
+import { DepartamentosService } from './../services/departamentos.service';
 import { Component, OnInit } from '@angular/core';
 import { Departamento } from '../model/departamento';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-departamentos',
@@ -8,13 +10,11 @@ import { Departamento } from '../model/departamento';
 })
 export class DepartamentosComponent implements OnInit {
 
-  departamentos: Departamento[] = [
-    { _id: '1', nombre: 'Angular', sucursal: 'Sucursal teste',situacion: 'Activo' }
-  ];
+  departamentos: Observable<Departamento[]>;
   columnasVisibles = ['id', 'nombre', 'sucursal', 'situacion'];
 
-  constructor() {
-
+  constructor(private departamentosService: DepartamentosService) {
+    this.departamentos = this.departamentosService.listaAllDepartamentos();
   }
 
   ngOnInit(): void {
