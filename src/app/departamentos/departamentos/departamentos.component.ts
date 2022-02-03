@@ -10,11 +10,11 @@ import { Observable } from 'rxjs';
 })
 export class DepartamentosComponent implements OnInit {
 
-  departamentos: Observable<Departamento[]>;
+  departamentos$: Observable<Departamento[]>;
   columnasVisibles = ['id', 'nombre', 'sucursal', 'situacion'];
 
   constructor(private departamentosService: DepartamentosService) {
-    this.departamentos = this.departamentosService.listaAllDepartamentos();
+    this.departamentos$ = this.departamentosService.listaAllDepartamentos();
   }
 
   ngOnInit(): void {

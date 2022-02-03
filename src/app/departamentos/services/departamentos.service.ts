@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Departamento } from '../model/departamento';
 import { HttpClient } from '@angular/common/http';
-import { first, tap } from 'rxjs';
+import { delay, first, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,7 @@ export class DepartamentosService {
     return this.httpClient.get<Departamento[]>(this.API)
       .pipe(
         first(),
+        delay(4000),
         tap(departamentos => console.log(departamentos))
       );
   }
