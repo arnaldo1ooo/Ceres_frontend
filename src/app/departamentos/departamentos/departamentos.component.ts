@@ -14,7 +14,7 @@ import { DepartamentosService } from './../services/departamentos.service';
 export class DepartamentosComponent implements OnInit {
 
   departamentos$: Observable<Departamento[]>;
-  columnasVisibles = ['id', 'nombre', 'sucursal', 'situacion'];
+  columnasVisibles = ['_id', 'nombre', 'sucursal', 'situacion'];
 
   constructor(
     private departamentosService: DepartamentosService,
