@@ -1,18 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ErrorDialogoComponent } from './components/error-dialogo/error-dialogo.component';
-import { AppMaterialModule } from './compartidoMaterial/app-material.module';
+import { AppMaterialModule } from './materialComponentes/app-material.module';
+import { SituacionPipe } from './pipes/situacion.pipe';
 
 
 
 @NgModule({
   declarations: [
-    ErrorDialogoComponent
+    ErrorDialogoComponent,
+    SituacionPipe
   ],
   imports: [
     CommonModule,
     AppMaterialModule
   ],
-  exports: [ErrorDialogoComponent]
+  exports: [
+    ErrorDialogoComponent,
+    SituacionPipe
+  ]
 })
 export class CompartidoModule { }
