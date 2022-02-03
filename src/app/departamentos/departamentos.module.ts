@@ -1,11 +1,12 @@
-import { AppMaterialModule } from '../materialModulos/app-material.module';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-
-
+import { AppMaterialModule } from '../compartido/compartidoMaterial/app-material.module';
+import { CompartidoModule } from './../compartido/compartido.module';
 import { DepartamentosRoutingModule } from './departamentos-routing.module';
 import { DepartamentosComponent } from './departamentos/departamentos.component';
+
+
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { DepartamentosComponent } from './departamentos/departamentos.component'
   imports: [
     CommonModule,
     DepartamentosRoutingModule,
-    AppMaterialModule
+    AppMaterialModule,
+    CompartidoModule
   ]
 })
 export class DepartamentosModule { }
