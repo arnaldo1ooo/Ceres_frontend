@@ -8,7 +8,7 @@ import { delay, first, tap } from 'rxjs';
 })
 export class DepartamentosService {
 
-  private readonly API = '/assets/departamentos.json';
+  private readonly API = 'ceres/departamentos';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -16,7 +16,7 @@ export class DepartamentosService {
     return this.httpClient.get<Departamento[]>(this.API)
       .pipe(
         first(),
-        delay(4000),
+        delay(2000),
         tap(departamentos => console.log(departamentos))
       );
   }

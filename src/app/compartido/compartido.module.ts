@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ErrorDialogoComponent } from './components/error-dialogo/error-dialogo.component';
 import { AppMaterialModule } from './materialComponentes/app-material.module';
-import { SituacionPipe } from './pipes/situacion.pipe';
+import { SituacionPipe } from './pipes/situacionIcon.pipe';
 
 
 
