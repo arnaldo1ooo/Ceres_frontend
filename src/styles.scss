@@ -4,8 +4,8 @@
 @include mat-core();
 
 /*Colores*/
-$custom-app-primary: mat-palette($mat-cyan);
-$custom-app-secondary: mat-palette($mat-indigo);
+$custom-app-primary: mat-palette($mat-blue-grey);
+$custom-app-secondary: mat-palette($mat-amber);
 $custom-app-warning: mat-palette($mat-red);
 
 $custom-theme: mat-light-theme($custom-app-primary, $custom-app-secondary, $custom-app-warning);

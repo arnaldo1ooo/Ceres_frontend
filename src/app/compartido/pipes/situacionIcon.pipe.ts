@@ -7,8 +7,8 @@ export class SituacionPipe implements PipeTransform {
 
   transform(valor: string): string {
     switch(valor){
-      case 'ACTIVO' : return 'toggle_on'
-      case 'INACTIVO' : return 'toggle_off'
+      case 'A' : return 'toggle_on'
+      case 'I' : return 'toggle_off'
 
 
     }
