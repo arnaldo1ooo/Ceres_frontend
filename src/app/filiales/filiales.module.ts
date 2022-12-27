@@ -3,21 +3,21 @@ import { NgModule } from '@angular/core';
 
 import { AppMaterialModule } from '../compartido/materialComponentes/app-material.module';
 import { CompartidoModule } from './../compartido/compartido.module';
-import { DepartamentosRoutingModule } from './departamentos-routing.module';
-import { DepartamentosComponent } from './departamentos/departamentos.component';
+import { FilialesRoutingModule } from './filiales-routing.module';
+import { FilialesComponent } from './filiales/filiales.component';
 
 
 
 
 @NgModule({
   declarations: [
-    DepartamentosComponent
+    FilialesComponent
   ],
   imports: [
     CommonModule,
-    DepartamentosRoutingModule,
+    FilialesRoutingModule,
     AppMaterialModule,
     CompartidoModule
   ]
 })
-export class DepartamentosModule { }
+export class FilialesModule { }

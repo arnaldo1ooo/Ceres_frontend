@@ -1,5 +1,5 @@
 
-export interface Departamento {
+export interface Filial {
 
   _id: string;
   nombre: string;
