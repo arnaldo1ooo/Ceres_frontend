@@ -1,23 +1,26 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ErrorDialogoComponent } from './components/error-dialogo/error-dialogo.component';
-import { AppMaterialModule } from './materialComponentes/app-material.module';
-import { SituacionPipe } from './pipes/situacionIcon.pipe';
+import { NgModule } from '@angular/core';
+
+import { DialogoErrorComponent } from './componentes/dialogo-error/dialogo-error.component';
+import { MaterialModulosModule } from './material-modulos/material-modulos.module';
+import { CategoriaPipe } from './pipes/categoria.pipe';
+import { DialogoConfirmacionComponent } from './componentes/dialogo-confirmacion/dialogo-confirmacion/dialogo-confirmacion.component';
 
 
 
 @NgModule({
   declarations: [
-    ErrorDialogoComponent,
-    SituacionPipe
+    DialogoErrorComponent,
+    CategoriaPipe,
+    DialogoConfirmacionComponent
   ],
   imports: [
     CommonModule,
-    AppMaterialModule
+    MaterialModulosModule
   ],
   exports: [
-    ErrorDialogoComponent,
-    SituacionPipe
+    DialogoErrorComponent,
+    CategoriaPipe
   ]
 })
 export class CompartidoModule { }

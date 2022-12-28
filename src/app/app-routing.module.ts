@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
 
-  { path: '', pathMatch:'full', redirectTo: 'login'},
-  { path: 'filiales', loadChildren: () => import('./filiales/filiales.module').then(m => m.FilialesModule) }
+  { path: '',  pathMatch: 'full',redirectTo: 'login' },  //Cuando path es vacio, va a ser la ruta por defecto
+  { path: 'ceres/filiales', loadChildren: () => import('./filiales/filiales.module').then(m => m.FilialesModule) }
 
 ];
 

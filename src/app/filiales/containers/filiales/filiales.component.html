@@ -1,0 +1,24 @@
+<mat-card>
+  <mat-toolbar color="primary">
+    Filiales Disponibles
+  </mat-toolbar>
+
+  <div class="column flex mat-elevation-z8">
+
+    <!--Pasamos las filiales a la lista-->
+    <app-filiales-lista
+      *ngIf="dsFiliales$ | async as filiales; else cargando"
+      [listFiliales]="filiales"
+      (nuevo)="onNuevo()"
+      (editar)="onEditar($event)"
+      (eliminar)="onEliminar($event)">
+    </app-filiales-lista>
+
+    <ng-template #cargando>
+      <div class="style-cargando-spinner">
+        <mat-spinner></mat-spinner>
+      </div>
+    </ng-template>
+
+  </div>
+</mat-card>

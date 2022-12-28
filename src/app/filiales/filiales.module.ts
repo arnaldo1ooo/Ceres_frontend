@@ -1,23 +1,25 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { AppMaterialModule } from '../compartido/materialComponentes/app-material.module';
 import { CompartidoModule } from './../compartido/compartido.module';
+import { MaterialModulosModule } from './../compartido/material-modulos/material-modulos.module';
+import { FilialesListaComponent } from './components/filiales-lista/filiales-lista.component';
+import { FilialesComponent } from './containers/filiales/filiales.component';
 import { FilialesRoutingModule } from './filiales-routing.module';
-import { FilialesComponent } from './filiales/filiales.component';
-
-
 
 
 @NgModule({
   declarations: [
-    FilialesComponent
+    FilialesComponent,
+    FilialesListaComponent
   ],
   imports: [
     CommonModule,
     FilialesRoutingModule,
-    AppMaterialModule,
-    CompartidoModule
+    MaterialModulosModule,
+    CompartidoModule,
+    ReactiveFormsModule
   ]
 })
 export class FilialesModule { }

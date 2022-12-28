@@ -1,0 +1,50 @@
+<mat-table [dataSource]="listFiliales">
+
+  <!-- Columna id -->
+  <ng-container matColumnDef="_id">
+    <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
+    <mat-cell *matCellDef="let filial"> {{ filial._id }} </mat-cell>
+  </ng-container>
+
+  <!-- Columna nombre -->
+  <ng-container matColumnDef="nombre">
+    <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+    <mat-cell *matCellDef="let filial"> {{ filial.nombre }} </mat-cell>
+  </ng-container>
+
+  <!-- Columna sucursal -->
+  <ng-container matColumnDef="sucursal">
+    <mat-header-cell *matHeaderCellDef> Sucursal </mat-header-cell>
+    <mat-cell *matCellDef="let filial"> {{ filial.sucursal.nombre }} </mat-cell>
+  </ng-container>
+
+    <!-- Columna situacion -->
+    <ng-container matColumnDef="situacion">
+      <mat-header-cell *matHeaderCellDef> Situación </mat-header-cell>
+      <mat-cell *matCellDef="let filial"> {{ filial.situacion }} </mat-cell>
+    </ng-container>
+
+  <!-- Columna Acciones -->
+  <ng-container matColumnDef="acciones">
+    <mat-header-cell *matHeaderCellDef class="style-boton-nuevo">
+      <button mat-mini-fab color="accent" aria-label="Crear nuevo filial">
+        <mat-icon (click)="onNuevo()">add</mat-icon>
+      </button>
+    </mat-header-cell>
+
+    <mat-cell *matCellDef="let filiales" class="style-columna-acciones">
+      <button mat-icon-button color="primary" aria-label="Editar filial">
+        <mat-icon (click)="onEditar(filiales)">edit</mat-icon>
+      </button>
+
+      <button mat-icon-button color="warn" aria-label="Eliminar filial">
+        <mat-icon (click)="onEliminar(filiales)">delete</mat-icon>
+      </button>
+    </mat-cell>
+
+  </ng-container>
+
+
+  <mat-header-row *matHeaderRowDef="columnasAMostrar"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: columnasAMostrar;"></mat-row>
+</mat-table>
