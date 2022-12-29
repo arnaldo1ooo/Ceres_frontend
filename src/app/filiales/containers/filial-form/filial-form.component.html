@@ -1,0 +1,31 @@
+<mat-card>
+
+  <mat-toolbar color="primary">Detalles de la Filial</mat-toolbar>
+
+  <mat-card-content>
+    <form [formGroup]="formFilial" class="anchura-minima">
+      <mat-form-field class="anchura-maxima">
+        <input matInput placeholder="Nombre" formControlName="nombre">
+      </mat-form-field>
+
+      <mat-form-field class="anchura-maxima">
+        <mat-label>Sucursal</mat-label>
+        <mat-select formControlName="sucursal">
+          <mat-option value="null"> </mat-option>
+          <mat-option value="Front-end">Front-end</mat-option>
+          <mat-option value="Back-end">Back-end</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="anchura-maxima">
+        <input matInput placeholder="Situacion" formControlName="situacion">
+      </mat-form-field>
+
+    </form>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="onGuardar()">Guardar</button>
+    <button mat-raised-button color="warn" (click)="onCancelar()">Cancelar</button>
+  </mat-card-actions>
+</mat-card>
