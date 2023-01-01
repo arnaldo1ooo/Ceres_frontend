@@ -5,9 +5,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', component: FilialesComponent },
-  { path: 'nuevo', component: FilialFormComponent, resolve: { filial: FilialResolver } },
-  { path: 'editar/:id', component: FilialFormComponent, resolve: { filial: FilialResolver } }
+  { path: '', component: FilialesComponent }, //filiales
+  { path: 'nuevo', component: FilialFormComponent, resolve: { filial: FilialResolver } }, //Seria filiales/nuevo
+  { path: 'editar/:id', component: FilialFormComponent, resolve: { filial: FilialResolver } } //Seria filiales/editar/id
 ];
 
 @NgModule({
