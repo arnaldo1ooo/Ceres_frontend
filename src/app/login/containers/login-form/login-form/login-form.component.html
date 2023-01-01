@@ -1,0 +1,28 @@
+<mat-card>
+
+  <mat-card-title>Inicio de sesión</mat-card-title>
+
+  <mat-card-content>
+    <form class="mx-auto" #form="ngForm" (ngSubmit)="login(form)">
+
+      <p>
+        <mat-form-field>
+          <input matInput id="nombreUsuario" name="nombreUsuario" type="text"
+                  placeholder="Nombre de usuario" [(ngModel)]="credenciales.nombreUsuario">
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field>
+          <input matInput id="contrasena" name="contrasena" type="password"
+                  placeholder="Contraseña" [(ngModel)]="credenciales.contrasena">
+        </mat-form-field>
+      </p>
+
+      <div class="estilo-boton">
+        <button mat-button color="primary">Ingresar</button>
+      </div>
+
+    </form>
+  </mat-card-content>
+</mat-card>
