@@ -18,7 +18,11 @@
       </mat-form-field>
 
       <mat-form-field class="anchura-maxima">
-        <input matInput placeholder="Situacion" formControlName="situacion">
+        <mat-label>Situación</mat-label>
+        <mat-select formControlName="situacion">
+          <mat-option value="A">Activo</mat-option>
+          <mat-option value="I">Inactivo</mat-option>
+        </mat-select>
       </mat-form-field>
 
     </form>
