@@ -22,7 +22,7 @@ export class LoginService {
         const body = response.body;
         const headers = response.headers;
 
-        const bearerToken = headers.get('Autorizacion')!;
+        const bearerToken = headers.get('Authorization')!;
         const token = bearerToken.replace('Bearer', '');
 
         localStorage.setItem('token', token); //Se guarda el token por si el usuario cierra la ventana y con esto no tenga que volver a iniciar sesion

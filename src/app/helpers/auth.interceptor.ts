@@ -16,7 +16,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     if(token){  //Si existe token almacenado
       const clonado = request.clone({
-        headers: request.headers.set('Autorizacion', `Bearer ${ token }`)
+        headers: request.headers.set('Authorization', `Bearer ${ token }`)
       })
 
       return next.handle(clonado);
