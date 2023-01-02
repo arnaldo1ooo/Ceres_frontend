@@ -11,7 +11,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
-
+//Este es un modulo para exportar facilmente modulos de angular material a otros componentes
 @NgModule({
   exports: [
     MatCardModule,

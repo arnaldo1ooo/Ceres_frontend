@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-error/dialogo-error.component';
 import { Login } from 'src/app/login/model/login';
 import { LoginService } from 'src/app/login/services/login.service';
 
@@ -11,7 +13,6 @@ import { LoginService } from 'src/app/login/services/login.service';
 })
 
 export class LoginFormComponent implements OnInit {
-
   credenciales: Login = {
     nombreUsuario: '',
     contrasena: ''
@@ -19,7 +20,8 @@ export class LoginFormComponent implements OnInit {
 
   constructor(
     private loginService: LoginService,
-    private ruta: Router) { }
+    private ruta: Router,
+    public dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
@@ -29,8 +31,16 @@ export class LoginFormComponent implements OnInit {
 
     this.loginService.login(this.credenciales)
     .subscribe(response => {
-      this.ruta.navigate(['/']);
-    })
+      this.ruta.navigate(['/home']);  //Caso se acepte las credenciales, se redirige al home
+    },
+    error =>this.onError('Falló el inicio de sesión')
+    )
+  }
+
+  onError(errorMsg: string) {
+    this.dialog.open(DialogoErrorComponent, {
+      data: errorMsg
+    });
   }
 
 }

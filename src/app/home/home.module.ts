@@ -1,6 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
+import { MaterialModulosModule } from '../compartido/material-modulos/material-modulos.module';
 import { HomeComponent } from './containers/home/home.component';
+
 
 
 
@@ -9,7 +13,9 @@ import { HomeComponent } from './containers/home/home.component';
     HomeComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MaterialModulosModule,
+    FormsModule //Sive para usar el ngModel en el html,
   ]
 })
 export class HomeModule { }
