@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from './helpers/auth.guard';
 import { HomeComponent } from './home/containers/home/home.component';
-import { LoginFormComponent } from './login/containers/login-form/login-form/login-form.component';
 import { LoginModule } from './login/login.module';
 
 
@@ -12,7 +11,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [AuthGuard] }, // Carga EAGER //Cuando path es vacio, redirecciona al home, caso tenga token almacenado (CanActivate)
   {
     path: 'login',
-    loadChildren: () => import('./login/login.module').then(m => m.LoginModule) //Carga asincrona (LAZY Loading)
+    loadChildren: () => import('./login/login.module').then(m => m.LoginModule) //Carga asincrona (LAZY Loading) requiere que el componente tenga un routing
   },
   {
     path: 'home', canActivate: [AuthGuard], canLoad: [AuthGuard],
