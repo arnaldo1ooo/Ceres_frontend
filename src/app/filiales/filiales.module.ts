@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 
 import { CompartidoModule } from './../compartido/compartido.module';
 import { MaterialModulosModule } from './../compartido/material-modulos/material-modulos.module';
@@ -19,9 +18,7 @@ import { FilialesRoutingModule } from './filiales-routing.module';
   imports: [
     CommonModule,
     FilialesRoutingModule,
-    MaterialModulosModule,
-    CompartidoModule,
-    ReactiveFormsModule
+    MaterialModulosModule
   ]
 })
 export class FilialesModule { }
