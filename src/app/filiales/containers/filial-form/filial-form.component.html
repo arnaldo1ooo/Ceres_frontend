@@ -4,21 +4,22 @@
 
   <mat-card-content>
     <form [formGroup]="formFilial" class="anchura-minima">
-      <mat-form-field class="anchura-maxima">
+      <mat-form-field class="anchura-maxima" required="true">
         <input matInput placeholder="Nombre" formControlName="nombre">
       </mat-form-field>
 
       <mat-form-field class="anchura-maxima">
         <mat-label>Sucursal</mat-label>
-        <mat-select formControlName="sucursal">
-          <mat-option value="null"> </mat-option>
-          <mat-option value="Front-end">Front-end</mat-option>
-          <mat-option value="Back-end">Back-end</mat-option>
+        <mat-select formControlName="sucursal" [compareWith]="compararById" required="true">
+          <mat-option disabled selected value="">Seleccione una sucursal</mat-option>
+          <mat-option *ngFor="let sucursal of listaSucursales" [value]="sucursal">
+            {{ sucursal.id }} - {{ sucursal.nombre }}
+          </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field class="anchura-maxima">
-        <mat-label>Situación</mat-label>
+        <mat-label>Seleccione Situación</mat-label>
         <mat-select formControlName="situacion">
           <mat-option value="A">Activo</mat-option>
           <mat-option value="I">Inactivo</mat-option>

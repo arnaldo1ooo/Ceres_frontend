@@ -15,15 +15,15 @@ export class FilialesService {
 
   listarTodosFiliales() {
     return this.htppClient.get<Filial[]>(this.API)
-    .pipe(                                        //Manipular datos
-      first(),                                    //Ejecuta la accion al primer resultado
-      delay(100),                                //Espera de x segundos
-      tap(filiales => console.log(filiales))          //Tap ejecuta la accion para todos, Imprimir los resultados
-    );
+      .pipe(                                        //Manipular datos
+        first(),                                    //Ejecuta la accion al primer resultado
+        delay(100)/*,                                //Espera de x segundos
+          tap(filiales => console.log(filiales))*/          //Tap ejecuta la accion para todos, Imprimir los resultados
+      );
   }
 
-  guardar(filial: Partial<Filial>){ //Se usa Partial cuando se espera que no reciba todos los datos de Filial
-    if(filial._id){
+  guardar(filial: Partial<Filial>) { //Se usa Partial cuando se espera que no reciba todos los datos de Filial
+    if (filial._id) {
       //console.log('Filial modificado!');
       return this.actualizar(filial);
     }
@@ -32,11 +32,11 @@ export class FilialesService {
     return this.crear(filial);
   }
 
-  private crear(filial: Partial<Filial>){
+  private crear(filial: Partial<Filial>) {
     return this.htppClient.post<Filial>(this.API, filial).pipe(first());
   }
 
-  private actualizar(filial: Partial<Filial>){
+  private actualizar(filial: Partial<Filial>) {
     return this.htppClient.put<Filial>(`${this.API}/${filial._id}`, filial).pipe(first());
   }
 
@@ -44,7 +44,7 @@ export class FilialesService {
     return this.htppClient.delete(`${this.API}/${id}`).pipe(first());
   }
 
-  cargarPorId(id: string){
+  cargarPorId(id: string) {
     return this.htppClient.get<Filial>(`${this.API}/${id}`);
   }
 }

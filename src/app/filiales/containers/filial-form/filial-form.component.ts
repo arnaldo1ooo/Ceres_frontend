@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Filial } from '../../model/filial';
 import { FilialesService } from '../../services/filiales.service';
+import { SucursalesService } from './../../../sucursales/services/sucursales.service';
 
 
 @Component({
@@ -14,33 +15,35 @@ import { FilialesService } from '../../services/filiales.service';
   styleUrls: ['./filial-form.component.scss']
 })
 export class FilialFormComponent implements OnInit {
-
+  listaSucursales: any;
   formFilial = this.formBuilder.group({
     _id: [''],
     nombre: [''],
     sucursal: [''],
     situacion: ['']
-    });
+  });
 
   constructor(
     private formBuilder: NonNullableFormBuilder,
     private filialService: FilialesService,
     private snackBar: MatSnackBar,
     private location: Location,
-    private ruta: ActivatedRoute) {
+    private ruta: ActivatedRoute,
+    private sucursalService: SucursalesService) {
 
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {  //Se ejecuta al iniciar componente
     const filial: Filial = this.ruta.snapshot.data['filial'];  //Obtiene el objeto filial del resolver
-    //console.log(filial);
 
     this.formFilial.setValue({ //Setamos los datos del filial para que aparezca al editar
       _id: filial._id,
       nombre: filial.nombre,
       sucursal: filial.sucursal,
       situacion: filial.situacion
-     });
+    });
+
+    this.cargarDropDownSucursal();
   }
 
   onGuardar() {
@@ -59,6 +62,18 @@ export class FilialFormComponent implements OnInit {
 
   private onError() {
     this.snackBar.open('Error al guardar filial', '', { duration: 4000 });  //Mensaje cuando da error
+  }
+
+  private cargarDropDownSucursal() {
+    this.sucursalService.listarTodosSucursales().subscribe((lista: any) => {  //Cargamos la lista de sucursales para mostrar en el dropdown
+      this.listaSucursales = lista;
+    })
+  }
+
+  protected compararById(opcion: any, opcionRecibida: any): boolean {//Esta comparacion se ejecuta con cada opcion de la lista compara Lista = sucursal.id
+    return opcion && opcionRecibida
+      ? opcion.id === opcionRecibida.id
+      : opcion === opcionRecibida;
   }
 
 }
