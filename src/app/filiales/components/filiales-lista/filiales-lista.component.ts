@@ -15,7 +15,7 @@ export class FilialesListaComponent implements OnInit {
   @Output() editar = new EventEmitter(false);
   @Output() eliminar = new EventEmitter(false);
 
-  readonly columnasAMostrar = ['_id','nombre', 'sucursal', 'situacion', 'acciones'];
+  readonly columnasAMostrar = ['_id', 'nombre', 'sucursal', 'situacion', 'acciones'];
 
   constructor(
     private ruta: Router,
@@ -24,15 +24,17 @@ export class FilialesListaComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onNuevo(){
+  onNuevo() {
     this.nuevo.emit(true);
   }
 
-  onEditar(filial: Filial){
+  onEditar(filial: Filial) {
     this.editar.emit(filial);
   }
 
   onEliminar(filial: Filial) {
     this.eliminar.emit(filial);
   }
+
+
 }

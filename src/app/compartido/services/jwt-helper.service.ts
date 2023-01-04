@@ -11,6 +11,10 @@ export class JwtHelperService {
     return localStorage.getItem('token')
   }
 
+  salvarTokenEnLocalStorage(token: string){
+    localStorage.setItem('token', token);
+  }
+
   public isTokenExpirado(): boolean {
     const token= this.getTokenAlmacenado();
 
