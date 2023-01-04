@@ -11,10 +11,14 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { JwtHelperService } from './jwt-helper.service';
-
+import { JwtHelperService } from '../services/jwt-helper.service';
 
 //Un guard es como un vigilante que controla que se cumpla ciertos criterios para mostrar un componente
+/*(CanActivate) Antes de cargar los componentes de la ruta.
+  (CanLoad) Antes de cargar los recursos (assets) de la ruta.
+  (CanDeactivate) Antes de intentar salir de la ruta actual (usualmente utilizado para evitar salir de una ruta, si no se han guardado los datos).
+  (CanActivateChild) Antes de cargar las rutas hijas de la ruta actual.*/
+
 @Injectable({
   providedIn: 'root'
 })

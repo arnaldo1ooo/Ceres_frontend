@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MaterialModulosModule } from './compartido/material-modulos/material-modulos.module';
-import { AuthInterceptor } from './helpers/auth.interceptor';
+import { AuthInterceptor } from './compartido/helpers/auth.interceptor';
 
 @NgModule({
   declarations: [
