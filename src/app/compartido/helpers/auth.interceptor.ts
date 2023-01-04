@@ -14,7 +14,7 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> { //Intercepta el token almacenado
     let token = this.loginService.getTokenAlmacenado();
 
-    if (token != null) {  //Si existe token almacenado
+    if (token != null && token != 'undefined') {  //Si existe token almacenado
       let clonado = request.clone({
         headers: request.headers.set('Authorization', `Bearer ${token}`)  //Envia el token local desde el header Authorization
       })
