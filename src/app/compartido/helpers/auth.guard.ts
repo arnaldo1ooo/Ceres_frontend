@@ -10,8 +10,9 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
+import { LoginService } from 'src/app/login/services/login.service';
 
-import { JwtHelperService } from '../services/jwt-helper.service';
+import { HelpersService } from './../services/helpers.service';
 
 //Un guard es como un vigilante que controla que se cumpla ciertos criterios para mostrar un componente
 /*(CanActivate) Antes de cargar los componentes de la ruta.
@@ -25,15 +26,18 @@ import { JwtHelperService } from '../services/jwt-helper.service';
 export class AuthGuard implements CanActivate, CanLoad {
 
   constructor(
-    private jwtHelperService: JwtHelperService,
-    private router: Router
+    private router: Router,
+    private helpersService: HelpersService,
+    private loginService: LoginService,
   ) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    if (this.jwtHelperService.getTokenAlmacenado() && !this.jwtHelperService.isTokenExpirado()) { //Si existe token almacenado, dejará pasar
+    let token = this.loginService.getTokenAlmacenado();
+
+    if (token != null && !this.helpersService.tokenExpirado(token)) { //Si existe token almacenado y token no esta expirado, dejará pasar
       return true;
     }
 
@@ -42,7 +46,10 @@ export class AuthGuard implements CanActivate, CanLoad {
   }
 
   canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    if (this.jwtHelperService.getTokenAlmacenado() && !this.jwtHelperService.isTokenExpirado()) { //Si existe token almacenado y no está expirado, dejará pasar
+
+    let token = this.loginService.getTokenAlmacenado();
+
+    if (token!=null && token!='undefined' && !this.helpersService.tokenExpirado(token)) { //Si existe token almacenado y no está expirado, dejará pasar
       return true;
     }
 
