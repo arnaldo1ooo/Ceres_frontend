@@ -11,7 +11,7 @@ export class HelpersService {
 
   ) { }
 
-  public tokenExpirado(token: string): boolean {
+  public isTokenExpirado(token: string): boolean {
     /*return !this.jwtHelperService.isTokenExpired(token);*/
 
     if (token != null && token != 'undefined') {
