@@ -31,7 +31,4 @@ export class LoginService {
       }));
   }
 
-  getTokenAlmacenado(){
-    return localStorage.getItem('token')
-  }
 }
