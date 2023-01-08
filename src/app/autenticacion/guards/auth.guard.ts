@@ -12,7 +12,7 @@ import {
 import { Observable } from 'rxjs';
 import { LoginService } from 'src/app/login/services/login.service';
 
-import { HelpersService } from './../services/helpers.service';
+import { HelpersService } from '../../compartido/services/helpers.service';
 
 //Un guard es como un vigilante que controla que se cumpla ciertos criterios para mostrar un componente
 /*(CanActivate) Antes de cargar los componentes de la ruta.

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { LoginService } from 'src/app/login/services/login.service';
 
-import { HelpersService } from './../services/helpers.service';
+import { HelpersService } from '../../compartido/services/helpers.service';
 
 
 

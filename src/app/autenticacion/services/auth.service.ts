@@ -1,4 +1,4 @@
-import { HelpersService } from './helpers.service';
+import { HelpersService } from '../../compartido/services/helpers.service';
 import { Injectable } from '@angular/core';
 
 @Injectable({
