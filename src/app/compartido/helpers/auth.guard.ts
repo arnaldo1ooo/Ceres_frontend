@@ -37,10 +37,11 @@ export class AuthGuard implements CanActivate, CanLoad {
 
     let token = this.loginService.getTokenAlmacenado();
 
-    if (token != null && !this.helpersService.isTokenExpirado(token)) { //Si existe token almacenado y token no esta expirado, dejará pasar
+    if (token != null && token != 'undefined' && !this.helpersService.isTokenExpirado(token)) { //Si existe token almacenado y token no esta expirado, dejará pasar
       return true;
     }
 
+    console.log("Sesión expirada..");
     this.router.navigate(['login']) //Si no existe token almacenado Redirige al login
     return false;
   }

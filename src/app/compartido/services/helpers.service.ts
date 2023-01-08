@@ -13,13 +13,8 @@ export class HelpersService {
 
   public isTokenExpirado(token: string): boolean {
     /*return !this.jwtHelperService.isTokenExpired(token);*/
-
-    if (token != null && token != 'undefined') {
-      const fechaExpiracion = (JSON.parse(atob(token.split('.')[1]))).exp;
-      return fechaExpiracion * 1000 < Date.now();
-    }
-
-    return false;
+    const fechaExpiracion = (JSON.parse(atob(token.split('.')[1]))).exp;
+    return fechaExpiracion * 1000 < Date.now();
   }
 
   public limpiarStorage() {
