@@ -18,7 +18,8 @@ import { FilialesRoutingModule } from './filiales-routing.module';
   imports: [
     CommonModule,
     FilialesRoutingModule,
-    MaterialModulosModule
+    MaterialModulosModule,
+    CompartidoModule
   ]
 })
 export class FilialesModule { }

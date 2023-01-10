@@ -5,6 +5,7 @@ import { DialogoErrorComponent } from './componentes/dialogo-error/dialogo-error
 import { MaterialModulosModule } from './material-modulos/material-modulos.module';
 import { CategoriaPipe } from './pipes/categoria.pipe';
 import { DialogoConfirmacionComponent } from './componentes/dialogo-confirmacion/dialogo-confirmacion/dialogo-confirmacion.component';
+import { SituacionPipe } from './pipes/situacion.pipe';
 
 
 
@@ -12,7 +13,8 @@ import { DialogoConfirmacionComponent } from './componentes/dialogo-confirmacion
   declarations: [
     DialogoErrorComponent,
     CategoriaPipe,
-    DialogoConfirmacionComponent
+    DialogoConfirmacionComponent,
+    SituacionPipe
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,7 @@ import { DialogoConfirmacionComponent } from './componentes/dialogo-confirmacion
   ],
   exports: [
     DialogoErrorComponent,
-    CategoriaPipe
+    SituacionPipe
   ]
 })
 export class CompartidoModule { }
