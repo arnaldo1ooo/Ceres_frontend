@@ -35,7 +35,7 @@ export class AuthGuard implements CanActivate, CanLoad {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    let token = this.loginService.getTokenAlmacenado();
+    const token = this.loginService.getTokenAlmacenado();
 
     if (token != null && token != 'undefined') { //Si existe token almacenado y token no esta expirado, dejará pasar
       if (!this.helpersService.isTokenExpirado(token)) {
@@ -51,7 +51,7 @@ export class AuthGuard implements CanActivate, CanLoad {
 
   canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
 
-    let token = this.loginService.getTokenAlmacenado();
+    const token = this.loginService.getTokenAlmacenado();
 
     if (token != null && token != 'undefined') { //Si existe token almacenado y token no esta expirado, dejará pasar
       if (!this.helpersService.isTokenExpirado(token)) {

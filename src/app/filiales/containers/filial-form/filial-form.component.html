@@ -4,26 +4,28 @@
 
   <mat-card-content>
     <form [formGroup]="formFilial" class="anchura-minima">
-      <mat-form-field class="anchura-maxima" required="true">
-        <input matInput placeholder="Nombre" formControlName="nombre">
+      <mat-form-field class="anchura-maxima">
+        <input matInput placeholder="Nombre" formControlName="nombre" #nombre>
+        <mat-hint align="end">{{ nombre.value ?.length || 0 }} / 100</mat-hint> <!--Requiere poner #nombre-->
+        <mat-error *ngIf="formFilial.get('nombre') ?.invalid">{{ getMensajeError('nombre') }}</mat-error> <!--verifica validaciones, invalid evita error con null o valor invalido-->
       </mat-form-field>
 
       <mat-form-field class="anchura-maxima">
         <mat-label>Sucursal</mat-label>
-        <mat-select formControlName="sucursal" [compareWith]="compararById" required="true">
+        <mat-select formControlName="sucursal" [compareWith]="compararById">
           <mat-option disabled selected value="">Seleccione una sucursal</mat-option>
-          <mat-option *ngFor="let sucursal of listaSucursales" [value]="sucursal">
-            {{ sucursal.id }} - {{ sucursal.nombre }}
-          </mat-option>
+          <mat-option *ngFor="let sucursal of listaSucursales" [value]="sucursal">{{ sucursal.id }} - {{ sucursal.nombre }}</mat-option>
         </mat-select>
+        <mat-error *ngIf="formFilial.get('sucursal') ?.invalid">{{ getMensajeError('sucursal') }}</mat-error>
       </mat-form-field>
 
       <mat-form-field class="anchura-maxima">
-        <mat-label>Seleccione Situación</mat-label>
+        <mat-label>Situación</mat-label>
         <mat-select formControlName="situacion">
-          <mat-option value="A">Activo</mat-option>
-          <mat-option value="I">Inactivo</mat-option>
+          <mat-option value="A">ACTIVO</mat-option>
+          <mat-option value="I">INACTIVO</mat-option>
         </mat-select>
+        <mat-error *ngIf="formFilial.get('situacion') ?.invalid">{{ getMensajeError('situacion') }}</mat-error>
       </mat-form-field>
 
     </form>

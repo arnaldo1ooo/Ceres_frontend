@@ -18,7 +18,7 @@ export class AuthInterceptor implements HttpInterceptor {
   ) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> { //Intercepta el token almacenado
-    let token = this.loginService.getTokenAlmacenado();
+    const token = this.loginService.getTokenAlmacenado();
 
     if (token != null && token != 'undefined') {  //Si existe token almacenado
       if (!this.helpersService.isTokenExpirado(token)) {

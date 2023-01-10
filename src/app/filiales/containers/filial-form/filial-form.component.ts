@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { NonNullableFormBuilder } from '@angular/forms';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 
@@ -17,10 +17,18 @@ import { SucursalesService } from './../../../sucursales/services/sucursales.ser
 export class FilialFormComponent implements OnInit {
   listaSucursales: any;
   formFilial = this.formBuilder.group({
-    _id: [''],
-    nombre: [''],
-    sucursal: [''],
-    situacion: ['']
+    _id: [''],  //Sirve para el modo editar
+    nombre: ['', [
+      Validators.required, //Los validators sirven para agregar validaciones al campo
+      Validators.minLength(3),
+      Validators.maxLength(100)
+    ]],
+    sucursal: ['', [
+      Validators.required
+    ]],
+    situacion: ['', [
+      Validators.required
+    ]]
   });
 
   constructor(
@@ -74,6 +82,26 @@ export class FilialFormComponent implements OnInit {
     return opcion && opcionRecibida
       ? opcion.id === opcionRecibida.id
       : opcion === opcionRecibida;
+  }
+
+  public getMensajeError(nombreCampo: string) {
+    const campo = this.formFilial.get(nombreCampo); //Obtenemos el elemento
+
+    if (campo ?.hasError('required')) { //En ?.hasError ya valida si es nulo
+      return 'Campo obligatorio';
+    }
+
+    if (campo ?.hasError('minlength')) {
+      const minCaracteres = campo.errors ? campo.errors['minlength']['requiredLength'] : 3; //Se obtiene el minimo requerido
+      return `Tamaño mínimo es de ${minCaracteres} carácteres`;
+    }
+
+    if (campo ?.hasError('maxlength')) {
+      const maxCaracteres = campo.errors ? campo.errors['maxlength']['requiredLength'] : 100; //Se obtiene el minimo requerido
+      return `Tamaño máximo es de ${maxCaracteres} carácteres`;
+    }
+
+    return 'Campo inválido';
   }
 
 }
