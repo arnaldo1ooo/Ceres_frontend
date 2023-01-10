@@ -27,13 +27,13 @@ export class FilialesComponent implements OnInit {
     private ruta: Router,
     private rutaActual: ActivatedRoute,
     private alertaSnackBar: MatSnackBar) {
-      this.dsFiliales$ = this.filialesService.listarTodosFiliales()
-        .pipe(catchError(error => {
-                this.abrirDialogoError('Error al cargar lista de Filiales');
+    this.dsFiliales$ = this.filialesService.listarTodosFiliales()
+      .pipe(catchError(error => {
+        this.abrirDialogoError('Error al cargar lista de Filiales');
 
-                return of([]) //Retorna un array vacio para detener el spinner cuando hay error
-            })
-        );
+        return of([]) //Retorna un array vacio para detener el spinner cuando hay error
+      })
+      );
   }
 
   abrirDialogoError(msgError: string) {
@@ -61,11 +61,11 @@ export class FilialesComponent implements OnInit {
   }
 
   onNuevo() {
-    this.ruta.navigate(['nuevo'], {relativeTo: this.rutaActual}); //Para que navegue a esa direccion
+    this.ruta.navigate(['nuevo'], { relativeTo: this.rutaActual }); //Para que navegue a esa direccion
   }
 
   onEditar(filial: Filial) {
-    this.ruta.navigate(['editar', filial._id], {relativeTo: this.rutaActual}); //Navega a esa direccion con los datos del filial
+    this.ruta.navigate(['editar', filial._id], { relativeTo: this.rutaActual }); //Navega a esa direccion con los datos del filial
   }
 
   onEliminar(filial: Filial) {
@@ -73,8 +73,8 @@ export class FilialesComponent implements OnInit {
       data: '¿Seguro que desea eliminar esta filial?',
     });
 
-    dialogoRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
+    dialogoRef.afterClosed().subscribe((respuesta: boolean) => {
+      if (respuesta) {
         this.filialesService.eliminar(filial._id).subscribe(
           () => {
             this.refrescar();

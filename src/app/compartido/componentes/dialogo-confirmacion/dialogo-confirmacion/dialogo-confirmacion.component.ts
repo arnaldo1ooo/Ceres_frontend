@@ -10,13 +10,13 @@ export class DialogoConfirmacionComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<DialogoConfirmacionComponent>,
-    @Inject(MAT_DIALOG_DATA) public dato: string,
+    @Inject(MAT_DIALOG_DATA) public mensaje: string,  //Mensaje que mostrará en el titulo del dialogo
   ) { }
 
   ngOnInit(): void {
   }
 
-  onConfirmar(result: boolean): void {
-    this.dialogRef.close(result);
+  onConfirmar(respuesta: boolean): void {
+    this.dialogRef.close(respuesta);
   }
 }
