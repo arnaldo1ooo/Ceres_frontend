@@ -29,8 +29,16 @@ export class HelpersService {
     localStorage.setItem(key, valor);
   }
 
-  public obtenerItemDelStorage(key: string){
+  public obtenerItemDelStorage(key: string) {
     return localStorage.getItem(key);
+  }
+
+  public isNoNuloOrVacio(valor: string) {
+    return valor != null && valor != '';
+  }
+
+  public isNoNuloOrVacioOrUndefined(valor: string) {
+    return valor != null && valor != '' && valor != 'undefined';
   }
 
 }
