@@ -1,3 +1,4 @@
+import { HelpersService } from './../../../compartido/services/helpers.service';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
@@ -16,6 +17,7 @@ import { SucursalesService } from './../../../sucursales/services/sucursales.ser
 })
 export class FilialFormComponent implements OnInit {
   listaSucursales: any;
+
   formFilial = this.formBuilder.group({
     _id: [''],  //Sirve para el modo editar
     nombre: ['', [
@@ -37,21 +39,22 @@ export class FilialFormComponent implements OnInit {
     private snackBar: MatSnackBar,
     private location: Location,
     private ruta: ActivatedRoute,
-    private sucursalService: SucursalesService) {
+    private sucursalService: SucursalesService,
+    private helpersService: HelpersService) {
 
   }
 
   ngOnInit(): void {  //Se ejecuta al iniciar componente
+    this.cargarDropDownSucursal();
     const filial: Filial = this.ruta.snapshot.data['filial'];  //Obtiene el objeto filial del resolver
 
     this.formFilial.setValue({ //Setamos los datos del filial para que aparezca al editar
       _id: filial._id,
       nombre: filial.nombre,
       sucursal: filial.sucursal,
-      situacion: filial.situacion
+      situacion: this.helpersService.isNoNuloOrVacio(filial.situacion) ? filial.situacion : "A" //Se pone por default Activo
     });
 
-    this.cargarDropDownSucursal();
   }
 
   onGuardar() {

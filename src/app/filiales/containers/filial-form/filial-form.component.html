@@ -6,7 +6,7 @@
     <form [formGroup]="formFilial" class="anchura-minima">
       <mat-form-field class="anchura-maxima">
         <input matInput placeholder="Nombre" formControlName="nombre" #nombre>
-        <mat-hint align="end">{{ nombre.value ?.length || 0 }} / 100</mat-hint> <!--Requiere poner #nombre-->
+        <mat-hint align="end">{{ nombre.value.length || 0 }} / 100</mat-hint> <!--Requiere poner #nombre-->
         <mat-error *ngIf="formFilial.get('nombre') ?.invalid">{{ getMensajeError('nombre') }}</mat-error> <!--verifica validaciones, invalid evita error con null o valor invalido-->
       </mat-form-field>
 
