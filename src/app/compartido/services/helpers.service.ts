@@ -33,11 +33,11 @@ export class HelpersService {
     return localStorage.getItem(key);
   }
 
-  public isNoNuloOrVacio(valor: string) {
+  public isNoNuloOrVacio(valor: any) {
     return valor != null && valor != '';
   }
 
-  public isNoNuloOrVacioOrUndefined(valor: string) {
+  public isNoNuloOrVacioOrUndefined(valor: any) {
     return valor != null && valor != '' && valor != 'undefined';
   }
 

@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Filial } from '../../model/filial';
 import { FilialesService } from '../../services/filiales.service';
 import { SucursalesService } from './../../../sucursales/services/sucursales.service';
+import { Situacion } from 'src/app/compartido/enums/situacion.enum';
 
 
 @Component({
@@ -52,7 +53,7 @@ export class FilialFormComponent implements OnInit {
       _id: filial._id,
       nombre: filial.nombre,
       sucursal: filial.sucursal,
-      situacion: this.helpersService.isNoNuloOrVacio(filial.situacion) ? filial.situacion : "A" //Se pone por default Activo
+      situacion: this.helpersService.isNoNuloOrVacio(filial.situacion) ? filial.situacion : Situacion.ACTIVO //Se pone por default Activo
     });
 
   }
