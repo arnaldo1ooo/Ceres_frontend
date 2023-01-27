@@ -90,6 +90,27 @@ export class FilialesComponent implements OnInit {
     });
   }
 
+  onInactivar(filial: Filial) {
+    const dialogoRef = this.dialog.open(DialogoConfirmacionComponent, {
+      data: '¿Seguro que desea inactivar esta filial?',
+    });
+
+    dialogoRef.afterClosed().subscribe((respuesta: boolean) => {
+      if (respuesta) {
+        this.filialesService.inactivar(filial._id).subscribe(
+          () => {
+            this.refrescar();
+            this.alertaSnackBar.open('Filial inactivado con suceso!', 'X', {
+              duration: 5000,
+              verticalPosition: 'top',
+              horizontalPosition: 'center'
+            });
+          },
+          () => this.onError('Error al intentar inactivar filial.')
+        );
+      }
+    });
+  }
 
 
 

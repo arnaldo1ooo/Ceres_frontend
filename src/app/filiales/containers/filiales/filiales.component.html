@@ -11,7 +11,8 @@
       [listFiliales]="filiales"
       (nuevo)="onNuevo()"
       (editar)="onEditar($event)"
-      (eliminar)="onEliminar($event)">
+      (eliminar)="onEliminar($event)"
+      (inactivar)="onInactivar($event)">
     </app-filiales-lista>
 
     <ng-template #cargando>

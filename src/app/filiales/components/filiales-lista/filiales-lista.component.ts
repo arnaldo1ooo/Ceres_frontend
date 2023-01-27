@@ -14,6 +14,7 @@ export class FilialesListaComponent implements OnInit {
   @Output() nuevo = new EventEmitter(false);
   @Output() editar = new EventEmitter(false);
   @Output() eliminar = new EventEmitter(false);
+  @Output() inactivar = new EventEmitter(false);
 
   readonly columnasAMostrar = ['_id', 'nombre', 'sucursal', 'situacion', 'acciones'];
 
@@ -36,5 +37,8 @@ export class FilialesListaComponent implements OnInit {
     this.eliminar.emit(filial);
   }
 
+  onInactivar(filial: Filial) {
+    this.inactivar.emit(filial);
+  }
 
 }

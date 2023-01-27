@@ -44,7 +44,12 @@ export class FilialesService {
     return this.htppClient.delete(`${this.API}/${id}`).pipe(first());
   }
 
+  inactivar(id: string) {
+    return this.htppClient.put<Filial>(`${this.API}/inactivar/${id}`, null).pipe(first());
+  }
+
   cargarPorId(id: string) {
     return this.htppClient.get<Filial>(`${this.API}/${id}`);
   }
+
 }
