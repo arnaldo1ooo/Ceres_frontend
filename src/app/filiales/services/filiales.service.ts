@@ -22,6 +22,14 @@ export class FilialesService {
       );
   }
 
+  listarTodosFilialesActivos() {
+    return this.htppClient.get<Filial[]>(this.API+'/activos')
+      .pipe(                                        //Manipular datos
+        first(),                                    //Ejecuta la accion al primer resultado
+        delay(100)                             //Espera de x segundos
+      );
+  }
+
   guardar(filial: Partial<Filial>) { //Se usa Partial cuando se espera que no reciba todos los datos de Filial
     if (filial._id) {
       //console.log('Filial modificado!');

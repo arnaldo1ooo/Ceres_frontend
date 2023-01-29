@@ -27,7 +27,7 @@ export class FilialesComponent implements OnInit {
     private ruta: Router,
     private rutaActual: ActivatedRoute,
     private alertaSnackBar: MatSnackBar) {
-    this.dsFiliales$ = this.filialesService.listarTodosFiliales()
+    this.dsFiliales$ = this.filialesService.listarTodosFilialesActivos()
       .pipe(catchError(error => {
         this.abrirDialogoError('Error al cargar lista de Filiales');
 
