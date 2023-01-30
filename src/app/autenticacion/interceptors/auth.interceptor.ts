@@ -2,7 +2,7 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/c
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { LoginService } from 'src/app/login/services/login.service';
+import { LoginService } from 'src/app/modulos/login/services/login.service';
 
 import { HelpersService } from '../../compartido/services/helpers.service';
 

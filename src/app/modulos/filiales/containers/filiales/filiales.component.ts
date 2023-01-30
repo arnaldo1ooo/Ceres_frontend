@@ -6,8 +6,8 @@ import { catchError, Observable, of } from 'rxjs';
 import {
   DialogoConfirmacionComponent,
 } from 'src/app/compartido/componentes/dialogo-confirmacion/dialogo-confirmacion/dialogo-confirmacion.component';
+import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-error/dialogo-error.component';
 
-import { DialogoErrorComponent } from '../../../compartido/componentes/dialogo-error/dialogo-error.component';
 import { Filial } from '../../model/filial';
 import { FilialesService } from '../../services/filiales.service';
 

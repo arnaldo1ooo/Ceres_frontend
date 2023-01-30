@@ -3,8 +3,8 @@ import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-error/dialogo-error.component';
-import { Login } from 'src/app/login/model/login';
-import { LoginService } from 'src/app/login/services/login.service';
+import { Login } from 'src/app/modulos/login/model/login';
+import { LoginService } from 'src/app/modulos/login/services/login.service';
 
 @Component({
   selector: 'app-login-form',

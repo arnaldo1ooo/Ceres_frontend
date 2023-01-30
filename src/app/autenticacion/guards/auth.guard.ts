@@ -10,7 +10,7 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { LoginService } from 'src/app/login/services/login.service';
+import { LoginService } from 'src/app/modulos/login/services/login.service';
 
 import { HelpersService } from '../../compartido/services/helpers.service';
 
