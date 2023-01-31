@@ -7,6 +7,7 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   { path: '', component: FilialesComponent }, //filiales
   { path: 'nuevo', component: FilialFormComponent, resolve: { filial: FilialResolver } }, //Seria filiales/nuevo
+  { path: 'visualizar/:id', component: FilialFormComponent, resolve: { filial: FilialResolver } },
   { path: 'editar/:id', component: FilialFormComponent, resolve: { filial: FilialResolver } } //Seria filiales/editar/id
 ];
 

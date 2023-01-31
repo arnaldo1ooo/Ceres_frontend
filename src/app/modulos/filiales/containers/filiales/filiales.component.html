@@ -10,6 +10,7 @@
       *ngIf="dsFiliales$ | async as filiales; else cargando"
       [listFiliales]="filiales"
       (nuevo)="onNuevo()"
+      (visualizar)="onVisualizar($event)"
       (editar)="onEditar($event)"
       (eliminar)="onEliminar($event)"
       (inactivar)="onInactivar($event)">

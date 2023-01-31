@@ -3,13 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { Situacion } from 'src/app/compartido/enums/situacion.enum';
+import { HelpersService } from 'src/app/compartido/services/helpers.service';
 
 import { Filial } from '../../model/filial';
 import { FilialesService } from '../../services/filiales.service';
 import { SucursalesService } from './../../../sucursales/services/sucursales.service';
-import { Situacion } from 'src/app/compartido/enums/situacion.enum';
-import { HelpersService } from 'src/app/compartido/services/helpers.service';
-
 
 @Component({
   selector: 'app-filial-form',
@@ -47,6 +46,8 @@ export class FilialFormComponent implements OnInit {
 
   ngOnInit(): void {  //Se ejecuta al iniciar componente
     this.cargarDropDownSucursal();
+    this.verificarModo();
+
     const filial: Filial = this.ruta.snapshot.data['filial'];  //Obtiene el objeto filial del resolver
 
     this.formFilial.setValue({ //Setamos los datos del filial para que aparezca al editar
@@ -55,7 +56,6 @@ export class FilialFormComponent implements OnInit {
       sucursal: filial.sucursal,
       situacion: this.helpersService.isNoNuloOrVacio(filial.situacion) ? filial.situacion : Situacion.ACTIVO //Se pone por default Activo
     });
-
   }
 
   onGuardar() {
@@ -107,5 +107,18 @@ export class FilialFormComponent implements OnInit {
 
     return 'Campo inválido';
   }
+
+  public verificarModo() {
+    if(this.isModoVisualizar()) {
+      this.formFilial.disable();
+    }
+  }
+
+  public isModoVisualizar(): boolean {
+    return this.helpersService.isModoVisualizar(this.ruta.snapshot.routeConfig?.path);
+  }
+
+
+
 
 }

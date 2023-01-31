@@ -41,4 +41,16 @@ export class HelpersService {
     return valor != null && valor != '' && valor != 'undefined';
   }
 
+  public isModoVisualizar(path: any): boolean {
+    return path.includes('visualizar');
+  }
+
+  public isModoEditar(path: any): boolean {
+    return path.includes('editar');
+  }
+
+  public isModoNuevo(path: any): boolean {
+    return path.includes('nuevo');
+  }
+
 }

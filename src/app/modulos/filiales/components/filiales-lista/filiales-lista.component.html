@@ -33,6 +33,10 @@
     </mat-header-cell>
 
     <mat-cell *matCellDef="let filiales" class="style-columna-acciones">
+      <button mat-icon-button color="primary" aria-label="Visualizar filial" (click)="onVisualizar(filiales)">
+        <mat-icon>visibility</mat-icon>
+      </button>
+
       <button mat-icon-button color="primary" aria-label="Editar filial" (click)="onEditar(filiales)">
         <mat-icon>edit</mat-icon>
       </button>

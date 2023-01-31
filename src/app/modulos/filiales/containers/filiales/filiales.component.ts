@@ -64,6 +64,10 @@ export class FilialesComponent implements OnInit {
     this.ruta.navigate(['nuevo'], { relativeTo: this.rutaActual }); //Para que navegue a esa direccion
   }
 
+  onVisualizar(filial: Filial) {
+    this.ruta.navigate(['visualizar', filial._id], { relativeTo: this.rutaActual });
+  }
+
   onEditar(filial: Filial) {
     this.ruta.navigate(['editar', filial._id], { relativeTo: this.rutaActual }); //Navega a esa direccion con los datos del filial
   }

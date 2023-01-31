@@ -12,6 +12,7 @@ export class FilialesListaComponent implements OnInit {
 
   @Input() listFiliales: Filial[] = [];
   @Output() nuevo = new EventEmitter(false);
+  @Output() visualizar = new EventEmitter(false);
   @Output() editar = new EventEmitter(false);
   @Output() eliminar = new EventEmitter(false);
   @Output() inactivar = new EventEmitter(false);
@@ -27,6 +28,10 @@ export class FilialesListaComponent implements OnInit {
 
   onNuevo() {
     this.nuevo.emit(true);
+  }
+
+  onVisualizar(filial: Filial) {
+    this.visualizar.emit(filial);
   }
 
   onEditar(filial: Filial) {
