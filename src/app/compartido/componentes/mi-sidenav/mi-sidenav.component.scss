@@ -38,4 +38,8 @@ mat-sidenav {
   width: 15%; //Ancho del sidenav
 }
 
+.style-expandir { //Expande el espacio hasta el final
+  flex: 1 1 auto;
+}
+
 

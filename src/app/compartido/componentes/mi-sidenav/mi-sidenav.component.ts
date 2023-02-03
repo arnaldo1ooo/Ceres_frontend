@@ -39,4 +39,8 @@ export class MiSidenavComponent implements OnInit {
     this.isSesionIniciada$ = this.authService.isSesionIniciada; //Se guarda valor de sesion iniciada
   }
 
+  cerrarSesion() {
+    this.authService.cerrarSesion();
+  }
+
 }

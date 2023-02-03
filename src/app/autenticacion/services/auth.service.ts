@@ -1,5 +1,6 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { map } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Login } from 'src/app/modulos/login/model/login';
@@ -14,7 +15,8 @@ export class AuthService {
 
   constructor(
     private helpersService: HelpersService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) { }
 
   login(credenciales: Login, API: string) {
@@ -40,6 +42,7 @@ export class AuthService {
   cerrarSesion() {
     this.sesionIniciada.next(false);
     this.helpersService.removerItemDelStorage('token');
+    this.router.navigate(['login']);
   }
 
   getTokenAlmacenado() {
