@@ -10,9 +10,9 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { LoginService } from 'src/app/modulos/login/services/login.service';
 
 import { HelpersService } from '../../compartido/services/helpers.service';
+import { AuthService } from './../services/auth.service';
 
 //Un guard es como un vigilante que controla que se cumpla ciertos criterios para mostrar un componente
 /*(CanActivate) Antes de cargar los componentes de la ruta.
@@ -28,14 +28,14 @@ export class AuthGuard implements CanActivate, CanLoad {
   constructor(
     private router: Router,
     private helpersService: HelpersService,
-    private loginService: LoginService,
+    private authService: AuthService,
   ) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    const token = this.loginService.getTokenAlmacenado();
+    const token = this.authService.getTokenAlmacenado();
 
     if (token != null && token != 'undefined') { //Si existe token almacenado y token no esta expirado, dejará pasar
       if (!this.helpersService.isTokenExpirado(token)) {
@@ -51,7 +51,7 @@ export class AuthGuard implements CanActivate, CanLoad {
 
   canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
 
-    const token = this.loginService.getTokenAlmacenado();
+    const token = this.authService.getTokenAlmacenado();
 
     if (token != null && token != 'undefined') { //Si existe token almacenado y token no esta expirado, dejará pasar
       if (!this.helpersService.isTokenExpirado(token)) {

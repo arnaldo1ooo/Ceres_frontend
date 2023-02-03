@@ -2,9 +2,9 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/c
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { LoginService } from 'src/app/modulos/login/services/login.service';
 
 import { HelpersService } from '../../compartido/services/helpers.service';
+import { AuthService } from './../services/auth.service';
 
 
 
@@ -12,13 +12,13 @@ import { HelpersService } from '../../compartido/services/helpers.service';
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
-    private loginService: LoginService,
+    private authService: AuthService,
     private helpersService: HelpersService,
     private router: Router
   ) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> { //Intercepta el token almacenado
-    const token = this.loginService.getTokenAlmacenado();
+    const token = this.authService.getTokenAlmacenado();
 
     if (token != null && token != 'undefined') {  //Si existe token almacenado
       if (!this.helpersService.isTokenExpirado(token)) {
