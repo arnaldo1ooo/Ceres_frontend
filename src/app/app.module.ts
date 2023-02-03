@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthInterceptor } from './autenticacion/interceptors/auth.interceptor';
+import { CompartidoModule } from './compartido/compartido.module';
 import { MaterialModulosModule } from './compartido/material-modulos/material-modulos.module';
 
 @NgModule({
@@ -19,6 +20,7 @@ import { MaterialModulosModule } from './compartido/material-modulos/material-mo
     BrowserAnimationsModule,
     MatToolbarModule,
     HttpClientModule,
+    CompartidoModule,
     MaterialModulosModule
   ],
   providers: [

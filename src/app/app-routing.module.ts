@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from './autenticacion/guards/auth.guard';
 import { HomeComponent } from './modulos/home/containers/home/home.component';
-import { LoginModule } from './modulos/login/login.module';
 
 
 //Aca se encuentras las rutas del proyecto, el CanActivate el guard (guardian o vigilante) verifica si existe un token almacenado, caso sea falso redirige al login

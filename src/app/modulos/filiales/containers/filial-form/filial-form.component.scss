@@ -30,10 +30,6 @@ mat-form-field {
 }
 
 //Color texto disabled inputText
-input[disabled], input[disabled]:hover {
-  color:rgb(0, 0, 0);
-}
-
-.mat-form-field-disabled .mat-form-field-underline {
+input[disabled] {
   color:rgb(0, 0, 0);
 }

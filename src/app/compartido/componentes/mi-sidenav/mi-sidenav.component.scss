@@ -1,0 +1,41 @@
+.style-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.style-es-mobile .style-toolbar {
+  position: fixed;
+  /*Asegura que la barra de herramientas permanezca en la parte superior del contenido a medida que se desplaza. */
+  z-index: 2;
+}
+
+.style-app-nombre {
+  margin-left: 8px;
+}
+
+.style-sidenav-container {
+  /* Cuando el sidenav no está fijo, estira el contenedor sidenav para llenar el espacio disponible. Esto
+      hace que `<mat-sidenav-content>` actúe como nuestro elemento de desplazamiento para diseños de escritorio. */
+  flex: 1;
+}
+
+.style-es-mobile .style-sidenav-container {
+  /* Cuando el sidenav está fijo, no restrinja la altura del contenedor sidenav. Esto permite que el
+      `<body>` para ser nuestro elemento de desplazamiento para diseños móviles. */
+  flex: 1 0 auto;
+}
+
+.style-icono {
+  margin-right: 10px;
+}
+
+mat-sidenav {
+  width: 15%; //Ancho del sidenav
+}
+
+
