@@ -1,5 +1,7 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/internal/Observable';
+import { AuthService } from 'src/app/autenticacion/services/auth.service';
 
 @Component({
   selector: 'app-mi-sidenav',
@@ -9,15 +11,21 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 export class MiSidenavComponent implements OnInit {
 
   mobileQuery: MediaQueryList;
+  isSesionIniciada$: Observable<boolean> | undefined;
+  shouldRun = true;
 
   botonesNav = [
-    {nombre: "Home", ruta:"home", icono: "home"},
-    {nombre: "Filiales", ruta:"filiales", icono: ""}
+    { nombre: "Home", ruta: "home", icono: "home" },
+    { nombre: "Filiales", ruta: "filiales", icono: "" }
   ]
 
   private _mobileQueryListener: () => void;
 
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
+  constructor(
+    public changeDetectorRef: ChangeDetectorRef,
+    public media: MediaMatcher,
+    private authService: AuthService
+  ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -27,10 +35,8 @@ export class MiSidenavComponent implements OnInit {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
-  shouldRun = true;
-
   ngOnInit() {
-
+    this.isSesionIniciada$ = this.authService.isSesionIniciada; //Se guarda valor de sesion iniciada
   }
 
 }

@@ -39,7 +39,7 @@ export class AuthService {
 
   cerrarSesion() {
     this.sesionIniciada.next(false);
-    this.helpersService.removerItemDelStorage('currentUser');
+    this.helpersService.removerItemDelStorage('token');
   }
 
   getTokenAlmacenado() {
