@@ -11,13 +11,15 @@ import { HelpersService } from '../../compartido/services/helpers.service';
   providedIn: 'root'
 })
 export class AuthService {
-  private sesionIniciada = new BehaviorSubject<boolean>(false);
+  private sesionIniciada; //Se piede el valor al recargar pagina
 
   constructor(
     private helpersService: HelpersService,
     private http: HttpClient,
     private router: Router
-  ) { }
+  ) {
+    this.sesionIniciada = new BehaviorSubject<boolean>(false);
+  }
 
   login(credenciales: Login, API: string) {
     return this.http.post(API, credenciales, { observe: 'response' })
@@ -30,8 +32,7 @@ export class AuthService {
 
         this.salvarTokenEnLocalStorage(token); //Se guarda el token por si el usuario cierra la ventana y con esto no tenga que volver a iniciar sesion
 
-        if (this.helpersService.isNoNuloOrVacioOrUndefined(token)
-          && !this.helpersService.isTokenExpirado(token)) {
+        if (this.isTokenValido(token)) {
           this.sesionIniciada.next(true); //Caso el token sea valido, sesion iniciada true
         }
 
@@ -55,6 +56,11 @@ export class AuthService {
 
   get isSesionIniciada() {
     return this.sesionIniciada.asObservable();
+  }
+
+  public isTokenValido(token: any): boolean {
+    return this.helpersService.isNoNuloOrVacioOrUndefined(token)
+      && !this.helpersService.isTokenExpirado(token);
   }
 
 

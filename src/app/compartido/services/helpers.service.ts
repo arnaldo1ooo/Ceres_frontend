@@ -11,7 +11,7 @@ export class HelpersService {
 
   ) { }
 
-  public isTokenExpirado(token: string): boolean {
+  public isTokenExpirado(token: any): boolean {
     /*return !this.jwtHelperService.isTokenExpired(token);*/
     const fechaExpiracion = (JSON.parse(atob(token.split('.')[1]))).exp;
     return fechaExpiracion * 1000 < Date.now();
@@ -51,6 +51,10 @@ export class HelpersService {
 
   public isModoNuevo(path: any): boolean {
     return path.includes('nuevo');
+  }
+
+  public urlDistintoALogin(url: any) {
+    return url != null && !url.includes('login');
   }
 
 }

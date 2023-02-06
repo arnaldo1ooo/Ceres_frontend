@@ -20,7 +20,7 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> { //Intercepta el token almacenado
     const token = this.authService.getTokenAlmacenado();
 
-    if (request.url != null && !request.url.includes('login')) { //Si es distinto al login
+    if (this.helpersService.urlDistintoALogin(request.url)) { //Si es distinto al login
       if (token != null && token != 'undefined') {  //Si existe token almacenado
         if (!this.helpersService.isTokenExpirado(token)) {
           let clonado = request.clone({

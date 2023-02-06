@@ -5,7 +5,7 @@ mat-card {
 }
 
 mat-toolbar {
-  margin: 2em auto;
+  margin-bottom: 30px;
 }
 
 mat-form-field {
@@ -33,3 +33,5 @@ mat-form-field {
 input[disabled] {
   color:rgb(0, 0, 0);
 }
+
+
