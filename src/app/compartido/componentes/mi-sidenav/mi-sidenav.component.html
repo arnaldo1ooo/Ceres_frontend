@@ -10,9 +10,9 @@
     <mat-sidenav #elSideNav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
       fixedTopGap="56" [opened]="isAbierto" *ngIf="isSesionIniciada$ | async">
       <mat-nav-list *ngIf="isSesionIniciada$ | async">
-        <a mat-list-item [routerLink]="botonNav.ruta" *ngFor="let botonNav of botonesNav">
-          <mat-icon class="style-icono">{{botonNav.icono}}</mat-icon>
-          {{botonNav.nombre}}
+        <a mat-list-item [routerLink]="menu.ruta" *ngFor="let menu of menus">
+          <mat-icon class="style-icono">{{menu.icono}}</mat-icon>
+          {{menu.nombre}}
         </a>
       </mat-nav-list>
     </mat-sidenav>

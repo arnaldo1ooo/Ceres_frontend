@@ -16,7 +16,7 @@ export class MiSidenavComponent implements OnInit {
   shouldRun = true;
   isAbierto = true;
 
-  botonesNav = [
+  menus = [
     { nombre: "Home", ruta: "home", icono: "home" },
     { nombre: "Filiales", ruta: "filiales", icono: "" }
   ]
