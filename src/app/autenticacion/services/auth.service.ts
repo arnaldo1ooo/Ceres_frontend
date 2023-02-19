@@ -18,7 +18,7 @@ export class AuthService {
     private http: HttpClient,
     private router: Router
   ) {
-    this.sesionIniciada = new BehaviorSubject<boolean>(false);
+    this.sesionIniciada = new BehaviorSubject<boolean>(this.isTokenValido(this.getTokenAlmacenado()));
   }
 
   login(credenciales: Login, API: string) {
@@ -54,7 +54,7 @@ export class AuthService {
     this.helpersService.salvarItemEnStorage('token', token);
   }
 
-  get isSesionIniciada() {
+  public get isSesionIniciada() {
     return this.sesionIniciada.asObservable();
   }
 

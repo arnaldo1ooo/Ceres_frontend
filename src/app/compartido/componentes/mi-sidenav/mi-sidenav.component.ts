@@ -1,6 +1,5 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from 'src/app/autenticacion/services/auth.service';
 
@@ -12,7 +11,6 @@ import { AuthService } from 'src/app/autenticacion/services/auth.service';
 export class MiSidenavComponent implements OnInit {
 
   mobileQuery: MediaQueryList;
-  isSesionIniciada$: Observable<boolean>;
   shouldRun = true;
   isAbierto = true;
 
@@ -31,12 +29,10 @@ export class MiSidenavComponent implements OnInit {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
-
-    this.isSesionIniciada$ = new BehaviorSubject<boolean>(false);
   }
 
   ngOnInit() {
-    this.isSesionIniciada$ = this.authService.isSesionIniciada; //Se guarda valor de sesion iniciada
+
   }
 
   ngOnDestroy(): void {
@@ -45,12 +41,15 @@ export class MiSidenavComponent implements OnInit {
 
   cerrarSesion() {
     this.isAbierto = false;
-    this.isSesionIniciada$ = new BehaviorSubject<boolean>(false);
     this.authService.cerrarSesion();
   }
 
   AbrirOCerrar() {
     this.isAbierto = !this.isAbierto;
+ }
+
+ public get isSesionIniciada$(): Observable<boolean> {
+  return this.authService.isSesionIniciada;
  }
 
 }
