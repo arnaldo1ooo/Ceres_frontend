@@ -16,7 +16,8 @@ export class MiSidenavComponent implements OnInit {
 
   menus = [
     { nombre: "Home", ruta: "home", icono: "home" },
-    { nombre: "Filiales", ruta: "filiales", icono: "" }
+    { nombre: "Filiales", ruta: "filiales", icono: "" },
+    { nombre: "Mercaderias", ruta: "mercaderias", icono: "" }
   ]
 
   private _mobileQueryListener: () => void;
