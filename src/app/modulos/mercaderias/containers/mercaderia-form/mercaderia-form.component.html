@@ -20,6 +20,15 @@
       </mat-form-field>
 
       <mat-form-field class="anchura-maxima">
+        <mat-label>Sucursal</mat-label>
+        <mat-select formControlName="sucursal" [compareWith]="compararById">
+          <mat-option disabled selected value="">Seleccione una sucursal</mat-option>
+          <mat-option *ngFor="let sucursal of listaSucursales" [value]="sucursal">{{ sucursal.id }} - {{ sucursal.nombre }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="formMercaderia.get('sucursal') ?.invalid">{{ getMensajeError('sucursal') }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="anchura-maxima">
         <mat-label>Situación</mat-label>
         <mat-select formControlName="situacion">
           <mat-option value="A">ACTIVO</mat-option>

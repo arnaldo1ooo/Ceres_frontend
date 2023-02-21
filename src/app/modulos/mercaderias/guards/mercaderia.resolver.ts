@@ -21,6 +21,6 @@ export class MercaderiaResolver implements Resolve<Mercaderia> {
       return this.mercaderiasService.cargarPorId(route.params['id']);  //Devuelve la filial
     }
 
-    return of({ _id: '', descripcion: '', tipo: '', situacion: '' });
+    return of({ _id: '', descripcion: '', tipo: '', sucursal: '', situacion: '' });
   }
 }

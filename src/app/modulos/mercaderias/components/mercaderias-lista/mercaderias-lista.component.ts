@@ -18,7 +18,7 @@ export class MercaderiasListaComponent implements OnInit {
   @Output() eliminar = new EventEmitter(false);
   @Output() inactivar = new EventEmitter(false);
 
-  readonly columnasAMostrar = ['_id', 'descripcion','tipo', 'situacion', 'acciones'];
+  readonly columnasAMostrar = ['_id', 'descripcion','tipo', 'sucursal','situacion', 'acciones'];
 
   constructor(
     private ruta: Router,

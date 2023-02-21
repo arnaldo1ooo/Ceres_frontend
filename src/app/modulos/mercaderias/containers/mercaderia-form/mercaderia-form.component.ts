@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Situacion } from 'src/app/compartido/enums/situacion.enum';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
+import { SucursalesService } from 'src/app/modulos/sucursales/services/sucursales.service';
 
 import { Mercaderia } from '../../model/mercaderia';
 import { MercaderiasService } from '../../services/mercaderias.service';
@@ -15,6 +16,7 @@ import { MercaderiasService } from '../../services/mercaderias.service';
   styleUrls: ['./mercaderia-form.component.scss']
 })
 export class MercaderiaFormComponent implements OnInit {
+  listaSucursales: any;
 
   formMercaderia = this.formBuilder.group({
     _id: [''],  //Sirve para el modo editar
@@ -24,6 +26,9 @@ export class MercaderiaFormComponent implements OnInit {
       Validators.maxLength(100)
     ]],
     tipo: ['', [
+      Validators.required
+    ]],
+    sucursal: ['', [
       Validators.required
     ]],
     situacion: ['', [
@@ -37,11 +42,13 @@ export class MercaderiaFormComponent implements OnInit {
     private snackBar: MatSnackBar,
     private location: Location,
     private ruta: ActivatedRoute,
-    private helpersService: HelpersService) {
+    private helpersService: HelpersService,
+    private sucursalService: SucursalesService) {
 
   }
 
   ngOnInit(): void {  //Se ejecuta al iniciar componente
+    this.cargarDropDownSucursal();
     this.verificarModo();
 
     const mercaderia: Mercaderia = this.ruta.snapshot.data['mercaderia'];  //Obtiene el objeto filial del resolver
@@ -50,6 +57,7 @@ export class MercaderiaFormComponent implements OnInit {
       _id: mercaderia._id,
       descripcion: mercaderia.descripcion,
       tipo: mercaderia.tipo,
+      sucursal: mercaderia.sucursal,
       situacion: this.helpersService.isNoNuloOrVacio(mercaderia.situacion) ? mercaderia.situacion : Situacion.ACTIVO //Se pone por default Activo
     });
   }
@@ -108,7 +116,11 @@ export class MercaderiaFormComponent implements OnInit {
     return this.helpersService.isModoVisualizar(this.ruta.snapshot.routeConfig?.path);
   }
 
-
+  private cargarDropDownSucursal() {
+    this.sucursalService.listarTodosSucursales().subscribe((lista: any) => {  //Cargamos la lista de sucursales para mostrar en el dropdown
+      this.listaSucursales = lista;
+    })
+  }
 
 
 }
