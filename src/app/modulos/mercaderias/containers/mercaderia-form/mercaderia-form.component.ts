@@ -72,12 +72,12 @@ export class MercaderiaFormComponent implements OnInit {
   }
 
   private onExito() {
-    this.snackBar.open('Filial guardado con exito!', '', { duration: 4000 });  //Mensaje cuando salva correctamente
+    this.snackBar.open('Mercaderia guardado con exito!', '', { duration: 4000 });  //Mensaje cuando salva correctamente
     this.onCancelar(); //Para que vuelva atras
   }
 
   private onError() {
-    this.snackBar.open('Error al guardar filial', '', { duration: 4000 });  //Mensaje cuando da error
+    this.snackBar.open('Error al guardar mercaderia', '', { duration: 4000 });  //Mensaje cuando da error
   }
 
   protected compararById(opcion: any, opcionRecibida: any): boolean {//Esta comparacion se ejecuta con cada opcion de la lista compara Lista = sucursal.id
