@@ -15,7 +15,7 @@
     <!-- Columna tipo -->
     <ng-container matColumnDef="tipo">
       <mat-header-cell *matHeaderCellDef> Tipo </mat-header-cell>
-      <mat-cell *matCellDef="let mercaderia"> {{ mercaderia.tipo | tipoMercaderia }} </mat-cell>
+      <mat-cell *matCellDef="let mercaderia"> {{ mercaderia.tipo }} </mat-cell>
     </ng-container>
 
     <!-- Columna sucursal -->
@@ -27,7 +27,7 @@
     <!-- Columna situacion -->
     <ng-container matColumnDef="situacion">
       <mat-header-cell *matHeaderCellDef> Situación </mat-header-cell>
-      <mat-cell *matCellDef="let mercaderia"> {{ mercaderia.situacion | situacion }} </mat-cell>
+      <mat-cell *matCellDef="let mercaderia"> {{ mercaderia.situacion }} </mat-cell>
     </ng-container>
 
   <!-- Columna Acciones -->

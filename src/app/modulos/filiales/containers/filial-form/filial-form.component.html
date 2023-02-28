@@ -22,8 +22,8 @@
       <mat-form-field class="anchura-maxima">
         <mat-label>Situación</mat-label>
         <mat-select formControlName="situacion">
-          <mat-option value="A">ACTIVO</mat-option>
-          <mat-option value="I">INACTIVO</mat-option>
+          <mat-option value="ACTIVO">ACTIVO</mat-option>
+          <mat-option value="INACTIVO">INACTIVO</mat-option>
         </mat-select>
         <mat-error *ngIf="formFilial.get('situacion') ?.invalid">{{ getMensajeError('situacion') }}</mat-error>
       </mat-form-field>

@@ -32,7 +32,7 @@ export class MercaderiasComponent implements OnInit {
         this.abrirDialogoError('Error al cargar lista de Mercaderias');
 
         return of([]) //Retorna un array vacio para detener el spinner cuando hay error
-      })
+        })
       );
   }
 

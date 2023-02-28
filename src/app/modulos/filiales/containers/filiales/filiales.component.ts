@@ -32,7 +32,7 @@ export class FilialesComponent implements OnInit {
         this.abrirDialogoError('Error al cargar lista de Filiales');
 
         return of([]) //Retorna un array vacio para detener el spinner cuando hay error
-      })
+        })
       );
   }
 
