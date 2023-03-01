@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Mercaderia } from '../../model/mercaderia';
@@ -20,11 +21,16 @@ export class MercaderiasListaComponent implements OnInit {
 
   readonly columnasAMostrar = ['_id', 'descripcion','tipo', 'sucursal','situacion', 'acciones'];
 
+  public pageRegistrosSeparados  = this.listMercaderias;
+  public pageCantidadRegistros = 10;
+  public pageCantidades = [10, 20, 50];
+
   constructor(
     private ruta: Router,
     private rutaActual: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.pageRegistrosSeparados = this.listMercaderias.slice(0, this.pageCantidadRegistros);  //Se separa los primeros X registros para la 1ra pagina
   }
 
   onNuevo() {
@@ -45,6 +51,18 @@ export class MercaderiasListaComponent implements OnInit {
 
   onInactivar(mercaderia: Mercaderia) {
     this.inactivar.emit(mercaderia);
+  }
+
+  onCambiarPage(event: PageEvent) {
+    let totalRegistros = this.listMercaderias;
+    const inicioIndex = event.pageIndex * event.pageSize;
+    let finIndex = inicioIndex + event.pageSize;
+
+    if(finIndex > totalRegistros.length) {
+      finIndex = totalRegistros.length;
+    }
+
+    this.pageRegistrosSeparados = totalRegistros.slice(inicioIndex, finIndex);
   }
 
 }

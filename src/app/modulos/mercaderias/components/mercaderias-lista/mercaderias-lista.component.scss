@@ -7,8 +7,13 @@
   flex: 0 0 160px;
 }
 
-.style-btn-nuevo {
+/*.style-btn-nuevo {
   flex: 0 0 140px;
   justify-content: center;
   margin: 0 auto;
+}*/
+
+mat-header-cell, mat-cell { //Cemtrar titulos de tabla y celdas
+  display: flex;
+  justify-content: center;
 }
