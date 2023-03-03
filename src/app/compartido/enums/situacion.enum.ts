@@ -1,4 +1,5 @@
 export enum Situacion {
-  ACTIVO = "A",
-  INACTIVO = "I"
+  ACTIVO = "ACTIVO",
+  INACTIVO = "INACTIVO"
 }
+

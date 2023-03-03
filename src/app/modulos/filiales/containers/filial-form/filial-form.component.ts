@@ -17,6 +17,7 @@ import { SucursalesService } from './../../../sucursales/services/sucursales.ser
 })
 export class FilialFormComponent implements OnInit {
   listaSucursales: any;
+  listaSituaciones = Object.values(Situacion);
 
   formFilial = this.formBuilder.group({
     _id: [''],  //Sirve para el modo editar

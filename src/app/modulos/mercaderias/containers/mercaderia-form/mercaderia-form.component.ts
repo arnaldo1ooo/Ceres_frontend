@@ -17,6 +17,7 @@ import { MercaderiasService } from '../../services/mercaderias.service';
 })
 export class MercaderiaFormComponent implements OnInit {
   listaSucursales: any;
+  listaSituaciones = Object.values(Situacion);
 
   formMercaderia = this.formBuilder.group({
     _id: [''],  //Sirve para el modo editar
