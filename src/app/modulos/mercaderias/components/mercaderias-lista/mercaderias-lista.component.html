@@ -59,7 +59,7 @@
   </mat-table>
 
 
-  <mat-paginator [length]="this.listMercaderias.length" [pageSize]="pageCantidadRegistros"
+  <mat-paginator [length]="this.listMercaderias.length" [pageSize]="pageTamanho"
     [pageSizeOptions]="pageCantidades" (page)="onCambiarPage($event)" [showFirstLastButtons]="true">
   </mat-paginator>
 </div>

@@ -21,7 +21,7 @@ export class FilialesListaComponent implements OnInit {
   readonly columnasAMostrar = ['_id', 'nombre', 'sucursal', 'situacion', 'acciones'];
 
   public pageRegistrosSeparados  = this.listFiliales;
-  public pageCantidadRegistros = 10;
+  public pageTamanho = 10;
   public pageCantidades = [10, 20, 50];
 
   constructor(
@@ -29,7 +29,7 @@ export class FilialesListaComponent implements OnInit {
     private rutaActual: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.pageRegistrosSeparados = this.listFiliales.slice(0, 10);  //Se separa los primeros X registros para la 1ra pagina
+    this.pageRegistrosSeparados = this.listFiliales.slice(0, this.pageTamanho);  //Se separa los primeros X registros para la 1ra pagina
   }
 
   onNuevo() {

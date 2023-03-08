@@ -22,7 +22,7 @@ export class MercaderiasListaComponent implements OnInit {
   readonly columnasAMostrar = ['_id', 'descripcion','tipo', 'sucursal','situacion', 'acciones'];
 
   public pageRegistrosSeparados  = this.listMercaderias;
-  public pageCantidadRegistros = 10;
+  public pageTamanho = 10;
   public pageCantidades = [10, 20, 50];
 
   constructor(
@@ -30,7 +30,7 @@ export class MercaderiasListaComponent implements OnInit {
     private rutaActual: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.pageRegistrosSeparados = this.listMercaderias.slice(0, this.pageCantidadRegistros);  //Se separa los primeros X registros para la 1ra pagina
+    this.pageRegistrosSeparados = this.listMercaderias.slice(0, this.pageTamanho);  //Se separa los primeros X registros para la 1ra pagina
   }
 
   onNuevo() {
