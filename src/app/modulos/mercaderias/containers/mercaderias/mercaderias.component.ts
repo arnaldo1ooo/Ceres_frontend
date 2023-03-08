@@ -19,7 +19,6 @@ import { MercaderiasService } from '../../services/mercaderias.service';
 export class MercaderiasComponent implements OnInit {
 
   dsMercaderias$: Observable<Mercaderia[]>; //Cuando es Observable, colocar $
-  mercaderias$: Observable<Mercaderia[]> | null = null;
 
   constructor(
     private mercaderiasService: MercaderiasService,
@@ -27,13 +26,7 @@ export class MercaderiasComponent implements OnInit {
     private ruta: Router,
     private rutaActual: ActivatedRoute,
     private alertaSnackBar: MatSnackBar) {
-    this.dsMercaderias$ = this.mercaderiasService.listarTodosMercaderiasActivos()
-      .pipe(catchError(error => {
-        this.abrirDialogoError('Error al cargar lista de Mercaderias');
-
-        return of([]) //Retorna un array vacio para detener el spinner cuando hay error
-        })
-      );
+    this.dsMercaderias$ = this.cargarMercaderias();
   }
 
   abrirDialogoError(msgError: string) {
@@ -45,13 +38,7 @@ export class MercaderiasComponent implements OnInit {
   }
 
   refrescar() {
-    this.mercaderias$ = this.mercaderiasService.listarTodosMercaderias()
-      .pipe(
-        catchError(error => {
-          this.onError('Error al cargar mercaderias.');
-          return of([])
-        })
-      );
+    this.dsMercaderias$ = this.cargarMercaderias();
   }
 
   onError(errorMsg: string) {
@@ -116,6 +103,14 @@ export class MercaderiasComponent implements OnInit {
     });
   }
 
+  cargarMercaderias() {
+    return this.mercaderiasService.listarTodosMercaderiasActivos()
+      .pipe(catchError(error => {
+        this.abrirDialogoError('Error al cargar lista de Mercaderias');
 
+        return of([]) //Retorna un array vacio para detener el spinner cuando hay error
+      })
+      );
+  }
 
 }

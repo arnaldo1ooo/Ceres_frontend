@@ -19,7 +19,6 @@ import { FilialesService } from '../../services/filiales.service';
 export class FilialesComponent implements OnInit {
 
   dsFiliales$: Observable<Filial[]>; //Cuando es Observable, colocar $
-  filiales$: Observable<Filial[]> | null = null;
 
   constructor(
     private filialesService: FilialesService,
@@ -27,13 +26,7 @@ export class FilialesComponent implements OnInit {
     private ruta: Router,
     private rutaActual: ActivatedRoute,
     private alertaSnackBar: MatSnackBar) {
-    this.dsFiliales$ = this.filialesService.listarTodosFilialesActivos()
-      .pipe(catchError(error => {
-        this.abrirDialogoError('Error al cargar lista de Filiales');
-
-        return of([]) //Retorna un array vacio para detener el spinner cuando hay error
-        })
-      );
+    this.dsFiliales$ = this.cargarFiliales();
   }
 
   abrirDialogoError(msgError: string) {
@@ -45,13 +38,7 @@ export class FilialesComponent implements OnInit {
   }
 
   refrescar() {
-    this.filiales$ = this.filialesService.listarTodosFiliales()
-      .pipe(
-        catchError(error => {
-          this.onError('Error al cargar filiales.');
-          return of([])
-        })
-      );
+    this.dsFiliales$ = this.cargarFiliales();
   }
 
   onError(errorMsg: string) {
@@ -116,6 +103,14 @@ export class FilialesComponent implements OnInit {
     });
   }
 
+  cargarFiliales() {
+    return this.filialesService.listarTodosFilialesActivos()
+      .pipe(catchError(error => {
+        this.abrirDialogoError('Error al cargar lista de Filiales');
 
+        return of([]) //Retorna un array vacio para detener el spinner cuando hay error
+      })
+      );
+  }
 
 }
