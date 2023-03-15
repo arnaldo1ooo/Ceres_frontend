@@ -1,8 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 
 import { Mercaderia } from '../../model/mercaderia';
+import { MercaderiasComponent } from './../../containers/mercaderias/mercaderias.component';
+import { Page } from './../../model/mercaderia';
 
 
 @Component({
@@ -13,24 +16,23 @@ import { Mercaderia } from '../../model/mercaderia';
 export class MercaderiasListaComponent implements OnInit {
 
   @Input() listMercaderias: Mercaderia[] = [];
+  @Input() pageResponse: Page | undefined;
+  @Input() pageRequest!: PageRequest;
   @Output() nuevo = new EventEmitter(false);
   @Output() visualizar = new EventEmitter(false);
   @Output() editar = new EventEmitter(false);
   @Output() eliminar = new EventEmitter(false);
   @Output() inactivar = new EventEmitter(false);
 
-  readonly columnasAMostrar = ['_id', 'descripcion','tipo', 'sucursal','situacion', 'acciones'];
-
-  public pageRegistrosSeparados  = this.listMercaderias;
-  public pageTamanho = 10;
-  public pageCantidades = [10, 20, 50];
+  readonly columnasAMostrar = ['_id', 'descripcion', 'tipo', 'sucursal', 'situacion', 'acciones'];
+  tamanhosPage = [10, 20, 50];
 
   constructor(
     private ruta: Router,
-    private rutaActual: ActivatedRoute) { }
+    private rutaActual: ActivatedRoute, private mercaderiasComponent: MercaderiasComponent) { }
 
   ngOnInit(): void {
-    this.pageRegistrosSeparados = this.listMercaderias.slice(0, this.pageTamanho);  //Se separa los primeros X registros para la 1ra pagina
+
   }
 
   onNuevo() {
@@ -54,15 +56,10 @@ export class MercaderiasListaComponent implements OnInit {
   }
 
   onCambiarPage(event: PageEvent) {
-    let totalRegistros = this.listMercaderias;
-    const inicioIndex = event.pageIndex * event.pageSize;
-    let finIndex = inicioIndex + event.pageSize;
+    this.pageRequest.pagina = event.pageIndex; //Asignamos el numero de pagina
+    this.pageRequest.tamanho = event.pageSize;  //Asignamos el tamaño de las paginas
 
-    if(finIndex > totalRegistros.length) {
-      finIndex = totalRegistros.length;
-    }
-
-    this.pageRegistrosSeparados = totalRegistros.slice(inicioIndex, finIndex);
+    this.mercaderiasComponent.listarMercaderiasPage(null, this.pageRequest)
   }
 
 }

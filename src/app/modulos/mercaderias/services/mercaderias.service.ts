@@ -1,8 +1,10 @@
+import { Page } from './../model/mercaderia';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { delay, first, Observable, tap } from 'rxjs';
 
 import { Mercaderia } from '../model/mercaderia';
+import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 
 @Injectable({
   providedIn: 'root'
@@ -21,12 +23,18 @@ export class MercaderiasService {
       );
   }
 
-  listarTodosMercaderiasActivos() {
-    return this.htppClient.get<Mercaderia[]>(this.API+'/activos')
+  listarTodosMercaderiasFiltro() {
+    return this.htppClient.get<Mercaderia[]>(this.API + '/filtro')
       .pipe(                                        //Manipular datos
         first(),                                    //Ejecuta la accion al primer resultado
         delay(100)                             //Espera de x segundos
       );
+  }
+
+  listarTodosMercaderiasFiltroPage(id: any, pageRequest: PageRequest): Observable<Page> {
+    return this.htppClient.get<Page>(this.API
+      + '/filtroPage?' + `id= ${id != null ? id : ''}`
+      + `&page=${pageRequest.pagina}&size=${pageRequest.tamanho}&sort=${pageRequest.ordenarPor},${pageRequest.orden}`);
   }
 
   guardar(mercaderia: Partial<Mercaderia>) { //Se usa Partial cuando se espera que no reciba todos los datos de la entidad

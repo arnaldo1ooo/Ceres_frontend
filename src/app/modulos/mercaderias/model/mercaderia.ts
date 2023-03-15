@@ -6,5 +6,16 @@ export interface Mercaderia {
   tipo: string;
   sucursal: string;
   situacion: string;
-
 }
+
+export interface Page {
+  content: Array<Mercaderia>
+  totalPages: number;
+  totalElements: number;
+  last: boolean;
+  size: number;
+  number: number;
+  sort?: any;
+  numberOfElements: number;
+  first: boolean;
+};

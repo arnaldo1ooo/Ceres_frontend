@@ -1,5 +1,5 @@
 <div>
-  <mat-table [dataSource]="pageRegistrosSeparados">
+  <mat-table [dataSource]="listMercaderias">
     <!-- Columna id -->
     <ng-container matColumnDef="_id">
       <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
@@ -59,7 +59,6 @@
   </mat-table>
 
 
-  <mat-paginator [length]="this.listMercaderias.length" [pageSize]="pageTamanho"
-    [pageSizeOptions]="pageCantidades" (page)="onCambiarPage($event)" [showFirstLastButtons]="true">
+  <mat-paginator [length]="this.pageResponse?.totalElements" [pageSizeOptions]="tamanhosPage" (page)="onCambiarPage($event)" [showFirstLastButtons]="true">
   </mat-paginator>
 </div>

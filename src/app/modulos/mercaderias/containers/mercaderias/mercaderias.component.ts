@@ -2,14 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
   DialogoConfirmacionComponent,
 } from 'src/app/compartido/componentes/dialogo-confirmacion/dialogo-confirmacion/dialogo-confirmacion.component';
 import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-error/dialogo-error.component';
+import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 
 import { Mercaderia } from '../../model/mercaderia';
 import { MercaderiasService } from '../../services/mercaderias.service';
+import { Orden } from './../../../../compartido/enums/orden.enum';
+import { Page } from './../../model/mercaderia';
 
 @Component({
   selector: 'app-mercaderias',
@@ -18,7 +21,16 @@ import { MercaderiasService } from '../../services/mercaderias.service';
 })
 export class MercaderiasComponent implements OnInit {
 
-  dsMercaderias$: Observable<Mercaderia[]>; //Cuando es Observable, colocar $
+  listMercaderias$: Observable<Mercaderia[]> | undefined; //El $ indica que es Observable
+  pageRes: Page | undefined;
+
+  //Inicializamos el pageRequest default, seria la paginacion inicial
+  pageRequestDefault: PageRequest = {
+    pagina: 0,
+    tamanho: 10,
+    ordenarPor: 'id',
+    orden: Orden.ASCENDENTE
+  };
 
   constructor(
     private mercaderiasService: MercaderiasService,
@@ -26,19 +38,21 @@ export class MercaderiasComponent implements OnInit {
     private ruta: Router,
     private rutaActual: ActivatedRoute,
     private alertaSnackBar: MatSnackBar) {
-    this.dsMercaderias$ = this.cargarMercaderias();
+
   }
+
+  ngOnInit(): void {
+    this.listarMercaderiasPage(null, this.pageRequestDefault);
+  }
+
 
   abrirDialogoError(msgError: string) {
     this.dialog.open(DialogoErrorComponent, { data: msgError });
   }
 
-  ngOnInit(): void {
-
-  }
 
   refrescar() {
-    this.dsMercaderias$ = this.cargarMercaderias();
+    this.listarMercaderiasPage(null, this.pageRequestDefault);
   }
 
   onError(errorMsg: string) {
@@ -103,14 +117,11 @@ export class MercaderiasComponent implements OnInit {
     });
   }
 
-  cargarMercaderias() {
-    return this.mercaderiasService.listarTodosMercaderiasActivos()
-      .pipe(catchError(error => {
-        this.abrirDialogoError('Error al cargar lista de Mercaderias');
-
-        return of([]) //Retorna un array vacio para detener el spinner cuando hay error
-      })
-      );
+  listarMercaderiasPage(id: any, pageRequest: PageRequest) {
+    this.mercaderiasService.listarTodosMercaderiasFiltroPage(id, pageRequest).subscribe(respuesta => {
+      this.pageRes = respuesta;
+      this.listMercaderias$ = of(this.pageRes.content);  //of convierte a Observable
+    });
   }
 
 }

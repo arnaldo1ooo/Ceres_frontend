@@ -5,10 +5,12 @@
 
   <div class="column flex mat-elevation-z8">
 
-    <!--Pasamos las mercaderias a la lista-->
+    <!--Pasamos las variables al componente lista-->
     <app-mercaderias-lista
-      *ngIf="dsMercaderias$ | async as mercaderias; else cargando"
+      *ngIf="listMercaderias$ | async as mercaderias; else cargando"
       [listMercaderias]="mercaderias"
+      [pageResponse]="this.pageRes"
+      [pageRequest]="this.pageRequestDefault"
       (nuevo)="onNuevo()"
       (visualizar)="onVisualizar($event)"
       (editar)="onEditar($event)"
