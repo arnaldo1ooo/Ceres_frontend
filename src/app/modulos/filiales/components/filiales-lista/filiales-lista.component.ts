@@ -20,9 +20,9 @@ export class FilialesListaComponent implements OnInit {
 
   readonly columnasAMostrar = ['_id', 'nombre', 'sucursal', 'situacion', 'acciones'];
 
-  public pageRegistrosSeparados  = this.listFiliales;
-  public pageTamanho = 10;
-  public pageCantidades = [10, 20, 50];
+  pageRegistrosSeparados  = this.listFiliales;
+  pageTamanho = 10;
+  pageTamanhos = [10, 20, 50];
 
   constructor(
     private ruta: Router,
