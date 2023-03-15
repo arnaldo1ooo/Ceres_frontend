@@ -118,10 +118,17 @@ export class MercaderiasComponent implements OnInit {
   }
 
   listarMercaderiasPage(id: any, pageRequest: PageRequest) {
-    this.mercaderiasService.listarTodosMercaderiasFiltroPage(id, pageRequest).subscribe(respuesta => {
-      this.pageRes = respuesta;
-      this.listMercaderias$ = of(this.pageRes.content);  //of convierte a Observable
-    });
+    this.mercaderiasService.listarTodosMercaderiasFiltroPage(id, pageRequest)
+      .subscribe({
+        next: (respuesta) => {
+          this.pageRes = respuesta;
+          this.listMercaderias$ = of(this.pageRes!.content);  //of convierte a Observable
+        },
+        error: (err) => {
+          this.listMercaderias$ = of([]); //Se asigna una lista vacia, para que el componente cargando se detenga
+          this.abrirDialogoError('Error al cargar lista de Mercaderias');
+        }
+      })
   }
 
 }
