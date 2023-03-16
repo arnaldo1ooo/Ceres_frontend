@@ -1,3 +1,4 @@
+import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -11,7 +12,6 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { HelpersService } from '../../compartido/services/helpers.service';
 import { AuthService } from './../services/auth.service';
 
 //Un guard es como un vigilante que controla que se cumpla ciertos criterios para mostrar un componente
@@ -27,7 +27,6 @@ export class AuthGuard implements CanActivate, CanLoad {
 
   constructor(
     private router: Router,
-    private helpersService: HelpersService,
     private authService: AuthService,
   ) { }
 
@@ -38,7 +37,7 @@ export class AuthGuard implements CanActivate, CanLoad {
     const token = this.authService.getTokenAlmacenado();
 
     if (token != null && token != 'undefined') { //Si existe token almacenado y token no esta expirado, dejará pasar
-      if (!this.helpersService.isTokenExpirado(token)) {
+      if (!HelpersService.isTokenExpirado(token)) {
         return true;
       }
 
@@ -54,7 +53,7 @@ export class AuthGuard implements CanActivate, CanLoad {
     const token = this.authService.getTokenAlmacenado();
 
     if (token != null && token != 'undefined') { //Si existe token almacenado y token no esta expirado, dejará pasar
-      if (!this.helpersService.isTokenExpirado(token)) {
+      if (!HelpersService.isTokenExpirado(token)) {
         return true;
       }
 

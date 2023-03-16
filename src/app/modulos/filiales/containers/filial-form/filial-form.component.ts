@@ -40,8 +40,7 @@ export class FilialFormComponent implements OnInit {
     private snackBar: MatSnackBar,
     private location: Location,
     private ruta: ActivatedRoute,
-    private sucursalService: SucursalesService,
-    private helpersService: HelpersService) {
+    private sucursalService: SucursalesService) {
 
   }
 
@@ -55,7 +54,7 @@ export class FilialFormComponent implements OnInit {
       _id: filial._id,
       nombre: filial.nombre,
       sucursal: filial.sucursal,
-      situacion: this.helpersService.isNoNuloOrVacio(filial.situacion) ? filial.situacion : Situacion.ACTIVO //Se pone por default Activo
+      situacion: HelpersService.isNoNuloYNoVacio(filial.situacion) ? filial.situacion : Situacion.ACTIVO //Se pone por default Activo
     });
   }
 
@@ -116,7 +115,7 @@ export class FilialFormComponent implements OnInit {
   }
 
   public isModoVisualizar(): boolean {
-    return this.helpersService.isModoVisualizar(this.ruta.snapshot.routeConfig?.path);
+    return HelpersService.isModoVisualizar(this.ruta.snapshot.routeConfig?.path);
   }
 
 

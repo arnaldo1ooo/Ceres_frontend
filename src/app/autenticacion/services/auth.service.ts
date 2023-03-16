@@ -1,11 +1,10 @@
+import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Login } from 'src/app/modulos/login/model/login';
-
-import { HelpersService } from '../../compartido/services/helpers.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +13,6 @@ export class AuthService {
   private sesionIniciada; //Se piede el valor al recargar pagina
 
   constructor(
-    private helpersService: HelpersService,
     private http: HttpClient,
     private router: Router
   ) {
@@ -42,16 +40,16 @@ export class AuthService {
 
   cerrarSesion() {
     this.sesionIniciada.next(false);
-    this.helpersService.removerItemDelStorage('token');
+    HelpersService.removerItemDelStorage('token');
     this.router.navigate(['login']);
   }
 
   getTokenAlmacenado() {
-    return this.helpersService.obtenerItemDelStorage('token');
+    return HelpersService.obtenerItemDelStorage('token');
   }
 
   salvarTokenEnLocalStorage(token: string) {
-    this.helpersService.salvarItemEnStorage('token', token);
+    HelpersService.salvarItemEnStorage('token', token);
   }
 
   public get isSesionIniciada() {
@@ -59,8 +57,8 @@ export class AuthService {
   }
 
   public isTokenValido(token: any): boolean {
-    return this.helpersService.isNoNuloOrVacioOrUndefined(token)
-      && !this.helpersService.isTokenExpirado(token);
+    return HelpersService.isNoNuloYNoVacioYNoUndefined(token)
+      && !HelpersService.isTokenExpirado(token);
   }
 
 

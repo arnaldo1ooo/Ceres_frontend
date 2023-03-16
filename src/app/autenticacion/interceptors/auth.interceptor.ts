@@ -1,9 +1,9 @@
+import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { HelpersService } from '../../compartido/services/helpers.service';
 import { AuthService } from './../services/auth.service';
 
 
@@ -13,16 +13,15 @@ export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
     private authService: AuthService,
-    private helpersService: HelpersService,
     private router: Router
   ) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> { //Intercepta el token almacenado
     const token = this.authService.getTokenAlmacenado();
 
-    if (this.helpersService.urlDistintoALogin(request.url)) { //Si es distinto al login
-      if (token != null && token != 'undefined') {  //Si existe token almacenado
-        if (!this.helpersService.isTokenExpirado(token)) {
+    if (HelpersService.urlDistintoALogin(request.url)) { //Si es distinto al login
+      if (HelpersService.isNoNulo(token) && HelpersService.isNoUndefined(token)) {  //Si existe token almacenado
+        if (!HelpersService.isTokenExpirado(token)) {
           let clonado = request.clone({
             headers: request.headers.set('Authorization', `Bearer ${token}`)  //Envia el token local desde el header Authorization
           })
