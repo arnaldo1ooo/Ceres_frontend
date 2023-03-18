@@ -82,10 +82,8 @@ export class FilialFormComponent implements OnInit {
     })
   }
 
-  protected compararById(opcion: any, opcionRecibida: any): boolean {//Esta comparacion se ejecuta con cada opcion de la lista compara Lista = sucursal.id
-    return opcion && opcionRecibida
-      ? opcion.id === opcionRecibida.id
-      : opcion === opcionRecibida;
+  protected compararById(opcion: any, opcionRecibida: any): boolean {
+    return HelpersService.compararById(opcion, opcionRecibida);
   }
 
   public getMensajeError(nombreCampo: string) {

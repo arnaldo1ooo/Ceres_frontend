@@ -7,9 +7,13 @@ import {
   DialogoConfirmacionComponent,
 } from 'src/app/compartido/componentes/dialogo-confirmacion/dialogo-confirmacion/dialogo-confirmacion.component';
 import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-error/dialogo-error.component';
+import { Situacion } from 'src/app/compartido/enums/situacion.enum';
 import { PageRequest } from 'src/app/compartido/interfaces/page-request';
+import { HelpersService } from 'src/app/compartido/services/helpers.service';
+import { TipoMercaderia } from '../../enums/tipoMercaderia.enum';
 
 import { Mercaderia } from '../../model/mercaderia';
+import { MercaderiaFiltro } from '../../model/mercaderiaFiltro';
 import { MercaderiasService } from '../../services/mercaderias.service';
 import { Orden } from './../../../../compartido/enums/orden.enum';
 import { Page } from './../../model/mercaderia';
@@ -21,8 +25,19 @@ import { Page } from './../../model/mercaderia';
 })
 export class MercaderiasComponent implements OnInit {
 
-  listMercaderias$: Observable<Mercaderia[]> | undefined; //El $ indica que es Observable
+  listMercaderias$: Observable<Mercaderia[]> = of([]); //El $ indica que es Observable
+  listaTiposMercaderia = Object.values(TipoMercaderia).slice(0, -1);  //slice retira el metodo getDescripcion de la lista
+  listaSucursales: any;
+  listaSituaciones = Object.values(Situacion);
   pageRes: Page | undefined;
+
+  mercaderiaFiltro: MercaderiaFiltro = {
+    id: null,
+    descripcion: null,
+    idTipo: null,
+    idSucursal: null,
+    idSituacion: null
+  };
 
   //Inicializamos el pageRequest default, seria la paginacion inicial
   pageRequestDefault: PageRequest = {
@@ -31,6 +46,8 @@ export class MercaderiasComponent implements OnInit {
     ordenarPor: 'id',
     orden: Orden.ASCENDENTE
   };
+
+
 
   constructor(
     private mercaderiasService: MercaderiasService,
@@ -42,7 +59,7 @@ export class MercaderiasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.listarMercaderiasPage(null, this.pageRequestDefault);
+    //this.listarMercaderiasPage(this.mercaderiaFiltro, this.pageRequestDefault);
   }
 
 
@@ -51,8 +68,12 @@ export class MercaderiasComponent implements OnInit {
   }
 
 
-  refrescar() {
-    this.listarMercaderiasPage(null, this.pageRequestDefault);
+  refrescar(page: PageRequest) {
+    this.listarMercaderiasPage(this.mercaderiaFiltro, page);
+  }
+
+  filtrar() {
+    this.refrescar(this.pageRequestDefault);
   }
 
   onError(errorMsg: string) {
@@ -82,7 +103,7 @@ export class MercaderiasComponent implements OnInit {
       if (respuesta) {
         this.mercaderiasService.eliminar(mercaderia._id).subscribe(
           () => {
-            this.refrescar();
+            this.refrescar(this.pageRequestDefault);
             this.alertaSnackBar.open('Mercaderia eliminado con suceso!', 'X', {
               duration: 5000,
               verticalPosition: 'top',
@@ -104,7 +125,7 @@ export class MercaderiasComponent implements OnInit {
       if (respuesta) {
         this.mercaderiasService.inactivar(mercaderia._id).subscribe(
           () => {
-            this.refrescar();
+            this.refrescar(this.pageRequestDefault);
             this.alertaSnackBar.open('Mercaderia inactivado con suceso!', 'X', {
               duration: 5000,
               verticalPosition: 'top',
@@ -117,8 +138,8 @@ export class MercaderiasComponent implements OnInit {
     });
   }
 
-  listarMercaderiasPage(id: any, pageRequest: PageRequest) {
-    this.mercaderiasService.listarTodosMercaderiasFiltroPage(id, pageRequest)
+  listarMercaderiasPage(mercaderiaFiltro: MercaderiaFiltro, pageRequest: PageRequest) {
+    this.mercaderiasService.listarTodosMercaderiasFiltroPage(mercaderiaFiltro, pageRequest)
       .subscribe({
         next: (respuesta) => {
           this.pageRes = respuesta;
@@ -129,6 +150,18 @@ export class MercaderiasComponent implements OnInit {
           this.abrirDialogoError('Error al cargar lista de Mercaderias');
         }
       })
+  }
+
+  protected compararById(opcion: any, opcionSeleccionada: any): boolean {
+    return HelpersService.compararById(opcion, opcionSeleccionada);
+  }
+
+  protected getTipoMercaderiaDescripcion(key: any) {
+    return TipoMercaderia.getDescripcion(key);
+  }
+
+  protected getSituacionDescripcion(key: any) {
+    return Situacion.getDescripcion(key);
   }
 
 }

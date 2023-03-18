@@ -1,3 +1,4 @@
+import { MercaderiaFiltro } from './../../model/mercaderiaFiltro';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -59,7 +60,7 @@ export class MercaderiasListaComponent implements OnInit {
     this.pageRequest.pagina = event.pageIndex; //Asignamos el numero de pagina
     this.pageRequest.tamanho = event.pageSize;  //Asignamos el tamaño de las paginas
 
-    this.mercaderiasComponent.listarMercaderiasPage(null, this.pageRequest)
+    this.mercaderiasComponent.refrescar(this.pageRequest);
   }
 
 }

@@ -1,3 +1,5 @@
+import { HelpersService } from 'src/app/compartido/services/helpers.service';
+import { MercaderiaFiltro } from './../model/mercaderiaFiltro';
 import { Page } from './../model/mercaderia';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -31,9 +33,13 @@ export class MercaderiasService {
       );
   }
 
-  listarTodosMercaderiasFiltroPage(id: any, pageRequest: PageRequest): Observable<Page> {
+  listarTodosMercaderiasFiltroPage(mercaderiaFiltro: MercaderiaFiltro, pageRequest: PageRequest): Observable<Page> {
     return this.htppClient.get<Page>(this.API
-      + '/filtroPage?' + `id= ${id != null ? id : ''}`
+      + '/filtroPage?' + `id=${ mercaderiaFiltro.id }`
+                       + `&descripcion=${ mercaderiaFiltro.descripcion}`
+                       + `&idTipo=${ mercaderiaFiltro.idTipo }`
+                       + `&idSucursal=${ mercaderiaFiltro.idSucursal }`
+                       + `&idSituacion=${ mercaderiaFiltro.idSituacion }`
       + `&page=${pageRequest.pagina}&size=${pageRequest.tamanho}&sort=${pageRequest.ordenarPor},${pageRequest.orden}`);
   }
 

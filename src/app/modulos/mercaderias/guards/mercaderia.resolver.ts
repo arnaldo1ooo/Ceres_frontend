@@ -18,7 +18,7 @@ export class MercaderiaResolver implements Resolve<Mercaderia> {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Mercaderia>  {
     if(route.params && route.params['id']){  //Si ruta tiene parametros y existe parametro id
-      return this.mercaderiasService.cargarPorId(route.params['id']);  //Devuelve la filial
+      return this.mercaderiasService.cargarPorId(route.params['id']);
     }
 
     return of({ _id: '', descripcion: '', tipo: '', sucursal: '', situacion: '' });

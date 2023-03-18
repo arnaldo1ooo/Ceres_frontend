@@ -1,11 +1,38 @@
-<mat-card>
+<mat-card class="style-contenedor-principal">
   <mat-toolbar color="primary">
     Mercaderias Disponibles
   </mat-toolbar>
 
+  <!--Filtros-->
+  <div id="filtros" class="style-contenedor-filtro">
+    <mat-form-field appearance="outline" class="style-input-filtro-id">
+      <mat-label>Id</mat-label>
+      <input matInput id="filtroId" name="filtroId" type="number" [(ngModel)]="mercaderiaFiltro.id">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Descripción</mat-label>
+      <input matInput id="filtroDescripcion" name="filtroDescripcion" type="text" [(ngModel)]="mercaderiaFiltro.descripcion">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Tipo</mat-label>
+      <mat-select formControlName="mercaderiaFiltro.tipo" [compareWith]="compararById">
+        <mat-option disabled selected value="">Seleccione un tipo de mercaderia</mat-option>
+        <mat-option *ngFor="let tipoMercaderia of listaTiposMercaderia" [value]="tipoMercaderia">
+          {{ getTipoMercaderiaDescripcion(tipoMercaderia) }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+    <button mat-raised-button class="style-button-filtro" (click)="null" color="accent">Limpiar</button>
+    <button mat-raised-button class="style-button-filtro" (click)="filtrar()" color="primary">Filtrar</button>
+  </div>
+
   <div class="column flex mat-elevation-z8">
 
-    <!--Pasamos las variables al componente lista-->
+    <!--Pasamos las variables del componente principal al componente lista-->
     <app-mercaderias-lista
       *ngIf="listMercaderias$ | async as mercaderias; else cargando"
       [listMercaderias]="mercaderias"

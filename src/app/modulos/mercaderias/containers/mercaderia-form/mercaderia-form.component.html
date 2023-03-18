@@ -13,8 +13,9 @@
       <mat-form-field class="anchura-maxima">
         <mat-label>Tipo</mat-label>
         <mat-select formControlName="tipo">
-          <mat-option value="PRODUCTO">PRODUCTO</mat-option>
-          <mat-option value="SERVICIO">SERVICIO</mat-option>
+          <mat-option *ngFor="let tipoMercaderia of listaTiposMercaderia" [value]="tipoMercaderia">
+            {{ getTipoMercaderiaDescripcion(tipoMercaderia) }}
+          </mat-option>
         </mat-select>
         <mat-error *ngIf="formMercaderia.get('tipo') ?.invalid">{{ getMensajeError('tipo') }}</mat-error>
       </mat-form-field>
@@ -31,7 +32,9 @@
       <mat-form-field class="anchura-maxima">
         <mat-label>Situación</mat-label>
         <mat-select formControlName="situacion">
-          <mat-option *ngFor="let situacion of listaSituaciones" [value]="situacion"> {{ situacion }} </mat-option>
+          <mat-option *ngFor="let situacion of listaSituaciones" [value]="situacion">
+            {{ getSituacionDescripcion(situacion) }}
+          </mat-option>
         </mat-select>
         <mat-error *ngIf="formMercaderia.get('situacion') ?.invalid">{{ getMensajeError('situacion') }}</mat-error>
       </mat-form-field>

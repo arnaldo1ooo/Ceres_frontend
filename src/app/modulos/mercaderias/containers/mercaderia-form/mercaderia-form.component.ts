@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Situacion } from 'src/app/compartido/enums/situacion.enum';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { SucursalesService } from 'src/app/modulos/sucursales/services/sucursales.service';
+import { TipoMercaderia } from '../../enums/tipoMercaderia.enum';
 
 import { Mercaderia } from '../../model/mercaderia';
 import { MercaderiasService } from '../../services/mercaderias.service';
@@ -16,8 +17,9 @@ import { MercaderiasService } from '../../services/mercaderias.service';
   styleUrls: ['./mercaderia-form.component.scss']
 })
 export class MercaderiaFormComponent implements OnInit {
+  listaTiposMercaderia = Object.values(TipoMercaderia).slice(0, -1);
   listaSucursales: any;
-  listaSituaciones = Object.values(Situacion);
+  listaSituaciones = Object.values(Situacion).slice(0, -1);;
 
   formMercaderia = this.formBuilder.group({
     _id: [''],  //Sirve para el modo editar
@@ -43,7 +45,6 @@ export class MercaderiaFormComponent implements OnInit {
     private snackBar: MatSnackBar,
     private location: Location,
     private ruta: ActivatedRoute,
-    private helpersService: HelpersService,
     private sucursalService: SucursalesService) {
 
   }
@@ -54,12 +55,12 @@ export class MercaderiaFormComponent implements OnInit {
 
     const mercaderia: Mercaderia = this.ruta.snapshot.data['mercaderia'];  //Obtiene el objeto filial del resolver
 
-    this.formMercaderia.setValue({ //Setamos los datos del filial para que aparezca al editar
+    this.formMercaderia.setValue({ //Setamos los datos para que aparezca al editar
       _id: mercaderia._id,
       descripcion: mercaderia.descripcion,
       tipo: mercaderia.tipo,
       sucursal: mercaderia.sucursal,
-      situacion: this.helpersService.isNoNuloOrVacio(mercaderia.situacion) ? mercaderia.situacion : Situacion.ACTIVO //Se pone por default Activo
+      situacion: HelpersService.isNoNuloYNoVacio(mercaderia.situacion) ? mercaderia.situacion : Situacion.ACTIVO //Se pone por default Activo
     });
   }
 
@@ -81,10 +82,8 @@ export class MercaderiaFormComponent implements OnInit {
     this.snackBar.open('Error al guardar mercaderia', '', { duration: 4000 });  //Mensaje cuando da error
   }
 
-  protected compararById(opcion: any, opcionRecibida: any): boolean {//Esta comparacion se ejecuta con cada opcion de la lista compara Lista = sucursal.id
-    return opcion && opcionRecibida
-      ? opcion.id === opcionRecibida.id
-      : opcion === opcionRecibida;
+  protected compararById(opcion: any, opcionRecibida: any): boolean {
+    return HelpersService.compararById(opcion, opcionRecibida);
   }
 
   public getMensajeError(nombreCampo: string) {
@@ -114,13 +113,21 @@ export class MercaderiaFormComponent implements OnInit {
   }
 
   public isModoVisualizar(): boolean {
-    return this.helpersService.isModoVisualizar(this.ruta.snapshot.routeConfig?.path);
+    return HelpersService.isModoVisualizar(this.ruta.snapshot.routeConfig?.path);
   }
 
   private cargarDropDownSucursal() {
     this.sucursalService.listarTodosSucursales().subscribe((lista: any) => {  //Cargamos la lista de sucursales para mostrar en el dropdown
       this.listaSucursales = lista;
     })
+  }
+
+  protected getTipoMercaderiaDescripcion(key: any) {
+    return TipoMercaderia.getDescripcion(key);
+  }
+
+  protected getSituacionDescripcion(key: any) {
+    return Situacion.getDescripcion(key);
   }
 
 
