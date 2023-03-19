@@ -35,11 +35,11 @@ export class MercaderiasService {
 
   listarTodosMercaderiasFiltroPage(mercaderiaFiltro: MercaderiaFiltro, pageRequest: PageRequest): Observable<Page> {
     return this.htppClient.get<Page>(this.API
-      + '/filtroPage?' + `id=${ mercaderiaFiltro.id }`
-                       + `&descripcion=${ mercaderiaFiltro.descripcion}`
-                       + `&idTipo=${ mercaderiaFiltro.idTipo }`
-                       + `&idSucursal=${ mercaderiaFiltro.idSucursal }`
-                       + `&idSituacion=${ mercaderiaFiltro.idSituacion }`
+      + '/filtroPage?' + `id=${mercaderiaFiltro.id}`
+                       + `&descripcion=${mercaderiaFiltro.descripcion}`
+                       + `&idTipo=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idTipo)}`
+                       + `&idSucursal=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idSucursal)}`
+                       + `&idSituacion=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idSituacion)}`
       + `&page=${pageRequest.pagina}&size=${pageRequest.tamanho}&sort=${pageRequest.ordenarPor},${pageRequest.orden}`);
   }
 

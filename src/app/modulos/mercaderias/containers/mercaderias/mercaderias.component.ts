@@ -7,11 +7,12 @@ import {
   DialogoConfirmacionComponent,
 } from 'src/app/compartido/componentes/dialogo-confirmacion/dialogo-confirmacion/dialogo-confirmacion.component';
 import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-error/dialogo-error.component';
-import { Situacion } from 'src/app/compartido/enums/situacion.enum';
+import { Situacion, SituacionUtils } from 'src/app/compartido/enums/situacion.enum';
 import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
-import { TipoMercaderia } from '../../enums/tipoMercaderia.enum';
+import { SucursalesService } from 'src/app/modulos/sucursales/services/sucursales.service';
 
+import { TipoMercaderia, TipoMercaderiaUtils } from '../../enums/tipoMercaderia.enum';
 import { Mercaderia } from '../../model/mercaderia';
 import { MercaderiaFiltro } from '../../model/mercaderiaFiltro';
 import { MercaderiasService } from '../../services/mercaderias.service';
@@ -25,19 +26,14 @@ import { Page } from './../../model/mercaderia';
 })
 export class MercaderiasComponent implements OnInit {
 
-  listMercaderias$: Observable<Mercaderia[]> = of([]); //El $ indica que es Observable
-  listaTiposMercaderia = Object.values(TipoMercaderia).slice(0, -1);  //slice retira el metodo getDescripcion de la lista
-  listaSucursales: any;
-  listaSituaciones = Object.values(Situacion);
-  pageRes: Page | undefined;
-
-  mercaderiaFiltro: MercaderiaFiltro = {
-    id: null,
-    descripcion: null,
-    idTipo: null,
-    idSucursal: null,
-    idSituacion: null
-  };
+  protected listMercaderias$: Observable<Mercaderia[]> = of([]); //El $ indica que es Observable, se inicializa con array vacio
+  protected listaTiposMercaderia = Object.values(TipoMercaderia);
+  protected listaSucursales: any;
+  protected listaSituaciones = Object.values(Situacion);
+  protected tipoMercaderiaUtils = TipoMercaderiaUtils;
+  protected situacionUtils = SituacionUtils;
+  protected pageRes: Page | undefined;
+  protected mercaderiaFiltro: MercaderiaFiltro = this.filtroInicial();
 
   //Inicializamos el pageRequest default, seria la paginacion inicial
   pageRequestDefault: PageRequest = {
@@ -47,54 +43,65 @@ export class MercaderiasComponent implements OnInit {
     orden: Orden.ASCENDENTE
   };
 
-
-
   constructor(
     private mercaderiasService: MercaderiasService,
     public dialog: MatDialog,
     private ruta: Router,
     private rutaActual: ActivatedRoute,
-    private alertaSnackBar: MatSnackBar) {
+    private alertaSnackBar: MatSnackBar,
+    private sucursalService: SucursalesService) {
 
   }
 
   ngOnInit(): void {
-    //this.listarMercaderiasPage(this.mercaderiaFiltro, this.pageRequestDefault);
+    this.listarSucursales();
   }
 
-
-  abrirDialogoError(msgError: string) {
+  protected abrirDialogoError(msgError: string) {
     this.dialog.open(DialogoErrorComponent, { data: msgError });
   }
 
-
-  refrescar(page: PageRequest) {
+  public refrescar(page: PageRequest) {
     this.listarMercaderiasPage(this.mercaderiaFiltro, page);
   }
 
-  filtrar() {
+  public filtrar() {
     this.refrescar(this.pageRequestDefault);
   }
 
-  onError(errorMsg: string) {
+  protected limpiarFiltros() {
+    this.mercaderiaFiltro = this.filtroInicial();
+  }
+
+  private filtroInicial() {
+    return this.mercaderiaFiltro = {
+      id: null,
+      descripcion: null,
+      idTipo: "-1", //Opcion TODOS por defecto
+      idSucursal: "-1",
+      idSituacion: "-1" //Opcion TODOS por defecto
+    };
+  }
+
+  protected onError(errorMsg: string) {
     this.dialog.open(DialogoErrorComponent, {
       data: errorMsg
     });
   }
 
-  onNuevo() {
+  protected onNuevo() {
     this.ruta.navigate(['nuevo'], { relativeTo: this.rutaActual }); //Para que navegue a esa direccion
   }
 
-  onVisualizar(mercaderia: Mercaderia) {
+  protected onVisualizar(mercaderia: Mercaderia) {
     this.ruta.navigate(['visualizar', mercaderia._id], { relativeTo: this.rutaActual });
   }
 
-  onEditar(mercaderia: Mercaderia) {
+  protected onEditar(mercaderia: Mercaderia) {
     this.ruta.navigate(['editar', mercaderia._id], { relativeTo: this.rutaActual }); //Navega a esa direccion con los datos del filial
   }
 
-  onEliminar(mercaderia: Mercaderia) {
+  protected onEliminar(mercaderia: Mercaderia) {
     const dialogoRef = this.dialog.open(DialogoConfirmacionComponent, {
       data: '¿Seguro que desea eliminar esta mercaderia?',
     });
@@ -116,7 +123,7 @@ export class MercaderiasComponent implements OnInit {
     });
   }
 
-  onInactivar(mercaderia: Mercaderia) {
+  protected onInactivar(mercaderia: Mercaderia) {
     const dialogoRef = this.dialog.open(DialogoConfirmacionComponent, {
       data: '¿Seguro que desea inactivar esta mercaderia?',
     });
@@ -138,7 +145,7 @@ export class MercaderiasComponent implements OnInit {
     });
   }
 
-  listarMercaderiasPage(mercaderiaFiltro: MercaderiaFiltro, pageRequest: PageRequest) {
+  protected listarMercaderiasPage(mercaderiaFiltro: MercaderiaFiltro, pageRequest: PageRequest) {
     this.mercaderiasService.listarTodosMercaderiasFiltroPage(mercaderiaFiltro, pageRequest)
       .subscribe({
         next: (respuesta) => {
@@ -156,12 +163,10 @@ export class MercaderiasComponent implements OnInit {
     return HelpersService.compararById(opcion, opcionSeleccionada);
   }
 
-  protected getTipoMercaderiaDescripcion(key: any) {
-    return TipoMercaderia.getDescripcion(key);
-  }
-
-  protected getSituacionDescripcion(key: any) {
-    return Situacion.getDescripcion(key);
+  private listarSucursales() { //Cargamos la lista de sucursales para mostrar en el dropdown
+    this.sucursalService.listarTodosSucursales().subscribe((respuesta: any) => {
+      this.listaSucursales = respuesta;
+    })
   }
 
 }

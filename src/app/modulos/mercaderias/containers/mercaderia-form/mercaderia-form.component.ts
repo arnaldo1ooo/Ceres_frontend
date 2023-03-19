@@ -1,13 +1,15 @@
+import { Observable } from 'rxjs';
+import { Sucursal } from './../../../sucursales/model/sucursal';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { Situacion } from 'src/app/compartido/enums/situacion.enum';
+import { Situacion, SituacionUtils } from 'src/app/compartido/enums/situacion.enum';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { SucursalesService } from 'src/app/modulos/sucursales/services/sucursales.service';
-import { TipoMercaderia } from '../../enums/tipoMercaderia.enum';
 
+import { TipoMercaderia, TipoMercaderiaUtils } from '../../enums/tipoMercaderia.enum';
 import { Mercaderia } from '../../model/mercaderia';
 import { MercaderiasService } from '../../services/mercaderias.service';
 
@@ -17,11 +19,13 @@ import { MercaderiasService } from '../../services/mercaderias.service';
   styleUrls: ['./mercaderia-form.component.scss']
 })
 export class MercaderiaFormComponent implements OnInit {
-  listaTiposMercaderia = Object.values(TipoMercaderia).slice(0, -1);
-  listaSucursales: any;
-  listaSituaciones = Object.values(Situacion).slice(0, -1);;
+  public listaTiposMercaderia = Object.values(TipoMercaderia);
+  public listaSucursales: any;
+  public listaSituaciones = Object.values(Situacion);
+  public tipoMercaderiaUtils = TipoMercaderiaUtils;
+  public situacionUtils = SituacionUtils;
 
-  formMercaderia = this.formBuilder.group({
+  public formMercaderia = this.formBuilder.group({
     _id: [''],  //Sirve para el modo editar
     descripcion: ['', [
       Validators.required, //Los validators sirven para agregar validaciones al campo
@@ -50,7 +54,7 @@ export class MercaderiaFormComponent implements OnInit {
   }
 
   ngOnInit(): void {  //Se ejecuta al iniciar componente
-    this.cargarDropDownSucursal();
+    this.listaSucursales = this.listarSucursales();
     this.verificarModo();
 
     const mercaderia: Mercaderia = this.ruta.snapshot.data['mercaderia'];  //Obtiene el objeto filial del resolver
@@ -89,16 +93,16 @@ export class MercaderiaFormComponent implements OnInit {
   public getMensajeError(nombreCampo: string) {
     const campo = this.formMercaderia.get(nombreCampo); //Obtenemos el elemento
 
-    if (campo ?.hasError('required')) { //En ?.hasError ya valida si es nulo
+    if (campo?.hasError('required')) { //En ?.hasError ya valida si es nulo
       return 'Campo obligatorio';
     }
 
-    if (campo ?.hasError('minlength')) {
+    if (campo?.hasError('minlength')) {
       const minCaracteres = campo.errors ? campo.errors['minlength']['requiredLength'] : 3; //Se obtiene el minimo requerido
       return `Tamaño mínimo es de ${minCaracteres} carácteres`;
     }
 
-    if (campo ?.hasError('maxlength')) {
+    if (campo?.hasError('maxlength')) {
       const maxCaracteres = campo.errors ? campo.errors['maxlength']['requiredLength'] : 100; //Se obtiene el minimo requerido
       return `Tamaño máximo es de ${maxCaracteres} carácteres`;
     }
@@ -107,7 +111,7 @@ export class MercaderiaFormComponent implements OnInit {
   }
 
   public verificarModo() {
-    if(this.isModoVisualizar()) {
+    if (this.isModoVisualizar()) {
       this.formMercaderia.disable();
     }
   }
@@ -116,19 +120,9 @@ export class MercaderiaFormComponent implements OnInit {
     return HelpersService.isModoVisualizar(this.ruta.snapshot.routeConfig?.path);
   }
 
-  private cargarDropDownSucursal() {
-    this.sucursalService.listarTodosSucursales().subscribe((lista: any) => {  //Cargamos la lista de sucursales para mostrar en el dropdown
-      this.listaSucursales = lista;
+  private listarSucursales() { //Cargamos la lista de sucursales para mostrar en el dropdown
+    this.sucursalService.listarTodosSucursales().subscribe((respuesta: any) => {
+      this.listaSucursales = respuesta;
     })
   }
-
-  protected getTipoMercaderiaDescripcion(key: any) {
-    return TipoMercaderia.getDescripcion(key);
-  }
-
-  protected getSituacionDescripcion(key: any) {
-    return Situacion.getDescripcion(key);
-  }
-
-
 }

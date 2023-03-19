@@ -85,6 +85,10 @@ export class HelpersService {
     return url != null && !url.includes('login');
   }
 
+  public static idTodosReturnVacio(valor: string) {
+    return valor != "-1" ? valor : "";
+  }
+
   //Esta comparacion se ejecuta con cada opcion de la lista compara lista = opcion.id, sirve para los select
   public static compararById(opcion: any, opcionSeleccionada: any): boolean {
     return opcion && opcionSeleccionada

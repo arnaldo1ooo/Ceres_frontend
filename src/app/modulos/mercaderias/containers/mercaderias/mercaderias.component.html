@@ -7,42 +7,54 @@
   <div id="filtros" class="style-contenedor-filtro">
     <mat-form-field appearance="outline" class="style-input-filtro-id">
       <mat-label>Id</mat-label>
-      <input matInput id="filtroId" name="filtroId" type="number" [(ngModel)]="mercaderiaFiltro.id">
+      <input matInput id="filtroId" type="number" [(ngModel)]="mercaderiaFiltro.id">
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="style-input-filtro-descripcion">
       <mat-label>Descripción</mat-label>
-      <input matInput id="filtroDescripcion" name="filtroDescripcion" type="text" [(ngModel)]="mercaderiaFiltro.descripcion">
+      <input matInput id="filtroDescripcion" type="text"
+        [(ngModel)]="mercaderiaFiltro.descripcion">
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field appearance="outline" class="style-select-filtro-tipo">
       <mat-label>Tipo</mat-label>
-      <mat-select formControlName="mercaderiaFiltro.tipo" [compareWith]="compararById">
-        <mat-option disabled selected value="">Seleccione un tipo de mercaderia</mat-option>
+      <mat-select [(ngModel)]="mercaderiaFiltro.idTipo" [compareWith]="compararById">
+        <mat-option [value]="-1">TODOS</mat-option>
         <mat-option *ngFor="let tipoMercaderia of listaTiposMercaderia" [value]="tipoMercaderia">
-          {{ getTipoMercaderiaDescripcion(tipoMercaderia) }}
+          {{tipoMercaderiaUtils.getDescripcion(tipoMercaderia)}}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
+    <mat-form-field appearance="outline" class="style-select-filtro-sucursal">
+      <mat-label>Sucursal</mat-label>
+      <mat-select [(ngModel)]="mercaderiaFiltro.idSucursal" [compareWith]="compararById">
+        <mat-option [value]="-1">TODOS</mat-option>
+        <mat-option *ngFor="let sucursal of listaSucursales" [value]="sucursal.id">{{sucursal.nombre}}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-    <button mat-raised-button class="style-button-filtro" (click)="null" color="accent">Limpiar</button>
+    <mat-form-field appearance="outline" class="style-select-filtro-situacion">
+      <mat-label>Situación</mat-label>
+      <mat-select [(ngModel)]="mercaderiaFiltro.idSituacion" [compareWith]="compararById">
+        <mat-option [value]="-1">TODOS</mat-option>
+        <mat-option *ngFor="let situacion of listaSituaciones" [value]="situacion">
+          {{situacionUtils.getDescripcion(situacion)}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button class="style-button-filtro" (click)="limpiarFiltros()" color="accent">Limpiar</button>
     <button mat-raised-button class="style-button-filtro" (click)="filtrar()" color="primary">Filtrar</button>
   </div>
 
   <div class="column flex mat-elevation-z8">
 
     <!--Pasamos las variables del componente principal al componente lista-->
-    <app-mercaderias-lista
-      *ngIf="listMercaderias$ | async as mercaderias; else cargando"
-      [listMercaderias]="mercaderias"
-      [pageResponse]="this.pageRes"
-      [pageRequest]="this.pageRequestDefault"
-      (nuevo)="onNuevo()"
-      (visualizar)="onVisualizar($event)"
-      (editar)="onEditar($event)"
-      (eliminar)="onEliminar($event)"
-      (inactivar)="onInactivar($event)">
+    <app-mercaderias-lista *ngIf="listMercaderias$ | async as mercaderias; else cargando"
+      [listMercaderias]="mercaderias" [pageResponse]="this.pageRes" [pageRequest]="this.pageRequestDefault"
+      (nuevo)="onNuevo()" (visualizar)="onVisualizar($event)" (editar)="onEditar($event)"
+      (eliminar)="onEliminar($event)" (inactivar)="onInactivar($event)">
     </app-mercaderias-lista>
 
     <ng-template #cargando>
