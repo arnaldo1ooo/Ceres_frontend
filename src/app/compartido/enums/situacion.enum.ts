@@ -3,16 +3,15 @@ export enum Situacion {
   INACTIVO = "I"
 }
 
-//Este metodo se listará al listar el enum con Object.values(Enum), utiliza .slice(0, -1) para removerlo
-export namespace Situacion {
-  export function getDescripcion(tipo: Situacion): string {
-    switch (tipo) {
+export class SituacionUtils {
+  public static getDescripcion(situacion: Situacion): string {
+    switch (situacion) {
       case Situacion.ACTIVO:
         return "ACTIVO";
       case Situacion.INACTIVO:
         return "INACTIVO";
       default:
-        return "";
+        return `Valor no reconocido: ${situacion}`;
     }
   }
 }
