@@ -1,5 +1,5 @@
 <div>
-  <mat-table [dataSource]="listMercaderias">
+  <mat-table [dataSource]="listMercaderias" *ngIf="listMercaderias.length > 0; else tablaVacia">
     <!-- Columna id -->
     <ng-container matColumnDef="_id">
       <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
@@ -58,6 +58,11 @@
     <mat-row *matRowDef="let row; columns: columnasAMostrar;"></mat-row>
   </mat-table>
 
+  <ng-template #tablaVacia>
+    <div class="label-tabla-vacia">
+      <mat-label>Sin registros :(</mat-label>
+    </div>
+  </ng-template>
 
   <mat-paginator [length]="this.pageResponse?.totalElements" [pageSizeOptions]="tamanhosPage"
       (page)="onCambiarPage($event)" [showFirstLastButtons]="true">

@@ -12,8 +12,7 @@
 
     <mat-form-field appearance="outline" class="style-input-filtro-descripcion">
       <mat-label>Descripción</mat-label>
-      <input matInput id="filtroDescripcion" type="text"
-        [(ngModel)]="mercaderiaFiltro.descripcion">
+      <input matInput id="filtroDescripcion" type="text" [(ngModel)]="mercaderiaFiltro.descripcion">
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="style-select-filtro-tipo">
@@ -45,14 +44,17 @@
     </mat-form-field>
 
     <button mat-raised-button class="style-button-filtro" (click)="limpiarFiltros()" color="accent">Limpiar</button>
-    <button mat-raised-button class="style-button-filtro" (click)="filtrar()" [disabled]="isFiltrando" color="primary">Filtrar</button>
+    <button mat-raised-button class="style-button-filtro" (click)="filtrar()" [disabled]="isFiltrando"
+      color="primary">Filtrar</button>
   </div>
 
   <div class="column flex mat-elevation-z8">
 
     <!--Pasamos las variables del componente principal al componente lista-->
     <app-mercaderias-lista *ngIf="listMercaderias$ | async as mercaderias; else cargando"
-      [listMercaderias]="mercaderias" [pageResponse]="this.pageRes" [pageRequest]="this.pageRequestDefault"
+      [listMercaderias]="mercaderias"
+      [pageResponse]="this.pageRes"
+      [pageRequest]="this.pageRequestDefault"
       (nuevo)="onNuevo()" (visualizar)="onVisualizar($event)" (editar)="onEditar($event)"
       (eliminar)="onEliminar($event)" (inactivar)="onInactivar($event)">
     </app-mercaderias-lista>
