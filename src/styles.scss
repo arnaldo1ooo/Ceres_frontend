@@ -26,13 +26,15 @@ $tema-custom-dark: mat.define-dark-theme((
 ));
 
 //Se asigna el tema light por default
-@include mat.all-component-themes($tema-custom-light);
+@include angular-material-color($tema-custom-light);
+@include mat.button-theme($tema-custom-light);
 
 
 @media (prefers-color-scheme: dark) { // Aplica el tema dark solo cuando el usuario seleccione temas dark.
   // Use the `-color` mixins to only apply color styles without reapplying the same
   // typography and density styles.
-  @include mat.all-component-themes($tema-custom-dark);
+  @include angular-material-color($tema-custom-dark);
+  @include mat.button-theme($tema-custom-dark);
 }
 
 html, body { height: 100%; }
@@ -44,6 +46,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.label-tabla-vacia {
+  padding-top: 100px;
+  padding-bottom: 100px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 500;  //cuanto valor mas alto, mas negrita quedará
 }
 
 html, body { height: 100%; }
