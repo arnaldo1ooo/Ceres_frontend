@@ -70,6 +70,11 @@ export class MercaderiasComponent implements OnInit {
     this.refrescar(this.pageRequestDefault);
   }
 
+  protected limpiar() {
+    this.limpiarFiltros();
+    this.listMercaderias$ = of([]);
+  }
+
   protected limpiarFiltros() {
     this.mercaderiaFiltro = this.filtroInicial();
   }
