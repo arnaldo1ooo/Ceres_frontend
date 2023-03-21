@@ -4,11 +4,12 @@
 @include mat-core();
 
 
+
 //Tema Light
 $tema-custom-light: mat.define-light-theme((
   color: (primary: mat.define-palette(mat.$indigo-palette, 500), //color, tono "predeterminado", tono "más claro", tono "más oscuro", tono de "texto"
-          accent: mat.define-palette(mat.$blue-palette, A200, A100, A400),
-          warning: mat.define-palette($mat-red)
+          accent: mat.define-palette(mat.$blue-palette),
+          warning: mat.define-palette(mat.$red-palette)
          ),
           /*typography: mat.define-typography-config(),
           density: 0,*/
@@ -26,15 +27,11 @@ $tema-custom-dark: mat.define-dark-theme((
 ));
 
 //Se asigna el tema light por default
-@include angular-material-color($tema-custom-light);
-@include mat.button-theme($tema-custom-light);
+@include mat.all-component-themes($tema-custom-light);
 
-
-@media (prefers-color-scheme: dark) { // Aplica el tema dark solo cuando el usuario seleccione temas dark.
-  // Use the `-color` mixins to only apply color styles without reapplying the same
-  // typography and density styles.
-  @include angular-material-color($tema-custom-dark);
-  @include mat.button-theme($tema-custom-dark);
+.dark-theme {
+  // This mixin only generates the color styles now.
+  @include mat.all-component-colors($tema-custom-dark);
 }
 
 html, body { height: 100%; }
