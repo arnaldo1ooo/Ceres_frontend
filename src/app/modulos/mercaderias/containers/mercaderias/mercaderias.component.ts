@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { finalize, Observable, of } from 'rxjs';
 import {
   DialogoConfirmacionComponent,
 } from 'src/app/compartido/componentes/dialogo-confirmacion/dialogo-confirmacion/dialogo-confirmacion.component';
@@ -26,7 +26,7 @@ import { Page } from './../../model/mercaderia';
 })
 export class MercaderiasComponent implements OnInit {
 
-  protected listMercaderias$: Observable<Mercaderia[]> = of([]); //El $ indica que es Observable, se inicializa con array vacio
+  protected listMercaderias$: Observable<Mercaderia[]> | null = of([]); //El $ indica que es Observable, se inicializa con array vacio, acepta Observable o null
   protected listaTiposMercaderia = Object.values(TipoMercaderia);
   protected listaSucursales: any;
   protected listaSituaciones = Object.values(Situacion);
@@ -34,6 +34,7 @@ export class MercaderiasComponent implements OnInit {
   protected situacionUtils = SituacionUtils;
   protected pageRes: Page | undefined;
   protected mercaderiaFiltro: MercaderiaFiltro = this.filtroInicial();
+  protected isFiltrando: boolean = false;
 
   //Inicializamos el pageRequest default, seria la paginacion inicial
   pageRequestDefault: PageRequest = {
@@ -146,13 +147,19 @@ export class MercaderiasComponent implements OnInit {
   }
 
   protected listarMercaderiasPage(mercaderiaFiltro: MercaderiaFiltro, pageRequest: PageRequest) {
+    this.isFiltrando = true;
+    this.listMercaderias$ = null; //Dejar la lista en undefined, para que muestre el componente cargando
+
     this.mercaderiasService.listarTodosMercaderiasFiltroPage(mercaderiaFiltro, pageRequest)
+      .pipe(finalize(() => {  //Se ejecuta al finalizar el subscribe
+        this.isFiltrando = false;
+      }))
       .subscribe({
-        next: (respuesta) => {
+        next: respuesta => {
           this.pageRes = respuesta;
-          this.listMercaderias$ = of(this.pageRes!.content);  //of convierte a Observable
+          this.listMercaderias$ = of(this.pageRes!.content);  //of convierte a Observables
         },
-        error: (err) => {
+        error: err => {
           this.listMercaderias$ = of([]); //Se asigna una lista vacia, para que el componente cargando se detenga
           this.abrirDialogoError('Error al cargar lista de Mercaderias');
         }
