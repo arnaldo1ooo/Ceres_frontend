@@ -1,5 +1,3 @@
-import { Observable } from 'rxjs';
-import { Sucursal } from './../../../sucursales/model/sucursal';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
@@ -57,14 +55,18 @@ export class MercaderiaFormComponent implements OnInit {
     this.listaSucursales = this.listarSucursales();
     this.verificarModo();
 
-    const mercaderia: Mercaderia = this.ruta.snapshot.data['mercaderia'];  //Obtiene el objeto filial del resolver
+    const mercaderia: Mercaderia = this.ruta.snapshot.data['mercaderia'];  //Obtiene el objeto del resolver
 
     this.formMercaderia.setValue({ //Setamos los datos para que aparezca al editar
       _id: mercaderia._id,
       descripcion: mercaderia.descripcion,
-      tipo: mercaderia.tipo,
+      tipo: HelpersService.isNoNuloYNoVacio(mercaderia.tipo)
+                  ? TipoMercaderiaUtils.getTipoMercaderiaPorDescripcion(mercaderia.tipo)
+                  : '',
       sucursal: mercaderia.sucursal,
-      situacion: HelpersService.isNoNuloYNoVacio(mercaderia.situacion) ? mercaderia.situacion : Situacion.ACTIVO //Se pone por default Activo
+      situacion: HelpersService.isNoNuloYNoVacio(mercaderia.situacion)
+                  ? SituacionUtils.getSituacionPorDescripcion(mercaderia.situacion)
+                  : Situacion.ACTIVO //Se pone por default Activo
     });
   }
 

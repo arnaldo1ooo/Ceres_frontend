@@ -14,4 +14,17 @@ export class OrdenUtils {
         return `Valor no reconocido: ${orden}`;
     }
   }
+
+  public static getOrdenPorDescripcion(descripcion: string): Orden | string {
+    const ordenes = Object.values(Orden);
+
+    for (let i in ordenes) {
+      if (this.getDescripcion(ordenes[i]) == descripcion) {
+        return ordenes[i];
+      }
+    }
+
+    return `Valor no reconocido: ${descripcion}`;
+  }
+
 }

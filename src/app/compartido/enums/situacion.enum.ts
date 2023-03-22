@@ -14,5 +14,17 @@ export class SituacionUtils {
         return `Valor no reconocido: ${situacion}`;
     }
   }
+
+  public static getSituacionPorDescripcion(descripcion: string): Situacion | string {
+    const situaciones = Object.values(Situacion);
+
+    for (let i in situaciones) {
+      if (this.getDescripcion(situaciones[i]) == descripcion) {
+        return situaciones[i];
+      }
+    }
+
+    return `Valor no reconocido: ${descripcion}`;
+  }
 }
 

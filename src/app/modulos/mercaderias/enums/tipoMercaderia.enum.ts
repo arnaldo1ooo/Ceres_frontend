@@ -14,4 +14,17 @@ export class TipoMercaderiaUtils {
         return `Valor no reconocido: ${tipoMercaderia}`;
     }
   }
+
+  public static getTipoMercaderiaPorDescripcion(descripcion: string): TipoMercaderia | string {
+    const tiposMercaderia = Object.values(TipoMercaderia);
+
+    for (let i in tiposMercaderia) {
+      if (this.getDescripcion(tiposMercaderia[i]) == descripcion) {
+        return tiposMercaderia[i];
+      }
+    }
+
+    return `Valor no reconocido: ${descripcion}`;
+  }
+
 }
