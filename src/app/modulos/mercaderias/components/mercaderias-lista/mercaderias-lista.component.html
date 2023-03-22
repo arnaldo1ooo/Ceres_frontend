@@ -1,33 +1,33 @@
 <div>
-  <mat-table [dataSource]="listMercaderias" *ngIf="listMercaderias.length > 0; else tablaVacia">
+  <mat-table [dataSource]="listMercaderias">
     <!-- Columna id -->
     <ng-container matColumnDef="_id">
-      <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
-      <mat-cell *matCellDef="let mercaderia"> {{ mercaderia._id }} </mat-cell>
+      <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
+      <mat-cell *matCellDef="let mercaderia">{{mercaderia._id}}</mat-cell>
     </ng-container>
 
     <!-- Columna descripcion -->
     <ng-container matColumnDef="descripcion">
-      <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
-      <mat-cell *matCellDef="let mercaderia"> {{ mercaderia.descripcion }} </mat-cell>
+      <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+      <mat-cell *matCellDef="let mercaderia">{{mercaderia.descripcion}}</mat-cell>
     </ng-container>
 
     <!-- Columna tipo -->
     <ng-container matColumnDef="tipo">
-      <mat-header-cell *matHeaderCellDef> Tipo </mat-header-cell>
-      <mat-cell *matCellDef="let mercaderia"> {{ mercaderia.tipo }} </mat-cell>
+      <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
+      <mat-cell *matCellDef="let mercaderia">{{mercaderia.tipo}}</mat-cell>
     </ng-container>
 
     <!-- Columna sucursal -->
     <ng-container matColumnDef="sucursal">
-      <mat-header-cell *matHeaderCellDef> Sucursal </mat-header-cell>
-      <mat-cell *matCellDef="let mercaderia"> {{ mercaderia.sucursal.nombre }} </mat-cell>
+      <mat-header-cell *matHeaderCellDef>Sucursal</mat-header-cell>
+      <mat-cell *matCellDef="let mercaderia">{{mercaderia.sucursal.nombre}}</mat-cell>
     </ng-container>
 
     <!-- Columna situacion -->
     <ng-container matColumnDef="situacion">
-      <mat-header-cell *matHeaderCellDef> Situación </mat-header-cell>
-      <mat-cell *matCellDef="let mercaderia"> {{ mercaderia.situacion }} </mat-cell>
+      <mat-header-cell *matHeaderCellDef>Situación</mat-header-cell>
+      <mat-cell *matCellDef="let mercaderia">{{mercaderia.situacion}}</mat-cell>
     </ng-container>
 
     <!-- Columna Acciones -->
@@ -51,20 +51,20 @@
           <mat-icon>delete</mat-icon>
         </button>
       </mat-cell>
-
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="columnasAMostrar"></mat-header-row>
     <mat-row *matRowDef="let row; columns: columnasAMostrar;"></mat-row>
+
   </mat-table>
 
-  <ng-template #tablaVacia>
-    <div class="label-tabla-vacia">
-      <mat-label>Sin registros :(</mat-label>
-    </div>
-  </ng-template>
+  <!--Mostrar mensaje sin registros caso cantidad de registros de datasource sea igual a 0-->
+  <div *ngIf="listMercaderias.length == 0" class="label-tabla-vacia">
+    <mat-label>Sin registros :(</mat-label>
+  </div>
 
+  <!--Paginador-->
   <mat-paginator [length]="this.pageResponse?.totalElements" [pageSizeOptions]="tamanhosPage"
-      (page)="onCambiarPage($event)" [showFirstLastButtons]="true">
+    (page)="onCambiarPage($event)" [showFirstLastButtons]="true">
   </mat-paginator>
 </div>
