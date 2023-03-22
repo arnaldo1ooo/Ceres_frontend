@@ -28,9 +28,7 @@ export class MercaderiasListaComponent implements OnInit {
   readonly columnasAMostrar = ['_id', 'descripcion', 'tipo', 'sucursal', 'situacion', 'acciones'];
   tamanhosPage = [10, 20, 50];
 
-  constructor(
-    private ruta: Router,
-    private rutaActual: ActivatedRoute, private mercaderiasComponent: MercaderiasComponent) { }
+  constructor(private mercaderiasComponent: MercaderiasComponent) { }
 
   ngOnInit(): void {
 

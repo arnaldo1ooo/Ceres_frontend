@@ -64,7 +64,7 @@
   </div>
 
   <!--Paginador-->
-  <mat-paginator [length]="this.pageResponse?.totalElements" [pageSizeOptions]="tamanhosPage"
+  <mat-paginator [length]="this.pageResponse?.totalElements" [pageSizeOptions]="tamanhosPage" [pageSize]="this.pageResponse?.size"
     (page)="onCambiarPage($event)" [showFirstLastButtons]="true">
   </mat-paginator>
 </div>

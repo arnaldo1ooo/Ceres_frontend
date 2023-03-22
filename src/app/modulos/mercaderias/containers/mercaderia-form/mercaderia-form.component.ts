@@ -1,7 +1,7 @@
+import { AvisoHelpersService } from './../../../../compartido/services/aviso-helpers.service';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Situacion, SituacionUtils } from 'src/app/compartido/enums/situacion.enum';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
@@ -23,7 +23,7 @@ export class MercaderiaFormComponent implements OnInit {
   public tipoMercaderiaUtils = TipoMercaderiaUtils;
   public situacionUtils = SituacionUtils;
 
-  public formMercaderia = this.formBuilder.group({
+  public formMercaderia = this._formBuilder.group({
     _id: [''],  //Sirve para el modo editar
     descripcion: ['', [
       Validators.required, //Los validators sirven para agregar validaciones al campo
@@ -42,12 +42,12 @@ export class MercaderiaFormComponent implements OnInit {
   });
 
   constructor(
-    private formBuilder: NonNullableFormBuilder,
-    private mercaderiaService: MercaderiasService,
-    private snackBar: MatSnackBar,
-    private location: Location,
-    private ruta: ActivatedRoute,
-    private sucursalService: SucursalesService) {
+    private _formBuilder: NonNullableFormBuilder,
+    private _mercaderiaService: MercaderiasService,
+    private _location: Location,
+    private _ruta: ActivatedRoute,
+    private _sucursalService: SucursalesService,
+    private _avisoHelpersService: AvisoHelpersService) {
 
   }
 
@@ -55,7 +55,7 @@ export class MercaderiaFormComponent implements OnInit {
     this.listaSucursales = this.listarSucursales();
     this.verificarModo();
 
-    const mercaderia: Mercaderia = this.ruta.snapshot.data['mercaderia'];  //Obtiene el objeto del resolver
+    const mercaderia: Mercaderia = this._ruta.snapshot.data['mercaderia'];  //Obtiene el objeto del resolver
 
     this.formMercaderia.setValue({ //Setamos los datos para que aparezca al editar
       _id: mercaderia._id,
@@ -71,21 +71,21 @@ export class MercaderiaFormComponent implements OnInit {
   }
 
   onGuardar() {
-    this.mercaderiaService.guardar(this.formMercaderia.value)
+    this._mercaderiaService.guardar(this.formMercaderia.value)
       .subscribe(resultado => this.onExito(), error => this.onError());
   }
 
   onCancelar() {
-    this.location.back(); //Para que retroceda de pagina
+    this._location.back(); //Para que retroceda de pagina
   }
 
   private onExito() {
-    this.snackBar.open('Mercaderia guardado con exito!', '', { duration: 4000 });  //Mensaje cuando salva correctamente
+    this._avisoHelpersService.mostrarMensaje('Mercaderia guardado con exito!', '', 4000);  //Mensaje cuando salva correctamente
     this.onCancelar(); //Para que vuelva atras
   }
 
   private onError() {
-    this.snackBar.open('Error al guardar mercaderia', '', { duration: 4000 });  //Mensaje cuando da error
+    this._avisoHelpersService.mostrarMensaje('Error al guardar mercaderia', '', 4000); //Mensaje cuando da error
   }
 
   protected compararById(opcion: any, opcionRecibida: any): boolean {
@@ -119,11 +119,11 @@ export class MercaderiaFormComponent implements OnInit {
   }
 
   public isModoVisualizar(): boolean {
-    return HelpersService.isModoVisualizar(this.ruta.snapshot.routeConfig?.path);
+    return HelpersService.isModoVisualizar(this._ruta.snapshot.routeConfig?.path);
   }
 
   private listarSucursales() { //Cargamos la lista de sucursales para mostrar en el dropdown
-    this.sucursalService.listarTodosSucursales().subscribe((respuesta: any) => {
+    this._sucursalService.listarTodosSucursales().subscribe((respuesta: any) => {
       this.listaSucursales = respuesta;
     })
   }
