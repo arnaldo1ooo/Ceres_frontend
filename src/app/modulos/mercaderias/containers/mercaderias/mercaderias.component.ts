@@ -45,12 +45,12 @@ export class MercaderiasComponent implements OnInit {
   };
 
   constructor(
-    private mercaderiasService: MercaderiasService,
+    private _mercaderiasService: MercaderiasService,
     public dialog: MatDialog,
-    private ruta: Router,
-    private rutaActual: ActivatedRoute,
-    private alertaSnackBar: MatSnackBar,
-    private sucursalService: SucursalesService) {
+    private _ruta: Router,
+    private _rutaActual: ActivatedRoute,
+    private _alertaSnackBar: MatSnackBar,
+    private _sucursalService: SucursalesService) {
 
   }
 
@@ -96,15 +96,15 @@ export class MercaderiasComponent implements OnInit {
   }
 
   protected onNuevo() {
-    this.ruta.navigate(['nuevo'], { relativeTo: this.rutaActual }); //Para que navegue a esa direccion
+    this._ruta.navigate(['nuevo'], { relativeTo: this._rutaActual }); //Para que navegue a esa direccion
   }
 
   protected onVisualizar(mercaderia: Mercaderia) {
-    this.ruta.navigate(['visualizar', mercaderia._id], { relativeTo: this.rutaActual });
+    this._ruta.navigate(['visualizar', mercaderia._id], { relativeTo: this._rutaActual });
   }
 
   protected onEditar(mercaderia: Mercaderia) {
-    this.ruta.navigate(['editar', mercaderia._id], { relativeTo: this.rutaActual }); //Navega a esa direccion con los datos del filial
+    this._ruta.navigate(['editar', mercaderia._id], { relativeTo: this._rutaActual }); //Navega a esa direccion con los datos del filial
   }
 
   protected onEliminar(mercaderia: Mercaderia) {
@@ -114,10 +114,10 @@ export class MercaderiasComponent implements OnInit {
 
     dialogoRef.afterClosed().subscribe((respuesta: boolean) => {
       if (respuesta) {
-        this.mercaderiasService.eliminar(mercaderia._id).subscribe(
+        this._mercaderiasService.eliminar(mercaderia._id).subscribe(
           () => {
             this.refrescar(this.pageRequestDefault);
-            this.alertaSnackBar.open('Mercaderia eliminado con suceso!', 'X', {
+            this._alertaSnackBar.open('Mercaderia eliminado con suceso!', 'X', {
               duration: 5000,
               verticalPosition: 'top',
               horizontalPosition: 'center'
@@ -136,10 +136,10 @@ export class MercaderiasComponent implements OnInit {
 
     dialogoRef.afterClosed().subscribe((respuesta: boolean) => {
       if (respuesta) {
-        this.mercaderiasService.inactivar(mercaderia._id).subscribe(
+        this._mercaderiasService.inactivar(mercaderia._id).subscribe(
           () => {
             this.refrescar(this.pageRequestDefault);
-            this.alertaSnackBar.open('Mercaderia inactivado con suceso!', 'X', {
+            this._alertaSnackBar.open('Mercaderia inactivado con suceso!', 'X', {
               duration: 5000,
               verticalPosition: 'top',
               horizontalPosition: 'center'
@@ -153,9 +153,9 @@ export class MercaderiasComponent implements OnInit {
 
   protected listarMercaderiasPage(mercaderiaFiltro: MercaderiaFiltro, pageRequest: PageRequest) {
     this.isFiltrando = true;
-    this.listMercaderias$ = null; //Dejar la lista en undefined, para que muestre el componente cargando
+    this.listMercaderias$ = null; //Dejar la lista en null, para que muestre el componente cargando
 
-    this.mercaderiasService.listarTodosMercaderiasFiltroPage(mercaderiaFiltro, pageRequest)
+    this._mercaderiasService.listarTodosMercaderiasFiltroPage(mercaderiaFiltro, pageRequest)
       .pipe(finalize(() => {  //Se ejecuta al finalizar el subscribe
         this.isFiltrando = false;
       }))
@@ -176,7 +176,7 @@ export class MercaderiasComponent implements OnInit {
   }
 
   private listarSucursales() { //Cargamos la lista de sucursales para mostrar en el dropdown
-    this.sucursalService.listarTodosSucursales().subscribe((respuesta: any) => {
+    this._sucursalService.listarTodosSucursales().subscribe((respuesta: any) => {
       this.listaSucursales = respuesta;
     })
   }
