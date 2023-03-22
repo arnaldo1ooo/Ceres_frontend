@@ -57,10 +57,12 @@ export class MercaderiasListaComponent implements OnInit {
   }
 
   onCambiarPage(event: PageEvent) {
-    this.pageRequest.pagina = event.pageIndex; //Asignamos el numero de pagina
-    this.pageRequest.tamanho = event.pageSize;  //Asignamos el tamaño de las paginas
+    if(this.listMercaderias.length > 0) {
+      this.pageRequest.pagina = event.pageIndex; //Asignamos el numero de pagina
+      this.pageRequest.tamanho = event.pageSize;  //Asignamos el tamaño de las paginas
 
-    this.mercaderiasComponent.refrescar(this.pageRequest);
+      this.mercaderiasComponent.refrescar(this.pageRequest);
+    }
   }
 
 }
