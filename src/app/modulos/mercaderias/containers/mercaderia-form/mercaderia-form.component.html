@@ -8,7 +8,7 @@
         <mat-label>Descripción</mat-label>
         <input matInput formControlName="descripcion" #descripcion>
         <mat-hint align="end">{{ descripcion.value.length || 0 }} / 100</mat-hint> <!--Requiere poner #descripcion-->
-        <mat-error *ngIf="formMercaderia.get('descripcion') ?.invalid">{{ getMensajeError('descripcion') }}</mat-error> <!--verifica validaciones, invalid evita error con null o valor invalido-->
+        <mat-error *ngIf="formMercaderia.get('descripcion')?.invalid">{{getMensajeError('descripcion')}}</mat-error> <!--verifica validaciones, invalid evita error con null o valor invalido-->
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="anchura-maxima">
@@ -19,7 +19,7 @@
             {{tipoMercaderiaUtils.getDescripcion(tipoMercaderia)}}
           </mat-option>
         </mat-select>
-        <mat-error *ngIf="formMercaderia.get('tipo') ?.invalid">{{ getMensajeError('tipo') }}</mat-error>
+        <mat-error *ngIf="formMercaderia.get('tipo')?.invalid">{{getMensajeError('tipo')}}</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="anchura-maxima">
@@ -28,7 +28,7 @@
           <mat-option disabled selected value="">Seleccione una sucursal</mat-option>
           <mat-option *ngFor="let sucursal of listaSucursales" [value]="sucursal">{{sucursal.id}} - {{sucursal.nombre}}</mat-option>
         </mat-select>
-        <mat-error *ngIf="formMercaderia.get('sucursal') ?.invalid">{{ getMensajeError('sucursal') }}</mat-error>
+        <mat-error *ngIf="formMercaderia.get('sucursal')?.invalid">{{getMensajeError('sucursal')}}</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="anchura-maxima">
@@ -38,7 +38,7 @@
             {{situacionUtils.getDescripcion(situacion)}}
           </mat-option>
         </mat-select>
-        <mat-error *ngIf="formMercaderia.get('situacion') ?.invalid">{{ getMensajeError('situacion') }}</mat-error>
+        <mat-error *ngIf="formMercaderia.get('situacion')?.invalid">{{getMensajeError('situacion')}}</mat-error>
       </mat-form-field>
 
     </form>

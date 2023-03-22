@@ -1,4 +1,3 @@
-import { AvisoHelpersService } from './../../../../compartido/services/aviso-helpers.service';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
@@ -10,6 +9,8 @@ import { SucursalesService } from 'src/app/modulos/sucursales/services/sucursale
 import { TipoMercaderia, TipoMercaderiaUtils } from '../../enums/tipoMercaderia.enum';
 import { Mercaderia } from '../../model/mercaderia';
 import { MercaderiasService } from '../../services/mercaderias.service';
+import { AvisoHelpersService } from './../../../../compartido/services/aviso-helpers.service';
+import { ErrorHelpersService } from './../../../../compartido/services/error-helpers.service';
 
 @Component({
   selector: 'app-mercaderia-form',
@@ -61,18 +62,24 @@ export class MercaderiaFormComponent implements OnInit {
       _id: mercaderia._id,
       descripcion: mercaderia.descripcion,
       tipo: HelpersService.isNoNuloYNoVacio(mercaderia.tipo)
-                  ? TipoMercaderiaUtils.getTipoMercaderiaPorDescripcion(mercaderia.tipo)
-                  : '',
+        ? TipoMercaderiaUtils.getTipoMercaderiaPorDescripcion(mercaderia.tipo)
+        : '',
       sucursal: mercaderia.sucursal,
       situacion: HelpersService.isNoNuloYNoVacio(mercaderia.situacion)
-                  ? SituacionUtils.getSituacionPorDescripcion(mercaderia.situacion)
-                  : Situacion.ACTIVO //Se pone por default Activo
+        ? SituacionUtils.getSituacionPorDescripcion(mercaderia.situacion)
+        : Situacion.ACTIVO //Se pone por default Activo
     });
   }
 
   onGuardar() {
-    this._mercaderiaService.guardar(this.formMercaderia.value)
+    if(this.formMercaderia.valid) { //Verifica los validators de cada campo del form
+      this._mercaderiaService.guardar(this.formMercaderia.value)
       .subscribe(resultado => this.onExito(), error => this.onError());
+    }
+    else {
+      this.formMercaderia.markAllAsTouched(); //Marca todos los campos invalidos
+      this._avisoHelpersService.mostrarMensaje('Hay datos inválidos en el formulario', '', 4000);
+    }
   }
 
   onCancelar() {
@@ -94,22 +101,7 @@ export class MercaderiaFormComponent implements OnInit {
 
   public getMensajeError(nombreCampo: string) {
     const campo = this.formMercaderia.get(nombreCampo); //Obtenemos el elemento
-
-    if (campo?.hasError('required')) { //En ?.hasError ya valida si es nulo
-      return 'Campo obligatorio';
-    }
-
-    if (campo?.hasError('minlength')) {
-      const minCaracteres = campo.errors ? campo.errors['minlength']['requiredLength'] : 3; //Se obtiene el minimo requerido
-      return `Tamaño mínimo es de ${minCaracteres} carácteres`;
-    }
-
-    if (campo?.hasError('maxlength')) {
-      const maxCaracteres = campo.errors ? campo.errors['maxlength']['requiredLength'] : 100; //Se obtiene el minimo requerido
-      return `Tamaño máximo es de ${maxCaracteres} carácteres`;
-    }
-
-    return 'Campo inválido';
+    return ErrorHelpersService.verificarMensajeError(campo);
   }
 
   public verificarModo() {

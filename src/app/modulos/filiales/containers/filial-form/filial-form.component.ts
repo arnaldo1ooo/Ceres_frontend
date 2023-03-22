@@ -1,3 +1,5 @@
+import { AvisoHelpersService } from './../../../../compartido/services/aviso-helpers.service';
+import { ErrorHelpersService } from './../../../../compartido/services/error-helpers.service';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
@@ -19,7 +21,7 @@ export class FilialFormComponent implements OnInit {
   listaSucursales: any;
   listaSituaciones = Object.values(Situacion);
 
-  formFilial = this.formBuilder.group({
+  formFilial = this._formBuilder.group({
     _id: [''],  //Sirve para el modo editar
     nombre: ['', [
       Validators.required, //Los validators sirven para agregar validaciones al campo
@@ -35,12 +37,13 @@ export class FilialFormComponent implements OnInit {
   });
 
   constructor(
-    private formBuilder: NonNullableFormBuilder,
-    private filialService: FilialesService,
-    private snackBar: MatSnackBar,
-    private location: Location,
-    private ruta: ActivatedRoute,
-    private sucursalService: SucursalesService) {
+    private _formBuilder: NonNullableFormBuilder,
+    private _filialService: FilialesService,
+    private _snackBar: MatSnackBar,
+    private _location: Location,
+    private _ruta: ActivatedRoute,
+    private _sucursalService: SucursalesService,
+    private _avisoHelpersService: AvisoHelpersService) {
 
   }
 
@@ -48,7 +51,7 @@ export class FilialFormComponent implements OnInit {
     this.cargarDropDownSucursal();
     this.verificarModo();
 
-    const filial: Filial = this.ruta.snapshot.data['filial'];  //Obtiene el objeto filial del resolver
+    const filial: Filial = this._ruta.snapshot.data['filial'];  //Obtiene el objeto filial del resolver
 
     this.formFilial.setValue({ //Setamos los datos del filial para que aparezca al editar
       _id: filial._id,
@@ -59,25 +62,31 @@ export class FilialFormComponent implements OnInit {
   }
 
   onGuardar() {
-    this.filialService.guardar(this.formFilial.value)
+    if(this.formFilial.valid) { //Verifica los validators de cada campo del form
+      this._filialService.guardar(this.formFilial.value)
       .subscribe(resultado => this.onExito(), error => this.onError());
+    }
+    else {
+      this.formFilial.markAllAsTouched(); //Marca todos los campos invalidos
+      this._avisoHelpersService.mostrarMensaje('Hay datos inválidos en el formulario', '', 4000);
+    }
   }
 
   onCancelar() {
-    this.location.back(); //Para que retroceda de pagina
+    this._location.back(); //Para que retroceda de pagina
   }
 
   private onExito() {
-    this.snackBar.open('Filial guardado con exito!', '', { duration: 4000 });  //Mensaje cuando salva correctamente
+    this._avisoHelpersService.mostrarMensaje('Filial guardado con exito!', '', 4000)
     this.onCancelar(); //Para que vuelva atras
   }
 
   private onError() {
-    this.snackBar.open('Error al guardar filial', '', { duration: 4000 });  //Mensaje cuando da error
+    this._avisoHelpersService.mostrarMensaje('Error al guardar filial', '', 4000);
   }
 
   private cargarDropDownSucursal() {
-    this.sucursalService.listarTodosSucursales().subscribe((lista: any) => {  //Cargamos la lista de sucursales para mostrar en el dropdown
+    this._sucursalService.listarTodosSucursales().subscribe((lista: any) => {  //Cargamos la lista de sucursales para mostrar en el dropdown
       this.listaSucursales = lista;
     })
   }
@@ -88,22 +97,7 @@ export class FilialFormComponent implements OnInit {
 
   public getMensajeError(nombreCampo: string) {
     const campo = this.formFilial.get(nombreCampo); //Obtenemos el elemento
-
-    if (campo ?.hasError('required')) { //En ?.hasError ya valida si es nulo
-      return 'Campo obligatorio';
-    }
-
-    if (campo ?.hasError('minlength')) {
-      const minCaracteres = campo.errors ? campo.errors['minlength']['requiredLength'] : 3; //Se obtiene el minimo requerido
-      return `Tamaño mínimo es de ${minCaracteres} carácteres`;
-    }
-
-    if (campo ?.hasError('maxlength')) {
-      const maxCaracteres = campo.errors ? campo.errors['maxlength']['requiredLength'] : 100; //Se obtiene el minimo requerido
-      return `Tamaño máximo es de ${maxCaracteres} carácteres`;
-    }
-
-    return 'Campo inválido';
+    ErrorHelpersService.verificarMensajeError(campo);
   }
 
   public verificarModo() {
@@ -113,7 +107,7 @@ export class FilialFormComponent implements OnInit {
   }
 
   public isModoVisualizar(): boolean {
-    return HelpersService.isModoVisualizar(this.ruta.snapshot.routeConfig?.path);
+    return HelpersService.isModoVisualizar(this._ruta.snapshot.routeConfig?.path);
   }
 
 
