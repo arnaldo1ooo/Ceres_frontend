@@ -41,7 +41,7 @@ export class MercaderiasComponent implements OnInit {
     pagina: 0,
     tamanho: 10,
     ordenarPor: 'id',
-    orden: Orden.ASCENDENTE
+    orden: Orden.DESCENDENTE
   };
 
   constructor(
@@ -56,6 +56,7 @@ export class MercaderiasComponent implements OnInit {
 
   ngOnInit(): void {
     this.listarSucursales();
+    this.filtrar();
   }
 
   protected abrirDialogoError(msgError: string) {
