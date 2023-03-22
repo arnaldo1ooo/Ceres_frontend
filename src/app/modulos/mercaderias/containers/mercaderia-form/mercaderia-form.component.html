@@ -16,7 +16,7 @@
         <mat-select formControlName="tipo">
           <mat-option disabled selected value="">Seleccione un tipo de mercadería</mat-option>
           <mat-option *ngFor="let tipoMercaderia of listaTiposMercaderia" [value]="tipoMercaderia">
-            {{tipoMercaderiaUtils.getDescripcion(tipoMercaderia)}}
+            {{tipoMercaderia | tipoMercaderiaPipe}}
           </mat-option>
         </mat-select>
         <mat-error *ngIf="formMercaderia.get('tipo')?.invalid">{{getMensajeError('tipo')}}</mat-error>
@@ -35,7 +35,7 @@
         <mat-label>Situación</mat-label>
         <mat-select formControlName="situacion">
           <mat-option *ngFor="let situacion of listaSituaciones" [value]="situacion">
-            {{situacionUtils.getDescripcion(situacion)}}
+            {{situacion | situacionPipe}}
           </mat-option>
         </mat-select>
         <mat-error *ngIf="formMercaderia.get('situacion')?.invalid">{{getMensajeError('situacion')}}</mat-error>

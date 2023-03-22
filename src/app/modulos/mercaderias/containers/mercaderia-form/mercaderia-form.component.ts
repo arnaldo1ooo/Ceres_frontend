@@ -2,11 +2,11 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Situacion, SituacionUtils } from 'src/app/compartido/enums/situacion.enum';
+import { Situacion } from 'src/app/compartido/enums/situacion.enum';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { SucursalesService } from 'src/app/modulos/sucursales/services/sucursales.service';
 
-import { TipoMercaderia, TipoMercaderiaUtils } from '../../enums/tipoMercaderia.enum';
+import { TipoMercaderia } from '../../enums/tipoMercaderia.enum';
 import { Mercaderia } from '../../model/mercaderia';
 import { MercaderiasService } from '../../services/mercaderias.service';
 import { AvisoHelpersService } from './../../../../compartido/services/aviso-helpers.service';
@@ -21,8 +21,6 @@ export class MercaderiaFormComponent implements OnInit {
   public listaTiposMercaderia = Object.values(TipoMercaderia);
   public listaSucursales: any;
   public listaSituaciones = Object.values(Situacion);
-  public tipoMercaderiaUtils = TipoMercaderiaUtils;
-  public situacionUtils = SituacionUtils;
 
   public formMercaderia = this._formBuilder.group({
     _id: [''],  //Sirve para el modo editar
@@ -61,28 +59,26 @@ export class MercaderiaFormComponent implements OnInit {
     this.formMercaderia.setValue({ //Setamos los datos para que aparezca al editar
       _id: mercaderia._id,
       descripcion: mercaderia.descripcion,
-      tipo: HelpersService.isNoNuloYNoVacio(mercaderia.tipo)
-        ? TipoMercaderiaUtils.getTipoMercaderiaPorDescripcion(mercaderia.tipo)
-        : '',
+      tipo: mercaderia.tipo,
       sucursal: mercaderia.sucursal,
       situacion: HelpersService.isNoNuloYNoVacio(mercaderia.situacion)
-        ? SituacionUtils.getSituacionPorDescripcion(mercaderia.situacion)
-        : Situacion.ACTIVO //Se pone por default Activo
+                  ? mercaderia.situacion
+                  : Situacion.ACTIVO //Se pone por default Activo
     });
   }
 
-  onGuardar() {
+  public onGuardar() {
     if(this.formMercaderia.valid) { //Verifica los validators de cada campo del form
       this._mercaderiaService.guardar(this.formMercaderia.value)
       .subscribe(resultado => this.onExito(), error => this.onError());
     }
     else {
       this.formMercaderia.markAllAsTouched(); //Marca todos los campos invalidos
-      this._avisoHelpersService.mostrarMensaje('Hay datos inválidos en el formulario', '', 4000);
+      this._avisoHelpersService.mostrarMensajeDatosInvalidosForm();
     }
   }
 
-  onCancelar() {
+  public onCancelar() {
     this._location.back(); //Para que retroceda de pagina
   }
 

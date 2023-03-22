@@ -61,18 +61,18 @@ export class FilialFormComponent implements OnInit {
     });
   }
 
-  onGuardar() {
+  public onGuardar() {
     if(this.formFilial.valid) { //Verifica los validators de cada campo del form
       this._filialService.guardar(this.formFilial.value)
       .subscribe(resultado => this.onExito(), error => this.onError());
     }
     else {
       this.formFilial.markAllAsTouched(); //Marca todos los campos invalidos
-      this._avisoHelpersService.mostrarMensaje('Hay datos inválidos en el formulario', '', 4000);
+      this._avisoHelpersService.mostrarMensajeDatosInvalidosForm();
     }
   }
 
-  onCancelar() {
+  public onCancelar() {
     this._location.back(); //Para que retroceda de pagina
   }
 

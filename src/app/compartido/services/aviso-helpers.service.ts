@@ -12,4 +12,8 @@ export class AvisoHelpersService {
   public mostrarMensaje(mensaje: string, accion: string, duracion: number) {
     return this._snackBar.open(mensaje, accion, { duration: duracion });
   }
+
+  public mostrarMensajeDatosInvalidosForm() {
+    this.mostrarMensaje('Hay datos inválidos en el formulario', '', 4000);
+  }
 }

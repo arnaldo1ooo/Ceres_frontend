@@ -8,14 +8,12 @@ import {
 import { DialogoErrorComponent } from './componentes/dialogo-error/dialogo-error.component';
 import { MiSidenavComponent } from './componentes/mi-sidenav/mi-sidenav.component';
 import { MaterialModulosModule } from './material-modulos/material-modulos.module';
-import { CategoriaPipe } from './pipes/categoria.pipe';
 import { SituacionPipe } from './pipes/situacion.pipe';
 
 
 @NgModule({
   declarations: [
     DialogoErrorComponent,
-    CategoriaPipe,
     DialogoConfirmacionComponent,
     SituacionPipe,
     MiSidenavComponent,

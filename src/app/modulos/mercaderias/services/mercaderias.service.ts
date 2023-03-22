@@ -1,3 +1,4 @@
+import { TipoMercaderiaUtils } from './../enums/tipoMercaderia.enum';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { MercaderiaFiltro } from './../model/mercaderiaFiltro';
 import { Page } from './../model/mercaderia';
@@ -7,6 +8,7 @@ import { delay, first, Observable, tap } from 'rxjs';
 
 import { Mercaderia } from '../model/mercaderia';
 import { PageRequest } from 'src/app/compartido/interfaces/page-request';
+import { TipoMercaderia } from '../enums/tipoMercaderia.enum';
 
 @Injectable({
   providedIn: 'root'
