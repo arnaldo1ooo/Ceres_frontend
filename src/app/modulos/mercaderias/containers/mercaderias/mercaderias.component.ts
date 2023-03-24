@@ -32,12 +32,12 @@ export class MercaderiasComponent implements OnInit {
   protected listaSituaciones = Object.values(Situacion);
   protected tipoMercaderiaUtils = TipoMercaderiaUtils;
   protected situacionUtils = SituacionUtils;
-  protected pageRes: Page | undefined;
   protected mercaderiaFiltro: MercaderiaFiltro = this.filtroInicial();
   protected isFiltrando: boolean = false;
+  protected pageRes: Page | undefined;
 
   //Inicializamos el pageRequest default, seria la paginacion inicial
-  pageRequestDefault: PageRequest = {
+  protected pageRequestDefault: PageRequest = {
     pagina: 0,
     tamanho: 10,
     ordenarPor: 'id',
@@ -46,7 +46,7 @@ export class MercaderiasComponent implements OnInit {
 
   constructor(
     private _mercaderiasService: MercaderiasService,
-    public dialog: MatDialog,
+    protected dialog: MatDialog,
     private _ruta: Router,
     private _rutaActual: ActivatedRoute,
     private _alertaSnackBar: MatSnackBar,

@@ -1,6 +1,6 @@
 import { MercaderiaFiltro } from './../../model/mercaderiaFiltro';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 
@@ -18,17 +18,20 @@ export class MercaderiasListaComponent implements OnInit {
 
   @Input() listMercaderias: Mercaderia[] = [];
   @Input() pageResponse: Page | undefined;
-  @Input() pageRequest!: PageRequest;
+  @Input() pageRequest!: PageRequest; //Recibe el request default
   @Output() nuevo = new EventEmitter(false);
   @Output() visualizar = new EventEmitter(false);
   @Output() editar = new EventEmitter(false);
   @Output() eliminar = new EventEmitter(false);
   @Output() inactivar = new EventEmitter(false);
 
-  readonly columnasAMostrar = ['_id', 'descripcion', 'tipo', 'sucursal', 'situacion', 'acciones'];
-  tamanhosPage = [10, 20, 50];
+  @ViewChild(MatPaginator) paginador: MatPaginator | undefined;
 
-  constructor(private mercaderiasComponent: MercaderiasComponent) { }
+  protected readonly columnasAMostrar = ['_id', 'descripcion', 'tipo', 'sucursal', 'situacion', 'acciones'];
+  protected tamanhosPage = [10, 20, 50];
+
+
+  constructor(private _mercaderiasComponent: MercaderiasComponent) { }
 
   ngOnInit(): void {
 
@@ -57,9 +60,9 @@ export class MercaderiasListaComponent implements OnInit {
   onCambiarPage(event: PageEvent) {
     if(this.listMercaderias.length > 0) {
       this.pageRequest.pagina = event.pageIndex; //Asignamos el numero de pagina
-      this.pageRequest.tamanho = event.pageSize;  //Asignamos el tamaño de las paginas
+      this.pageRequest.tamanho = event.pageSize;  //Asignamos el tamaño de las pagina
 
-      this.mercaderiasComponent.refrescar(this.pageRequest);
+      this._mercaderiasComponent.refrescar(this.pageRequest);
     }
   }
 
