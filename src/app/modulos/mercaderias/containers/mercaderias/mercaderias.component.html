@@ -4,7 +4,7 @@
   </mat-toolbar>
 
   <!--Filtros-->
-  <div id="filtros" class="style-contenedor-filtro">
+  <div id="filtros" class="style-contenedor-filtro" (keyup.enter)="filtrar()">
     <mat-form-field appearance="outline" class="style-input-filtro-id">
       <mat-label>Id</mat-label>
       <input matInput id="filtroId" type="number" [(ngModel)]="mercaderiaFiltro.id">
