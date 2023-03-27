@@ -14,7 +14,7 @@
         <mat-label>Sucursal</mat-label>
         <mat-select formControlName="sucursal" [compareWith]="compararById">
           <mat-option disabled selected value="">Seleccione una sucursal</mat-option>
-          <mat-option *ngFor="let sucursal of listaSucursales" [value]="sucursal">{{ sucursal.id }} - {{ sucursal.nombre }}</mat-option>
+          <mat-option *ngFor="let sucursal of listaSucursales" [value]="sucursal">{{ sucursal.id }} - {{ sucursal.descripcion }}</mat-option>
         </mat-select>
         <mat-error *ngIf="formFilial.get('sucursal')?.invalid">{{getMensajeError('sucursal')}}</mat-error>
       </mat-form-field>

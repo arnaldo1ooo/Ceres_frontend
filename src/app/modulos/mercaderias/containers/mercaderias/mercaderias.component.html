@@ -29,7 +29,7 @@
       <mat-label>Sucursal</mat-label>
       <mat-select [(ngModel)]="mercaderiaFiltro.idSucursal" [compareWith]="compararById">
         <mat-option [value]="-1">TODOS</mat-option>
-        <mat-option *ngFor="let sucursal of listaSucursales" [value]="sucursal.id">{{sucursal.nombre}}</mat-option>
+        <mat-option *ngFor="let sucursal of listaSucursales" [value]="sucursal.id">{{sucursal.descripcion}</mat-option>
       </mat-select>
     </mat-form-field>
 
