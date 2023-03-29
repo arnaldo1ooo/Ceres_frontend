@@ -3,31 +3,31 @@
     <!-- Columna id -->
     <ng-container matColumnDef="_id">
       <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
-      <mat-cell *matCellDef="let mercaderia">{{mercaderia._id}}</mat-cell>
+      <mat-cell *matCellDef="let mercaderia" class="centrar-texto">{{mercaderia._id}}</mat-cell>
     </ng-container>
 
     <!-- Columna descripcion -->
     <ng-container matColumnDef="descripcion">
       <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
-      <mat-cell *matCellDef="let mercaderia">{{mercaderia.descripcion}}</mat-cell>
+      <mat-cell *matCellDef="let mercaderia" class="izquierda-texto">{{mercaderia.descripcion}}</mat-cell>
     </ng-container>
 
     <!-- Columna tipo -->
     <ng-container matColumnDef="tipo">
       <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
-      <mat-cell *matCellDef="let mercaderia">{{mercaderia.tipo | tipoMercaderiaPipe}}</mat-cell>
+      <mat-cell *matCellDef="let mercaderia" class="centrar-texto">{{mercaderia.tipo | tipoMercaderiaPipe}}</mat-cell>
     </ng-container>
 
     <!-- Columna sucursal -->
     <ng-container matColumnDef="sucursal">
       <mat-header-cell *matHeaderCellDef>Sucursal</mat-header-cell>
-      <mat-cell *matCellDef="let mercaderia">{{mercaderia.sucursal.descripcion}}</mat-cell>
+      <mat-cell *matCellDef="let mercaderia" class="centrar-texto">{{mercaderia.sucursal.descripcion}}</mat-cell>
     </ng-container>
 
     <!-- Columna situacion -->
     <ng-container matColumnDef="situacion">
       <mat-header-cell *matHeaderCellDef>Situación</mat-header-cell>
-      <mat-cell *matCellDef="let mercaderia">{{mercaderia.situacion | situacionPipe}}</mat-cell>
+      <mat-cell *matCellDef="let mercaderia" class="centrar-texto">{{mercaderia.situacion | situacionPipe}}</mat-cell>
     </ng-container>
 
     <!-- Columna Acciones -->

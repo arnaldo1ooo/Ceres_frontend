@@ -13,7 +13,9 @@
   margin: 0 auto;
 }*/
 
-mat-header-cell, mat-cell { //Cemtrar titulos de tabla y celdas
+mat-header-cell { //Cemtrar titulos de tabla
   display: flex;
   justify-content: center;
 }
+
+

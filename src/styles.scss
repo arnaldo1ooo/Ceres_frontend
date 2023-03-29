@@ -53,5 +53,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   font-weight: 500;  //cuanto valor mas alto, mas negrita quedará
 }
 
+.centrar-texto {
+  display: flex;
+  justify-content: center;
+}
+
+.izquierda-texto {
+  display: flex;
+  justify-content: start;
+}
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
