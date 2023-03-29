@@ -7,6 +7,7 @@ import {
   DialogoConfirmacionComponent,
 } from 'src/app/compartido/componentes/dialogo-confirmacion/dialogo-confirmacion/dialogo-confirmacion.component';
 import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-error/dialogo-error.component';
+import { DEFAULT_ORDENAR_POR, DEFAULT_PAGE_TAMANHO, PAGE_INICIAL } from 'src/app/compartido/constantes/constantes';
 import { Situacion, SituacionUtils } from 'src/app/compartido/enums/situacion.enum';
 import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
@@ -38,9 +39,9 @@ export class MercaderiasComponent implements OnInit {
 
   //Inicializamos el pageRequest default, seria la paginacion inicial
   protected pageRequestDefault: PageRequest = {
-    pagina: 0,
-    tamanho: 10,
-    ordenarPor: 'id',
+    pagina: PAGE_INICIAL,
+    tamanho: DEFAULT_PAGE_TAMANHO,
+    ordenarPor: DEFAULT_ORDENAR_POR,
     orden: Orden.DESCENDENTE
   };
 

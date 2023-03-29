@@ -16,7 +16,7 @@ import { SituacionPipe } from './pipes/situacion.pipe';
     DialogoErrorComponent,
     DialogoConfirmacionComponent,
     SituacionPipe,
-    MiSidenavComponent,
+    MiSidenavComponent
 
   ],
   imports: [

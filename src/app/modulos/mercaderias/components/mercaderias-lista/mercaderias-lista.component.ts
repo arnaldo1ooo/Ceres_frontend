@@ -7,6 +7,7 @@ import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 import { Mercaderia } from '../../model/mercaderia';
 import { MercaderiasComponent } from './../../containers/mercaderias/mercaderias.component';
 import { Page } from './../../model/mercaderia';
+import { DEFAULT_PAGE_TAMANHOS } from 'src/app/compartido/constantes/constantes';
 
 
 @Component({
@@ -28,7 +29,7 @@ export class MercaderiasListaComponent implements OnInit {
   @ViewChild(MatPaginator) paginador: MatPaginator | undefined;
 
   protected readonly columnasAMostrar = ['_id', 'descripcion', 'tipo', 'sucursal', 'situacion', 'acciones'];
-  protected tamanhosPage = [10, 20, 50];
+  protected tamanhosPage = DEFAULT_PAGE_TAMANHOS;
 
 
   constructor(private _mercaderiasComponent: MercaderiasComponent) { }

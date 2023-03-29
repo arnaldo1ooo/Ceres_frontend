@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-error/dialogo-error.component';
+import { COD_ERROR_CONEXION, COD_ERROR_DATOS_INVALIDOS } from 'src/app/compartido/constantes/constantes';
 import { Login } from 'src/app/modulos/login/model/login';
 import { LoginService } from 'src/app/modulos/login/services/login.service';
 
@@ -33,7 +34,15 @@ export class LoginFormComponent implements OnInit {
     .subscribe(response => {
       this.ruta.navigate(['/home']);  //Caso se acepte las credenciales, se redirige al home
     },
-    error =>this.onError('Falló el inicio de sesión')
+    error =>{
+      if (error.status === COD_ERROR_DATOS_INVALIDOS) {
+        this.onError('Nombre de usuario o contraseña incorrecta');
+      } else if (error.status === COD_ERROR_CONEXION) {
+        this.onError('Error de conexión con el servidor');
+      } else {
+        this.onError('Falló el inicio de sesión');
+      }
+    }
     )
   }
 

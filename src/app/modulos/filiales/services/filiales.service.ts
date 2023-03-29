@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { delay, first, Observable, tap } from 'rxjs';
+import { API_URL_FILIALES } from 'src/app/compartido/constantes/constantes';
 
 import { Filial } from '../model/filial';
 
@@ -9,12 +10,10 @@ import { Filial } from '../model/filial';
 })
 export class FilialesService {
 
-  private readonly API = 'ceres-api/filiales';
-
   constructor(private htppClient: HttpClient) { } //El httpClient permite la conexion con el backend
 
   listarTodosFiliales() {
-    return this.htppClient.get<Filial[]>(this.API)
+    return this.htppClient.get<Filial[]>(API_URL_FILIALES)
       .pipe(                                        //Manipular datos
         first(),                                    //Ejecuta la accion al primer resultado
         delay(100)/*,                                //Espera de x segundos
@@ -23,7 +22,7 @@ export class FilialesService {
   }
 
   listarTodosFilialesActivos() {
-    return this.htppClient.get<Filial[]>(this.API+'/activos')
+    return this.htppClient.get<Filial[]>(API_URL_FILIALES+'/activos')
       .pipe(                                        //Manipular datos
         first(),                                    //Ejecuta la accion al primer resultado
         delay(100)                             //Espera de x segundos
@@ -41,23 +40,23 @@ export class FilialesService {
   }
 
   private crear(filial: Partial<Filial>) {
-    return this.htppClient.post<Filial>(this.API, filial).pipe(first());
+    return this.htppClient.post<Filial>(API_URL_FILIALES, filial).pipe(first());
   }
 
   private actualizar(filial: Partial<Filial>) {
-    return this.htppClient.put<Filial>(`${this.API}/${filial._id}`, filial).pipe(first());
+    return this.htppClient.put<Filial>(`${API_URL_FILIALES}/${filial._id}`, filial).pipe(first());
   }
 
   eliminar(id: string) {
-    return this.htppClient.delete(`${this.API}/${id}`).pipe(first());
+    return this.htppClient.delete(`${API_URL_FILIALES}/${id}`).pipe(first());
   }
 
   inactivar(id: string) {
-    return this.htppClient.put<Filial>(`${this.API}/inactivar/${id}`, null).pipe(first());
+    return this.htppClient.put<Filial>(`${API_URL_FILIALES}/inactivar/${id}`, null).pipe(first());
   }
 
   cargarPorId(id: string) {
-    return this.htppClient.get<Filial>(`${this.API}/${id}`);
+    return this.htppClient.get<Filial>(`${API_URL_FILIALES}/${id}`);
   }
 
 }

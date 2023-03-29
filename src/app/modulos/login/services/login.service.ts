@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { API_URL_LOGIN } from 'src/app/compartido/constantes/constantes';
 
 import { Login } from '../model/login';
 import { AuthService } from './../../../autenticacion/services/auth.service';
@@ -8,14 +9,12 @@ import { AuthService } from './../../../autenticacion/services/auth.service';
 })
 export class LoginService {
 
-  private readonly API = 'http://localhost:8180/login';
-
   constructor(
     private authService: AuthService
   ) { }
 
   login(credenciales: Login) {
-    return this.authService.login(credenciales, this.API);
+    return this.authService.login(credenciales, API_URL_LOGIN);
   }
 
 
