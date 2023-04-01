@@ -1,26 +1,30 @@
 <mat-card>
+  <!-- Selector de Idioma -->
 
-  <mat-card-title>Inicio de sesión</mat-card-title>
+  <app-selector-idioma></app-selector-idioma>
+
+  <mat-card-title>{{'login.titulo-login' | transloco}}</mat-card-title>
 
   <mat-card-content>
     <form class="mx-auto" #form="ngForm" (ngSubmit)="login(form)">
 
+
       <p>
         <mat-form-field>
           <input matInput id="nombreUsuario" name="nombreUsuario" type="text"
-                  placeholder="Nombre de usuario" [(ngModel)]="credenciales.nombreUsuario">
+            placeholder="{{'login.nombre-usuario' | transloco}}" [(ngModel)]="credenciales.nombreUsuario">
         </mat-form-field>
       </p>
 
       <p>
         <mat-form-field>
-          <input matInput id="contrasena" name="contrasena" type="password"
-                  placeholder="Contraseña" [(ngModel)]="credenciales.contrasena">
+          <input matInput id="contrasena" name="contrasena" type="password" placeholder="{{'login.contrasenha' | transloco}}"
+            [(ngModel)]="credenciales.contrasena">
         </mat-form-field>
       </p>
 
       <div class="estilo-boton">
-        <button mat-raised-button color="primary">Ingresar</button>
+        <button mat-raised-button color="primary">{{'login.ingresar' | transloco}}</button>
       </div>
 
     </form>

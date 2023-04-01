@@ -1,0 +1,19 @@
+  {
+    "idiomas_disponibles": {
+      "es": "Espanhol",
+      "pt": "Portugues"
+    },
+    "login": {
+      "titulo-login": "Entrar",
+      "nombre-usuario": "Nome de usuário",
+      "contrasenha": "Senha",
+      "ingresar": "Entrar"
+    },
+    "errores": {
+      "error-login": "Falhou o início da sessão",
+      "error-login-incorrecto": "Nome de usuario ou senha incorreta",
+      "error-conexion-servidor": "Erro de conexão com o servidor"
+    },
+
+    "sin-registros": "Sem registros"
+  }

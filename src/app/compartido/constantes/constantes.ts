@@ -16,3 +16,7 @@ export const PAGE_INICIAL = 0;
 
 export const COD_ERROR_DATOS_INVALIDOS = 400;
 export const COD_ERROR_CONEXION = 0;
+
+export const COD_ESPANHOL = 'es';
+export const COD_PORTUGUES = 'pt';
+export const COD_IDIOMA_DEFAULT = COD_ESPANHOL;
