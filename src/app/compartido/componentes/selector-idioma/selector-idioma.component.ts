@@ -20,7 +20,7 @@ export class SelectorIdiomaComponent implements OnInit {
 
   ngOnInit(): void {
     this.idiomasDisponibles = [
-      { codigo: COD_ESPANHOL,  descripcion: 'idiomas_disponibles.es'  },  //descripcion estaria en el json
+      { codigo: COD_ESPANHOL,  descripcion: 'idiomas_disponibles.es' },  //descripcion estaria en el json
       { codigo: COD_PORTUGUES, descripcion: 'idiomas_disponibles.pt' }
     ];
 

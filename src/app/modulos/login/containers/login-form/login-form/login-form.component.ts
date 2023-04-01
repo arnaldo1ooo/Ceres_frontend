@@ -23,7 +23,8 @@ export class LoginFormComponent implements OnInit {
   constructor(
     private _loginService: LoginService,
     private _ruta: Router,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private _translocoService: TranslocoService) { }
 
   ngOnInit(): void {
 
@@ -38,11 +39,11 @@ export class LoginFormComponent implements OnInit {
     },
     error =>{
       if (error.status === COD_ERROR_DATOS_INVALIDOS) {
-        this.onError('Nombre de usuario o contraseña incorrecta');
+        this.onError(this._translocoService.translate('error-login-incorrecto'));
       } else if (error.status === COD_ERROR_CONEXION) {
-        this.onError('Error de conexión con el servidor');
+        this.onError(this._translocoService.translate('error-conexion-servidor'));
       } else {
-        this.onError('Falló el inicio de sesión');
+        this.onError(this._translocoService.translate('error-login'));
       }
     }
     )
