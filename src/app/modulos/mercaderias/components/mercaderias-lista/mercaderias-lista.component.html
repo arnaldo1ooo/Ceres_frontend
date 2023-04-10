@@ -60,7 +60,7 @@
 
   <!--Mostrar mensaje sin registros caso cantidad de registros de datasource sea igual a 0-->
   <div *ngIf="listMercaderias.length == 0" class="label-tabla-vacia">
-    <mat-label>Sin registros :(</mat-label>
+    <mat-label>{{'sin-registros' | transloco}}</mat-label>
   </div>
 
   <!--Paginador-->

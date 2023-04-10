@@ -1,0 +1,16 @@
+{
+  "login": {
+    "titulo-login": "Inicio de sesión",
+    "nombre-usuario": "Nombre de usuario",
+    "contrasenha": "Contraseña",
+    "ingresar": "Ingresar"
+
+  },
+  "errores": {
+    "error-login": "Falló el inicio de sesión",
+    "error-login-incorrecto": "Nombre de usuario o contraseña incorrecta",
+    "error-conexion-servidor": "Error de conexión con el servidor"
+  },
+
+  "sin-registros": "Sin registros"
+}
