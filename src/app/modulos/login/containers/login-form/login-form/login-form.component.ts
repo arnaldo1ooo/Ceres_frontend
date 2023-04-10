@@ -39,11 +39,11 @@ export class LoginFormComponent implements OnInit {
     },
     error =>{
       if (error.status === COD_ERROR_DATOS_INVALIDOS) {
-        this.onError(this._translocoService.translate('error-login-incorrecto'));
+        this.onError(this._translocoService.translate('errores.error-login-incorrecto'));
       } else if (error.status === COD_ERROR_CONEXION) {
-        this.onError(this._translocoService.translate('error-conexion-servidor'));
+        this.onError(this._translocoService.translate('errores.error-conexion-servidor'));
       } else {
-        this.onError(this._translocoService.translate('error-login'));
+        this.onError(this._translocoService.translate('errores.error-login'));
       }
     }
     )
