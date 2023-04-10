@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [AuthGuard] }, // Carga EAGER //Cuando path es vacio, redirecciona al home, caso tenga token almacenado (CanActivate)
   { path: 'login', loadChildren: () => import('./modulos/login/login.module').then(m => m.LoginModule) }, //Carga asincrona (LAZY Loading) requiere que el componente tenga un routing
   { path: 'home', canActivate: [AuthGuard], canLoad: [AuthGuard], loadChildren: () => import('./modulos/home/home.module').then(m => m.HomeModule) },
-  { path: 'filiales', canActivate: [AuthGuard], canLoad: [AuthGuard], loadChildren: () => import('./modulos/filiales/filiales.module').then(m => m.FilialesModule) },
+  { path: 'departamentos', canActivate: [AuthGuard], canLoad: [AuthGuard], loadChildren: () => import('./modulos/departamentos/departamentos.module').then(m => m.DepartamentosModule) },
   { path: 'mercaderias', canActivate: [AuthGuard], canLoad: [AuthGuard], loadChildren: () => import('./modulos/mercaderias/mercaderias.module').then(m => m.MercaderiasModule) }
 ];
 

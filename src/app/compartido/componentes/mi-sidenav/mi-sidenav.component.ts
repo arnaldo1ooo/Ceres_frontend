@@ -16,7 +16,7 @@ export class MiSidenavComponent implements OnInit {
 
   menus = [
     { nombre: "Home", ruta: "home", icono: "home" },
-    { nombre: "Filiales", ruta: "filiales", icono: "" },
+    { nombre: "Departamentos", ruta: "departamentos", icono: "" },
     { nombre: "Mercaderias", ruta: "mercaderias", icono: "" }
   ]
 

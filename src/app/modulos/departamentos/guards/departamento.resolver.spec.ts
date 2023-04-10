@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { FilialResolver } from './filial.resolver';
+import { DepartamentoResolver } from './departamento.resolver';
 
-describe('FilialResolver', () => {
-  let resolver: FilialResolver;
+describe('DepartamentoResolver', () => {
+  let resolver: DepartamentoResolver;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    resolver = TestBed.inject(FilialResolver);
+    resolver = TestBed.inject(DepartamentoResolver);
   });
 
   it('should be created', () => {

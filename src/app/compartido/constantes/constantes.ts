@@ -7,7 +7,7 @@ export const API_URL = 'http://localhost:8180/';  //se pone como export para pod
 export const API_URL_LOGIN = API_URL + 'login';
 export const API_URL_MERCADERIAS = API_URL + API_NOMBRE + '/mercaderias';
 export const API_URL_SUCURSALES = API_URL + API_NOMBRE + '/sucursales';
-export const API_URL_FILIALES = API_URL +  API_NOMBRE + '/filiales';
+export const API_URL_DEPARTAMENTOS = API_URL +  API_NOMBRE + '/departamentos';
 
 export const DEFAULT_PAGE_TAMANHO = 10;
 export const DEFAULT_PAGE_TAMANHOS = [10, 20, 50];

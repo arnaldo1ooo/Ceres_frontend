@@ -1,48 +1,48 @@
 <div>
-  <mat-table [dataSource]="listFiliales">
+  <mat-table [dataSource]="listDepartamentos">
 
     <!-- Columna id -->
     <ng-container matColumnDef="_id">
       <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
-      <mat-cell *matCellDef="let filial"> {{ filial._id }} </mat-cell>
+      <mat-cell *matCellDef="let departamento"> {{ departamento._id }} </mat-cell>
     </ng-container>
 
     <!-- Columna nombre -->
     <ng-container matColumnDef="nombre">
-      <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
-      <mat-cell *matCellDef="let filial"> {{ filial.nombre }} </mat-cell>
+      <mat-header-cell *matHeaderCellDef> Descripción </mat-header-cell>
+      <mat-cell *matCellDef="let departamento"> {{ departamento.descripcion }} </mat-cell>
     </ng-container>
 
     <!-- Columna sucursal -->
     <ng-container matColumnDef="sucursal">
       <mat-header-cell *matHeaderCellDef> Sucursal </mat-header-cell>
-      <mat-cell *matCellDef="let filial"> {{ filial.sucursal.descripcion }} </mat-cell>
+      <mat-cell *matCellDef="let departamento"> {{ departamento.sucursal.descripcion }} </mat-cell>
     </ng-container>
 
     <!-- Columna situacion -->
     <ng-container matColumnDef="situacion">
       <mat-header-cell *matHeaderCellDef> Situación </mat-header-cell>
-      <mat-cell *matCellDef="let filial"> {{ filial.situacion }} </mat-cell>
+      <mat-cell *matCellDef="let departamento"> {{ departamento.situacion | situacionPipe }} </mat-cell>
     </ng-container>
 
     <!-- Columna Acciones -->
     <ng-container matColumnDef="acciones">
       <mat-header-cell *matHeaderCellDef class="style-columna-acciones">
-        <button mat-mini-fab color="accent" aria-label="Crear nuevo filial" (click)="onNuevo()">
+        <button mat-mini-fab color="accent" aria-label="Crear nuevo departamento" (click)="onNuevo()">
           <mat-icon>add</mat-icon>
         </button>
       </mat-header-cell>
 
-      <mat-cell *matCellDef="let filiales" class="style-columna-acciones">
-        <button mat-icon-button color="primary" aria-label="Visualizar filial" (click)="onVisualizar(filiales)">
+      <mat-cell *matCellDef="let departamentos" class="style-columna-acciones">
+        <button mat-icon-button color="primary" aria-label="Visualizar departamento" (click)="onVisualizar(departamentos)">
           <mat-icon>visibility</mat-icon>
         </button>
 
-        <button mat-icon-button color="primary" aria-label="Editar filial" (click)="onEditar(filiales)">
+        <button mat-icon-button color="primary" aria-label="Editar departamento" (click)="onEditar(departamentos)">
           <mat-icon>edit</mat-icon>
         </button>
 
-        <button mat-icon-button color="warn" aria-label="Eliminar filial" (click)="onEliminar(filiales)">
+        <button mat-icon-button color="warn" aria-label="Eliminar departamento" (click)="onEliminar(departamentos)">
           <mat-icon>delete_forever</mat-icon>
         </button>
       </mat-cell>
@@ -55,7 +55,7 @@
   </mat-table>
 
 
-  <mat-paginator [length]="this.listFiliales.length" [pageSize]="pageTamanho"
+  <mat-paginator [length]="this.listDepartamentos.length" [pageSize]="pageTamanho"
     [pageSizeOptions]="pageTamanhos" (page)="onCambiarPage($event)" [showFirstLastButtons]="true">
   </mat-paginator>
 </div>

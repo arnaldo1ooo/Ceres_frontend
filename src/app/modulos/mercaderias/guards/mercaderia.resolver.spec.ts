@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { MercaderiaResolver } from './mercaderia.resolver';
 
-describe('FilialResolver', () => {
+describe('DepartamentoResolver', () => {
   let resolver: MercaderiaResolver;
 
   beforeEach(() => {

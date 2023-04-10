@@ -1,20 +1,20 @@
 <mat-card>
   <mat-toolbar color="primary">
-    Filiales Disponibles
+    Departamentos Disponibles
   </mat-toolbar>
 
   <div class="column flex mat-elevation-z8">
 
-    <!--Pasamos las filiales a la lista-->
-    <app-filiales-lista
-      *ngIf="dsFiliales$ | async as filiales; else cargando"
-      [listFiliales]="filiales"
+    <!--Pasamos las departamentos a la lista-->
+    <app-departamentos-lista
+      *ngIf="dsDepartamentos$ | async as departamentos; else cargando"
+      [listDepartamentos]="departamentos"
       (nuevo)="onNuevo()"
       (visualizar)="onVisualizar($event)"
       (editar)="onEditar($event)"
       (eliminar)="onEliminar($event)"
       (inactivar)="onInactivar($event)">
-    </app-filiales-lista>
+    </app-departamentos-lista>
 
     <ng-template #cargando>
       <div class="style-cargando-spinner">

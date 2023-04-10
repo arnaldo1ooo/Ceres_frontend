@@ -8,25 +8,25 @@ import {
 } from 'src/app/compartido/componentes/dialogo-confirmacion/dialogo-confirmacion/dialogo-confirmacion.component';
 import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-error/dialogo-error.component';
 
-import { Filial } from '../../model/filial';
-import { FilialesService } from '../../services/filiales.service';
+import { Departamento } from '../../model/departamento';
+import { DepartamentosService } from '../../services/departamentos.service';
 
 @Component({
-  selector: 'app-filiales',
-  templateUrl: './filiales.component.html',
-  styleUrls: ['./filiales.component.scss']
+  selector: 'app-departamentos',
+  templateUrl: './departamentos.component.html',
+  styleUrls: ['./departamentos.component.scss']
 })
-export class FilialesComponent implements OnInit {
+export class DepartamentosComponent implements OnInit {
 
-  dsFiliales$: Observable<Filial[]>; //Cuando es Observable, colocar $
+  dsDepartamentos$: Observable<Departamento[]>; //Cuando es Observable, colocar $
 
   constructor(
-    private filialesService: FilialesService,
+    private departamentosService: DepartamentosService,
     public dialog: MatDialog,
     private ruta: Router,
     private rutaActual: ActivatedRoute,
     private alertaSnackBar: MatSnackBar) {
-    this.dsFiliales$ = this.cargarFiliales();
+    this.dsDepartamentos$ = this.cargarDepartamentos();
   }
 
   abrirDialogoError(msgError: string) {
@@ -38,7 +38,7 @@ export class FilialesComponent implements OnInit {
   }
 
   refrescar() {
-    this.dsFiliales$ = this.cargarFiliales();
+    this.dsDepartamentos$ = this.cargarDepartamentos();
   }
 
   onError(errorMsg: string) {
@@ -51,62 +51,62 @@ export class FilialesComponent implements OnInit {
     this.ruta.navigate(['nuevo'], { relativeTo: this.rutaActual }); //Para que navegue a esa direccion
   }
 
-  onVisualizar(filial: Filial) {
-    this.ruta.navigate(['visualizar', filial._id], { relativeTo: this.rutaActual });
+  onVisualizar(departamento: Departamento) {
+    this.ruta.navigate(['visualizar', departamento._id], { relativeTo: this.rutaActual });
   }
 
-  onEditar(filial: Filial) {
-    this.ruta.navigate(['editar', filial._id], { relativeTo: this.rutaActual }); //Navega a esa direccion con los datos del filial
+  onEditar(departamento: Departamento) {
+    this.ruta.navigate(['editar', departamento._id], { relativeTo: this.rutaActual }); //Navega a esa direccion con los datos del departamento
   }
 
-  onEliminar(filial: Filial) {
+  onEliminar(departamento: Departamento) {
     const dialogoRef = this.dialog.open(DialogoConfirmacionComponent, {
-      data: '¿Seguro que desea eliminar esta filial?',
+      data: '¿Seguro que desea eliminar esta departamento?',
     });
 
     dialogoRef.afterClosed().subscribe((respuesta: boolean) => {
       if (respuesta) {
-        this.filialesService.eliminar(filial._id).subscribe(
+        this.departamentosService.eliminar(departamento._id).subscribe(
           () => {
             this.refrescar();
-            this.alertaSnackBar.open('Filial eliminado con suceso!', 'X', {
+            this.alertaSnackBar.open('Departamento eliminado con suceso!', 'X', {
               duration: 5000,
               verticalPosition: 'top',
               horizontalPosition: 'center'
             });
           },
-          () => this.onError('Error al intentar eliminar filial.')
+          () => this.onError('Error al intentar eliminar departamento.')
         );
       }
     });
   }
 
-  onInactivar(filial: Filial) {
+  onInactivar(departamento: Departamento) {
     const dialogoRef = this.dialog.open(DialogoConfirmacionComponent, {
-      data: '¿Seguro que desea inactivar esta filial?',
+      data: '¿Seguro que desea inactivar esta departamento?',
     });
 
     dialogoRef.afterClosed().subscribe((respuesta: boolean) => {
       if (respuesta) {
-        this.filialesService.inactivar(filial._id).subscribe(
+        this.departamentosService.inactivar(departamento._id).subscribe(
           () => {
             this.refrescar();
-            this.alertaSnackBar.open('Filial inactivado con suceso!', 'X', {
+            this.alertaSnackBar.open('Departamento inactivado con suceso!', 'X', {
               duration: 5000,
               verticalPosition: 'top',
               horizontalPosition: 'center'
             });
           },
-          () => this.onError('Error al intentar inactivar filial.')
+          () => this.onError('Error al intentar inactivar departamento.')
         );
       }
     });
   }
 
-  cargarFiliales() {
-    return this.filialesService.listarTodosFilialesActivos()
+  cargarDepartamentos() {
+    return this.departamentosService.listarTodosDepartamentosActivos()
       .pipe(catchError(error => {
-        this.abrirDialogoError('Error al cargar lista de Filiales');
+        this.abrirDialogoError('Error al cargar lista de Departamentos');
 
         return of([]) //Retorna un array vacio para detener el spinner cuando hay error
       })

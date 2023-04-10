@@ -2,16 +2,16 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Filial } from '../../model/filial';
+import { Departamento } from '../../model/departamento';
 
 @Component({
-  selector: 'app-filiales-lista',
-  templateUrl: './filiales-lista.component.html',
-  styleUrls: ['./filiales-lista.component.scss']
+  selector: 'app-departamentos-lista',
+  templateUrl: './departamentos-lista.component.html',
+  styleUrls: ['./departamentos-lista.component.scss']
 })
-export class FilialesListaComponent implements OnInit {
+export class DepartamentosListaComponent implements OnInit {
 
-  @Input() listFiliales: Filial[] = [];
+  @Input() listDepartamentos: Departamento[] = [];
   @Output() nuevo = new EventEmitter(false);
   @Output() visualizar = new EventEmitter(false);
   @Output() editar = new EventEmitter(false);
@@ -20,7 +20,7 @@ export class FilialesListaComponent implements OnInit {
 
   readonly columnasAMostrar = ['_id', 'nombre', 'sucursal', 'situacion', 'acciones'];
 
-  pageRegistrosSeparados  = this.listFiliales;
+  pageRegistrosSeparados  = this.listDepartamentos;
   pageTamanho = 10;
   pageTamanhos = [10, 20, 50];
 
@@ -29,31 +29,31 @@ export class FilialesListaComponent implements OnInit {
     private rutaActual: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.pageRegistrosSeparados = this.listFiliales.slice(0, this.pageTamanho);  //Se separa los primeros X registros para la 1ra pagina
+    this.pageRegistrosSeparados = this.listDepartamentos.slice(0, this.pageTamanho);  //Se separa los primeros X registros para la 1ra pagina
   }
 
   onNuevo() {
     this.nuevo.emit(true);
   }
 
-  onVisualizar(filial: Filial) {
-    this.visualizar.emit(filial);
+  onVisualizar(departamento: Departamento) {
+    this.visualizar.emit(departamento);
   }
 
-  onEditar(filial: Filial) {
-    this.editar.emit(filial);
+  onEditar(departamento: Departamento) {
+    this.editar.emit(departamento);
   }
 
-  onEliminar(filial: Filial) {
-    this.eliminar.emit(filial);
+  onEliminar(departamento: Departamento) {
+    this.eliminar.emit(departamento);
   }
 
-  onInactivar(filial: Filial) {
-    this.inactivar.emit(filial);
+  onInactivar(departamento: Departamento) {
+    this.inactivar.emit(departamento);
   }
 
   onCambiarPage(event: PageEvent) {
-    let totalRegistros = this.listFiliales;
+    let totalRegistros = this.listDepartamentos;
     const inicioIndex = event.pageIndex * event.pageSize;
     let finIndex = inicioIndex + event.pageSize;
 

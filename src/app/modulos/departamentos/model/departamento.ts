@@ -1,8 +1,8 @@
 
-export interface Filial {
+export interface Departamento {
 
   _id: string;
-  nombre: string;
+  descripcion: string;
   sucursal: string;
   situacion: string;
 
