@@ -1,8 +1,4 @@
 {
-  "idiomas_disponibles": {
-    "es": "Español",
-    "pt": "Portugués"
-  },
   "login": {
     "titulo-login": "Inicio de sesión",
     "nombre-usuario": "Nombre de usuario",

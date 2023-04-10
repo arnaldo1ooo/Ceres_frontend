@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
-import { COD_ESPANHOL, COD_PORTUGUES, COD_IDIOMA_DEFAULT } from '../../constantes/constantes';
+import { HelpersService } from 'src/app/compartido/services/helpers.service';
+
+import { COD_ESPANHOL, COD_PORTUGUES } from '../../constantes/constantes';
 
 @Component({
   selector: 'app-selector-idioma',
@@ -11,36 +13,35 @@ import { COD_ESPANHOL, COD_PORTUGUES, COD_IDIOMA_DEFAULT } from '../../constante
 export class SelectorIdiomaComponent implements OnInit {
 
   idiomasDisponibles: Idioma[] = [];
+  idiomaSeleccionado!: Idioma;
 
-  idiomaSeleccionado!: Idioma; // Idioma default el primero
-
-
-  constructor(private translocoService: TranslocoService) {
+  constructor(private _transLocoService: TranslocoService) {
   }
 
   ngOnInit(): void {
+
     this.idiomasDisponibles = [
-      { codigo: COD_ESPANHOL,  descripcion: 'idiomas_disponibles.es' },  //descripcion estaria en el json
-      { codigo: COD_PORTUGUES, descripcion: 'idiomas_disponibles.pt' }
+      { key: COD_ESPANHOL,  descripcion: 'ESPAÑOL' },  //descripcion estaria en el json
+      { key: COD_PORTUGUES, descripcion: 'PORTUGUÉS' }
     ];
 
-    this.idiomaSeleccionado = this.idiomasDisponibles[0]; // Idioma default el primero
+    this.idiomaSeleccionado = this.idiomasDisponibles.find(idioma =>
+              idioma.key === HelpersService.obtenerItemDelStorage('key-idioma'))
+                || this.idiomasDisponibles[0];
 
     this.cambiarIdioma();
   }
 
   cambiarIdioma() {
-    this.translocoService.setActiveLang(this.idiomaSeleccionado.codigo); // cambia el idioma activo en Transloco
+    HelpersService.salvarItemEnStorage('key-idioma', this.idiomaSeleccionado.key);
+    this._transLocoService.setActiveLang(this.idiomaSeleccionado.key); // cambia el idioma activo en Transloco
   }
 
-  obtenerTraduccion(codigo: string) {
-    return this.translocoService.translate(codigo);
-  }
 }
 
 
 //Model de Idioma
 export interface Idioma {
-  codigo: string;
+  key: string;
   descripcion: string;
 }
