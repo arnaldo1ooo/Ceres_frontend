@@ -14,8 +14,8 @@ import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { SucursalesService } from 'src/app/modulos/sucursales/services/sucursales.service';
 
 import { TipoMercaderia, TipoMercaderiaUtils } from '../../enums/tipoMercaderia.enum';
+import { MercaderiaFiltroDTO } from '../../model/dtos/mercaderiaFiltroDTO';
 import { Mercaderia } from '../../model/mercaderia';
-import { MercaderiaFiltro } from '../../model/mercaderiaFiltro';
 import { MercaderiasService } from '../../services/mercaderias.service';
 import { Orden } from './../../../../compartido/enums/orden.enum';
 import { Page } from './../../model/mercaderia';
@@ -33,7 +33,7 @@ export class MercaderiasComponent implements OnInit {
   protected listaSituaciones = Object.values(Situacion);
   protected tipoMercaderiaUtils = TipoMercaderiaUtils;
   protected situacionUtils = SituacionUtils;
-  protected mercaderiaFiltro: MercaderiaFiltro = this.filtroInicial();
+  protected mercaderiaFiltro: MercaderiaFiltroDTO = this.filtroInicial();
   protected isFiltrando: boolean = false;
   protected pageRes: Page | undefined;
 
@@ -153,7 +153,7 @@ export class MercaderiasComponent implements OnInit {
     });
   }
 
-  protected listarMercaderiasPage(mercaderiaFiltro: MercaderiaFiltro, pageRequest: PageRequest) {
+  protected listarMercaderiasPage(mercaderiaFiltro: MercaderiaFiltroDTO, pageRequest: PageRequest) {
     this.isFiltrando = true;
     this.listMercaderias$ = null; //Dejar la lista en null, para que muestre el componente cargando
 

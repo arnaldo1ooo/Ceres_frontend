@@ -1,4 +1,4 @@
-import { MercaderiaFiltro } from './../../model/mercaderiaFiltro';
+import { MercaderiaFiltroDTO } from '../../model/dtos/mercaderiaFiltroDTO';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';

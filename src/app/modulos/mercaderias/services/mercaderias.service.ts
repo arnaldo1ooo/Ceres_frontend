@@ -5,9 +5,9 @@ import { API_URL_MERCADERIAS } from 'src/app/compartido/constantes/constantes';
 import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 
+import { MercaderiaFiltroDTO } from '../model/dtos/mercaderiaFiltroDTO';
 import { Mercaderia } from '../model/mercaderia';
 import { Page } from './../model/mercaderia';
-import { MercaderiaFiltro } from './../model/mercaderiaFiltro';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +32,7 @@ export class MercaderiasService {
       );
   }
 
-  listarTodosMercaderiasFiltroPage(mercaderiaFiltro: MercaderiaFiltro, pageRequest: PageRequest): Observable<Page> {
+  listarTodosMercaderiasFiltroPage(mercaderiaFiltro: MercaderiaFiltroDTO, pageRequest: PageRequest): Observable<Page> {
     return this.htppClient.get<Page>(API_URL_MERCADERIAS
       + '/filtroPage?' + `id=${mercaderiaFiltro.id}`
                        + `&descripcion=${mercaderiaFiltro.descripcion}`
