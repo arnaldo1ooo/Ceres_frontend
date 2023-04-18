@@ -1,0 +1,21 @@
+.mat-table {
+  overflow: auto;
+  max-height: 600px;
+}
+
+.style-columna-acciones {
+  flex: 0 0 160px;
+}
+
+/*.style-btn-nuevo {
+  flex: 0 0 140px;
+  justify-content: center;
+  margin: 0 auto;
+}*/
+
+mat-header-cell { //Cemtrar titulos de tabla
+  display: flex;
+  justify-content: center;
+}
+
+

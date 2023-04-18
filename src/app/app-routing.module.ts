@@ -11,7 +11,8 @@ const routes: Routes = [
   { path: 'login', loadChildren: () => import('./modulos/login/login.module').then(m => m.LoginModule) }, //Carga asincrona (LAZY Loading) requiere que el componente tenga un routing
   { path: 'home', canActivate: [AuthGuard], canLoad: [AuthGuard], loadChildren: () => import('./modulos/home/home.module').then(m => m.HomeModule) },
   { path: 'departamentos', canActivate: [AuthGuard], canLoad: [AuthGuard], loadChildren: () => import('./modulos/departamentos/departamentos.module').then(m => m.DepartamentosModule) },
-  { path: 'mercaderias', canActivate: [AuthGuard], canLoad: [AuthGuard], loadChildren: () => import('./modulos/mercaderias/mercaderias.module').then(m => m.MercaderiasModule) }
+  { path: 'mercaderias', canActivate: [AuthGuard], canLoad: [AuthGuard], loadChildren: () => import('./modulos/mercaderias/mercaderias.module').then(m => m.MercaderiasModule) },
+  { path: 'movimientos', canActivate: [AuthGuard], canLoad: [AuthGuard], loadChildren: () => import('./modulos/movimientos/movimientos.module').then(m => m.MovimientosModule) }
 ];
 
 @NgModule({

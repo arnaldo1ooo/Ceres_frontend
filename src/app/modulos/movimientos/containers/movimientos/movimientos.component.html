@@ -1,0 +1,71 @@
+<mat-card class="style-contenedor-principal">
+  <mat-toolbar color="primary">
+    Movimientos Disponibles
+  </mat-toolbar>
+
+  <!--Filtros-->
+  <div id="filtros" class="style-contenedor-filtro" (keyup.enter)="filtrar()">
+    <mat-form-field appearance="outline" class="style-input-filtro-id">
+      <mat-label>Id</mat-label>
+      <input matInput id="filtroId" type="number" [(ngModel)]="movimientoFiltro.id">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="style-select-filtro-sucursal">
+      <mat-label>Tipo Movimiento</mat-label>
+      <mat-select [(ngModel)]="movimientoFiltro.idTipo" [compareWith]="compararById">
+        <mat-option [value]="-1">TODOS</mat-option>
+        <mat-option *ngFor="let tipoMovimiento of listaTiposMovimiento" value={{tipoMovimiento._id}}>
+          {{tipoMovimiento.descripcion}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="style-input-filtro-descripcion">
+      <mat-label>Nombre o Apellido de la Entidad</mat-label>
+      <input matInput id="filtroNombreApellidoEntidad" type="text" [(ngModel)]="movimientoFiltro.nombreApellidoEntidad">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="style-select-filtro-sucursal">
+      <mat-label>Departamento</mat-label>
+      <mat-select [(ngModel)]="movimientoFiltro.idDepartamento" [compareWith]="compararById">
+        <mat-option [value]="-1">TODOS</mat-option>
+        <mat-option *ngFor="let departamento of listaDepartamentos" value={{departamento._id}}>
+          {{departamento.descripcion}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="style-select-filtro-situacion">
+      <mat-label>Situación</mat-label>
+      <mat-select [(ngModel)]="movimientoFiltro.idSituacion" [compareWith]="compararById">
+        <mat-option [value]="-1">TODOS</mat-option>
+        <mat-option *ngFor="let situacion of listaSituaciones" [value]="situacion">
+          {{situacionUtils.getDescripcion(situacion)}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button class="style-button-filtro" (click)="limpiar()" color="accent">Limpiar</button>
+    <button mat-raised-button class="style-button-filtro" (click)="filtrar()" [disabled]="isFiltrando"
+      color="primary">Filtrar</button>
+  </div>
+
+  <div class="column flex mat-elevation-z8">
+
+    <!--Pasamos las variables del componente principal al componente lista-->
+    <app-movimientos-lista *ngIf="listMovimientosListaDTO$ | async as movimientos; else cargando"
+      [listMovimientosListaDTO]="movimientos"
+      [pageResponse]="this.pageRes"
+      [pageRequest]="this.pageRequestDefault"
+      (nuevo)="onNuevo()" (visualizar)="onVisualizar($event)" (editar)="onEditar($event)"
+      (eliminar)="onEliminar($event)" (inactivar)="onInactivar($event)">
+    </app-movimientos-lista>
+
+    <ng-template #cargando>
+      <div class="style-cargando-spinner">
+        <mat-spinner></mat-spinner>
+      </div>
+    </ng-template>
+
+  </div>
+</mat-card>

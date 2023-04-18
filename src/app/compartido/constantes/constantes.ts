@@ -8,6 +8,8 @@ export const API_URL_LOGIN = API_URL + 'login';
 export const API_URL_MERCADERIAS = API_URL + API_NOMBRE + '/mercaderias';
 export const API_URL_SUCURSALES = API_URL + API_NOMBRE + '/sucursales';
 export const API_URL_DEPARTAMENTOS = API_URL +  API_NOMBRE + '/departamentos';
+export const API_URL_TIPOS_MOVIMIENTO = API_URL + API_NOMBRE + '/tipos-movimientos';
+export const API_URL_MOVIMIENTOS = API_URL + API_NOMBRE + '/movimientos';
 
 export const DEFAULT_PAGE_TAMANHO = 10;
 export const DEFAULT_PAGE_TAMANHOS = [10, 20, 50];
