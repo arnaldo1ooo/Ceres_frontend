@@ -26,7 +26,7 @@ export class MovimientosListaComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginador: MatPaginator | undefined;
 
-  protected readonly columnasAMostrar = ['_id', 'tipo', 'entidad', 'fecha', 'departamento', 'situacion', 'acciones'];
+  protected readonly columnasAMostrar = ['_id', 'tipo', 'nombreApellidoEntidad', 'fechaEmision', 'departamento', 'total', 'situacion', 'acciones'];
   protected tamanhosPage = DEFAULT_PAGE_TAMANHOS;
 
 

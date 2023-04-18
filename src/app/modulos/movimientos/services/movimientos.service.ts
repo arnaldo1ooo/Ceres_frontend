@@ -40,7 +40,7 @@ export class MovimientosService {
                        + `&fechaInicial=${movimientoFiltro.fechaInicial}`
                        + `&fechaFinal=${movimientoFiltro.fechaFinal}`
                        + `&idDepartamento=${HelpersService.idTodosReturnVacio(movimientoFiltro.idDepartamento)}`
-                       + `&idSituacion=${HelpersService.idTodosReturnVacio(movimientoFiltro.idSituacion)}`
+                       + `&keySituacion=${HelpersService.idTodosReturnVacio(movimientoFiltro.keySituacion)}`
       + `&page=${pageRequest.pagina}&size=${pageRequest.tamanho}&sort=${pageRequest.ordenarPor},${pageRequest.orden}`);
   }
 

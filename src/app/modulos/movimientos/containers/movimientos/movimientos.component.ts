@@ -32,7 +32,7 @@ export class MovimientosComponent implements OnInit {
   protected listMovimientosListaDTO$: Observable<MovimientoListaDTO[]> | null = of([]); //El $ indica que es Observable, se inicializa con array vacio, acepta Observable o null
   protected listaTiposMovimiento: TipoMovimiento[] = [];
   protected listaDepartamentos: Departamento[] = [];
-  protected listaSituaciones = Object.values(Situacion);
+  protected listaKeySituaciones = Object.values(Situacion);
   protected situacionUtils = SituacionUtils;
   protected movimientoFiltro: MovimientoFiltroDTO = this.filtroInicial();
   protected isFiltrando: boolean = false;
@@ -87,13 +87,13 @@ export class MovimientosComponent implements OnInit {
 
   private filtroInicial() {
     return this.movimientoFiltro = {
-      id: null,
+      id: "",
       idTipo: "-1", //Opcion TODOS por defecto
-      nombreApellidoEntidad: null,
+      nombreApellidoEntidad: "",
       fechaInicial: LocalDateTime.now().withHour(0).withMinute(0).withSecond(0),  //Se poner fecha actual con hora 00:00:00
       fechaFinal: LocalDateTime.now().withHour(23).withMinute(59).withSecond(59), //Se poner fecha actual con hora 23:59:59
       idDepartamento: "-1", //Opcion TODOS por defecto
-      idSituacion: "-1" //Opcion TODOS por defecto
+      keySituacion: "-1" //Opcion TODOS por defecto
     };
   }
 

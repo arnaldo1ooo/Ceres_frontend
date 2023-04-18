@@ -10,7 +10,7 @@
       <input matInput id="filtroId" type="number" [(ngModel)]="movimientoFiltro.id">
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="style-select-filtro-sucursal">
+    <mat-form-field appearance="outline" class="style-select-filtro-tipo">
       <mat-label>Tipo Movimiento</mat-label>
       <mat-select [(ngModel)]="movimientoFiltro.idTipo" [compareWith]="compararById">
         <mat-option [value]="-1">TODOS</mat-option>
@@ -20,12 +20,12 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="style-input-filtro-descripcion">
+    <mat-form-field appearance="outline" class="style-input-filtro-nombre-apellido-entidad">
       <mat-label>Nombre o Apellido de la Entidad</mat-label>
       <input matInput id="filtroNombreApellidoEntidad" type="text" [(ngModel)]="movimientoFiltro.nombreApellidoEntidad">
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="style-select-filtro-sucursal">
+    <mat-form-field appearance="outline" class="style-select-filtro-departamento">
       <mat-label>Departamento</mat-label>
       <mat-select [(ngModel)]="movimientoFiltro.idDepartamento" [compareWith]="compararById">
         <mat-option [value]="-1">TODOS</mat-option>
@@ -37,10 +37,10 @@
 
     <mat-form-field appearance="outline" class="style-select-filtro-situacion">
       <mat-label>Situación</mat-label>
-      <mat-select [(ngModel)]="movimientoFiltro.idSituacion" [compareWith]="compararById">
+      <mat-select [(ngModel)]="movimientoFiltro.keySituacion" [compareWith]="compararById">
         <mat-option [value]="-1">TODOS</mat-option>
-        <mat-option *ngFor="let situacion of listaSituaciones" [value]="situacion">
-          {{situacionUtils.getDescripcion(situacion)}}
+        <mat-option *ngFor="let keySituacion of listaKeySituaciones" [value]="keySituacion">
+          {{situacionUtils.getDescripcion(keySituacion)}}
         </mat-option>
       </mat-select>
     </mat-form-field>

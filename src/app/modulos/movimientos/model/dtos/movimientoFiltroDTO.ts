@@ -7,5 +7,5 @@ export interface MovimientoFiltroDTO {
   fechaInicial: any;
   fechaFinal: any;
   idDepartamento: any;
-  idSituacion: any;
+  keySituacion: any;
 }

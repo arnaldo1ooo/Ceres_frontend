@@ -9,37 +9,41 @@
     <!-- Columna tipo -->
     <ng-container matColumnDef="tipo">
       <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
-      <mat-cell *matCellDef="let movimientoListaDTO" class="izquierda-texto">{{movimientoListaDTO.tipo.descripcion}}</mat-cell>
+      <mat-cell *matCellDef="let movimientoListaDTO" class="izquierda-texto">{{movimientoListaDTO.tipo.descripcion}}
+      </mat-cell>
     </ng-container>
 
     <!-- Columna nombreApellido -->
-    <ng-container matColumnDef="nombreApellido">
+    <ng-container matColumnDef="nombreApellidoEntidad">
       <mat-header-cell *matHeaderCellDef>Entidad</mat-header-cell>
-      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{movimientoListaDTO.nombreApellido}}</mat-cell>
+      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{movimientoListaDTO.nombreApellido}}
+      </mat-cell>
     </ng-container>
 
     <!-- Columna fecha emision -->
     <ng-container matColumnDef="fechaEmision">
       <mat-header-cell *matHeaderCellDef>Fecha Emisión</mat-header-cell>
-        <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{movimientoListaDTO.fechaEmision}}</mat-cell>
+      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{movimientoListaDTO.fechaEmision}}
+      </mat-cell>
     </ng-container>
 
     <!-- Columna departamento -->
     <ng-container matColumnDef="departamento">
       <mat-header-cell *matHeaderCellDef>Departamento</mat-header-cell>
-      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{movimientoListaDTO.departamento.descripcion}}</mat-cell>
-    </ng-container>
-
-    <!-- Columna total -->
-    <ng-container matColumnDef="total">
-      <mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
-      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{movimientoListaDTO.total}}</mat-cell>
+      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">
+        {{movimientoListaDTO.departamento.descripcion}}</mat-cell>
     </ng-container>
 
     <!-- Columna situacion -->
     <ng-container matColumnDef="situacion">
       <mat-header-cell *matHeaderCellDef>Situación</mat-header-cell>
       <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{movimientoListaDTO.situacion | situacionPipe}}</mat-cell>
+    </ng-container>
+
+    <!-- Columna total -->
+    <ng-container matColumnDef="total">
+      <mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
+      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{movimientoListaDTO.total}}</mat-cell>
     </ng-container>
 
     <!-- Columna Acciones -->
@@ -51,7 +55,8 @@
       </mat-header-cell>
 
       <mat-cell *matCellDef="let movimientoListaDTO" class="style-columna-acciones">
-        <button mat-icon-button color="primary" aria-label="Visualizar movimiento" (click)="onVisualizar(movimientoListaDTO)">
+        <button mat-icon-button color="primary" aria-label="Visualizar movimiento"
+          (click)="onVisualizar(movimientoListaDTO)">
           <mat-icon>visibility</mat-icon>
         </button>
 
@@ -59,7 +64,8 @@
           <mat-icon>edit</mat-icon>
         </button>
 
-        <button mat-icon-button color="warn" aria-label="Inactivar movimiento" (click)="onInactivar(movimientoListaDTO)">
+        <button mat-icon-button color="warn" aria-label="Inactivar movimiento"
+          (click)="onInactivar(movimientoListaDTO)">
           <mat-icon>delete</mat-icon>
         </button>
       </mat-cell>
@@ -76,11 +82,8 @@
   </div>
 
   <!--Paginador-->
-  <mat-paginator [length]="this.pageResponse?.totalElements"
-                 [pageSizeOptions]="tamanhosPage"
-                 [pageIndex]="this.pageRequest.pagina"
-                 [pageSize]="this.pageRequest.tamanho"
-                 (page)="onCambiarPage($event)"
-                 [showFirstLastButtons]="true" #paginador>
+  <mat-paginator [length]="this.pageResponse?.totalElements" [pageSizeOptions]="tamanhosPage"
+    [pageIndex]="this.pageRequest.pagina" [pageSize]="this.pageRequest.tamanho" (page)="onCambiarPage($event)"
+    [showFirstLastButtons]="true" #paginador>
   </mat-paginator>
 </div>
