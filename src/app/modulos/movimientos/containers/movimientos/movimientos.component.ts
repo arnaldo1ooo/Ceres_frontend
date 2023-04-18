@@ -20,6 +20,7 @@ import { MovimientoFiltroDTO } from '../../model/dtos/movimientoFiltroDTO';
 import { MovimientoListaDTO, Page } from '../../model/dtos/movimientoListaDTO';
 import { MovimientosService } from '../../services/movimientos.service';
 import { TipoMovimiento } from './../../../tipos-movimiento/models/tipo-movimiento';
+import { LocalDateTime } from '@js-joda/core';
 
 @Component({
   selector: 'app-movimientos',
@@ -89,8 +90,8 @@ export class MovimientosComponent implements OnInit {
       id: null,
       idTipo: "-1", //Opcion TODOS por defecto
       nombreApellidoEntidad: null,
-      fechaInicial: new Date(),
-      fechaFinal: new Date(),
+      fechaInicial: LocalDateTime.now().withHour(0).withMinute(0).withSecond(0),  //Se poner fecha actual con hora 00:00:00
+      fechaFinal: LocalDateTime.now().withHour(23).withMinute(59).withSecond(59), //Se poner fecha actual con hora 23:59:59
       idDepartamento: "-1", //Opcion TODOS por defecto
       idSituacion: "-1" //Opcion TODOS por defecto
     };
