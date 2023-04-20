@@ -81,6 +81,12 @@ export class MercaderiasComponent implements OnInit {
     this.mercaderiaFiltro = this.filtroInicial();
   }
 
+  protected limpiarFiltrosExceptoId() {
+    const idFiltro: Number = this.mercaderiaFiltro.id;  //Salva id ingresado
+    this.limpiarFiltros();
+    this.mercaderiaFiltro.id = idFiltro;  //Vuelve a agregar filtro ingresado
+  }
+
   private filtroInicial() {
     return this.mercaderiaFiltro = {
       id: null,

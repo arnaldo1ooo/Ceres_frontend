@@ -87,6 +87,12 @@ export class MovimientosComponent implements OnInit {
     this.movimientoFiltro = this.filtroInicial();
   }
 
+  protected limpiarFiltrosExceptoId() {
+    const idFiltro: Number = this.movimientoFiltro.id;  //Salva id ingresado
+    this.limpiarFiltros();
+    this.movimientoFiltro.id = idFiltro;  //Vuelve a agregar filtro ingresado
+  }
+
   private filtroInicial() {
 
     return this.movimientoFiltro = {
