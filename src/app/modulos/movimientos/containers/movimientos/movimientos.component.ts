@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,8 +20,8 @@ import { Orden } from '../../../../compartido/enums/orden.enum';
 import { MovimientoFiltroDTO } from '../../model/dtos/movimientoFiltroDTO';
 import { MovimientoListaDTO, Page } from '../../model/dtos/movimientoListaDTO';
 import { MovimientosService } from '../../services/movimientos.service';
+import { FechaHelpersService } from './../../../../compartido/services/fecha-helpers.service';
 import { TipoMovimiento } from './../../../tipos-movimiento/models/tipo-movimiento';
-import { LocalDateTime } from '@js-joda/core';
 
 @Component({
   selector: 'app-movimientos',
@@ -38,6 +39,7 @@ export class MovimientosComponent implements OnInit {
   protected isFiltrando: boolean = false;
   protected pageRes: Page | undefined;
 
+
   //Inicializamos el pageRequest default, seria la paginacion inicial
   protected pageRequestDefault: PageRequest = {
     pagina: PAGE_INICIAL,
@@ -54,7 +56,7 @@ export class MovimientosComponent implements OnInit {
     private _movimientosService: MovimientosService,
     private _tiposMovimientoService: TiposMovimientoService,
     private _departamentosService: DepartamentosService
-    ) {
+  ) {
 
   }
 
@@ -86,12 +88,19 @@ export class MovimientosComponent implements OnInit {
   }
 
   private filtroInicial() {
+
     return this.movimientoFiltro = {
       id: "",
       idTipo: "-1", //Opcion TODOS por defecto
       nombreApellidoEntidad: "",
-      fechaInicial: LocalDateTime.now().withHour(0).withMinute(0).withSecond(0),  //Se poner fecha actual con hora 00:00:00
-      fechaFinal: LocalDateTime.now().withHour(23).withMinute(59).withSecond(59), //Se poner fecha actual con hora 23:59:59
+      fechaRangoInicialFinal: new FormGroup({
+        start: new FormControl(
+          FechaHelpersService.fechaHoraActual()
+        ),
+        end: new FormControl(
+          FechaHelpersService.fechaHoraActual()
+        )
+      }),
       idDepartamento: "-1", //Opcion TODOS por defecto
       keySituacion: "-1" //Opcion TODOS por defecto
     };
@@ -196,3 +205,4 @@ export class MovimientosComponent implements OnInit {
   }
 
 }
+

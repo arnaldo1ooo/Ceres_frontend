@@ -96,8 +96,4 @@ export class HelpersService {
       : opcion === opcionSeleccionada;
   }
 
-  public traducir() {
-
-  }
-
 }

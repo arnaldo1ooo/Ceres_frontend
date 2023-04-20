@@ -22,3 +22,6 @@ export const COD_ERROR_CONEXION = 0;
 export const COD_ESPANHOL = 'es';
 export const COD_PORTUGUES = 'pt';
 export const COD_IDIOMA_DEFAULT = COD_ESPANHOL;
+
+//Configuraciones de region
+export const FORMATO_FECHA = 'es-ES'; //"es-ES" para que utilice dd/mm/yyyy

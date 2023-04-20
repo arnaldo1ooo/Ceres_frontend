@@ -1,12 +1,15 @@
-import { MovimientoListaDTO, Page } from './../model/dtos/movimientoListaDTO';
-import { API_URL_MOVIMIENTOS } from './../../../compartido/constantes/constantes';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { LocalDateTime } from '@js-joda/core';
 import { delay, first, Observable } from 'rxjs';
-import { MovimientoFiltroDTO } from '../model/dtos/movimientoFiltroDTO';
 import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
+
+import { MovimientoFiltroDTO } from '../model/dtos/movimientoFiltroDTO';
 import { Movimiento } from '../model/movimiento';
+import { API_URL_MOVIMIENTOS } from './../../../compartido/constantes/constantes';
+import { FechaHelpersService } from './../../../compartido/services/fecha-helpers.service';
+import { MovimientoListaDTO, Page } from './../model/dtos/movimientoListaDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -33,12 +36,19 @@ export class MovimientosService {
   }
 
   listarTodosMovimientosListaFiltroPage(movimientoFiltro: MovimientoFiltroDTO, pageRequest: PageRequest): Observable<Page> {
+    const fechaInicial: LocalDateTime = FechaHelpersService.asignarHoraAFechaLDT(
+                                    FechaHelpersService.dateALocalDateTime(movimientoFiltro.fechaRangoInicialFinal
+                                      .get('start')?.value), 0, 0, 0); //Asignamos hora 00:00:00
+    const fechaFinal: LocalDateTime = FechaHelpersService.asignarHoraAFechaLDT(
+                                          FechaHelpersService.dateALocalDateTime( movimientoFiltro.fechaRangoInicialFinal
+                                           .get('end')?.value), 23, 59, 59); //Asignamos hora 23:59:59;
+
     return this.htppClient.get<Page>(API_URL_MOVIMIENTOS
       + '/filtroPage?' + `id=${movimientoFiltro.id}`
                        + `&idTipo=${movimientoFiltro.idTipo}`
                        + `&nombreApellidoEntidad=${movimientoFiltro.nombreApellidoEntidad}`
-                       + `&fechaInicial=${movimientoFiltro.fechaInicial}`
-                       + `&fechaFinal=${movimientoFiltro.fechaFinal}`
+                       + `&fechaInicial=${fechaInicial}`
+                       + `&fechaFinal=${fechaFinal}`
                        + `&idDepartamento=${HelpersService.idTodosReturnVacio(movimientoFiltro.idDepartamento)}`
                        + `&keySituacion=${HelpersService.idTodosReturnVacio(movimientoFiltro.keySituacion)}`
       + `&page=${pageRequest.pagina}&size=${pageRequest.tamanho}&sort=${pageRequest.ordenarPor},${pageRequest.orden}`);
@@ -72,3 +82,4 @@ export class MovimientosService {
     return this.htppClient.get<Movimiento>(`${API_URL_MOVIMIENTOS}/${id}`);
   }
 }
+
