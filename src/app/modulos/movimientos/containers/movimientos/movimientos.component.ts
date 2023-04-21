@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -91,6 +92,15 @@ export class MovimientosComponent implements OnInit {
     const idFiltro: Number = this.movimientoFiltro.id;  //Salva id ingresado
     this.limpiarFiltros();
     this.movimientoFiltro.id = idFiltro;  //Vuelve a agregar filtro ingresado
+
+    this.movimientoFiltro.fechaRangoInicialFinal = new FormGroup({
+      start: new FormControl(
+        null
+      ),
+      end: new FormControl(
+        null
+      )
+    });
   }
 
   private filtroInicial() {

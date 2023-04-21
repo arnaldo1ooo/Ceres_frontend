@@ -7,7 +7,15 @@ import { HelpersService } from 'src/app/compartido/services/helpers.service';
 
 import { MovimientoFiltroDTO } from '../model/dtos/movimientoFiltroDTO';
 import { Movimiento } from '../model/movimiento';
-import { API_URL_MOVIMIENTOS } from './../../../compartido/constantes/constantes';
+import {
+  API_URL_MOVIMIENTOS,
+  HORA_FINAL,
+  HORA_INICIAL,
+  MINUTO_FINAL,
+  MINUTO_INICIAL,
+  SEGUNDO_FINAL,
+  SEGUNDO_INICIAL,
+} from './../../../compartido/constantes/constantes';
 import { FechaHelpersService } from './../../../compartido/services/fecha-helpers.service';
 import { MovimientoListaDTO, Page } from './../model/dtos/movimientoListaDTO';
 
@@ -35,22 +43,17 @@ export class MovimientosService {
       );
   }
 
-  listarTodosMovimientosListaFiltroPage(movimientoFiltro: MovimientoFiltroDTO, pageRequest: PageRequest): Observable<Page> {
-    const fechaInicial: LocalDateTime = FechaHelpersService.asignarHoraAFechaLDT(
-                                    FechaHelpersService.dateALocalDateTime(movimientoFiltro.fechaRangoInicialFinal
-                                      .get('start')?.value), 0, 0, 0); //Asignamos hora 00:00:00
-    const fechaFinal: LocalDateTime = FechaHelpersService.asignarHoraAFechaLDT(
-                                          FechaHelpersService.dateALocalDateTime( movimientoFiltro.fechaRangoInicialFinal
-                                           .get('end')?.value), 23, 59, 59); //Asignamos hora 23:59:59;
+  public listarTodosMovimientosListaFiltroPage(movimientoFiltro: MovimientoFiltroDTO, pageRequest: PageRequest): Observable<Page> {
 
     return this.htppClient.get<Page>(API_URL_MOVIMIENTOS
-      + '/filtroPage?' + `id=${movimientoFiltro.id}`
-                       + `&idTipo=${movimientoFiltro.idTipo}`
-                       + `&nombreApellidoEntidad=${movimientoFiltro.nombreApellidoEntidad}`
-                       + `&fechaInicial=${fechaInicial}`
-                       + `&fechaFinal=${fechaFinal}`
-                       + `&idDepartamento=${HelpersService.idTodosReturnVacio(movimientoFiltro.idDepartamento)}`
-                       + `&keySituacion=${HelpersService.idTodosReturnVacio(movimientoFiltro.keySituacion)}`
+      + '/filtroPage?'
+      + `id=${movimientoFiltro.id}`
+      + `&idTipo=${movimientoFiltro.idTipo}`
+      + `&nombreApellidoEntidad=${movimientoFiltro.nombreApellidoEntidad}`
+      + `&fechaInicial=${this.convertirToLDTasignarHorasInicial(movimientoFiltro.fechaRangoInicialFinal.value.start)}`
+      + `&fechaFinal=${this.convertirToLDTasignarHorasFinal(movimientoFiltro.fechaRangoInicialFinal.value.end)}`
+      + `&idDepartamento=${HelpersService.idTodosReturnVacio(movimientoFiltro.idDepartamento)}`
+      + `&keySituacion=${HelpersService.idTodosReturnVacio(movimientoFiltro.keySituacion)}`
       + `&page=${pageRequest.pagina}&size=${pageRequest.tamanho}&sort=${pageRequest.ordenarPor},${pageRequest.orden}`);
   }
 
@@ -81,5 +84,20 @@ export class MovimientosService {
   cargarPorId(id: string) {
     return this.htppClient.get<Movimiento>(`${API_URL_MOVIMIENTOS}/${id}`);
   }
+
+  private convertirToLDTasignarHorasInicial(fechaInicial: Date): LocalDateTime | null {
+    let fechaInicialLDT = FechaHelpersService.dateALocalDateTime(fechaInicial);
+
+    return FechaHelpersService.asignarHoraAFechaLDT(
+      fechaInicialLDT, HORA_INICIAL, MINUTO_INICIAL, SEGUNDO_INICIAL); //Asignamos hora 00:00:00
+  }
+
+  private convertirToLDTasignarHorasFinal(fechaFinal: Date): LocalDateTime | null {
+    let fechaFinalLDT = FechaHelpersService.dateALocalDateTime(fechaFinal);
+
+    return FechaHelpersService.asignarHoraAFechaLDT(
+      fechaFinalLDT, HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL); //Asignamos hora 23:59:59
+  }
+
 }
 
