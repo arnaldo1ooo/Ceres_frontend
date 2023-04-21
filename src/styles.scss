@@ -60,7 +60,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .izquierda-texto {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
 }
 
 html, body { height: 100%; }
