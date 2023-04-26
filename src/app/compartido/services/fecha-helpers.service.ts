@@ -8,8 +8,20 @@ export class FechaHelpersService {
 
   constructor() { }
 
-  public static fechaHoraActual(): Date {
+  public static getFechaHoraActual(): Date {
     return new Date();
+  }
+
+  public static getPrimerDiaDelMes(): Date {
+    const fechaActual = new Date(); // Fecha actual
+    const primerDia = new Date(fechaActual.getFullYear(), fechaActual.getMonth(), 1); // Primer día del mes actual
+    return primerDia;
+  }
+
+  public static getUltimoDiaDelMesActual(): Date {
+    const fechaActual = new Date(); // Crea una nueva instancia de Date con la fecha actual
+    const ultimoDia = new Date(fechaActual.getFullYear(), fechaActual.getMonth() + 1, 0); // Crea una nueva instancia de Date con el último día del mes actual
+    return ultimoDia; // Retorna el último día del mes actual
   }
 
   public static asignarHoraAFechaDate(fecha: Date, hora: number, minuto: number, segundo: number): Date {

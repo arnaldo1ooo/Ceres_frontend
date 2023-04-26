@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -111,10 +110,10 @@ export class MovimientosComponent implements OnInit {
       nombreApellidoEntidad: "",
       fechaRangoInicialFinal: new FormGroup({
         start: new FormControl(
-          FechaHelpersService.fechaHoraActual()
+          FechaHelpersService.getPrimerDiaDelMes()
         ),
         end: new FormControl(
-          FechaHelpersService.fechaHoraActual()
+          FechaHelpersService.getUltimoDiaDelMesActual()
         )
       }),
       idDepartamento: "-1", //Opcion TODOS por defecto
