@@ -1,16 +1,16 @@
-import { AvisoHelpersService } from '../../../../compartido/services/aviso-helpers.service';
-import { ErrorHelpersService } from '../../../../compartido/services/error-helpers.service';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Situacion } from 'src/app/compartido/enums/situacion.enum';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 
-import { Departamento } from '../../model/departamento';
-import { DepartamentosService } from '../../services/departamentos.service';
+import { AvisoHelpersService } from '../../../../compartido/services/aviso-helpers.service';
+import { ErrorHelpersService } from '../../../../compartido/services/error-helpers.service';
 import { SucursalesService } from '../../../sucursales/services/sucursales.service';
+import { Departamento } from '../../model/departamento';
+import { DepartamentoDetalleDTO } from '../../model/dtos/departamentoDetalleDTO';
+import { DepartamentosService } from '../../services/departamentos.service';
 
 @Component({
   selector: 'app-departamento-form',
@@ -23,12 +23,12 @@ export class DepartamentoFormComponent implements OnInit {
 
   formDepartamento = this._formBuilder.group({
     _id: [''],  //Sirve para el modo editar
-    nombre: ['', [
+    descripcion: ['', [
       Validators.required, //Los validators sirven para agregar validaciones al campo
       Validators.minLength(3),
       Validators.maxLength(100)
     ]],
-    sucursal: ['', [
+    sucursalDTO: ['', [
       Validators.required
     ]],
     situacion: ['', [
@@ -39,7 +39,6 @@ export class DepartamentoFormComponent implements OnInit {
   constructor(
     private _formBuilder: NonNullableFormBuilder,
     private _departamentoService: DepartamentosService,
-    private _snackBar: MatSnackBar,
     private _location: Location,
     private _ruta: ActivatedRoute,
     private _sucursalService: SucursalesService,
@@ -51,13 +50,13 @@ export class DepartamentoFormComponent implements OnInit {
     this.cargarDropDownSucursal();
     this.verificarModo();
 
-    const departamento: Departamento = this._ruta.snapshot.data['departamento'];  //Obtiene el objeto departamento del resolver
+    const departamentoDetalleDTO: DepartamentoDetalleDTO = this._ruta.snapshot.data['departamento'];  //Obtiene el objeto departamento del resolver
 
     this.formDepartamento.setValue({ //Setamos los datos del departamento para que aparezca al editar
-      _id: departamento._id,
-      nombre: departamento.descripcion,
-      sucursal: departamento.sucursal,
-      situacion: HelpersService.isNoNuloYNoVacio(departamento.situacion) ? departamento.situacion : Situacion.ACTIVO //Se pone por default Activo
+      _id: departamentoDetalleDTO._id,
+      descripcion: departamentoDetalleDTO.descripcion,
+      sucursalDTO: departamentoDetalleDTO.sucursalDTO,
+      situacion: HelpersService.isNoNuloYNoVacio(departamentoDetalleDTO.situacion) ? departamentoDetalleDTO.situacion : Situacion.ACTIVO //Se pone por default Activo
     });
   }
 
@@ -72,13 +71,13 @@ export class DepartamentoFormComponent implements OnInit {
     }
   }
 
-  public onCancelar() {
+  public onRetroceder() {
     this._location.back(); //Para que retroceda de pagina
   }
 
   private onExito() {
     this._avisoHelpersService.mostrarMensaje('Departamento guardado con exito!', '', 4000)
-    this.onCancelar(); //Para que vuelva atras
+    this.onRetroceder(); //Para que vuelva atras
   }
 
   private onError() {
