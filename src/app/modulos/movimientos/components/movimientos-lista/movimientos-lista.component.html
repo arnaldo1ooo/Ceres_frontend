@@ -8,7 +8,7 @@
 
     <!-- Columna tipo -->
     <ng-container matColumnDef="tipo">
-      <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
       <mat-cell *matCellDef="let movimientoListaDTO" class="izquierda-texto">{{ movimientoListaDTO.tipo.descripcion }}
       </mat-cell>
     </ng-container>
@@ -43,7 +43,7 @@
     <!-- Columna total -->
     <ng-container matColumnDef="total">
       <mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
-      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{ movimientoListaDTO.total | currency:'Gs ' : true : '1.0-0' }}</mat-cell> <!--1 entero como minimo, 0 decimales-->
+      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{ movimientoListaDTO.total | currency:'Gs' : true : '1.0-0' }}</mat-cell> <!--1 entero como minimo, 0 decimales-->
     </ng-container>
 
     <!-- Columna Acciones -->

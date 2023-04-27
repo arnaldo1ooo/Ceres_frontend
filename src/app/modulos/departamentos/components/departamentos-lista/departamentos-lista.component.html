@@ -1,28 +1,28 @@
 <div>
-  <mat-table [dataSource]="listDepartamentos">
+  <mat-table [dataSource]="listDepartamentoListaDTOs">
 
     <!-- Columna id -->
     <ng-container matColumnDef="_id">
       <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
-      <mat-cell *matCellDef="let departamento"> {{ departamento._id }} </mat-cell>
+      <mat-cell *matCellDef="let departamentoListaDTO"> {{ departamentoListaDTO._id }} </mat-cell>
     </ng-container>
 
     <!-- Columna nombre -->
     <ng-container matColumnDef="nombre">
       <mat-header-cell *matHeaderCellDef> Descripción </mat-header-cell>
-      <mat-cell *matCellDef="let departamento"> {{ departamento.descripcion }} </mat-cell>
+      <mat-cell *matCellDef="let departamentoListaDTO"> {{ departamentoListaDTO.descripcion }} </mat-cell>
     </ng-container>
 
     <!-- Columna sucursal -->
     <ng-container matColumnDef="sucursal">
       <mat-header-cell *matHeaderCellDef> Sucursal </mat-header-cell>
-      <mat-cell *matCellDef="let departamento"> {{departamento.sucursal.descripcion}} </mat-cell>
+      <mat-cell *matCellDef="let departamentoListaDTO"> {{departamentoListaDTO.sucursal.descripcion}} </mat-cell>
     </ng-container>
 
     <!-- Columna situacion -->
     <ng-container matColumnDef="situacion">
       <mat-header-cell *matHeaderCellDef> Situación </mat-header-cell>
-      <mat-cell *matCellDef="let departamento"> {{ departamento.situacion | situacionPipe }} </mat-cell>
+      <mat-cell *matCellDef="let departamentoListaDTO"> {{ departamentoListaDTO.situacion | situacionPipe }} </mat-cell>
     </ng-container>
 
     <!-- Columna Acciones -->
@@ -42,8 +42,8 @@
           <mat-icon>edit</mat-icon>
         </button>
 
-        <button mat-icon-button color="warn" aria-label="Eliminar departamento" (click)="onEliminar(departamentos)">
-          <mat-icon>delete_forever</mat-icon>
+        <button mat-icon-button color="warn" aria-label="Eliminar departamento" (click)="onInactivar(departamentos)">
+          <mat-icon>delete</mat-icon>
         </button>
       </mat-cell>
 
@@ -55,7 +55,7 @@
   </mat-table>
 
 
-  <mat-paginator [length]="this.listDepartamentos.length" [pageSize]="pageTamanho"
+  <mat-paginator [length]="this.listDepartamentoListaDTOs.length" [pageSize]="pageTamanho"
     [pageSizeOptions]="pageTamanhos" (page)="onCambiarPage($event)" [showFirstLastButtons]="true">
   </mat-paginator>
 </div>

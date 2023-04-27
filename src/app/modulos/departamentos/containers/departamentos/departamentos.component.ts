@@ -1,3 +1,4 @@
+import { DepartamentoListaDTO } from './../../model/dtos/departamentoListaDTO';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -18,7 +19,7 @@ import { DepartamentosService } from '../../services/departamentos.service';
 })
 export class DepartamentosComponent implements OnInit {
 
-  dsDepartamentos$: Observable<Departamento[]>; //Cuando es Observable, colocar $
+  dsDepartamentos$: Observable<DepartamentoListaDTO[]>; //Cuando es Observable, colocar $
 
   constructor(
     private departamentosService: DepartamentosService,

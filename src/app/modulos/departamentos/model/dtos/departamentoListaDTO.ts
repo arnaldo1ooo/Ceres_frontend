@@ -1,5 +1,5 @@
 
-export interface DepartamentoDetalleDTO {
+export interface DepartamentoListaDTO {
   _id: string;
   descripcion: string;
   sucursal: string;

@@ -8,7 +8,6 @@ import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { AvisoHelpersService } from '../../../../compartido/services/aviso-helpers.service';
 import { ErrorHelpersService } from '../../../../compartido/services/error-helpers.service';
 import { SucursalesService } from '../../../sucursales/services/sucursales.service';
-import { Departamento } from '../../model/departamento';
 import { DepartamentoDetalleDTO } from '../../model/dtos/departamentoDetalleDTO';
 import { DepartamentosService } from '../../services/departamentos.service';
 
@@ -28,7 +27,7 @@ export class DepartamentoFormComponent implements OnInit {
       Validators.minLength(3),
       Validators.maxLength(100)
     ]],
-    sucursalDTO: ['', [
+    sucursal: ['', [
       Validators.required
     ]],
     situacion: ['', [
@@ -47,7 +46,7 @@ export class DepartamentoFormComponent implements OnInit {
   }
 
   ngOnInit(): void {  //Se ejecuta al iniciar componente
-    this.cargarDropDownSucursal();
+    this.cargarSelectSucursal();
     this.verificarModo();
 
     const departamentoDetalleDTO: DepartamentoDetalleDTO = this._ruta.snapshot.data['departamento'];  //Obtiene el objeto departamento del resolver
@@ -55,7 +54,7 @@ export class DepartamentoFormComponent implements OnInit {
     this.formDepartamento.setValue({ //Setamos los datos del departamento para que aparezca al editar
       _id: departamentoDetalleDTO._id,
       descripcion: departamentoDetalleDTO.descripcion,
-      sucursalDTO: departamentoDetalleDTO.sucursalDTO,
+      sucursal: departamentoDetalleDTO.sucursal,
       situacion: HelpersService.isNoNuloYNoVacio(departamentoDetalleDTO.situacion) ? departamentoDetalleDTO.situacion : Situacion.ACTIVO //Se pone por default Activo
     });
   }
@@ -84,7 +83,7 @@ export class DepartamentoFormComponent implements OnInit {
     this._avisoHelpersService.mostrarMensaje('Error al guardar departamento', '', 4000);
   }
 
-  private cargarDropDownSucursal() {
+  private cargarSelectSucursal() {
     this._sucursalService.listarTodosSucursales().subscribe((lista: any) => {  //Cargamos la lista de sucursales para mostrar en el dropdown
       this.listaSucursales = lista;
     })

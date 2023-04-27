@@ -1,3 +1,4 @@
+import { DepartamentoListaDTO } from './../model/dtos/departamentoListaDTO';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { delay, first, Observable, tap } from 'rxjs';
@@ -22,7 +23,7 @@ export class DepartamentosService {
   }
 
   listarTodosDepartamentosActivos() {
-    return this.htppClient.get<Departamento[]>(API_URL_DEPARTAMENTOS+'/activos')
+    return this.htppClient.get<DepartamentoListaDTO[]>(API_URL_DEPARTAMENTOS+'/activos')
       .pipe(                                        //Manipular datos
         first(),                                    //Ejecuta la accion al primer resultado
         delay(100)                             //Espera de x segundos

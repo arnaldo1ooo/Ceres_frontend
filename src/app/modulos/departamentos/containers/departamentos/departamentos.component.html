@@ -8,7 +8,7 @@
     <!--Pasamos las departamentos a la lista-->
     <app-departamentos-lista
       *ngIf="dsDepartamentos$ | async as departamentos; else cargando"
-      [listDepartamentos]="departamentos"
+      [listDepartamentoListaDTOs]="departamentos"
       (nuevo)="onNuevo()"
       (visualizar)="onVisualizar($event)"
       (editar)="onEditar($event)"

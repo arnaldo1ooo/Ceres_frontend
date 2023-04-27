@@ -3,6 +3,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Departamento } from '../../model/departamento';
+import { DepartamentoListaDTO } from '../../model/dtos/departamentoListaDTO';
 
 @Component({
   selector: 'app-departamentos-lista',
@@ -11,7 +12,7 @@ import { Departamento } from '../../model/departamento';
 })
 export class DepartamentosListaComponent implements OnInit {
 
-  @Input() listDepartamentos: Departamento[] = [];
+  @Input() listDepartamentoListaDTOs: DepartamentoListaDTO[] = [];
   @Output() nuevo = new EventEmitter(false);
   @Output() visualizar = new EventEmitter(false);
   @Output() editar = new EventEmitter(false);
@@ -20,7 +21,7 @@ export class DepartamentosListaComponent implements OnInit {
 
   readonly columnasAMostrar = ['_id', 'nombre', 'sucursal', 'situacion', 'acciones'];
 
-  pageRegistrosSeparados  = this.listDepartamentos;
+  pageRegistrosSeparados  = this.listDepartamentoListaDTOs;
   pageTamanho = 10;
   pageTamanhos = [10, 20, 50];
 
@@ -29,15 +30,15 @@ export class DepartamentosListaComponent implements OnInit {
     private rutaActual: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.pageRegistrosSeparados = this.listDepartamentos.slice(0, this.pageTamanho);  //Se separa los primeros X registros para la 1ra pagina
+    this.pageRegistrosSeparados = this.listDepartamentoListaDTOs.slice(0, this.pageTamanho);  //Se separa los primeros X registros para la 1ra pagina
   }
 
   onNuevo() {
     this.nuevo.emit(true);
   }
 
-  onVisualizar(departamento: Departamento) {
-    this.visualizar.emit(departamento);
+  onVisualizar(departamentoListaDTO: DepartamentoListaDTO) {
+    this.visualizar.emit(departamentoListaDTO);
   }
 
   onEditar(departamento: Departamento) {
@@ -53,7 +54,7 @@ export class DepartamentosListaComponent implements OnInit {
   }
 
   onCambiarPage(event: PageEvent) {
-    let totalRegistros = this.listDepartamentos;
+    let totalRegistros = this.listDepartamentoListaDTOs;
     const inicioIndex = event.pageIndex * event.pageSize;
     let finIndex = inicioIndex + event.pageSize;
 
