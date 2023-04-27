@@ -1,3 +1,5 @@
+import { LOCALE_ID } from '@angular/core';
+
 export class Constantes {
 
 
@@ -7,7 +9,7 @@ export const API_URL = 'http://localhost:8180/';  //se pone como export para pod
 export const API_URL_LOGIN = API_URL + 'login';
 export const API_URL_MERCADERIAS = API_URL + API_NOMBRE + '/mercaderias';
 export const API_URL_SUCURSALES = API_URL + API_NOMBRE + '/sucursales';
-export const API_URL_DEPARTAMENTOS = API_URL +  API_NOMBRE + '/departamentos';
+export const API_URL_DEPARTAMENTOS = API_URL + API_NOMBRE + '/departamentos';
 export const API_URL_TIPOS_MOVIMIENTO = API_URL + API_NOMBRE + '/tipos-movimiento';
 export const API_URL_MOVIMIENTOS = API_URL + API_NOMBRE + '/movimientos';
 
@@ -24,7 +26,8 @@ export const COD_PORTUGUES = 'pt';
 export const COD_IDIOMA_DEFAULT = COD_ESPANHOL;
 
 //Configuraciones de region
-export const FORMATO_FECHA = 'es-ES'; //"es-ES" para que utilice dd/mm/yyyy
+export const FORMATO_REGIONAL_ES = 'es'; //"es-ES" para que utilice dd/mm/yyyy
+
 export const HORA_INICIAL = 0;
 export const MINUTO_INICIAL = 0;
 export const SEGUNDO_INICIAL = 0;

@@ -1,6 +1,7 @@
+import { registerLocaleData } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
+import localeEs from '@angular/common/locales/es';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -9,8 +10,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthInterceptor } from './autenticacion/interceptors/auth.interceptor';
 import { CompartidoModule } from './compartido/compartido.module';
-import { FORMATO_FECHA } from './compartido/constantes/constantes';
+import { FORMATO_REGIONAL_ES } from './compartido/constantes/constantes';
 import { MaterialModulosModule } from './compartido/material-modulos/material-modulos.module';
+
+registerLocaleData(localeEs, FORMATO_REGIONAL_ES);
+
 
 @NgModule({
   declarations: [
@@ -26,15 +30,8 @@ import { MaterialModulosModule } from './compartido/material-modulos/material-mo
     MaterialModulosModule
   ],
   providers: [
-    { //Sirve para el interceptor de autenticacion helpers/autenticacion
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    },
-    { //Para que el formato de las fechas este en dd/mm/yyyy
-      provide: MAT_DATE_LOCALE,
-      useValue: FORMATO_FECHA
-    }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, //Sirve para el interceptor de autenticacion helpers/autenticacion
+    { provide: LOCALE_ID, useValue: FORMATO_REGIONAL_ES } // Configura el LOCALE_ID a 'es' para usar el español como idioma
   ],
   bootstrap: [AppComponent]
 })

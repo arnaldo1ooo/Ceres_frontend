@@ -3,27 +3,27 @@
     <!-- Columna id -->
     <ng-container matColumnDef="_id">
       <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
-      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{movimientoListaDTO._id}}</mat-cell>
+      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{ movimientoListaDTO._id }}</mat-cell>
     </ng-container>
 
     <!-- Columna tipo -->
     <ng-container matColumnDef="tipo">
       <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
-      <mat-cell *matCellDef="let movimientoListaDTO" class="izquierda-texto">{{movimientoListaDTO.tipo.descripcion}}
+      <mat-cell *matCellDef="let movimientoListaDTO" class="izquierda-texto">{{ movimientoListaDTO.tipo.descripcion }}
       </mat-cell>
     </ng-container>
 
     <!-- Columna nombreApellido -->
     <ng-container matColumnDef="nombreApellidoEntidad">
       <mat-header-cell *matHeaderCellDef>Entidad</mat-header-cell>
-      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{movimientoListaDTO.nombreApellidoEntidad}}
+      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{ movimientoListaDTO.nombreApellidoEntidad }}
       </mat-cell>
     </ng-container>
 
     <!-- Columna fecha emision -->
     <ng-container matColumnDef="fechaEmision">
       <mat-header-cell *matHeaderCellDef>Fecha Emisión</mat-header-cell>
-      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{movimientoListaDTO.fechaEmision}}
+      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{ movimientoListaDTO.fechaEmision | date: 'dd/MM/yyyy' }}
       </mat-cell>
     </ng-container>
 
@@ -37,13 +37,13 @@
     <!-- Columna situacion -->
     <ng-container matColumnDef="situacion">
       <mat-header-cell *matHeaderCellDef>Situación</mat-header-cell>
-      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{movimientoListaDTO.situacion | situacionPipe}}</mat-cell>
+      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{ movimientoListaDTO.situacion | situacionPipe }}</mat-cell>
     </ng-container>
 
     <!-- Columna total -->
     <ng-container matColumnDef="total">
       <mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
-      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{movimientoListaDTO.total}}</mat-cell>
+      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{ movimientoListaDTO.total | currency:'Gs ' : true : '1.0-0' }}</mat-cell> <!--1 entero como minimo, 0 decimales-->
     </ng-container>
 
     <!-- Columna Acciones -->
