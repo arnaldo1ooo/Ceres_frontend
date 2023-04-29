@@ -14,7 +14,7 @@ export class DepartamentosService {
   constructor(private htppClient: HttpClient) { } //El httpClient permite la conexion con el backend
 
   listarTodosDepartamentos() {
-    return this.htppClient.get<Departamento[]>(API_URL_DEPARTAMENTOS)
+    return this.htppClient.get<DepartamentoListaDTO[]>(API_URL_DEPARTAMENTOS)
       .pipe(                                        //Manipular datos
         first(),                                    //Ejecuta la accion al primer resultado
         delay(100)/*,                                //Espera de x segundos
@@ -23,7 +23,7 @@ export class DepartamentosService {
   }
 
   listarTodosDepartamentosActivos() {
-    return this.htppClient.get<DepartamentoListaDTO[]>(API_URL_DEPARTAMENTOS+'/activos')
+    return this.htppClient.get<DepartamentoListaDTO[]>(API_URL_DEPARTAMENTOS + '/activos')
       .pipe(                                        //Manipular datos
         first(),                                    //Ejecuta la accion al primer resultado
         delay(100)                             //Espera de x segundos

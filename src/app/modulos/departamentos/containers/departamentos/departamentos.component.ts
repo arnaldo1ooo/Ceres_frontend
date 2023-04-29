@@ -105,7 +105,7 @@ export class DepartamentosComponent implements OnInit {
   }
 
   cargarDepartamentos() {
-    return this.departamentosService.listarTodosDepartamentosActivos()
+    return this.departamentosService.listarTodosDepartamentos()
       .pipe(catchError(error => {
         this.abrirDialogoError('Error al cargar lista de Departamentos');
 
