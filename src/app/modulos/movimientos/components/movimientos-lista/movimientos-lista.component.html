@@ -15,7 +15,7 @@
 
     <!-- Columna nombreApellido -->
     <ng-container matColumnDef="nombreApellidoEntidad">
-      <mat-header-cell *matHeaderCellDef>Entidad</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>Entidad/Cliente</mat-header-cell>
       <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{ movimientoListaDTO.nombreApellidoEntidad }}
       </mat-cell>
     </ng-container>
@@ -43,7 +43,10 @@
     <!-- Columna total -->
     <ng-container matColumnDef="total">
       <mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
-      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{ movimientoListaDTO.total | currency:'Gs' : true : '1.0-0' }}</mat-cell> <!--1 entero como minimo, 0 decimales-->
+      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">
+        {{ movimientoListaDTO.total | currency:movimientoListaDTO.moneda.simbolo : isMostrarSimboloMoneda
+          : '1.' + movimientoListaDTO.moneda.cantidadDecimales + '-' + movimientoListaDTO.moneda.cantidadDecimales }} <!--Ej: 1.8-8 = 1 entero como minimo, 8 decimales-->
+      </mat-cell>
     </ng-container>
 
     <!-- Columna Acciones -->

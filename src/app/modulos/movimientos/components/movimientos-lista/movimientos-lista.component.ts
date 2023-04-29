@@ -28,7 +28,7 @@ export class MovimientosListaComponent implements OnInit {
 
   protected readonly columnasAMostrar = ['_id', 'tipo', 'nombreApellidoEntidad', 'fechaEmision', 'departamento', 'total', 'situacion', 'acciones'];
   protected tamanhosPage = DEFAULT_PAGE_TAMANHOS;
-
+  protected isMostrarSimboloMoneda: boolean = true;
 
   constructor(private _movimientosComponent: MovimientosComponent) { }
 
