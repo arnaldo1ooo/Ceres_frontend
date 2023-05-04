@@ -22,7 +22,13 @@
   },
 
   "detalles": {
-    "detalle-movimiento": "Detalles del Movimiento"
+    "detalle-movimiento": "Detalles del Movimiento",
+    "detalle-mercaderia": "Detalles de la Mercaderia"
+  },
+
+  "seleccion": {
+    "seleccion-tipo-mercaderia": "Seleccione un tipo de mercadería",
+    "seleccion-sucursal": "Seleccione una sucursal"
   },
 
   "filtros": {

@@ -20,20 +20,26 @@
     },
 
     "detalles": {
-      "detalle-movimiento": "Detalhes do Movimento"
-      },
+      "detalle-movimiento": "Detalhes do Movimento",
+      "detalle-mercaderia": "Detalhes da Mercadoria"
+    },
 
-      "filtros": {
+    "seleccion": {
+        "seleccion-tipo-mercaderia": "Selecione um tipo de mercadoría",
+        "seleccion-sucursal": "Selecione uma sucursal"
+    },
+
+    "filtros": {
       "filtro-descripcion": "Descrição",
       "filtro-tipo": "Tipo",
       "filtro-sucursal": "Filial",
       "filtro-situacion": "Situação"
-      },
+    },
 
-      "botones": {
+    "botones": {
       "guardar": "Salvar",
       "cancelar": "Cancelar"
-      },
+    },
 
     "sin-registros": "Sem registros"
   }

@@ -1,20 +1,20 @@
 <mat-card>
 
-  <mat-toolbar color="primary">Detalles de la Mercaderia</mat-toolbar>
+  <mat-toolbar color="primary">{{ "detalles.detalle-mercaderia" | transloco }}</mat-toolbar>
 
   <mat-card-content>
     <form [formGroup]="formMercaderia" class="anchura-minima">
       <mat-form-field appearance="outline" class="anchura-maxima">
-        <mat-label>Descripción</mat-label>
+        <mat-label>{{ "filtros.filtro-descripcion" | transloco }}</mat-label>
         <input matInput formControlName="descripcion" #descripcion>
         <mat-hint align="end">{{ descripcion.value.length || 0 }} / 100</mat-hint> <!--Requiere poner #descripcion-->
         <mat-error *ngIf="formMercaderia.get('descripcion')?.invalid">{{getMensajeError('descripcion')}}</mat-error> <!--verifica validaciones, invalid evita error con null o valor invalido-->
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="anchura-maxima">
-        <mat-label>Tipo</mat-label>
+        <mat-label>{{ "filtros.filtro-tipo" | transloco }}</mat-label>
         <mat-select formControlName="tipo">
-          <mat-option disabled selected value="">Seleccione un tipo de mercadería</mat-option>
+          <mat-option disabled selected value="">{{ "seleccion.seleccion-tipo-mercaderia" | transloco }}</mat-option>
           <mat-option *ngFor="let tipoMercaderia of listaTiposMercaderia" [value]="tipoMercaderia">
             {{tipoMercaderia | tipoMercaderiaPipe}}
           </mat-option>
@@ -23,16 +23,16 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="anchura-maxima">
-        <mat-label>Sucursal</mat-label>
+        <mat-label>{{ "filtros.filtro-sucursal" | transloco }}</mat-label>
         <mat-select formControlName="sucursal" [compareWith]="compararById">
-          <mat-option disabled selected value="">Seleccione una sucursal</mat-option>
+          <mat-option disabled selected value="">{{ "seleccion.seleccion-sucursal" | transloco }}</mat-option>
           <mat-option *ngFor="let sucursal of listaSucursales" [value]="sucursal">{{sucursal.id}} - {{sucursal.descripcion}}</mat-option>
         </mat-select>
         <mat-error *ngIf="formMercaderia.get('sucursal')?.invalid">{{getMensajeError('sucursal')}}</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="anchura-maxima">
-        <mat-label>Situación</mat-label>
+        <mat-label>{{ "filtros.filtro-situacion" | transloco }}</mat-label>
         <mat-select formControlName="situacion">
           <mat-option *ngFor="let situacion of listaSituaciones" [value]="situacion">
             {{situacion | situacionPipe}}
