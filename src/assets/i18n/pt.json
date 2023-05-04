@@ -19,5 +19,21 @@
       "venta-normal" : "Venda normal"
     },
 
+    "detalles": {
+      "detalle-movimiento": "Detalhes do Movimento"
+      },
+
+      "filtros": {
+      "filtro-descripcion": "Descrição",
+      "filtro-tipo": "Tipo",
+      "filtro-sucursal": "Filial",
+      "filtro-situacion": "Situação"
+      },
+
+      "botones": {
+      "guardar": "Salvar",
+      "cancelar": "Cancelar"
+      },
+
     "sin-registros": "Sem registros"
   }

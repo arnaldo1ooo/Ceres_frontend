@@ -34,7 +34,7 @@
   </mat-card-content>
 
   <mat-card-actions class="style-barra-acciones">
-    <button mat-raised-button color="primary" (click)="onGuardar()" [disabled]="isModoVisualizar()">Guardar</button>
-    <button mat-raised-button color="warn" (click)="onRetroceder()" class="style-espacio-boton">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="onGuardar()" [disabled]="isModoVisualizar()">{{ "botones.guardar" | transloco }}</button>
+    <button mat-raised-button color="warn" (click)="onRetroceder()" class="style-espacio-boton">{{ "botones.cancelar" | transloco }}</button>
   </mat-card-actions>
 </mat-card>

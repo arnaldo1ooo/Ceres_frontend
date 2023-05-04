@@ -7,4 +7,15 @@ import { Component } from '@angular/core';
 })
 export class TiposMovimientoSeleccionComponent {
 
+
+  constructor() {
+
+  }
+
+  ngOnInit(): void {
+
+  }
+
+
+
 }

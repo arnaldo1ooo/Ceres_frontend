@@ -8,7 +8,7 @@
 //Tema Light
 $tema-custom-light: mat.define-light-theme((
   color: (primary: mat.define-palette(mat.$indigo-palette, 500), //color, tono "predeterminado", tono "más claro", tono "más oscuro", tono de "texto"
-          accent: mat.define-palette(mat.$blue-palette),
+          accent: mat.define-palette(mat.$blue-palette, 500),
           warning: mat.define-palette(mat.$red-palette)
          ),
           /*typography: mat.define-typography-config(),
