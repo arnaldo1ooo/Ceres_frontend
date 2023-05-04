@@ -112,7 +112,7 @@ export class MercaderiasComponent implements OnInit {
   }
 
   protected onEditar(mercaderia: Mercaderia) {
-    this._ruta.navigate(['editar', mercaderia._id], { relativeTo: this._rutaActual }); //Navega a esa direccion con los datos del departamento
+    this._ruta.navigate(['editar', mercaderia._id], { relativeTo: this._rutaActual }); //Navega a esa direccion con los datos seleccionados
   }
 
   protected onEliminar(mercaderia: Mercaderia) {

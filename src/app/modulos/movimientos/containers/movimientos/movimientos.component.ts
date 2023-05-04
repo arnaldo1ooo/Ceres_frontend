@@ -128,7 +128,7 @@ export class MovimientosComponent implements OnInit {
   }
 
   protected onNuevo() {
-    this._ruta.navigate(['nuevo'], { relativeTo: this._rutaActual }); //Para que navegue a esa direccion
+    this._ruta.navigate(['tipos-movimiento'], { relativeTo: this._rutaActual }); //Para que navegue a esa direccion
   }
 
   protected onVisualizar(movimientoListaDTO: MovimientoListaDTO) {

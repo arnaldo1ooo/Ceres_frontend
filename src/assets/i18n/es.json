@@ -6,10 +6,19 @@
     "ingresar": "Ingresar"
 
   },
+
   "errores": {
     "error-login": "Falló el inicio de sesión",
     "error-login-incorrecto": "Nombre de usuario o contraseña incorrecta",
     "error-conexion-servidor": "Error de conexión con el servidor"
+  },
+
+  "tipo-movimiento" : {
+    "titulo": "Selecciona el tipo de movimiento",
+    "entrada" : "Entrada",
+    "salida" : "Salida",
+    "compra-normal" : "Compra normal",
+    "venta-normal" : "Venta normal"
   },
 
   "sin-registros": "Sin registros"

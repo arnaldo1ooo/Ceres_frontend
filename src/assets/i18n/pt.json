@@ -11,5 +11,13 @@
       "error-conexion-servidor": "Erro de conexão com o servidor"
     },
 
+    "tipo-movimiento" : {
+      "titulo": "Selecione o tipo de movimento",
+      "entrada" : "Entrada",
+      "salida" : "Saida",
+      "compra-normal" : "Compra normal",
+      "venta-normal" : "Venda normal"
+    },
+
     "sin-registros": "Sem registros"
   }
