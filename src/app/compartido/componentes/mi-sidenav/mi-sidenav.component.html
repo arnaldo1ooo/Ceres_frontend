@@ -6,7 +6,7 @@
     <button mat-button (click)="cerrarSesion()">Desconectar</button>
   </mat-toolbar>
 
-  <mat-sidenav-container class="style-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+  <mat-sidenav-container class="style-sidenav-container background-gradiente" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
     <mat-sidenav #elSideNav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
       fixedTopGap="56" [opened]="isAbierto" *ngIf="isSesionIniciada$ | async">
       <mat-nav-list *ngIf="isSesionIniciada$ | async">
