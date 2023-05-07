@@ -35,3 +35,6 @@ export const SEGUNDO_INICIAL = 0;
 export const HORA_FINAL = 23;
 export const MINUTO_FINAL = 59;
 export const SEGUNDO_FINAL = 59;
+
+//SELECT
+export const ID_OPCION_TODOS = -1;

@@ -50,11 +50,11 @@ export class HelpersService {
   }
 
   public static isUndefined(valor: any) {
-    return valor == 'undefined';
+    return valor == 'undefined' && valor == undefined;
   }
 
   public static isNoUndefined(valor: any) {
-    return valor != 'undefined';
+    return valor != 'undefined' && valor != undefined;
   }
 
   public static isNoNuloYNoVacio(valor: any) {
@@ -89,11 +89,19 @@ export class HelpersService {
     return valor != "-1" ? valor : "";
   }
 
-  //Esta comparacion se ejecuta con cada opcion de la lista compara lista = opcion.id, sirve para los select
-  public static compararById(opcion: any, opcionSeleccionada: any): boolean {
-    return opcion && opcionSeleccionada
-      ? opcion.id === opcionSeleccionada.id
-      : opcion === opcionSeleccionada;
+  /*Esta función se ejecuta para cada opción de la lista y para el valor seleccionado actualmente
+  para determinar si la opción seleccionada es la misma que la opción de la lista.*/
+  public static compararOpcionesSelect(opcion: any, opcionSeleccionada: any): boolean {
+    if (opcion && opcionSeleccionada) {
+      if (HelpersService.isNoUndefined(opcion.id) && HelpersService.isNoUndefined(opcionSeleccionada.id)) {
+        return opcion.id === opcionSeleccionada.id;
+      }
+      else {
+        return opcion.toString() === opcionSeleccionada.toString();
+      }
+    }
+
+    return false;
   }
 
 }
