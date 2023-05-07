@@ -91,8 +91,8 @@ export class MercaderiaFormComponent implements OnInit {
     this._avisoHelpersService.mostrarMensaje('Error al guardar mercaderia', '', 4000); //Mensaje cuando da error
   }
 
-  protected compararById(opcion: any, opcionRecibida: any): boolean {
-    return HelpersService.compararById(opcion, opcionRecibida);
+  protected compararOpcionesSelect(opcion: any, opcionRecibida: any): boolean {
+    return HelpersService.compararOpcionesSelect(opcion, opcionRecibida);
   }
 
   public getMensajeError(nombreCampo: string) {

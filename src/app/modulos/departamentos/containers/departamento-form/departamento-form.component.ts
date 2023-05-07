@@ -89,8 +89,8 @@ export class DepartamentoFormComponent implements OnInit {
     })
   }
 
-  protected compararById(opcion: any, opcionRecibida: any): boolean {
-    return HelpersService.compararById(opcion, opcionRecibida);
+  protected compararOpcionesSelect(opcion: any, opcionRecibida: any): boolean {
+    return HelpersService.compararOpcionesSelect(opcion, opcionRecibida);
   }
 
   public getMensajeError(nombreCampo: string) {

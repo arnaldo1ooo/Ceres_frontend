@@ -1,10 +1,12 @@
 
-export interface Departamento {
+export class Departamento {
 
-  _id: string;
-  descripcion: string;
-  sucursal: string;
-  situacion: string;
+  _id: string = '';
+  descripcion: string | null = null;
+  sucursal: string | null = null;
+  situacion: string | null = null;
 
+  constructor() {
 
+  }
 }

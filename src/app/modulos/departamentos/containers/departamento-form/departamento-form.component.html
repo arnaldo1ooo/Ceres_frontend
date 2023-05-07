@@ -12,7 +12,7 @@
 
       <mat-form-field appearance="outline" appearance="outline" class="anchura-maxima">
         <mat-label>Sucursal</mat-label>
-        <mat-select formControlName="sucursal" [compareWith]="compararById">
+        <mat-select formControlName="sucursal" [compareWith]="compararOpcionesSelect">
           <mat-option disabled selected value="">Seleccione una sucursal</mat-option>
           <mat-option *ngFor="let sucursal of listaSucursales" [value]="sucursal">{{ sucursal._id }} - {{ sucursal.descripcion }}</mat-option>
         </mat-select>

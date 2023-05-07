@@ -7,7 +7,7 @@ import {
   DialogoConfirmacionComponent,
 } from 'src/app/compartido/componentes/dialogo-confirmacion/dialogo-confirmacion/dialogo-confirmacion.component';
 import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-error/dialogo-error.component';
-import { DEFAULT_ORDENAR_POR, DEFAULT_PAGE_TAMANHO, PAGE_INICIAL } from 'src/app/compartido/constantes/constantes';
+import { DEFAULT_ORDENAR_POR, DEFAULT_PAGE_TAMANHO, ID_OPCION_TODOS, PAGE_INICIAL } from 'src/app/compartido/constantes/constantes';
 import { Situacion, SituacionUtils } from 'src/app/compartido/enums/situacion.enum';
 import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
@@ -91,9 +91,9 @@ export class MercaderiasComponent implements OnInit {
     return this.mercaderiaFiltro = {
       id: null,
       descripcion: null,
-      idTipo: "-1", //Opcion TODOS por defecto
-      idSucursal: "-1",
-      idSituacion: "-1" //Opcion TODOS por defecto
+      idTipo: ID_OPCION_TODOS, //Opcion TODOS por defecto
+      idSucursal: ID_OPCION_TODOS,
+      idSituacion: Situacion.ACTIVO //Opcion TODOS por defecto
     };
   }
 
@@ -179,8 +179,8 @@ export class MercaderiasComponent implements OnInit {
       })
   }
 
-  protected compararById(opcion: any, opcionSeleccionada: any): boolean {
-    return HelpersService.compararById(opcion, opcionSeleccionada);
+  protected compararOpcionesSelect(opcion: any, opcionSeleccionada: any): boolean {
+    return HelpersService.compararOpcionesSelect(opcion, opcionSeleccionada);
   }
 
   private listarSucursales() { //Cargamos la lista de sucursales para mostrar en el dropdown

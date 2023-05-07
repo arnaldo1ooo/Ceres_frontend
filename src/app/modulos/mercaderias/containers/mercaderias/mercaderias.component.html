@@ -18,7 +18,7 @@
 
     <mat-form-field appearance="outline" class="style-select-filtro-tipo">
       <mat-label>Tipo</mat-label>
-      <mat-select [(ngModel)]="mercaderiaFiltro.idTipo" [compareWith]="compararById">
+      <mat-select [(ngModel)]="mercaderiaFiltro.idTipo" [compareWith]="compararOpcionesSelect">
         <mat-option [value]="-1">TODOS</mat-option>
         <mat-option *ngFor="let tipoMercaderia of listaTiposMercaderia" [value]="tipoMercaderia">
           {{tipoMercaderiaUtils.getDescripcion(tipoMercaderia)}}
@@ -28,7 +28,7 @@
 
     <mat-form-field appearance="outline" class="style-select-filtro-sucursal">
       <mat-label>Sucursal</mat-label>
-      <mat-select [(ngModel)]="mercaderiaFiltro.idSucursal" [compareWith]="compararById">
+      <mat-select [(ngModel)]="mercaderiaFiltro.idSucursal" [compareWith]="compararOpcionesSelect">
         <mat-option [value]="-1">TODOS</mat-option>
         <mat-option *ngFor="let sucursal of listaSucursales" value={{sucursal.id}}>{{sucursal.descripcion}}</mat-option>
       </mat-select>
@@ -36,7 +36,7 @@
 
     <mat-form-field appearance="outline" class="style-select-filtro-situacion">
       <mat-label>Situación</mat-label>
-      <mat-select [(ngModel)]="mercaderiaFiltro.idSituacion" [compareWith]="compararById">
+      <mat-select [(ngModel)]="mercaderiaFiltro.idSituacion" [compareWith]="compararOpcionesSelect">
         <mat-option [value]="-1">TODOS</mat-option>
         <mat-option *ngFor="let situacion of listaSituaciones" [value]="situacion">
           {{situacionUtils.getDescripcion(situacion)}}

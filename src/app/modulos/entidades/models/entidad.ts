@@ -1,19 +1,19 @@
 import { Sucursal } from '../../sucursales/model/sucursal';
 import { Situacion } from './../../../compartido/enums/situacion.enum';
-export interface Entidad {
+export class Entidad {
 
-  _id: string;
-  nombre: string;
-  apellido: string;
-  sucursal: Sucursal;
-  municipio: string;
-  direccion: string;
-  tipo: string;
-  ci: string;
-  ruc: string;
-  email: string;
-  fechaCreacion: string;
-  observacion: string;
-  situacion: Situacion;
+  _id: string | null = null;
+  nombre: string | null = null;
+  apellido: string | null = null;
+  sucursal: Sucursal  = new Sucursal();
+  municipio: string | null = null;
+  direccion: string | null = null;
+  tipo: string | null = null;
+  ci: string | null = null;
+  ruc: string | null = null;
+  email: string | null = null;
+  fechaCreacion: string | null = null;
+  observacion: string | null = null;
+  situacion: Situacion | null = null;
 
 }
