@@ -12,6 +12,7 @@ export const API_URL_SUCURSALES = API_URL + API_NOMBRE + '/sucursales';
 export const API_URL_DEPARTAMENTOS = API_URL + API_NOMBRE + '/departamentos';
 export const API_URL_TIPOS_MOVIMIENTO = API_URL + API_NOMBRE + '/tipos-movimiento';
 export const API_URL_MOVIMIENTOS = API_URL + API_NOMBRE + '/movimientos';
+export const API_URL_MONEDAS = API_URL + API_NOMBRE + '/monedas';
 
 export const DEFAULT_PAGE_TAMANHO = 10;
 export const DEFAULT_PAGE_TAMANHOS = [10, 20, 50];

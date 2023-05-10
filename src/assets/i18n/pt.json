@@ -26,14 +26,20 @@
 
     "seleccion": {
         "seleccion-tipo-mercaderia": "Selecione um tipo de mercadoría",
-        "seleccion-sucursal": "Selecione uma sucursal"
+        "seleccion-sucursal": "Selecione a sucursal",
+        "seleccion-tipo-movimiento": "Selecione o tipo de movimento",
+        "seleccion-moneda": "Selecione a moeda",
+        "seleccion-departamento": "Selecione o departamento"
     },
 
-    "filtros": {
-      "filtro-descripcion": "Descrição",
-      "filtro-tipo": "Tipo",
-      "filtro-sucursal": "Filial",
-      "filtro-situacion": "Situação"
+    "titulos": {
+      "descripcion": "Descrição",
+      "tipo": "Tipo",
+      "sucursal": "Filial",
+      "situacion": "Situação",
+      "movimiento": "Tipo",
+      "moneda": "Moeda",
+      "departamento": "Departamento"
     },
 
     "botones": {
