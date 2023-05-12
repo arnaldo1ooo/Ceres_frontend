@@ -10,10 +10,10 @@ import { Sucursal } from '../model/sucursal';
 })
 export class SucursalesService {
 
-  constructor(private htppClient: HttpClient) { } //El httpClient permite la conexion con el backend
+  constructor(private _httpClient: HttpClient) { } //El httpClient permite la conexion con el backend
 
   listarTodosSucursales() {
-    return this.htppClient.get<Sucursal[]>(API_URL_SUCURSALES)
+    return this._httpClient.get<Sucursal[]>(API_URL_SUCURSALES)
       .pipe(                                        //Manipular datos
         first(),                                    //Ejecuta la accion al primer resultado
         delay(100)/*,                                //Espera de x segundos

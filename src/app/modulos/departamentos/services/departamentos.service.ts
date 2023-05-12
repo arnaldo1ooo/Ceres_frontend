@@ -11,10 +11,10 @@ import { Departamento } from '../model/departamento';
 })
 export class DepartamentosService {
 
-  constructor(private htppClient: HttpClient) { } //El httpClient permite la conexion con el backend
+  constructor(private _httpClient: HttpClient) { } //El httpClient permite la conexion con el backend
 
   listarTodosDepartamentos() {
-    return this.htppClient.get<DepartamentoListaDTO[]>(API_URL_DEPARTAMENTOS)
+    return this._httpClient.get<DepartamentoListaDTO[]>(API_URL_DEPARTAMENTOS)
       .pipe(                                        //Manipular datos
         first(),                                    //Ejecuta la accion al primer resultado
         delay(100)/*,                                //Espera de x segundos
@@ -23,7 +23,7 @@ export class DepartamentosService {
   }
 
   listarTodosDepartamentosActivos() {
-    return this.htppClient.get<DepartamentoListaDTO[]>(API_URL_DEPARTAMENTOS + '/activos')
+    return this._httpClient.get<DepartamentoListaDTO[]>(API_URL_DEPARTAMENTOS + '/activos')
       .pipe(                                        //Manipular datos
         first(),                                    //Ejecuta la accion al primer resultado
         delay(100)                             //Espera de x segundos
@@ -41,23 +41,23 @@ export class DepartamentosService {
   }
 
   private crear(departamento: Partial<Departamento>) {
-    return this.htppClient.post<Departamento>(API_URL_DEPARTAMENTOS, departamento).pipe(first());
+    return this._httpClient.post<Departamento>(API_URL_DEPARTAMENTOS, departamento).pipe(first());
   }
 
   private actualizar(departamento: Partial<Departamento>) {
-    return this.htppClient.put<Departamento>(`${API_URL_DEPARTAMENTOS}/${departamento._id}`, departamento).pipe(first());
+    return this._httpClient.put<Departamento>(`${API_URL_DEPARTAMENTOS}/${departamento._id}`, departamento).pipe(first());
   }
 
   eliminar(id: string) {
-    return this.htppClient.delete(`${API_URL_DEPARTAMENTOS}/${id}`).pipe(first());
+    return this._httpClient.delete(`${API_URL_DEPARTAMENTOS}/${id}`).pipe(first());
   }
 
   inactivar(id: string) {
-    return this.htppClient.put<Departamento>(`${API_URL_DEPARTAMENTOS}/inactivar/${id}`, null).pipe(first());
+    return this._httpClient.put<Departamento>(`${API_URL_DEPARTAMENTOS}/inactivar/${id}`, null).pipe(first());
   }
 
   cargarPorId(id: string) {
-    return this.htppClient.get<Departamento>(`${API_URL_DEPARTAMENTOS}/${id}`);
+    return this._httpClient.get<Departamento>(`${API_URL_DEPARTAMENTOS}/${id}`);
   }
 
 }
