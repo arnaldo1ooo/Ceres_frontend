@@ -36,6 +36,22 @@
               <!--Fila 2-->
               <mat-grid-tile>
                 <mat-form-field appearance="outline" class="style-campos">
+                  <mat-label>Entidad</mat-label>
+                  <input type="text" placeholder="Seleccione una entidad" matInput
+                    [formControl]="listaEntidadesControl" [matAutocomplete]="autocompleteEntidad">
+                  <mat-autocomplete autoActiveFirstOption #autocompleteEntidad="matAutocomplete">
+                    <mat-option *ngFor="let entidad of listaEntidadesFiltrado$ | async" [value]="entidad">
+                      {{ entidad._id + ' - ' + entidad.nombre + ' ' + entidad.apellido }}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-error *ngIf="formMovimientoDetalle.get('entidad')?.invalid">
+                    {{ getMensajeError('entidad') }}
+                  </mat-error>
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <mat-form-field appearance="outline" class="style-campos">
                   <mat-label>{{ "titulos.departamento" | transloco }}</mat-label>
                   <mat-select formControlName="departamento" [compareWith]="compararOpcionesSelect">
                     <mat-option disabled selected value="">{{ "seleccion.seleccion-departamento" | transloco }}

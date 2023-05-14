@@ -26,7 +26,11 @@ import { ErrorHelpersService } from 'src/app/compartido/services/error-helpers.s
 
 export class MovimientoFormComponent implements OnInit {
   public listaMonedas: any;
-  public listaEntidades: any;
+
+  public listaEntidades!: Entidad[];
+  public listaEntidadesFiltrado$!: Observable<any>;
+  public listaEntidadesControl = new FormControl('');
+
   public listaDepartamentos: any;
   public listaSituaciones = Object.values(Situacion);
   public formMovimientoDetalle!: FormGroup;
@@ -43,15 +47,14 @@ export class MovimientoFormComponent implements OnInit {
   }
 
   ngOnInit(): void {  //Se ejecuta al iniciar componente
+
     this.formMovimientoDetalle = this.formInicial();
 
     this.listarMonedas();
-    this.listarEntidadesPorClase();
+    this.listarFiltrarEntidades();
     this.listarDepartamentos();
 
-    this.verificarModo();
-
-
+    //En caso que sea modo editar
     const movimientoDetalle: MovimientoDetalleDTO = this._ruta.snapshot.data['movimiento'];  //Obtiene el objeto del resolver
 
     this.formMovimientoDetalle.setValue({ //Setamos los datos para que aparezca al editar o visualizar
@@ -67,8 +70,9 @@ export class MovimientoFormComponent implements OnInit {
         ? movimientoDetalle.situacion
         : Situacion.ACTIVO, //Se pone por default Activo
       items: movimientoDetalle.items
-
     });
+
+    this.verificarModo();
   }
 
   public onGuardar() {
@@ -100,13 +104,13 @@ export class MovimientoFormComponent implements OnInit {
   }
 
   public getMensajeError(nombreCampo: string) {
-     const campo = this.formMovimientoDetalle.get(nombreCampo); //Obtenemos el elemento
-     return ErrorHelpersService.verificarMensajeError(campo);
+    const campo = this.formMovimientoDetalle.get(nombreCampo); //Obtenemos el elemento
+    return ErrorHelpersService.verificarMensajeError(campo);
   }
 
   public verificarModo() {
     if (this.isModoVisualizar()) {
-      this.formMovimientoDetalle.disable(); //Inactiva campos del form
+      //this.formMovimientoDetalle.disable(); //Inactiva campos del form
     }
   }
 
@@ -120,12 +124,24 @@ export class MovimientoFormComponent implements OnInit {
     })
   }
 
-  private listarEntidadesPorClase() {
-    const idsClasesEntidad: string = ClaseEntidad.ID_CLIENTE; //Poner entre coma ej: 1,2,3..
+  private listarFiltrarEntidades() {
+    const idsClaseEntidad: string = ClaseEntidad.ID_CLIENTE; //Poner entre coma ej: 1,2,3..
 
-    this._entidadesService.listarEntidadesPorClases(idsClasesEntidad).subscribe((respuesta: any) => {
+    this._entidadesService.listarEntidadesPorClases(idsClaseEntidad).subscribe((respuesta: any) => {
       this.listaEntidades = respuesta;
+
+      //Se ejecuta cuando se escribe en autocomplete
+      this.listaEntidadesFiltrado$ = this.listaEntidadesControl.valueChanges.pipe(
+        startWith(''), //Se inicia con valor vacio para listar todos los registros
+        map(valorAFiltrar =>
+          this.listaEntidades?.filter(entidad =>
+            entidad._id?.toString().includes(valorAFiltrar || '') ||
+            entidad.nombre?.toLocaleLowerCase().includes(valorAFiltrar || '') ||
+            entidad.apellido?.toLocaleLowerCase().includes(valorAFiltrar || '')))
+      ),
+      () => this._avisoHelpersService.mostrarMensaje('Error al listar Entidades', '', 4000); //Mensaje cuando da error;
     })
+
   }
 
   private listarDepartamentos() {
@@ -134,21 +150,20 @@ export class MovimientoFormComponent implements OnInit {
     })
   }
 
-
   private formInicial(): FormGroup {
-  return this._formBuilder.group(
-    {
-      _id: [''],
-      tipo: [new TipoMovimiento(), Validators.required],
-      moneda: [new Moneda(), Validators.required],
-      entidad: [new Entidad(), Validators.required],
-      fechaEmision: ['', Validators.required],
-      departamento: [new Departamento(), Validators.required],
-      compradorVendedor: [new Entidad(), Validators.required],
-      observacion: ['', Validators.maxLength(500)],
-      situacion: ['', Validators.required],
-      items: ['', Validators.required]
-    }
-  )
-}
+    return this._formBuilder.group(
+      {
+        _id: [''],
+        tipo: [new TipoMovimiento(), Validators.required],
+        moneda: [new Moneda(), Validators.required],
+        entidad: new FormControl([new Entidad(), Validators.required]),
+        fechaEmision: ['', Validators.required],
+        departamento: [new Departamento(), Validators.required],
+        compradorVendedor: [new Entidad(), Validators.required],
+        observacion: ['', Validators.maxLength(500)],
+        situacion: ['', Validators.required],
+        items: ['', Validators.required]
+      }
+    )
+  }
 }
