@@ -1,3 +1,4 @@
+import { ClaseEntidad } from './../../../entidades/enums/clase-entidad.enum';
 import { debounceTime, distinctUntilChanged, filter, map, Observable, of, startWith, switchMap } from 'rxjs';
 import { Departamento } from './../../../departamentos/model/departamento';
 import { Entidad } from './../../../entidades/models/entidad';
@@ -120,7 +121,7 @@ export class MovimientoFormComponent implements OnInit {
   }
 
   private listarEntidadesPorClase() {
-    const idsClasesEntidad: string = "1,2";
+    const idsClasesEntidad: string = ClaseEntidad.ID_CLIENTE; //Poner entre coma ej: 1,2,3..
 
     this._entidadesService.listarEntidadesPorClases(idsClasesEntidad).subscribe((respuesta: any) => {
       this.listaEntidades = respuesta;
