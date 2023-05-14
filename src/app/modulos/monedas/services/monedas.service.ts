@@ -10,10 +10,10 @@ import { Moneda } from './../models/moneda';
 })
 export class MonedasService {
 
-  constructor(private htppClient: HttpClient) { } //El httpClient permite la conexion con el backend
+  constructor(private _httpClient: HttpClient) { } //El httpClient permite la conexion con el backend
 
   listarTodosMonedas() {
-    return this.htppClient.get<Moneda[]>(API_URL_MONEDAS)
+    return this._httpClient.get<Moneda[]>(API_URL_MONEDAS)
       .pipe(                                        //Manipular datos
         first(),                                    //Ejecuta la accion al primer resultado
         delay(100)/*,                                //Espera de x segundos*/

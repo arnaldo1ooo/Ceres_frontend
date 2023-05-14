@@ -14,10 +14,10 @@ import { Page } from './../model/mercaderia';
 })
 export class MercaderiasService {
 
-  constructor(private htppClient: HttpClient) { } //El httpClient permite la conexion con el backend
+  constructor(private _httpClient: HttpClient) { } //El httpClient permite la conexion con el backend
 
   listarTodosMercaderias() {
-    return this.htppClient.get<Mercaderia[]>(API_URL_MERCADERIAS)
+    return this._httpClient.get<Mercaderia[]>(API_URL_MERCADERIAS)
       .pipe(                                        //Manipular datos
         first(),                                    //Ejecuta la accion al primer resultado
         delay(100)/*,                                //Espera de x segundos*/
@@ -25,7 +25,7 @@ export class MercaderiasService {
   }
 
   listarTodosMercaderiasFiltro() {
-    return this.htppClient.get<Mercaderia[]>(API_URL_MERCADERIAS + '/filtro')
+    return this._httpClient.get<Mercaderia[]>(API_URL_MERCADERIAS + '/filtro')
       .pipe(                                        //Manipular datos
         first(),                                    //Ejecuta la accion al primer resultado
         delay(100)                             //Espera de x segundos
@@ -33,7 +33,7 @@ export class MercaderiasService {
   }
 
   listarTodosMercaderiasFiltroPage(mercaderiaFiltro: MercaderiaFiltroDTO, pageRequest: PageRequest): Observable<Page> {
-    return this.htppClient.get<Page>(API_URL_MERCADERIAS
+    return this._httpClient.get<Page>(API_URL_MERCADERIAS
       + '/filtroPage?' + `id=${mercaderiaFiltro.id}`
                        + `&descripcion=${mercaderiaFiltro.descripcion}`
                        + `&idTipo=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idTipo)}`
@@ -51,23 +51,23 @@ export class MercaderiasService {
   }
 
   private crear(mercaderia: Partial<Mercaderia>) {
-    return this.htppClient.post<Mercaderia>(API_URL_MERCADERIAS, mercaderia).pipe(first());
+    return this._httpClient.post<Mercaderia>(API_URL_MERCADERIAS, mercaderia).pipe(first());
   }
 
   private actualizar(mercaderia: Partial<Mercaderia>) {
-    return this.htppClient.put<Mercaderia>(`${API_URL_MERCADERIAS}/${mercaderia._id}`, mercaderia).pipe(first());
+    return this._httpClient.put<Mercaderia>(`${API_URL_MERCADERIAS}/${mercaderia._id}`, mercaderia).pipe(first());
   }
 
   eliminar(id: string) {
-    return this.htppClient.delete(`${API_URL_MERCADERIAS}/${id}`).pipe(first());
+    return this._httpClient.delete(`${API_URL_MERCADERIAS}/${id}`).pipe(first());
   }
 
   inactivar(id: string) {
-    return this.htppClient.put<Mercaderia>(`${API_URL_MERCADERIAS}/inactivar/${id}`, null).pipe(first());
+    return this._httpClient.put<Mercaderia>(`${API_URL_MERCADERIAS}/inactivar/${id}`, null).pipe(first());
   }
 
   cargarPorId(id: string) {
-    return this.htppClient.get<Mercaderia>(`${API_URL_MERCADERIAS}/${id}`);
+    return this._httpClient.get<Mercaderia>(`${API_URL_MERCADERIAS}/${id}`);
   }
 
 }

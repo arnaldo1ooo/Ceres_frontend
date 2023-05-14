@@ -1,5 +1,6 @@
 import { Sucursal } from '../../sucursales/model/sucursal';
 import { Situacion } from './../../../compartido/enums/situacion.enum';
+
 export class Entidad {
 
   _id: string | null = null;
