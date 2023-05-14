@@ -1,7 +1,11 @@
-export interface TipoMovimiento {
+export class TipoMovimiento {
 
-  _id: string;
-  descripcion: string;
-  tipoEntradaSalida: string;
+  _id: string | null = null;
+  descripcion: string | null = null;
+  tipoEntradaSalida: string | null = null;
+
+  constructor() {
+
+  }
 
 }

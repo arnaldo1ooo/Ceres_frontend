@@ -10,13 +10,13 @@ import { MovimientoListaDTO } from './../../movimientos/model/dtos/movimientoLis
 })
 export class TiposMovimientoService {
 
-  constructor(private htppClient: HttpClient) { } //El httpClient permite la conexion con el backend
+  constructor(private _httpClient: HttpClient) { } //El httpClient permite la conexion con el backend
 
   listarTodosTiposMovimiento() {
-    return this.htppClient.get<MovimientoListaDTO[]>(API_URL_TIPOS_MOVIMIENTO)
-      .pipe(                                        //Manipular datos
-        first(),                                    //Ejecuta la accion al primer resultado
-        delay(100)/*,                                //Espera de x segundos*/
+    return this._httpClient.get<MovimientoListaDTO[]>(API_URL_TIPOS_MOVIMIENTO)
+      .pipe(
+        first(),
+        delay(100)
       );
   }
 }
