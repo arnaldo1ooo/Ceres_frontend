@@ -1,0 +1,52 @@
+mat-card {
+  max-width: 80%;
+  margin: 2em auto;
+  text-align: center;
+}
+
+mat-toolbar {
+  margin-bottom: 30px;
+}
+
+mat-form-field {
+  margin-bottom: 20px;
+}
+
+mat-tab-group {
+  min-height: 500px;
+}
+
+.anchura-maxima{
+  width: 100%;
+}
+
+.anchura-minima {
+  width: 100%;
+  min-width: 150px;
+}
+
+.style-campos {
+  width: 400px;
+  height: 50px;
+  margin: 10px;
+}
+
+.style-espacio-boton {
+  margin-left: 10px;
+}
+
+.style-barra-acciones {
+  justify-content: center;
+  margin: 15px;
+}
+
+
+.custom-disabled .mat-select-value {
+  background-color: #3d1818;
+  color: #570ebe;
+}
+
+.style-div {
+  padding-top: 15px;
+}
+

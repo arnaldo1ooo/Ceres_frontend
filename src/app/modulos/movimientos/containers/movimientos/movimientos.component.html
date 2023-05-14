@@ -13,7 +13,7 @@
 
     <mat-form-field appearance="outline" class="style-select-filtro-tipo">
       <mat-label>Tipo Movimiento</mat-label>
-      <mat-select [(ngModel)]="movimientoFiltro.idTipo" [compareWith]="compararById">
+      <mat-select [(ngModel)]="movimientoFiltro.idTipo" [compareWith]="compararOpcionesSelect">
         <mat-option [value]="-1">TODOS</mat-option>
         <mat-option *ngFor="let tipoMovimiento of listaTiposMovimiento" value={{tipoMovimiento._id}}>
           {{tipoMovimiento.descripcion}}
@@ -39,7 +39,7 @@
 
     <mat-form-field appearance="outline" class="style-select-filtro-departamento">
       <mat-label>Departamento</mat-label>
-      <mat-select [(ngModel)]="movimientoFiltro.idDepartamento" [compareWith]="compararById">
+      <mat-select [(ngModel)]="movimientoFiltro.idDepartamento" [compareWith]="compararOpcionesSelect">
         <mat-option [value]="-1">TODOS</mat-option>
         <mat-option *ngFor="let departamento of listaDepartamentos" value={{departamento._id}}>
           {{departamento.descripcion}}
@@ -49,10 +49,10 @@
 
     <mat-form-field appearance="outline" class="style-select-filtro-situacion">
       <mat-label>Situación</mat-label>
-      <mat-select [(ngModel)]="movimientoFiltro.keySituacion" [compareWith]="compararById">
+      <mat-select [(ngModel)]="movimientoFiltro.keySituacion" [compareWith]="compararOpcionesSelect">
         <mat-option [value]="-1">TODOS</mat-option>
         <mat-option *ngFor="let keySituacion of listaKeySituaciones" [value]="keySituacion">
-          {{situacionUtils.getDescripcion(keySituacion)}}
+          {{ situacionUtils.getDescripcion(keySituacion) }}
         </mat-option>
       </mat-select>
     </mat-form-field>

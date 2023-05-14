@@ -71,5 +71,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background: linear-gradient(to bottom right, #c7d2fe, #ffffff);;
 }
 
+//Color texto disabled inputText
+input[disabled] {
+  color:rgb(0, 0, 0);
+}
 
 

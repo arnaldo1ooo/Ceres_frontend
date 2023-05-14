@@ -1,0 +1,95 @@
+<mat-card class="detalle-movimiento">
+
+  <mat-toolbar color="primary" class="titulo-pagina">{{ "detalles.detalle-movimiento" | transloco }}</mat-toolbar>
+
+  <mat-card-content>
+
+    <form [formGroup]="formMovimientoDetalle" class="anchura-minima">
+      <mat-tab-group>
+        <mat-tab label="Datos generales">
+          <div class="style-div">
+            <mat-grid-list cols="2" rowHeight="80px">
+
+              <!--Fila 1-->
+              <mat-grid-tile>
+                <mat-form-field appearance="outline" class="style-campos">
+                  <mat-label>Id</mat-label>
+                  <input matInput formControlName="_id" #_id [readonly]=true>
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <mat-form-field appearance="outline" class="style-campos">
+                  <mat-label>{{ "titulos.moneda" | transloco }}</mat-label>
+                  <mat-select formControlName="moneda" [compareWith]="compararOpcionesSelect">
+                    <mat-option disabled selected value="">{{ "seleccion.seleccion-moneda" | transloco }}</mat-option>
+                    <mat-option *ngFor="let moneda of listaMonedas" [value]="moneda">
+                      {{ moneda._id }} - {{ moneda.descripcion }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="formMovimientoDetalle.get('moneda')?.invalid">
+                    {{ getMensajeError('moneda') }}
+                  </mat-error>
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <!--Fila 2-->
+              <mat-grid-tile>
+                <mat-form-field appearance="outline" class="style-campos">
+                  <mat-label>{{ "titulos.departamento" | transloco }}</mat-label>
+                  <mat-select formControlName="departamento" [compareWith]="compararOpcionesSelect">
+                    <mat-option disabled selected value="">{{ "seleccion.seleccion-departamento" | transloco }}
+                    </mat-option>
+                    <mat-option *ngFor="let departamento of listaDepartamentos" [value]="departamento">
+                      {{ departamento._id }} - {{ departamento.descripcion }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="formMovimientoDetalle.get('departamento')?.invalid">
+                    {{ getMensajeError('departamento') }}
+                  </mat-error>
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <mat-form-field appearance="outline" class="style-campos">
+                  <mat-label>{{ "titulos.situacion" | transloco }}</mat-label>
+                  <mat-select formControlName="situacion">
+                    <mat-option *ngFor="let situacion of listaSituaciones" [value]="situacion">{{ situacion |
+                      situacionPipe }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="formMovimientoDetalle.get('situacion')?.invalid">
+                    {{ getMensajeError('situacion') }}
+                  </mat-error>
+                </mat-form-field>
+              </mat-grid-tile>
+            </mat-grid-list>
+          </div>
+        </mat-tab>
+
+        <!--Tab 2-->
+        <mat-tab label="Mercaderías">
+          <div>
+            Content 2
+          </div>
+        </mat-tab>
+
+        <!--Tab 3-->
+        <mat-tab label="Financiero">
+          <div>
+            Content 3
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </form>
+
+  </mat-card-content>
+
+  <!--Botones-->
+  <mat-card-actions class="style-barra-acciones">
+    <button mat-raised-button color="primary" (click)="onGuardar()" [disabled]="isModoVisualizar()">{{ "botones.guardar"
+      | transloco }}</button>
+    <button mat-raised-button color="warn" (click)="onCancelar()" class="style-espacio-boton">{{ "botones.cancelar" |
+      transloco }}</button>
+  </mat-card-actions>
+</mat-card>

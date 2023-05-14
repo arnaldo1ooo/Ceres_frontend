@@ -1,3 +1,4 @@
+import { MovimientoDetalleDTO } from './../model/dtos/movimientoDetalleDTO';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LocalDateTime } from '@js-joda/core';
@@ -25,10 +26,10 @@ import { MovimientoListaDTO, Page } from './../model/dtos/movimientoListaDTO';
 export class MovimientosService {
 
 
-  constructor(private htppClient: HttpClient) { } //El httpClient permite la conexion con el backend
+  constructor(private _httpClient: HttpClient) { } //El httpClient permite la conexion con el backend
 
   listarTodosMovimientosLista() {
-    return this.htppClient.get<MovimientoListaDTO[]>(API_URL_MOVIMIENTOS)
+    return this._httpClient.get<MovimientoListaDTO[]>(API_URL_MOVIMIENTOS)
       .pipe(                                        //Manipular datos
         first(),                                    //Ejecuta la accion al primer resultado
         delay(100)/*,                                //Espera de x segundos*/
@@ -36,7 +37,7 @@ export class MovimientosService {
   }
 
   listarTodosMovimientosListaFiltro() {
-    return this.htppClient.get<MovimientoListaDTO[]>(API_URL_MOVIMIENTOS + '/filtro')
+    return this._httpClient.get<MovimientoListaDTO[]>(API_URL_MOVIMIENTOS + '/filtro')
       .pipe(                                        //Manipular datos
         first(),                                    //Ejecuta la accion al primer resultado
         delay(100)                             //Espera de x segundos
@@ -45,7 +46,7 @@ export class MovimientosService {
 
   public listarTodosMovimientosListaFiltroPage(movimientoFiltro: MovimientoFiltroDTO, pageRequest: PageRequest): Observable<Page> {
 
-    return this.htppClient.get<Page>(API_URL_MOVIMIENTOS
+    return this._httpClient.get<Page>(API_URL_MOVIMIENTOS
       + '/filtroPage?'
       + `id=${movimientoFiltro.id}`
       + `&idTipo=${movimientoFiltro.idTipo}`
@@ -66,23 +67,23 @@ export class MovimientosService {
   }
 
   private crear(movimiento: Partial<Movimiento>) {
-    return this.htppClient.post<Movimiento>(API_URL_MOVIMIENTOS, movimiento).pipe(first());
+    return this._httpClient.post<Movimiento>(API_URL_MOVIMIENTOS, movimiento).pipe(first());
   }
 
   private actualizar(movimiento: Partial<Movimiento>) {
-    return this.htppClient.put<Movimiento>(`${API_URL_MOVIMIENTOS}/${movimiento._id}`, movimiento).pipe(first());
+    return this._httpClient.put<Movimiento>(`${API_URL_MOVIMIENTOS}/${movimiento._id}`, movimiento).pipe(first());
   }
 
   eliminar(id: string) {
-    return this.htppClient.delete(`${API_URL_MOVIMIENTOS}/${id}`).pipe(first());
+    return this._httpClient.delete(`${API_URL_MOVIMIENTOS}/${id}`).pipe(first());
   }
 
   inactivar(id: string) {
-    return this.htppClient.put<MovimientoListaDTO>(`${API_URL_MOVIMIENTOS}/inactivar/${id}`, null).pipe(first());
+    return this._httpClient.put<MovimientoListaDTO>(`${API_URL_MOVIMIENTOS}/inactivar/${id}`, null).pipe(first());
   }
 
   cargarPorId(id: string) {
-    return this.htppClient.get<Movimiento>(`${API_URL_MOVIMIENTOS}/${id}`);
+    return this._httpClient.get<MovimientoDetalleDTO>(`${API_URL_MOVIMIENTOS}/${id}`);
   }
 
   private convertirToLDTasignarHorasInicial(fechaInicial: Date): LocalDateTime | null {

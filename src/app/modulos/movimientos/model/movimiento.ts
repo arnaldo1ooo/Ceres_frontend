@@ -4,6 +4,7 @@ import { Departamento } from '../../departamentos/model/departamento';
 import { Moneda } from '../../monedas/models/moneda';
 import { TipoMovimiento } from '../../tipos-movimiento/models/tipo-movimiento';
 import { ItemMovimiento } from './item-movimiento';
+
 export interface Movimiento {
   _id: string;
   tipo: TipoMovimiento;

@@ -1,12 +1,18 @@
-import { FormGroup } from "@angular/forms";
-import { DateRange } from "@angular/material/datepicker";
+import { FormControl, FormGroup } from '@angular/forms';
 
-export interface MovimientoFiltroDTO {
+export class MovimientoFiltroDTO {
 
-  id: any;
-  idTipo: any;
+  id: any | null = null;
+  idTipo: any | null = null;
   nombreApellidoEntidad: any;
-  fechaRangoInicialFinal: FormGroup;
-  idDepartamento: any;
-  keySituacion: any;
+  fechaRangoInicialFinal: FormGroup = new FormGroup({
+    fechaInicial: new FormControl(''),
+    fechaFinal: new FormControl('')
+  });;
+  idDepartamento: any | null = null;
+  keySituacion: any | null = null;
+
+  constructor() {
+
+  }
 }

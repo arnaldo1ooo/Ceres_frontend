@@ -1,3 +1,4 @@
+import { MovimientoFormComponent } from './containers/movimiento-form/movimiento-form.component';
 import { TiposMovimientoModule } from './../tipos-movimiento/tipos-movimiento.module';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -13,6 +14,7 @@ import { MovimientosRoutingModule } from './movimientos-routing.module';
   declarations: [
     MovimientosComponent,
     MovimientosListaComponent,
+    MovimientoFormComponent
   ],
   imports: [
     CommonModule,
