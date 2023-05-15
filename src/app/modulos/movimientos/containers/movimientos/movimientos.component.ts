@@ -22,6 +22,7 @@ import { DepartamentosService } from 'src/app/modulos/departamentos/services/dep
 import { TiposMovimientoService } from 'src/app/modulos/tipos-movimiento/services/tipos-movimiento.service';
 
 import { Orden } from '../../../../compartido/enums/orden.enum';
+import { MovimientoDetalleDTO } from '../../model/dtos/movimientoDetalleDTO';
 import { MovimientoFiltroDTO } from '../../model/dtos/movimientoFiltroDTO';
 import { MovimientoListaDTO, Page } from '../../model/dtos/movimientoListaDTO';
 import { MovimientosService } from '../../services/movimientos.service';
@@ -135,6 +136,10 @@ export class MovimientosComponent implements OnInit {
   }
 
   protected onNuevo() {
+    this._ruta.navigate(['nuevo', /*movimientoDetalleDTO*/], { relativeTo: this._rutaActual });
+  }
+
+  protected onMostrarTiposMovimientoSeleccion() {
     this.isMostrarTiposMovimientoSeleccion = true;
   }
 

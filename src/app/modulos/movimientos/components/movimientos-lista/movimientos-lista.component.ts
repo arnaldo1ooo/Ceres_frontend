@@ -20,7 +20,7 @@ export class MovimientosListaComponent implements OnInit {
   @Input() pageResponse: Page | undefined;
   @Input() pageRequest!: PageRequest; //Recibe el request default
 
-  @Output() nuevo = new EventEmitter(false);
+  @Output() mostrarTiposMovimientoSeleccion = new EventEmitter(false);
   @Output() visualizar = new EventEmitter(false);
   @Output() editar = new EventEmitter(false);
   @Output() eliminar = new EventEmitter(false);
@@ -38,8 +38,8 @@ export class MovimientosListaComponent implements OnInit {
 
   }
 
-  onNuevo() {
-    this.nuevo.emit(true);
+  onMostrarTiposMovimientoSeleccion() {
+    this.mostrarTiposMovimientoSeleccion.emit(true);
   }
 
   onVisualizar(movimiento: Movimiento) {
