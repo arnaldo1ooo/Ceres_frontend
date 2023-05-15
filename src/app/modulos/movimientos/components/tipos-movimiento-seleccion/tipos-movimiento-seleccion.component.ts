@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { TipoMovimiento } from 'src/app/modulos/tipos-movimiento/enums/tipo-movimiento.enum';
 
 @Component({
@@ -8,6 +8,7 @@ import { TipoMovimiento } from 'src/app/modulos/tipos-movimiento/enums/tipo-movi
 })
 export class TiposMovimientoSeleccionComponent implements OnInit {
 
+  @Output() eventTipoMovSeleccionado = new EventEmitter<any>(); //Envia el tipo seleccionado al componente padre o principal
 
   constructor() {
 
@@ -20,10 +21,10 @@ export class TiposMovimientoSeleccionComponent implements OnInit {
   generarNuevoMovimiento(tipoMovimiento: string) {
     switch (tipoMovimiento) {
       case TipoMovimiento.COMPRA_NORMAL:
-        console.log('compra-normal');
+        this.eventTipoMovSeleccionado.emit(TipoMovimiento.COMPRA_NORMAL);
         break;
       case TipoMovimiento.VENTA_NORMAL:
-        console.log('venta-normal');
+        this.eventTipoMovSeleccionado.emit(TipoMovimiento.VENTA_NORMAL);
         break;
       default:
         console.log('Tipo de movimiento desconocido');

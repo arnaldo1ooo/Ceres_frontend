@@ -86,7 +86,7 @@
   </div>
 </mat-card>
 
-<!--Componente Tipo Movimiento Seleccion-->
-<app-tipos-movimiento-seleccion *ngIf="isMostrarTiposMovimientoSeleccion">
+<!--Componente Tipo Movimiento Seleccion, recibe en el event el tipoSeleccionado en el componente hijo-->
+<app-tipos-movimiento-seleccion (eventTipoMovSeleccionado)="onNuevo($event)" *ngIf="isMostrarTiposMovimientoSeleccion">
 
 </app-tipos-movimiento-seleccion>
