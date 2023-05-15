@@ -1,4 +1,6 @@
-<mat-card class="style-contenedor-principal">
+<!-- Es el componente principal o padre, en donde se encuentra el filtro, y el container que posee el componente lista movimiento -->
+
+<mat-card class="style-contenedor-principal" *ngIf="!isMostrarTiposMovimientoSeleccion">
   <mat-toolbar color="primary">
     Movimientos Disponibles
   </mat-toolbar>
@@ -62,14 +64,16 @@
       color="primary">Filtrar</button>
   </div>
 
-  <div class="column flex mat-elevation-z8">
 
+  <div class="column flex mat-elevation-z8">
     <!--Pasamos las variables del componente principal al componente lista-->
     <app-movimientos-lista *ngIf="listMovimientosListaDTO$ | async as movimientos; else cargando"
       [listMovimientosListaDTO]="movimientos"
       [pageResponse]="this.pageRes"
       [pageRequest]="this.pageRequestDefault"
-      (nuevo)="onNuevo()" (visualizar)="onVisualizar($event)" (editar)="onEditar($event)"
+      (nuevo)="onNuevo()"
+      (visualizar)="onVisualizar($event)"
+      (editar)="onEditar($event)"
       (eliminar)="onEliminar($event)" (inactivar)="onInactivar($event)">
     </app-movimientos-lista>
 
@@ -81,3 +85,8 @@
 
   </div>
 </mat-card>
+
+<!--Componente Tipo Movimiento Seleccion-->
+<app-tipos-movimiento-seleccion *ngIf="isMostrarTiposMovimientoSeleccion">
+
+</app-tipos-movimiento-seleccion>

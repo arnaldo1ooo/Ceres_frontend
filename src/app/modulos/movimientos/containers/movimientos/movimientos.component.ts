@@ -8,7 +8,12 @@ import {
   DialogoConfirmacionComponent,
 } from 'src/app/compartido/componentes/dialogo-confirmacion/dialogo-confirmacion/dialogo-confirmacion.component';
 import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-error/dialogo-error.component';
-import { DEFAULT_ORDENAR_POR, DEFAULT_PAGE_TAMANHO, ID_OPCION_TODOS, PAGE_INICIAL } from 'src/app/compartido/constantes/constantes';
+import {
+  DEFAULT_ORDENAR_POR,
+  DEFAULT_PAGE_TAMANHO,
+  ID_OPCION_TODOS,
+  PAGE_INICIAL,
+} from 'src/app/compartido/constantes/constantes';
 import { Situacion, SituacionUtils } from 'src/app/compartido/enums/situacion.enum';
 import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
@@ -36,6 +41,7 @@ export class MovimientosComponent implements OnInit {
   protected listaKeySituaciones = Object.values(Situacion);
   protected situacionUtils = SituacionUtils;
   protected movimientoFiltro: MovimientoFiltroDTO = new MovimientoFiltroDTO();
+  protected isMostrarTiposMovimientoSeleccion = false;
   protected isFiltrando: boolean = false;
   protected pageRes: Page | undefined;
 
@@ -129,7 +135,7 @@ export class MovimientosComponent implements OnInit {
   }
 
   protected onNuevo() {
-    this._ruta.navigate(['tipos-movimiento'], { relativeTo: this._rutaActual }); //Para que navegue a esa direccion
+    this.isMostrarTiposMovimientoSeleccion = true;
   }
 
   protected onVisualizar(movimientoListaDTO: MovimientoListaDTO) {

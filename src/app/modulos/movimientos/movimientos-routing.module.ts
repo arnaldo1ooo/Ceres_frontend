@@ -2,17 +2,13 @@ import { MovimientoFormComponent } from './containers/movimiento-form/movimiento
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import {
-  TiposMovimientoSeleccionComponent,
-} from '../tipos-movimiento/componentes/tipos-movimiento-seleccion/tipos-movimiento-seleccion.component';
 import { MovimientosComponent } from './containers/movimientos/movimientos.component';
 import { MovimientoDetalleResolver } from './guards/movimientoDetalle.resolver';
 
 const routes: Routes = [
   { path: '', component: MovimientosComponent },
   { path: 'visualizar/:id', component: MovimientoFormComponent, resolve: { movimiento: MovimientoDetalleResolver } },
-  { path: 'tipos-movimiento', component: TiposMovimientoSeleccionComponent },
-
+  { path: 'editar/:id', component: MovimientoFormComponent, resolve: { movimiento: MovimientoDetalleResolver } }
 ];
 
 @NgModule({
