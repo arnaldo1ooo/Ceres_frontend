@@ -10,7 +10,9 @@
           {{ 'tipo-movimiento.entrada' | transloco }}
         </mat-card-title>
         <mat-divider></mat-divider> <!--Linea divisoria-->
-        <button class="card-boton button-entrada">{{ 'tipo-movimiento.compra-normal' | transloco }}</button>
+        <button class="card-boton button-entrada" (click)="generarMovimiento('compra-normal')">
+          {{ 'tipo-movimiento.compra-normal' | transloco }}
+        </button>
       </mat-card>
 
       <mat-card class="card-container card card-salida">
@@ -19,7 +21,9 @@
           {{ 'tipo-movimiento.salida' | transloco }}
         </mat-card-title>
         <mat-divider></mat-divider> <!--Linea divisoria-->
-        <button class="card-boton button-salida">{{ 'tipo-movimiento.venta-normal' | transloco }}</button>
+        <button class="card-boton button-salida" (click)="generarMovimiento('venta-normal')">
+          {{ 'tipo-movimiento.venta-normal' | transloco }}
+        </button>
       </mat-card>
     </div>
 

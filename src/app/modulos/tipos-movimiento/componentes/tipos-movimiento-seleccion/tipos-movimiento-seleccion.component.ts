@@ -16,6 +16,19 @@ export class TiposMovimientoSeleccionComponent {
 
   }
 
+  generarMovimiento(tipoMovimiento: string) {
+    switch (tipoMovimiento) {
+      case 'compra-normal':
+        console.log('compra-normal');
+        break;
+      case 'venta-normal':
+        console.log('venta-normal');
+        break;
+      default:
+        console.log('Tipo de movimiento desconocido');
+        break;
+    }
+  }
 
 
 }
