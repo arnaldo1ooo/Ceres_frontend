@@ -29,7 +29,8 @@
         "seleccion-sucursal": "Selecione a sucursal",
         "seleccion-tipo-movimiento": "Selecione o tipo de movimento",
         "seleccion-moneda": "Selecione a moeda",
-        "seleccion-departamento": "Selecione o departamento"
+        "seleccion-departamento": "Selecione o departamento",
+        "seleccion-entidad": "Selecione a entidade"
     },
 
     "titulos": {
@@ -39,7 +40,8 @@
       "situacion": "Situação",
       "movimiento": "Tipo",
       "moneda": "Moeda",
-      "departamento": "Departamento"
+      "departamento": "Departamento",
+      "entidad": "Entidade"
     },
 
     "botones": {

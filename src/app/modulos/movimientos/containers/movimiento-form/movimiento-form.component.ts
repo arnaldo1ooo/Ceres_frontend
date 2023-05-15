@@ -28,8 +28,7 @@ export class MovimientoFormComponent implements OnInit {
   public listaMonedas: any;
 
   public listaEntidades!: Entidad[];
-  public listaEntidadesFiltrado$!: Observable<any>;
-  public listaEntidadesControl = new FormControl('');
+  public listaEntidadesFiltrado$: Observable<Entidad[]> | undefined;
 
   public listaDepartamentos: any;
   public listaSituaciones = Object.values(Situacion);
@@ -110,7 +109,7 @@ export class MovimientoFormComponent implements OnInit {
 
   public verificarModo() {
     if (this.isModoVisualizar()) {
-      //this.formMovimientoDetalle.disable(); //Inactiva campos del form
+      this.formMovimientoDetalle.disable(); //Inactiva campos del form
     }
   }
 
@@ -131,17 +130,26 @@ export class MovimientoFormComponent implements OnInit {
       this.listaEntidades = respuesta;
 
       //Se ejecuta cuando se escribe en autocomplete
-      this.listaEntidadesFiltrado$ = this.listaEntidadesControl.valueChanges.pipe(
+      this.listaEntidadesFiltrado$ = this.formMovimientoDetalle.get('entidad')?.valueChanges.pipe(
         startWith(''), //Se inicia con valor vacio para listar todos los registros
         map(valorAFiltrar =>
           this.listaEntidades?.filter(entidad =>
             entidad._id?.toString().includes(valorAFiltrar || '') ||
             entidad.nombre?.toLocaleLowerCase().includes(valorAFiltrar || '') ||
-            entidad.apellido?.toLocaleLowerCase().includes(valorAFiltrar || '')))
-      ),
-      () => this._avisoHelpersService.mostrarMensaje('Error al listar Entidades', '', 4000); //Mensaje cuando da error;
+            entidad.apellido?.toLocaleLowerCase().includes(valorAFiltrar || ''))
+        )
+      ), () => this._avisoHelpersService.mostrarMensaje('Error al listar Entidades', '', 4000); //Mensaje cuando da error;
     })
+  }
 
+  public displayEntidad(entidad: Entidad): string {
+    console.log(entidad)
+    if(entidad) {
+      return entidad._id + " - " + entidad.nombre + " " + entidad.apellido;
+    }
+    else {
+      return "";
+    }
   }
 
   private listarDepartamentos() {
@@ -156,7 +164,7 @@ export class MovimientoFormComponent implements OnInit {
         _id: [''],
         tipo: [new TipoMovimiento(), Validators.required],
         moneda: [new Moneda(), Validators.required],
-        entidad: new FormControl([new Entidad(), Validators.required]),
+        entidad: [new Entidad(), Validators.required],
         fechaEmision: ['', Validators.required],
         departamento: [new Departamento(), Validators.required],
         compradorVendedor: [new Entidad(), Validators.required],
