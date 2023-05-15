@@ -1,3 +1,4 @@
+import { ItemMovimiento } from './../../model/item-movimiento';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
@@ -32,7 +33,7 @@ export class MovimientoFormComponent implements OnInit {
 
   public listaDepartamentos: any;
   public listaSituaciones = Object.values(Situacion);
-  public formMovimientoDetalle!: FormGroup;
+  public formMovimientoDetalle: FormGroup = this.formPorDefecto();
 
   constructor(
     private _formBuilder: NonNullableFormBuilder,
@@ -46,30 +47,11 @@ export class MovimientoFormComponent implements OnInit {
   }
 
   ngOnInit(): void {  //Se ejecuta al iniciar componente
-
-    this.formMovimientoDetalle = this.formInicial();
-
     this.listarMonedas();
     this.listarFiltrarEntidades();
     this.listarDepartamentos();
 
-    //En caso que sea modo editar
-    const movimientoDetalle: MovimientoDetalleDTO = this._ruta.snapshot.data['movimiento'];  //Obtiene el objeto del resolver
-
-    this.formMovimientoDetalle.setValue({ //Setamos los datos para que aparezca al editar o visualizar
-      _id: movimientoDetalle._id,
-      tipo: movimientoDetalle.tipo,
-      moneda: movimientoDetalle.moneda,
-      entidad: movimientoDetalle.entidad,
-      fechaEmision: movimientoDetalle.fechaEmision,
-      departamento: movimientoDetalle.departamento,
-      compradorVendedor: movimientoDetalle.compradorVendedor,
-      observacion: movimientoDetalle.observacion,
-      situacion: HelpersService.isNoNuloYNoVacio(movimientoDetalle.situacion)
-        ? movimientoDetalle.situacion
-        : Situacion.ACTIVO, //Se pone por default Activo
-      items: movimientoDetalle.items
-    });
+    this.cargarDatosMovimiento();
 
     this.verificarModo();
   }
@@ -145,10 +127,10 @@ export class MovimientoFormComponent implements OnInit {
   public displayEntidad(entidad: Entidad): string {
     console.log(entidad)
     if(entidad) {
-      return entidad._id + " - " + entidad.nombre + " " + entidad.apellido;
+      return entidad._id + " - " + entidad.nombre + (entidad.apellido ? ' ' + entidad.apellido : '');
     }
     else {
-      return "";
+      return '';
     }
   }
 
@@ -158,16 +140,54 @@ export class MovimientoFormComponent implements OnInit {
     })
   }
 
-  private formInicial(): FormGroup {
+  private cargarDatosMovimiento() {
+        //Carga datos de movimiento en caso en modo editar
+        const movimientoDetalle: MovimientoDetalleDTO = this._ruta.snapshot.data['movimiento'];  //Obtiene el objeto del resolver
+
+        //Modo editar/visualizar
+        if(movimientoDetalle._id) {
+          this.formMovimientoDetalle.setValue({ //Setamos los datos para que aparezca al editar o visualizar
+            _id: movimientoDetalle._id,
+            tipo: movimientoDetalle.tipo,
+            moneda: movimientoDetalle.moneda,
+            entidad: movimientoDetalle.entidad,
+            fechaEmision: movimientoDetalle.fechaEmision,
+            departamento: movimientoDetalle.departamento,
+            compradorVendedor: movimientoDetalle.compradorVendedor,
+            observacion: movimientoDetalle.observacion,
+            situacion: HelpersService.isNoNuloYNoVacio(movimientoDetalle.situacion)
+              ? movimientoDetalle.situacion
+              : Situacion.ACTIVO, //Se pone por default Activo
+            items: movimientoDetalle.items
+          });
+        }
+        else { //Modo nuevo
+          this.formMovimientoDetalle.setValue({
+            _id: '',
+            tipo: new TipoMovimiento(),
+            moneda: '',
+            entidad: '',
+            fechaEmision: null,
+            departamento: '',
+            compradorVendedor: '',
+            observacion: null,
+            situacion: Situacion.ACTIVO, //Se pone por default Activo
+            items: new Array<ItemMovimiento>()
+          });
+        }
+
+  }
+
+  private formPorDefecto(): FormGroup {
     return this._formBuilder.group(
       {
         _id: [''],
-        tipo: [new TipoMovimiento(), Validators.required],
-        moneda: [new Moneda(), Validators.required],
-        entidad: [new Entidad(), Validators.required],
+        tipo: ['', Validators.required],
+        moneda: ['', Validators.required],
+        entidad: ['', Validators.required],
         fechaEmision: ['', Validators.required],
-        departamento: [new Departamento(), Validators.required],
-        compradorVendedor: [new Entidad(), Validators.required],
+        departamento: ['', Validators.required],
+        compradorVendedor: ['', Validators.required],
         observacion: ['', Validators.maxLength(500)],
         situacion: ['', Validators.required],
         items: ['', Validators.required]
