@@ -1,4 +1,3 @@
-import { Departamento } from 'src/app/modulos/departamentos/model/departamento';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
@@ -7,6 +6,7 @@ import { map, Observable, startWith } from 'rxjs';
 import { Situacion } from 'src/app/compartido/enums/situacion.enum';
 import { ErrorHelpersService } from 'src/app/compartido/services/error-helpers.service';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
+import { Departamento } from 'src/app/modulos/departamentos/model/departamento';
 import { DepartamentosService } from 'src/app/modulos/departamentos/services/departamentos.service';
 import { EntidadesService } from 'src/app/modulos/entidades/services/entidades.service';
 import { Moneda } from 'src/app/modulos/monedas/models/moneda';
@@ -14,6 +14,7 @@ import { MonedasService } from 'src/app/modulos/monedas/services/monedas.service
 import { TiposMovimientoService } from 'src/app/modulos/tipos-movimiento/services/tipos-movimiento.service';
 
 import { MovimientoDetalleDTO } from '../../model/dtos/movimientoDetalleDTO';
+import { ModoOperacion } from './../../../../compartido/enums/modoOperacion.enum';
 import { AvisoHelpersService } from './../../../../compartido/services/aviso-helpers.service';
 import { ClaseEntidad } from './../../../entidades/enums/clase-entidad.enum';
 import { Entidad } from './../../../entidades/models/entidad';
@@ -27,12 +28,14 @@ import { Entidad } from './../../../entidades/models/entidad';
 export class MovimientoFormComponent implements OnInit {
   public listaMonedas: Moneda[] = [];
 
-  public listaEntidades!: Entidad[];
+  public listaEntidades: Entidad[] = [];
   public listaEntidadesFiltrado$: Observable<Entidad[]> | undefined;
 
   public listaDepartamentos: Departamento[] = [];
   public listaSituaciones = Object.values(Situacion);
   public formMovimientoDetalle: FormGroup = this.formPorDefecto();
+
+  private modoOperacion: string = this._ruta.snapshot.data['modoOperacion'];  //Recibe el modo desde el path
 
   constructor(
     private _formBuilder: NonNullableFormBuilder,
@@ -47,13 +50,13 @@ export class MovimientoFormComponent implements OnInit {
   }
 
   ngOnInit(): void {  //Se ejecuta al iniciar componente
+    this.verificarModoOperacion();
+
     this.listarMonedas();
     this.listarFiltrarEntidades();
     this.listarDepartamentos();
 
-    this.cargarDatosMovimiento();
-
-    this.verificarModo();
+    this.cargarDatos();
   }
 
   public onGuardar() {
@@ -89,14 +92,19 @@ export class MovimientoFormComponent implements OnInit {
     return ErrorHelpersService.verificarMensajeError(campo);
   }
 
-  public verificarModo() {
-    if (this.isModoVisualizar()) {
-      this.formMovimientoDetalle.disable(); //Inactiva campos del form
-    }
-  }
+  public verificarModoOperacion() {
+    switch(this.modoOperacion) {
+      case ModoOperacion.MODO_NUEVO:
+        this.formMovimientoDetalle.get('situacion')?.disable();
+        break;
 
-  public isModoVisualizar(): boolean {
-    return HelpersService.isModoVisualizar(this._ruta.snapshot.routeConfig?.path);
+      case ModoOperacion.MODO_EDITAR:
+        break;
+
+      case ModoOperacion.MODO_VISUALIZAR:
+        this.formMovimientoDetalle.disable();
+        break;
+    }
   }
 
   private listarMonedas() {
@@ -125,8 +133,7 @@ export class MovimientoFormComponent implements OnInit {
   }
 
   public displayEntidad(entidad: Entidad): string {
-    console.log(entidad)
-    if (entidad._id && entidad.nombre && entidad.apellido) {
+    if (entidad._id && entidad.nombre) {
       return entidad._id + " - " + entidad.nombre + (entidad.apellido ? ' ' + entidad.apellido : '');
     }
     else {
@@ -140,7 +147,7 @@ export class MovimientoFormComponent implements OnInit {
     })
   }
 
-  private async cargarDatosMovimiento() {
+  private async cargarDatos() {
     //Carga datos de movimiento en caso en modo editar
     let movimientoDetalle: MovimientoDetalleDTO = this._ruta.snapshot.data['movimiento'];  //Obtiene el objeto del resolver
 
