@@ -89,19 +89,17 @@ export class HelpersService {
     return valor != "-1" ? valor : "";
   }
 
-  /*Esta función se ejecuta para cada opción de la lista y para el valor seleccionado actualmente
-  para determinar si la opción seleccionada es la misma que la opción de la lista.*/
   public static compararOpcionesSelect(opcion: any, opcionSeleccionada: any): boolean {
     if (opcion && opcionSeleccionada) {
-      if (HelpersService.isNoUndefined(opcion.id) && HelpersService.isNoUndefined(opcionSeleccionada.id)) {
-        return opcion.id === opcionSeleccionada.id;
+      if (this.isNoUndefined(opcion.id) && this.isNoUndefined(opcionSeleccionada.id)) {
+        return opcion.id === opcionSeleccionada.id
       }
-      else {
-        return opcion.toString() === opcionSeleccionada.toString();
+      else if(this.isNoUndefined(opcion._id) && this.isNoUndefined(opcionSeleccionada._id)) {
+        return opcion._id === opcionSeleccionada._id
       }
     }
 
-    return false;
+    return opcion === opcionSeleccionada;
   }
 
 }
