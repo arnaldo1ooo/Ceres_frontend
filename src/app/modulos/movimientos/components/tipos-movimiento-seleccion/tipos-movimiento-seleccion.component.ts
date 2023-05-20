@@ -1,5 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { TipoMovimiento } from 'src/app/modulos/tipos-movimiento/enums/tipo-movimiento.enum';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { TiposMovimientoService } from 'src/app/modulos/tipos-movimiento/services/tipos-movimiento.service';
 
 @Component({
   selector: 'app-tipos-movimiento-seleccion',
@@ -10,7 +10,7 @@ export class TiposMovimientoSeleccionComponent implements OnInit {
 
   @Output() eventTipoMovSeleccionado = new EventEmitter<any>(); //Envia el tipo seleccionado al componente padre o principal
 
-  constructor() {
+  constructor(private _tiposMovimientoService: TiposMovimientoService) {
 
   }
 
@@ -19,17 +19,9 @@ export class TiposMovimientoSeleccionComponent implements OnInit {
   }
 
   generarNuevoMovimiento(tipoMovimiento: string) {
-    switch (tipoMovimiento) {
-      case TipoMovimiento.COMPRA_NORMAL:
-        this.eventTipoMovSeleccionado.emit(TipoMovimiento.COMPRA_NORMAL);
-        break;
-      case TipoMovimiento.VENTA_NORMAL:
-        this.eventTipoMovSeleccionado.emit(TipoMovimiento.VENTA_NORMAL);
-        break;
-      default:
-        console.log('Tipo de movimiento desconocido');
-        break;
-    }
+    this._tiposMovimientoService.setIdTipoMovSeleccionado(tipoMovimiento);  //Se asigna el tipo de mov seleccionado al service
+
+    this.eventTipoMovSeleccionado.emit();
   }
 
 

@@ -1,4 +1,4 @@
-import { ItemMovimiento } from './../../model/item-movimiento';
+import { Departamento } from 'src/app/modulos/departamentos/model/departamento';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
@@ -11,13 +11,12 @@ import { DepartamentosService } from 'src/app/modulos/departamentos/services/dep
 import { EntidadesService } from 'src/app/modulos/entidades/services/entidades.service';
 import { Moneda } from 'src/app/modulos/monedas/models/moneda';
 import { MonedasService } from 'src/app/modulos/monedas/services/monedas.service';
+import { TiposMovimientoService } from 'src/app/modulos/tipos-movimiento/services/tipos-movimiento.service';
 
 import { MovimientoDetalleDTO } from '../../model/dtos/movimientoDetalleDTO';
 import { AvisoHelpersService } from './../../../../compartido/services/aviso-helpers.service';
-import { Departamento } from './../../../departamentos/model/departamento';
 import { ClaseEntidad } from './../../../entidades/enums/clase-entidad.enum';
 import { Entidad } from './../../../entidades/models/entidad';
-import { TipoMovimiento } from './../../../tipos-movimiento/models/tipo-movimiento';
 
 @Component({
   selector: 'app-movimiento-form',
@@ -26,12 +25,12 @@ import { TipoMovimiento } from './../../../tipos-movimiento/models/tipo-movimien
 })
 
 export class MovimientoFormComponent implements OnInit {
-  public listaMonedas: any;
+  public listaMonedas: Moneda[] = [];
 
   public listaEntidades!: Entidad[];
   public listaEntidadesFiltrado$: Observable<Entidad[]> | undefined;
 
-  public listaDepartamentos: any;
+  public listaDepartamentos: Departamento[] = [];
   public listaSituaciones = Object.values(Situacion);
   public formMovimientoDetalle: FormGroup = this.formPorDefecto();
 
@@ -42,7 +41,8 @@ export class MovimientoFormComponent implements OnInit {
     private _monedasService: MonedasService,
     private _entidadesService: EntidadesService,
     private _departamentosService: DepartamentosService,
-    private _avisoHelpersService: AvisoHelpersService) {
+    private _avisoHelpersService: AvisoHelpersService,
+    private _tiposMovimientoService: TiposMovimientoService) {
 
   }
 
@@ -126,7 +126,7 @@ export class MovimientoFormComponent implements OnInit {
 
   public displayEntidad(entidad: Entidad): string {
     console.log(entidad)
-    if(entidad) {
+    if (entidad._id && entidad.nombre && entidad.apellido) {
       return entidad._id + " - " + entidad.nombre + (entidad.apellido ? ' ' + entidad.apellido : '');
     }
     else {
@@ -140,41 +140,32 @@ export class MovimientoFormComponent implements OnInit {
     })
   }
 
-  private cargarDatosMovimiento() {
-        //Carga datos de movimiento en caso en modo editar
-        const movimientoDetalle: MovimientoDetalleDTO = this._ruta.snapshot.data['movimiento'];  //Obtiene el objeto del resolver
+  private async cargarDatosMovimiento() {
+    //Carga datos de movimiento en caso en modo editar
+    let movimientoDetalle: MovimientoDetalleDTO = this._ruta.snapshot.data['movimiento'];  //Obtiene el objeto del resolver
 
-        //Modo editar/visualizar
-        if(movimientoDetalle._id) {
-          this.formMovimientoDetalle.setValue({ //Setamos los datos para que aparezca al editar o visualizar
-            _id: movimientoDetalle._id,
-            tipo: movimientoDetalle.tipo,
-            moneda: movimientoDetalle.moneda,
-            entidad: movimientoDetalle.entidad,
-            fechaEmision: movimientoDetalle.fechaEmision,
-            departamento: movimientoDetalle.departamento,
-            compradorVendedor: movimientoDetalle.compradorVendedor,
-            observacion: movimientoDetalle.observacion,
-            situacion: HelpersService.isNoNuloYNoVacio(movimientoDetalle.situacion)
-              ? movimientoDetalle.situacion
-              : Situacion.ACTIVO, //Se pone por default Activo
-            items: movimientoDetalle.items
-          });
-        }
-        else { //Modo nuevo
-          this.formMovimientoDetalle.setValue({
-            _id: '',
-            tipo: new TipoMovimiento(),
-            moneda: '',
-            entidad: '',
-            fechaEmision: null,
-            departamento: '',
-            compradorVendedor: '',
-            observacion: null,
-            situacion: Situacion.ACTIVO, //Se pone por default Activo
-            items: new Array<ItemMovimiento>()
-          });
-        }
+    //Si es nuevo
+    if (movimientoDetalle._id == null || movimientoDetalle._id == '') {
+      movimientoDetalle = new MovimientoDetalleDTO();
+
+      //Await sirve para esperar hasta que retorne el llamado para continuar la ejecucion
+      movimientoDetalle.tipo = await this._tiposMovimientoService.cargarPorId(this._tiposMovimientoService.getIdTipoMovSeleccionado());
+      movimientoDetalle.situacion = Situacion.ACTIVO;
+    }
+
+    this.formMovimientoDetalle.setValue({ //Setamos los datos para que aparezca al editar o visualizar
+      _id: movimientoDetalle._id,
+      tipo: movimientoDetalle.tipo,
+      moneda: movimientoDetalle.moneda,
+      entidad: movimientoDetalle.entidad,
+      fechaEmision: movimientoDetalle.fechaEmision,
+      departamento: movimientoDetalle.departamento,
+      compradorVendedor: movimientoDetalle.compradorVendedor,
+      observacion: movimientoDetalle.observacion,
+      situacion: movimientoDetalle.situacion,
+      items: movimientoDetalle.items
+    });
+
 
   }
 

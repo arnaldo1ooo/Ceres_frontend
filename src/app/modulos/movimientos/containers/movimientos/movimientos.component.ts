@@ -136,8 +136,8 @@ export class MovimientosComponent implements OnInit {
     });
   }
 
-  protected onNuevo(tipoMovSeleccionado: string) {
-    this._ruta.navigate(['nuevo', /*movimientoDetalleDTO*/], { relativeTo: this._rutaActual });
+  protected onNuevo() {
+    this._ruta.navigate(['nuevo'], { relativeTo: this._rutaActual });
   }
 
   protected onMostrarTiposMovimientoSeleccion() {

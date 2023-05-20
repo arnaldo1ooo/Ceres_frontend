@@ -9,8 +9,8 @@
   <div id="filtros" class="style-contenedor-filtro" (keyup.enter)="filtrar()">
     <mat-form-field appearance="outline" class="style-input-filtro-id">
       <mat-label>Id</mat-label>
-      <input matInput id="filtroId" type="number" [(ngModel)]="movimientoFiltro.id"
-             (blur)="limpiarFiltrosExceptoId()" (keyup.enter)="limpiarFiltrosExceptoId()">
+      <input matInput id="filtroId" type="number" [(ngModel)]="movimientoFiltro.id" (blur)="limpiarFiltrosExceptoId()"
+        (keyup.enter)="limpiarFiltrosExceptoId()">
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="style-select-filtro-tipo">
@@ -68,13 +68,9 @@
   <div class="column flex mat-elevation-z8">
     <!--Pasamos las variables del componente principal al componente lista-->
     <app-movimientos-lista *ngIf="listMovimientosListaDTO$ | async as movimientos; else cargando"
-      [listMovimientosListaDTO]="movimientos"
-      [pageResponse]="this.pageRes"
-      [pageRequest]="this.pageRequestDefault"
-      (mostrarTiposMovimientoSeleccion)="onMostrarTiposMovimientoSeleccion()"
-      (visualizar)="onVisualizar($event)"
-      (editar)="onEditar($event)"
-      (eliminar)="onEliminar($event)" (inactivar)="onInactivar($event)">
+      [listMovimientosListaDTO]="movimientos" [pageResponse]="this.pageRes" [pageRequest]="this.pageRequestDefault"
+      (mostrarTiposMovimientoSeleccion)="onMostrarTiposMovimientoSeleccion()" (visualizar)="onVisualizar($event)"
+      (editar)="onEditar($event)" (eliminar)="onEliminar($event)" (inactivar)="onInactivar($event)">
     </app-movimientos-lista>
 
     <ng-template #cargando>
@@ -86,7 +82,7 @@
   </div>
 </mat-card>
 
-<!--Componente Tipo Movimiento Seleccion, recibe en el event el tipoSeleccionado en el componente hijo-->
-<app-tipos-movimiento-seleccion (eventTipoMovSeleccionado)="onNuevo($event)" *ngIf="isMostrarTiposMovimientoSeleccion">
+<!--Componente Tipo Movimiento Seleccion, el evento ejecuta onNuevo-->
+<app-tipos-movimiento-seleccion (eventTipoMovSeleccionado)="onNuevo()" *ngIf="isMostrarTiposMovimientoSeleccion">
 
 </app-tipos-movimiento-seleccion>

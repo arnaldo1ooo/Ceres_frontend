@@ -1,5 +1,5 @@
 export class Moneda {
-  _id: string | null = null; //Valor por defecto
+  _id: string = ''; //Valor por defecto
   descripcion: string | null = null;
   simbolo: string | null = null;
   cantidadDecimales: number | null = null;

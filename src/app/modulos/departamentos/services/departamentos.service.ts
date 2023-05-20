@@ -1,10 +1,10 @@
-import { DepartamentoListaDTO } from './../model/dtos/departamentoListaDTO';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { delay, first, Observable, tap } from 'rxjs';
+import { delay, first } from 'rxjs';
 import { API_URL_DEPARTAMENTOS } from 'src/app/compartido/constantes/constantes';
 
 import { Departamento } from '../model/departamento';
+import { DepartamentoListaDTO } from './../model/dtos/departamentoListaDTO';
 
 @Injectable({
   providedIn: 'root'

@@ -8,7 +8,7 @@ import { Entidad } from './../../../entidades/models/entidad';
 import { ItemMovimiento } from './../item-movimiento';
 
 export class MovimientoDetalleDTO {
-  _id: string = '';  //Valor por defecto
+  _id: string | null = null; //Valor por defecto
   tipo: TipoMovimiento = new TipoMovimiento();
   moneda: Moneda = new Moneda();
   entidad: Entidad = new Entidad();
@@ -18,6 +18,7 @@ export class MovimientoDetalleDTO {
   observacion: string = '';
   situacion: Situacion | null = null;
   items: Array<ItemMovimiento> = [];
+
 
   constructor() {
 

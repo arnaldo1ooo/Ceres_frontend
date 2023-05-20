@@ -3,7 +3,7 @@ import { Situacion } from './../../../compartido/enums/situacion.enum';
 
 export class Entidad {
 
-  _id: string | null = null;
+  _id: string = '';
   nombre: string | null = null;
   apellido: string | null = null;
   sucursal: Sucursal  = new Sucursal();
