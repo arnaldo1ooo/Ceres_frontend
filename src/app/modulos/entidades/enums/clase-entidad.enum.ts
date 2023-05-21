@@ -3,7 +3,8 @@ export enum ClaseEntidad {
   ID_CLIENTE = "2",
   ID_FUNCIONARIO = "3",
   ID_PROVEEDOR = "4",
-  ID_VENDEDOR = "5"
+  ID_COMPRADOR = "5",
+  ID_VENDEDOR = "6"
 }
 
 export class ClaseEntidadUtils {
@@ -13,12 +14,14 @@ export class ClaseEntidadUtils {
         return "USUARIO";
       case ClaseEntidad.ID_CLIENTE:
         return "CLIENTE";
-        case ClaseEntidad.ID_FUNCIONARIO:
-          return "FUNCIONARIO";
-          case ClaseEntidad.ID_PROVEEDOR:
-            return "PROVEEDOR";
-            case ClaseEntidad.ID_VENDEDOR:
-              return "VENDEDOR";
+      case ClaseEntidad.ID_FUNCIONARIO:
+        return "FUNCIONARIO";
+      case ClaseEntidad.ID_PROVEEDOR:
+        return "PROVEEDOR";
+      case ClaseEntidad.ID_COMPRADOR:
+        return "COMPRADOR";
+      case ClaseEntidad.ID_VENDEDOR:
+        return "VENDEDOR";
       default:
         return `Valor no reconocido: ${claseEntidad}`;
     }

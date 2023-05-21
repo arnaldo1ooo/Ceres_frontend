@@ -1,4 +1,3 @@
-import { FechaHelpersService } from './../../../../compartido/services/fecha-helpers.service';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
@@ -14,9 +13,11 @@ import { Moneda } from 'src/app/modulos/monedas/models/moneda';
 import { MonedasService } from 'src/app/modulos/monedas/services/monedas.service';
 import { TiposMovimientoService } from 'src/app/modulos/tipos-movimiento/services/tipos-movimiento.service';
 
+import { EntradaSalida } from '../../../../compartido/enums/entradaSalida.enum';
 import { MovimientoDetalleDTO } from '../../model/dtos/movimientoDetalleDTO';
 import { ModoOperacion } from './../../../../compartido/enums/modoOperacion.enum';
 import { AvisoHelpersService } from './../../../../compartido/services/aviso-helpers.service';
+import { FechaHelpersService } from './../../../../compartido/services/fecha-helpers.service';
 import { ClaseEntidad } from './../../../entidades/enums/clase-entidad.enum';
 import { Entidad } from './../../../entidades/models/entidad';
 
@@ -56,12 +57,14 @@ export class MovimientoFormComponent implements OnInit {
 
   ngOnInit(): void {  //Se ejecuta al iniciar componente
     this.verificarModoOperacion();
+    this.cargarDatos();
 
     this.listarMonedas();
     this.listarFiltrarEntidades();
     this.listarDepartamentos();
+    this.listarFiltrarCompradoresVendedores();
 
-    this.cargarDatos();
+
   }
 
   public onGuardar() {
@@ -98,7 +101,7 @@ export class MovimientoFormComponent implements OnInit {
   }
 
   public verificarModoOperacion() {
-    switch(this.modoOperacion) {
+    switch (this.modoOperacion) {
       case ModoOperacion.MODO_NUEVO:
         this.formMovimientoDetalle.get('situacion')?.disable();
         break;
@@ -113,28 +116,34 @@ export class MovimientoFormComponent implements OnInit {
   }
 
   private listarMonedas() {
-    this._monedasService.listarTodosMonedas().subscribe((respuesta: any) => {
-      this.listaMonedas = respuesta;
-    })
+    this._monedasService.listarTodosMonedas().subscribe({
+      next: (respuesta: Moneda[]) => {
+        this.listaMonedas = respuesta;
+      },
+      error: () => this._avisoHelpersService.mostrarMensaje('Error al listar Monedas', '', 4000)
+    });
   }
 
   private listarFiltrarEntidades() {
-    const idsClaseEntidad: string = ClaseEntidad.ID_CLIENTE; //Poner entre coma ej: 1,2,3..
+    const idsClaseEntidad: string = ClaseEntidad.ID_CLIENTE; // Poner entre comas ej: 1,2,3..
 
-    this._entidadesService.listarEntidadesPorClases(idsClaseEntidad).subscribe((respuesta: any) => {
-      this.listaEntidades = respuesta;
+    this._entidadesService.listarEntidadesPorClases(idsClaseEntidad).subscribe({
+      next: (respuesta: Entidad[]) => {
+        this.listaEntidades = respuesta;
 
-      //Se ejecuta cuando se escribe en autocomplete
-      this.listaEntidadesFiltrado$ = this.formMovimientoDetalle.get('entidad')?.valueChanges.pipe(
-        startWith(''), //Se inicia con valor vacio para listar todos los registros
-        map(valorAFiltrar =>
-          this.listaEntidades?.filter(entidad =>
-            entidad._id?.toString().includes(valorAFiltrar || '') ||
-            entidad.nombre?.toLocaleLowerCase().includes(valorAFiltrar || '') ||
-            entidad.apellido?.toLocaleLowerCase().includes(valorAFiltrar || ''))
-        )
-      ), () => this._avisoHelpersService.mostrarMensaje('Error al listar Entidades', '', 4000); //Mensaje cuando da error;
-    })
+        // Se ejecuta cuando se escribe en autocomplete
+        this.listaEntidadesFiltrado$ = this.formMovimientoDetalle.get('entidad')?.valueChanges.pipe(
+          startWith(''), // Se inicia con valor vacío para listar todos los registros
+          map(valorAFiltrar =>
+            this.listaEntidades?.filter(entidad =>
+              entidad._id?.toString().includes(valorAFiltrar || '') ||
+              entidad.nombre?.toLocaleLowerCase().includes(valorAFiltrar || '') ||
+              entidad.apellido?.toLocaleLowerCase().includes(valorAFiltrar || ''))
+          )
+        );
+      },
+      error: () => this._avisoHelpersService.mostrarMensaje('Error al listar Entidades', '', 4000) // Mensaje cuando ocurre un error
+    });
   }
 
   public displayEntidad(entidad: Entidad): string {
@@ -147,9 +156,36 @@ export class MovimientoFormComponent implements OnInit {
   }
 
   private listarDepartamentos() {
-    this._departamentosService.listarTodosDepartamentos().subscribe((respuesta: any) => {
-      this.listaDepartamentos = respuesta;
-    })
+    this._departamentosService.listarTodosDepartamentos().subscribe({
+      next: (respuesta: Departamento[]) => {
+        this.listaDepartamentos = respuesta;
+      },
+      error: () => this._avisoHelpersService.mostrarMensaje('Error al listar Departamentos', '', 4000)
+    });
+  }
+
+  private listarFiltrarCompradoresVendedores() {
+    const idsClaseEntidad: string = this.formMovimientoDetalle.get('tipo')?.value.tipo == EntradaSalida.ENTRADA
+      ? ClaseEntidad.ID_COMPRADOR
+      : ClaseEntidad.ID_VENDEDOR;
+
+    this._entidadesService.listarEntidadesPorClases(idsClaseEntidad).subscribe({
+      next: (respuesta: Entidad[]) => {
+        this.listaCompradoresVendedores = respuesta;
+
+        //Se ejecuta cuando se escribe en autocomplete
+        this.listaCompradoresVendedoresFiltrado$ = this.formMovimientoDetalle.get('compradorVendedor')?.valueChanges.pipe(
+          startWith(''),
+          map(valorAFiltrar =>
+            this.listaCompradoresVendedores?.filter(entidad =>
+              entidad._id?.toString().includes(valorAFiltrar || '') ||
+              entidad.nombre?.toLocaleLowerCase().includes(valorAFiltrar || '') ||
+              entidad.apellido?.toLocaleLowerCase().includes(valorAFiltrar || ''))
+          )
+        );
+      },
+      error: () => this._avisoHelpersService.mostrarMensaje('Error al listar Compradores Vendedores', '', 4000)
+    });
   }
 
   private async cargarDatos() {
