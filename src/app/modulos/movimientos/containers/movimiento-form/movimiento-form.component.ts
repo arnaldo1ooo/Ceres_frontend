@@ -1,3 +1,4 @@
+import { FechaHelpersService } from './../../../../compartido/services/fecha-helpers.service';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
@@ -32,6 +33,10 @@ export class MovimientoFormComponent implements OnInit {
   public listaEntidadesFiltrado$: Observable<Entidad[]> | undefined;
 
   public listaDepartamentos: Departamento[] = [];
+
+  public listaCompradoresVendedores: Entidad[] = [];
+  public listaCompradoresVendedoresFiltrado$: Observable<Entidad[]> | undefined;
+
   public listaSituaciones = Object.values(Situacion);
   public formMovimientoDetalle: FormGroup = this.formPorDefecto();
 
@@ -155,8 +160,10 @@ export class MovimientoFormComponent implements OnInit {
     if (movimientoDetalle._id == null || movimientoDetalle._id == '') {
       movimientoDetalle = new MovimientoDetalleDTO();
 
+      movimientoDetalle._id = '0';
       //Await sirve para esperar hasta que retorne el llamado para continuar la ejecucion
       movimientoDetalle.tipo = await this._tiposMovimientoService.cargarPorId(this._tiposMovimientoService.getIdTipoMovSeleccionado());
+      movimientoDetalle.fechaEmision = FechaHelpersService.getFechaHoraActualLDT();
       movimientoDetalle.situacion = Situacion.ACTIVO;
     }
 

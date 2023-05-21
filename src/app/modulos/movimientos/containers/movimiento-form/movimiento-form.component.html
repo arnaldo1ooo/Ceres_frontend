@@ -16,7 +16,8 @@
               <mat-grid-tile>
                 <mat-form-field appearance="outline" class="style-campos">
                   <mat-label>Id</mat-label>
-                  <input matInput formControlName="_id" #_id readonly="true"> <!--# sirve para poder acceder desde el ts a este elemento-->
+                  <input matInput formControlName="_id" #_id readonly="true">
+                  <!--# sirve para poder acceder desde el ts a este elemento-->
                 </mat-form-field>
               </mat-grid-tile>
 
@@ -29,7 +30,8 @@
                       {{ moneda._id }} - {{ moneda.descripcion }}
                     </mat-option>
                   </mat-select>
-                  <mat-error *ngIf="formMovimientoDetalle.get('moneda')?.invalid">{{ getMensajeError('moneda') }}</mat-error>
+                  <mat-error *ngIf="formMovimientoDetalle.get('moneda')?.invalid">{{ getMensajeError('moneda') }}
+                  </mat-error>
                 </mat-form-field>
               </mat-grid-tile>
 
@@ -45,10 +47,20 @@
                       {{ entidad._id + ' - ' + entidad.nombre + ' ' + entidad.apellido }}
                     </mat-option>
                   </mat-autocomplete>
-                  <mat-error *ngIf="formMovimientoDetalle.get('entidad')?.invalid">{{ getMensajeError('entidad') }}</mat-error>
+                  <mat-error *ngIf="formMovimientoDetalle.get('entidad')?.invalid">{{ getMensajeError('entidad') }}
+                  </mat-error>
                 </mat-form-field>
               </mat-grid-tile>
 
+              <mat-grid-tile>
+                <mat-form-field appearance="outline" class="style-campos">
+                  <mat-label>{{ "titulos.fecha-emision" | transloco }}</mat-label>
+                  <input matInput formControlName="fechaEmision" readonly="true"
+                    [value]="formMovimientoDetalle.get('fechaEmision')?.value | date:'dd/MM/yyyy HH:mm:ss'">
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <!--Fila 3-->
               <mat-grid-tile>
                 <mat-form-field appearance="outline" class="style-campos">
                   <mat-label>{{ "titulos.departamento" | transloco }}</mat-label>
@@ -67,10 +79,35 @@
 
               <mat-grid-tile>
                 <mat-form-field appearance="outline" class="style-campos">
+                  <mat-label>
+                    {{ formMovimientoDetalle.get('tipo')?.value?.tipo == 'E'
+                    ? ('titulos.comprador' | transloco)
+                    : ('titulos.vendedor' | transloco) }}
+                  </mat-label>
+                  <input formControlName="compradorVendedor" type="text" placeholder="Seleccione un Comprador/Vendedor"
+                          matInput [matAutocomplete]="autocompleteCompradorVendedor">
+
+                  <mat-autocomplete #autocompleteCompradorVendedor="matAutocomplete" [displayWith]="displayEntidad">
+                    <mat-option *ngFor="let compradorVendedor of listaCompradoresVendedoresFiltrado$ | async" [value]="compradorVendedor">
+                      {{ compradorVendedor._id + ' - ' + compradorVendedor.nombre + ' ' + compradorVendedor.apellido }}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-error *ngIf="formMovimientoDetalle.get('compradorVendedor')?.invalid">{{ getMensajeError('compradorVendedor') }}
+                  </mat-error>
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <!--Fila 4-->
+              <mat-grid-tile>
+
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <mat-form-field appearance="outline" class="style-campos">
                   <mat-label>{{ "titulos.situacion" | transloco }}</mat-label>
                   <mat-select formControlName="situacion">
-                    <mat-option *ngFor="let situacion of listaSituaciones" [value]="situacion">{{ situacion |
-                      situacionPipe }}
+                    <mat-option *ngFor="let situacion of listaSituaciones" [value]="situacion">
+                      {{ situacion | situacionPipe }}
                     </mat-option>
                   </mat-select>
                   <mat-error *ngIf="formMovimientoDetalle.get('situacion')?.invalid">
@@ -102,7 +139,9 @@
 
   <!--Botones-->
   <mat-card-actions class="style-barra-acciones">
-    <button name="button-guardar" mat-raised-button color="primary" (click)="onGuardar()" [disabled]=formMovimientoDetalle.disabled>{{ "botones.guardar" | transloco }}</button>
-    <button name="button-cancelar" mat-raised-button color="warn" (click)="onCancelar()" class="style-espacio-boton">{{ "botones.cancelar" | transloco }}</button>
+    <button name="button-guardar" mat-raised-button color="primary" (click)="onGuardar()"
+      [disabled]=formMovimientoDetalle.disabled>{{ "botones.guardar" | transloco }}</button>
+    <button name="button-cancelar" mat-raised-button color="warn" (click)="onCancelar()" class="style-espacio-boton">{{
+      "botones.cancelar" | transloco }}</button>
   </mat-card-actions>
 </mat-card>

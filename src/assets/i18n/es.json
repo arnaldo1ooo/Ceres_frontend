@@ -43,12 +43,17 @@
     "tipo-movimiento": "Tipo",
     "moneda": "Moneda",
     "departamento": "Departamento",
-    "entidad": "Entidad"
+    "entidad": "Entidad",
+    "fecha-emision": "Fecha de emisión",
+    "comprador": "Comprador",
+    "vendedor": "Vendedor"
   },
 
   "botones": {
     "guardar": "Guardar",
-    "cancelar": "Cancelar"
+    "cancelar": "Cancelar",
+    "limpiar": "Limpiar",
+    "filtrar": "Filtrar"
   },
 
   "sin-registros": "Sin registros"

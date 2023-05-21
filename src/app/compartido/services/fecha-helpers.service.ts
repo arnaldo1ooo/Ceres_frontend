@@ -12,6 +12,10 @@ export class FechaHelpersService {
     return new Date();
   }
 
+  public static getFechaHoraActualLDT(): LocalDateTime {
+    return LocalDateTime.now();
+  }
+
   public static getPrimerDiaDelAnho(): Date {
     const fechaActual = new Date(); // Fecha actual
     const primerDia = new Date(fechaActual.getFullYear(), 0, 1);
