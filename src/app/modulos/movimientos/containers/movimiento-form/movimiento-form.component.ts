@@ -21,7 +21,6 @@ import { AvisoHelpersService } from './../../../../compartido/services/aviso-hel
 import { FechaHelpersService } from './../../../../compartido/services/fecha-helpers.service';
 import { ClaseEntidad } from './../../../entidades/enums/clase-entidad.enum';
 import { Entidad } from './../../../entidades/models/entidad';
-import { DialogoQuillEditorComponent } from 'src/app/compartido/componentes/dialogo-quill-editor/dialogo-quill-editor.component';
 
 @Component({
   selector: 'app-movimiento-form',
