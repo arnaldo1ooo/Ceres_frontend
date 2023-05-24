@@ -1,10 +1,12 @@
 <mat-card class="mat-card-detalle-movimiento">
 
-  <mat-toolbar color="primary" class="titulo-pagina">{{ "detalles.detalle-movimiento" | transloco }}</mat-toolbar>
+  <mat-toolbar color="primary">{{ "detalles.detalle-movimiento" | transloco }}</mat-toolbar>
+
+  <mat-label class="titulo-tipo-movimiento">{{ formMovimientoDetalle.get('tipo')?.value?.descripcion }}</mat-label>
 
   <mat-card-content>
 
-    <mat-label class="titulo-tipo-movimiento">{{ formMovimientoDetalle.get('tipo')?.value?.descripcion }}</mat-label>
+
 
     <form [formGroup]="formMovimientoDetalle" class="anchura-minima">
       <mat-tab-group class="style-tab-grupo">

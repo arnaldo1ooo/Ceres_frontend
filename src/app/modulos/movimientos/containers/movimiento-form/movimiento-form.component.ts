@@ -54,8 +54,7 @@ export class MovimientoFormComponent implements OnInit {
     private _entidadesService: EntidadesService,
     private _departamentosService: DepartamentosService,
     private _avisoHelpersService: AvisoHelpersService,
-    private _tiposMovimientoService: TiposMovimientoService,
-    private _dialogo: MatDialog) {
+    private _tiposMovimientoService: TiposMovimientoService) {
 
   }
 

@@ -1,12 +1,12 @@
 .mat-card-detalle-movimiento {
   max-width: 90%;
-  height: 90%;
   margin: 1em auto;
   text-align: center;
 }
 
-mat-toolbar {
+.style-titulo {
   margin-bottom: 30px;
+  height: 100px;
 }
 
 .anchura-maxima {
@@ -46,19 +46,20 @@ mat-toolbar {
   justify-content: center;
   font-weight: bold;
   font-size: 20px;
+  margin-top: 20px;
 }
 
 .style-tab-grupo {
   margin-top: 30px;
-  height: auto;
+  height: 570px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
 .style-grid-tile {
-  height: 180px !important; //Utiliza important para priorizar este style por encima de otras
+  height: 150px !important; //Utiliza important para priorizar este style por encima de otras
 }
 
 .style-text-area {
-  margin-top: -90px;
+  margin-top: -60px;
 }
