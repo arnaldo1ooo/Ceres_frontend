@@ -1,6 +1,8 @@
 /* Puede agregar estilos globales a este archivo y también importar otro archivo de estilos */
 @use '@angular/material' as mat;
 @import '@angular/material/theming';
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.snow.css';
 @include mat-core();
 
 
@@ -75,5 +77,4 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 input[disabled] {
   color:rgb(0, 0, 0);
 }
-
 

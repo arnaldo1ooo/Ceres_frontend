@@ -1,3 +1,4 @@
+import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
@@ -20,6 +21,7 @@ import { AvisoHelpersService } from './../../../../compartido/services/aviso-hel
 import { FechaHelpersService } from './../../../../compartido/services/fecha-helpers.service';
 import { ClaseEntidad } from './../../../entidades/enums/clase-entidad.enum';
 import { Entidad } from './../../../entidades/models/entidad';
+import { DialogoQuillEditorComponent } from 'src/app/compartido/componentes/dialogo-quill-editor/dialogo-quill-editor.component';
 
 @Component({
   selector: 'app-movimiento-form',
@@ -43,6 +45,7 @@ export class MovimientoFormComponent implements OnInit {
 
   private modoOperacion: string = this._ruta.snapshot.data['modoOperacion'];  //Recibe el modo desde el path
 
+
   constructor(
     private _formBuilder: NonNullableFormBuilder,
     private _location: Location,
@@ -51,7 +54,8 @@ export class MovimientoFormComponent implements OnInit {
     private _entidadesService: EntidadesService,
     private _departamentosService: DepartamentosService,
     private _avisoHelpersService: AvisoHelpersService,
-    private _tiposMovimientoService: TiposMovimientoService) {
+    private _tiposMovimientoService: TiposMovimientoService,
+    private _dialogo: MatDialog) {
 
   }
 
@@ -235,4 +239,21 @@ export class MovimientoFormComponent implements OnInit {
       }
     )
   }
+
+  /*abrirDialogoQuillEditor(): void {
+    const dialogRef = this._dialogo.open(DialogoQuillEditorComponent, {
+      data: {
+        titulo: 'Observación del movimiento',
+        textoInicial: this.formMovimientoDetalle.get('observacion')?.value,
+        modoLectura: this.modoOperacion == ModoOperacion.MODO_VISUALIZAR
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(textoAlterado => { //Al cerrar dialogo
+      if(textoAlterado) {
+        this.formMovimientoDetalle.get('observacion')?.setValue(textoAlterado);
+      }
+    });
+  }*/
+
 }

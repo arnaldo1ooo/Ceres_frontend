@@ -1,6 +1,7 @@
-mat-card {
-  max-width: 80%;
-  margin: 2em auto;
+.mat-card-detalle-movimiento {
+  max-width: 90%;
+  height: 90%;
+  margin: 1em auto;
   text-align: center;
 }
 
@@ -8,15 +9,7 @@ mat-toolbar {
   margin-bottom: 30px;
 }
 
-mat-form-field {
-  margin-bottom: 20px;
-}
-
-mat-tab-group {
-  min-height: 500px;
-}
-
-.anchura-maxima{
+.anchura-maxima {
   width: 100%;
 }
 
@@ -26,7 +19,7 @@ mat-tab-group {
 }
 
 .style-campos {
-  width: 400px;
+  width: 450px;
   height: 50px;
 }
 
@@ -39,7 +32,6 @@ mat-tab-group {
   margin: 15px;
 }
 
-
 .custom-disabled .mat-select-value {
   background-color: #3d1818;
   color: #570ebe;
@@ -47,6 +39,7 @@ mat-tab-group {
 
 .style-div {
   padding-top: 15px;
+  height: 500px;
 }
 
 .titulo-tipo-movimiento {
@@ -55,7 +48,17 @@ mat-tab-group {
   font-size: 20px;
 }
 
-.tab-grupo {
+.style-tab-grupo {
   margin-top: 30px;
+  height: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
+.style-grid-tile {
+  height: 180px !important; //Utiliza important para priorizar este style por encima de otras
+}
+
+.style-text-area {
+  margin-top: -90px;
+}

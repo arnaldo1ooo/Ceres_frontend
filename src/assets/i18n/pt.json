@@ -44,7 +44,8 @@
       "entidad": "Entidade",
       "fecha-emision": "Data de emissão",
       "comprador": "Comprador",
-      "vendedor": "Vendedor"
+      "vendedor": "Vendedor",
+      "observacion": "Observação"
     },
 
     "botones": {

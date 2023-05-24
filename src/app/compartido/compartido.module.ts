@@ -1,6 +1,8 @@
+import { DialogoQuillEditorComponent } from './componentes/dialogo-quill-editor/dialogo-quill-editor.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { QuillModule } from 'ngx-quill';
 
 import { TranslocoRootModule } from '../transloco-root.module';
 import {
@@ -19,20 +21,24 @@ import { SituacionPipe } from './pipes/situacion.pipe';
     DialogoConfirmacionComponent,
     SituacionPipe,
     MiSidenavComponent,
-    SelectorIdiomaComponent
+    SelectorIdiomaComponent,
+    DialogoQuillEditorComponent
   ],
   imports: [
     CommonModule,
     MaterialModulosModule,
     RouterModule,
-    TranslocoRootModule
+    TranslocoRootModule,
+    QuillModule
   ],
   exports: [
     DialogoErrorComponent,
     SituacionPipe,
     MiSidenavComponent,
     TranslocoRootModule,
-    SelectorIdiomaComponent
+    SelectorIdiomaComponent,
+    DialogoQuillEditorComponent,
+    QuillModule
   ]
 })
 export class CompartidoModule { }

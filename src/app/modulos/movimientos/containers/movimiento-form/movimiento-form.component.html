@@ -1,4 +1,4 @@
-<mat-card class="detalle-movimiento">
+<mat-card class="mat-card-detalle-movimiento">
 
   <mat-toolbar color="primary" class="titulo-pagina">{{ "detalles.detalle-movimiento" | transloco }}</mat-toolbar>
 
@@ -7,7 +7,7 @@
     <mat-label class="titulo-tipo-movimiento">{{ formMovimientoDetalle.get('tipo')?.value?.descripcion }}</mat-label>
 
     <form [formGroup]="formMovimientoDetalle" class="anchura-minima">
-      <mat-tab-group class="tab-grupo">
+      <mat-tab-group class="style-tab-grupo">
         <mat-tab label="Datos generales">
           <div class="style-div">
             <mat-grid-list cols="2" rowHeight="90px">
@@ -25,6 +25,7 @@
                 <mat-form-field appearance="outline" class="style-campos">
                   <mat-label>{{ "titulos.moneda" | transloco }}</mat-label>
                   <mat-select formControlName="moneda" [compareWith]="compararOpcionesSelect">
+                    <!--[] solicita info, () envia info-->
                     <mat-option disabled selected value="">{{ "seleccion.seleccion-moneda" | transloco }}</mat-option>
                     <mat-option *ngFor="let moneda of listaMonedas" [value]="moneda">
                       {{ moneda._id }} - {{ moneda.descripcion }}
@@ -85,21 +86,27 @@
                     : ('titulos.vendedor' | transloco) }}
                   </mat-label>
                   <input formControlName="compradorVendedor" type="text" placeholder="Seleccione un Comprador/Vendedor"
-                          matInput [matAutocomplete]="autocompleteCompradorVendedor">
+                    matInput [matAutocomplete]="autocompleteCompradorVendedor">
 
                   <mat-autocomplete #autocompleteCompradorVendedor="matAutocomplete" [displayWith]="displayEntidad">
-                    <mat-option *ngFor="let compradorVendedor of listaCompradoresVendedoresFiltrado$ | async" [value]="compradorVendedor">
+                    <mat-option *ngFor="let compradorVendedor of listaCompradoresVendedoresFiltrado$ | async"
+                      [value]="compradorVendedor">
                       {{ compradorVendedor._id + ' - ' + compradorVendedor.nombre + ' ' + compradorVendedor.apellido }}
                     </mat-option>
                   </mat-autocomplete>
-                  <mat-error *ngIf="formMovimientoDetalle.get('compradorVendedor')?.invalid">{{ getMensajeError('compradorVendedor') }}
+                  <mat-error *ngIf="formMovimientoDetalle.get('compradorVendedor')?.invalid">{{
+                    getMensajeError('compradorVendedor') }}
                   </mat-error>
                 </mat-form-field>
               </mat-grid-tile>
 
               <!--Fila 4-->
-              <mat-grid-tile>
-
+              <mat-grid-tile class="style-grid-tile">
+                <mat-form-field appearance="outline" class="style-campos style-text-area">
+                  <textarea matInput cdkTextareaAutosize formControlName="observacion"  placeholder="Observación"
+                    #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="4" cdkAutosizeMaxRows="4">
+                  </textarea>
+                </mat-form-field>
               </mat-grid-tile>
 
               <mat-grid-tile>
