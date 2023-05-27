@@ -1,4 +1,4 @@
-import { ModoOperacion } from './../../compartido/enums/modoOperacion.enum';
+import { ModoEdicion } from '../../compartido/enums/modoEdicion.enum';
 import { MovimientoFormComponent } from './containers/movimiento-form/movimiento-form.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -10,15 +10,15 @@ const routes: Routes = [
   { path: '', component: MovimientosComponent },
   { path: 'nuevo', component: MovimientoFormComponent,
     resolve: { movimiento: MovimientoDetalleResolver },
-    data: { modoOperacion: ModoOperacion.MODO_NUEVO }
+    data: { modoEdicion: ModoEdicion.MODO_NUEVO }
   },
   { path: 'editar/:id', component: MovimientoFormComponent,
     resolve: { movimiento: MovimientoDetalleResolver },
-    data: { modoOperacion: ModoOperacion.MODO_EDITAR }
+    data: { modoEdicion: ModoEdicion.MODO_EDITAR }
   },
   { path: 'visualizar/:id', component: MovimientoFormComponent,
     resolve: { movimiento: MovimientoDetalleResolver },
-    data: { modoOperacion: ModoOperacion.MODO_VISUALIZAR }
+    data: { modoEdicion: ModoEdicion.MODO_VISUALIZAR }
   }
 ];
 

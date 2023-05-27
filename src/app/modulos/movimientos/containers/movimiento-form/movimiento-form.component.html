@@ -103,7 +103,7 @@
               <mat-grid-tile class="style-grid-tile">
                 <mat-form-field appearance="outline" class="style-campos style-text-area">
                   <mat-label>{{ "titulos.observacion" | transloco }}</mat-label>
-                  <textarea matInput cdkTextareaAutosize formControlName="observacion"  placeholder="Observación"
+                  <textarea matInput cdkTextareaAutosize formControlName="observacion" placeholder="Observación"
                     #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="4" cdkAutosizeMaxRows="4">
                   </textarea>
                 </mat-form-field>
@@ -129,6 +129,29 @@
         <!--Tab 2-->
         <mat-tab label="Mercaderías">
           <div class="style-div">
+
+            <form [formGroup]="formItemToAgregar" class="anchura-minima">
+
+              <mat-form-field appearance="outline" class="style-campos">
+                <mat-label>{{ "titulos.mercaderia" | transloco }}</mat-label>
+                <input type="text" matInput [matAutocomplete]="acMercaderia" formControlName="mercaderia">
+                <mat-icon matSuffix>search</mat-icon>
+                <mat-autocomplete #acMercaderia="matAutocomplete" [displayWith]="displayMercaderia">
+                  <mat-option *ngFor="let mercaderia of listaMercaderiasFiltrado$ | async" [value]="mercaderia">
+                    {{mercaderia._id + " - " + mercaderia.descripcion}}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="formItemToAgregar.get('mercaderia')?.invalid">
+                  {{ getMensajeError('mercaderia') }}
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>{{ "titulos.cantidad" | transloco }}</mat-label>
+                <input type="number" matInput formControlName="cantidad">
+              </mat-form-field>
+
+            </form>
 
           </div>
         </mat-tab>

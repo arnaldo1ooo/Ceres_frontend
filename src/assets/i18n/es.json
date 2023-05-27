@@ -47,7 +47,9 @@
     "fecha-emision": "Fecha de emisión",
     "comprador": "Comprador",
     "vendedor": "Vendedor",
-    "observacion": "Observación"
+    "observacion": "Observación",
+    "mercaderia": "Mercadería",
+    "cantidad": "Cantidad"
   },
 
   "botones": {

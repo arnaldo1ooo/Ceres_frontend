@@ -102,4 +102,16 @@ export class HelpersService {
     return opcion === opcionSeleccionada;
   }
 
+  public static removerAcentos(cadena: string): string {
+    return cadena.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  }
+
+  public static convertirToMinus(cadena: string): string {
+    try {
+      return cadena.toLocaleLowerCase();
+    }catch{
+      return cadena;
+    }
+  }
+
 }

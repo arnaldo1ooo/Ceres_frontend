@@ -18,9 +18,9 @@ export class MercaderiasService {
 
   listarTodosMercaderias() {
     return this._httpClient.get<Mercaderia[]>(API_URL_MERCADERIAS)
-      .pipe(                                        //Manipular datos
-        first(),                                    //Ejecuta la accion al primer resultado
-        delay(100)/*,                                //Espera de x segundos*/
+      .pipe(
+        first(),
+        delay(100)
       );
   }
 

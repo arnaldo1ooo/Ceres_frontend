@@ -1,7 +1,6 @@
-import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { map, Observable, startWith } from 'rxjs';
 import { Situacion } from 'src/app/compartido/enums/situacion.enum';
@@ -16,11 +15,13 @@ import { TiposMovimientoService } from 'src/app/modulos/tipos-movimiento/service
 
 import { EntradaSalida } from '../../../../compartido/enums/entradaSalida.enum';
 import { MovimientoDetalleDTO } from '../../model/dtos/movimientoDetalleDTO';
-import { ModoOperacion } from './../../../../compartido/enums/modoOperacion.enum';
+import { ModoEdicion } from '../../../../compartido/enums/modoEdicion.enum';
 import { AvisoHelpersService } from './../../../../compartido/services/aviso-helpers.service';
 import { FechaHelpersService } from './../../../../compartido/services/fecha-helpers.service';
 import { ClaseEntidad } from './../../../entidades/enums/clase-entidad.enum';
 import { Entidad } from './../../../entidades/models/entidad';
+import { MercaderiasService } from 'src/app/modulos/mercaderias/services/mercaderias.service';
+import { Mercaderia } from 'src/app/modulos/mercaderias/model/mercaderia';
 
 @Component({
   selector: 'app-movimiento-form',
@@ -40,10 +41,14 @@ export class MovimientoFormComponent implements OnInit {
   public listaCompradoresVendedoresFiltrado$: Observable<Entidad[]> | undefined;
 
   public listaSituaciones = Object.values(Situacion);
-  public formMovimientoDetalle: FormGroup = this.formPorDefecto();
 
-  private modoOperacion: string = this._ruta.snapshot.data['modoOperacion'];  //Recibe el modo desde el path
+  public listaMercaderias: Mercaderia[] = [];
+  public listaMercaderiasFiltrado$: Observable<Mercaderia[]> | undefined;
 
+  public formMovimientoDetalle: FormGroup = this.formMovimientoInit();
+  public formItemToAgregar: FormGroup = this.formItemToAgregarInit();
+
+  private modoEdicion: string = this._ruta.snapshot.data['modoEdicion'];  //Recibe el modo desde el path
 
   constructor(
     private _formBuilder: NonNullableFormBuilder,
@@ -53,19 +58,20 @@ export class MovimientoFormComponent implements OnInit {
     private _entidadesService: EntidadesService,
     private _departamentosService: DepartamentosService,
     private _avisoHelpersService: AvisoHelpersService,
-    private _tiposMovimientoService: TiposMovimientoService) {
+    private _tiposMovimientoService: TiposMovimientoService,
+    private _mercaderiasService: MercaderiasService) {
 
   }
 
   ngOnInit(): void {  //Se ejecuta al iniciar componente
-    this.verificarModoOperacion();
+    this.verificarModoEdicion();
     this.cargarDatos();
 
     this.listarMonedas();
     this.listarFiltrarEntidades();
     this.listarDepartamentos();
     this.listarFiltrarCompradoresVendedores();
-
+    this.listarFiltrarMercaderias();
 
   }
 
@@ -102,16 +108,16 @@ export class MovimientoFormComponent implements OnInit {
     return ErrorHelpersService.verificarMensajeError(campo);
   }
 
-  public verificarModoOperacion() {
-    switch (this.modoOperacion) {
-      case ModoOperacion.MODO_NUEVO:
+  public verificarModoEdicion() {
+    switch (this.modoEdicion) {
+      case ModoEdicion.MODO_NUEVO:
         this.formMovimientoDetalle.get('situacion')?.disable();
         break;
 
-      case ModoOperacion.MODO_EDITAR:
+      case ModoEdicion.MODO_EDITAR:
         break;
 
-      case ModoOperacion.MODO_VISUALIZAR:
+      case ModoEdicion.MODO_VISUALIZAR:
         this.formMovimientoDetalle.disable();
         break;
     }
@@ -157,6 +163,16 @@ export class MovimientoFormComponent implements OnInit {
     }
   }
 
+  public displayMercaderia(mercaderia: Mercaderia): string {
+    if (mercaderia._id) {
+      return mercaderia.descripcion
+              ? mercaderia._id + ' - ' + mercaderia.descripcion
+              : mercaderia._id;
+    }
+
+    return '';
+  }
+
   private listarDepartamentos() {
     this._departamentosService.listarTodosDepartamentos().subscribe({
       next: (respuesta: Departamento[]) => {
@@ -190,6 +206,27 @@ export class MovimientoFormComponent implements OnInit {
     });
   }
 
+  private listarFiltrarMercaderias() {
+    let control = this.formItemToAgregar.get('mercaderia');
+
+    this._mercaderiasService.listarTodosMercaderias().subscribe({
+      next: (respuesta: Mercaderia[]) => {
+        this.listaMercaderias = respuesta;
+
+        // Se ejecuta cuando se escribe en autocomplete
+        this.listaMercaderiasFiltrado$ = control?.valueChanges.pipe(
+          startWith(''), // Se inicia con valor vacío para listar todos los registros
+          map(valorAFiltrar =>
+            this.listaMercaderias?.filter(mercaderia =>
+              mercaderia._id?.toString().includes(valorAFiltrar || '') ||
+              mercaderia.descripcion?.toLocaleLowerCase().includes(valorAFiltrar || ''))
+          )
+        );
+      },
+      error: () => this._avisoHelpersService.mostrarMensaje('Error al listar Mercaderias', '', 4000) // Mensaje cuando ocurre un error
+    });
+  }
+
   private async cargarDatos() {
     //Carga datos de movimiento en caso en modo editar
     let movimientoDetalle: MovimientoDetalleDTO = this._ruta.snapshot.data['movimiento'];  //Obtiene el objeto del resolver
@@ -218,10 +255,9 @@ export class MovimientoFormComponent implements OnInit {
       items: movimientoDetalle.items
     });
 
-
   }
 
-  private formPorDefecto(): FormGroup {
+  private formMovimientoInit(): FormGroup {
     return this._formBuilder.group(
       {
         _id: [''],
@@ -234,6 +270,16 @@ export class MovimientoFormComponent implements OnInit {
         observacion: ['', Validators.maxLength(500)],
         situacion: ['', Validators.required],
         items: ['', Validators.required]
+      }
+    )
+  }
+
+  private formItemToAgregarInit(): FormGroup {
+    return this._formBuilder.group(
+      {
+        mercaderia: ['', Validators.required],
+        cantidad: ['', Validators.required],
+        valorUnitario: ['', Validators.required]
       }
     )
   }
