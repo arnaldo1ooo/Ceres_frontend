@@ -5,7 +5,8 @@ export class ItemMovimiento {
   _id: string = '';
   movimiento: Movimiento | null = null;
   mercaderia: Mercaderia | null = null;
-  cantidad: Number | null = null;
+  cantidad: Number = 0;
+  valorUnitario: Number = 0;
   observacion: String | null = null;
 
   constructor() {

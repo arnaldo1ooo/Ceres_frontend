@@ -22,6 +22,7 @@ import { ClaseEntidad } from './../../../entidades/enums/clase-entidad.enum';
 import { Entidad } from './../../../entidades/models/entidad';
 import { MercaderiasService } from 'src/app/modulos/mercaderias/services/mercaderias.service';
 import { Mercaderia } from 'src/app/modulos/mercaderias/model/mercaderia';
+import { ItemMovimiento } from '../../model/item-movimiento';
 
 @Component({
   selector: 'app-movimiento-form',
@@ -277,11 +278,21 @@ export class MovimientoFormComponent implements OnInit {
   private formItemToAgregarInit(): FormGroup {
     return this._formBuilder.group(
       {
-        mercaderia: ['', Validators.required],
-        cantidad: ['', Validators.required],
-        valorUnitario: ['', Validators.required]
+        mercaderia: [''],
+        cantidad: [''],
+        valorUnitario: ['']
       }
     )
+  }
+
+  public agregarItem() {
+    let itemToAgregar: ItemMovimiento = new ItemMovimiento();
+
+    itemToAgregar.mercaderia = this.formItemToAgregar.get('mercaderia')?.value;
+    itemToAgregar.cantidad = this.formItemToAgregar.get('cantidad')?.value;
+    itemToAgregar.valorUnitario = this.formItemToAgregar.get('valorUnitario')?.value;
+
+    console.log(itemToAgregar)
   }
 
   /*abrirDialogoQuillEditor(): void {

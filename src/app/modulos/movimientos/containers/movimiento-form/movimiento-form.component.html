@@ -8,7 +8,7 @@
     <form [formGroup]="formMovimientoDetalle" class="anchura-minima">
       <mat-tab-group class="style-tab-grupo">
         <mat-tab label="Datos generales">
-          <div class="style-div">
+          <div class="style-contenedor-tab">
             <mat-grid-list [cols]="2" rowHeight="93px">
 
               <!--Fila 1-->
@@ -39,8 +39,8 @@
               <mat-grid-tile>
                 <mat-form-field appearance="outline" class="style-campos">
                   <mat-label>{{ "titulos.entidad" | transloco }}</mat-label>
-                  <input type="text" name="entidad" placeholder="Seleccione una entidad" formControlName="entidad"
-                    matInput [matAutocomplete]="autocompleteEntidad">
+                  <input type="text" name="entidad" formControlName="entidad" matInput
+                    [matAutocomplete]="autocompleteEntidad">
 
                   <mat-autocomplete #autocompleteEntidad="matAutocomplete" [displayWith]="displayEntidad">
                     <mat-option *ngFor="let entidad of listaEntidadesFiltrado$ | async" [value]="entidad">
@@ -84,8 +84,8 @@
                     ? ('titulos.comprador' | transloco)
                     : ('titulos.vendedor' | transloco) }}
                   </mat-label>
-                  <input formControlName="compradorVendedor" type="text" placeholder="Seleccione un Comprador/Vendedor"
-                    matInput [matAutocomplete]="autocompleteCompradorVendedor">
+                  <input formControlName="compradorVendedor" type="text" matInput
+                    [matAutocomplete]="autocompleteCompradorVendedor">
 
                   <mat-autocomplete #autocompleteCompradorVendedor="matAutocomplete" [displayWith]="displayEntidad">
                     <mat-option *ngFor="let compradorVendedor of listaCompradoresVendedoresFiltrado$ | async"
@@ -128,29 +128,39 @@
 
         <!--Tab 2-->
         <mat-tab label="Mercaderías">
-          <div class="style-div">
+          <div class="style-contenedor-tab">
 
-            <form [formGroup]="formItemToAgregar" class="anchura-minima">
+            <form [formGroup]="formItemToAgregar">
+              <div class="style-contenedor-agregar-item">
+                <mat-form-field appearance="outline" class="style-campos" style="width: 400px;">
+                  <mat-label>{{ "titulos.mercaderia" | transloco }}</mat-label>
+                  <input type="text" matInput [matAutocomplete]="acMercaderia" formControlName="mercaderia">
+                  <mat-icon matSuffix>search</mat-icon>
+                  <mat-autocomplete #acMercaderia="matAutocomplete" [displayWith]="displayMercaderia">
+                    <mat-option *ngFor="let mercaderia of listaMercaderiasFiltrado$ | async" [value]="mercaderia">
+                      {{mercaderia._id + " - " + mercaderia.descripcion}}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-error *ngIf="formItemToAgregar.get('mercaderia')?.invalid">
+                    {{ getMensajeError('mercaderia') }}
+                  </mat-error>
+                </mat-form-field>
 
-              <mat-form-field appearance="outline" class="style-campos">
-                <mat-label>{{ "titulos.mercaderia" | transloco }}</mat-label>
-                <input type="text" matInput [matAutocomplete]="acMercaderia" formControlName="mercaderia">
-                <mat-icon matSuffix>search</mat-icon>
-                <mat-autocomplete #acMercaderia="matAutocomplete" [displayWith]="displayMercaderia">
-                  <mat-option *ngFor="let mercaderia of listaMercaderiasFiltrado$ | async" [value]="mercaderia">
-                    {{mercaderia._id + " - " + mercaderia.descripcion}}
-                  </mat-option>
-                </mat-autocomplete>
-                <mat-error *ngIf="formItemToAgregar.get('mercaderia')?.invalid">
-                  {{ getMensajeError('mercaderia') }}
-                </mat-error>
-              </mat-form-field>
+                <mat-form-field appearance="outline" class="style-campos" style="width: 120px;">
+                  <mat-label>{{ "titulos.cantidad" | transloco }}</mat-label>
+                  <input type="number" matInput formControlName="cantidad">
+                </mat-form-field>
 
-              <mat-form-field appearance="outline">
-                <mat-label>{{ "titulos.cantidad" | transloco }}</mat-label>
-                <input type="number" matInput formControlName="cantidad">
-              </mat-form-field>
+                <mat-form-field appearance="outline" class="style-campos" style="width: 220px;">
+                  <mat-label>{{ "titulos.valor-unitario" | transloco }}</mat-label>
+                  <input type="number" matInput formControlName="valorUnitario">
+                </mat-form-field>
 
+                <button name="button-agregar" mat-raised-button color="primary" class="style-campos" style="width: 120px;"
+                        (click)="agregarItem()" [disabled]=formMovimientoDetalle.disabled>
+                  {{ "botones.agregar" | transloco }}
+                </button>
+              </div>
             </form>
 
           </div>

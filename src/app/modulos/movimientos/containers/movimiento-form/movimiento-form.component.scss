@@ -40,7 +40,7 @@
   color: #570ebe;
 }
 
-.style-div {
+.style-contenedor-tab {
   padding-top: 15px;
   height: 500px;
 }
@@ -68,7 +68,7 @@
 }
 
 .style-contenedor-agregar-item {
-  width: 90%;
-  height: auto;
-  align-items: flex-start;
+  text-align: left;
+  padding: 10px; /* Agrega un margen mínimo de 10px */
 }
+

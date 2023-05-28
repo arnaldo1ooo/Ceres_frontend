@@ -47,14 +47,16 @@
       "vendedor": "Vendedor",
       "observacion": "Observação",
       "mercaderia": "Mercadoria",
-      "cantidad": "Quantidade"
+      "cantidad": "Quantidade",
+      "valor-unitario": "Valor Unitario"
     },
 
     "botones": {
       "guardar": "Salvar",
       "cancelar": "Cancelar",
       "limpiar": "Limpar",
-      "filtrar": "Filtrar"
+      "filtrar": "Filtrar",
+      "agregar": "Agregar"
     },
 
     "sin-registros": "Sem registros"
