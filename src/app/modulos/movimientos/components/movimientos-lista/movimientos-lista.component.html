@@ -2,48 +2,48 @@
   <mat-table [dataSource]="listMovimientosListaDTO">
     <!-- Columna id -->
     <ng-container matColumnDef="_id">
-      <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
-      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{ movimientoListaDTO._id }}</mat-cell>
+      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Id</mat-header-cell>
+      <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">{{ movimientoListaDTO._id }}</mat-cell>
     </ng-container>
 
     <!-- Columna tipo -->
     <ng-container matColumnDef="tipo">
-      <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
-      <mat-cell *matCellDef="let movimientoListaDTO" class="izquierda-texto">{{ movimientoListaDTO.tipo.descripcion }}
+      <mat-header-cell *matHeaderCellDef [ngClass]="['izquierda-texto-global', 'titulo-tabla-global']">Tipo</mat-header-cell>
+      <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'izquierda-texto-global'">{{ movimientoListaDTO.tipo.descripcion }}
       </mat-cell>
     </ng-container>
 
     <!-- Columna nombreApellido -->
     <ng-container matColumnDef="nombreApellidoEntidad">
-      <mat-header-cell *matHeaderCellDef>Entidad</mat-header-cell>
-      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{ movimientoListaDTO.nombreApellidoEntidad }}
+      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Entidad</mat-header-cell>
+      <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">{{ movimientoListaDTO.nombreApellidoEntidad }}
       </mat-cell>
     </ng-container>
 
     <!-- Columna fecha emision -->
     <ng-container matColumnDef="fechaEmision">
-      <mat-header-cell *matHeaderCellDef>Fecha Emisión</mat-header-cell>
-      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{ movimientoListaDTO.fechaEmision | date: 'dd/MM/yyyy' }}
+      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Fecha Emisión</mat-header-cell>
+      <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">{{ movimientoListaDTO.fechaEmision | date: 'dd/MM/yyyy' }}
       </mat-cell>
     </ng-container>
 
     <!-- Columna departamento -->
     <ng-container matColumnDef="departamento">
-      <mat-header-cell *matHeaderCellDef>Departamento</mat-header-cell>
-      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">
+      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Departamento</mat-header-cell>
+      <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">
         {{movimientoListaDTO.departamento.descripcion}}</mat-cell>
     </ng-container>
 
     <!-- Columna situacion -->
     <ng-container matColumnDef="situacion">
-      <mat-header-cell *matHeaderCellDef>Situación</mat-header-cell>
-      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">{{ movimientoListaDTO.situacion | situacionPipe }}</mat-cell>
+      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Situación</mat-header-cell>
+      <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">{{ movimientoListaDTO.situacion | situacionPipe }}</mat-cell>
     </ng-container>
 
     <!-- Columna total -->
     <ng-container matColumnDef="total">
-      <mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
-      <mat-cell *matCellDef="let movimientoListaDTO" class="centrar-texto">
+      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Total</mat-header-cell>
+      <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">
         {{ movimientoListaDTO.total | currency:movimientoListaDTO.moneda.simbolo : isMostrarSimboloMoneda
           : '1.' + movimientoListaDTO.moneda.cantidadDecimales + '-' + movimientoListaDTO.moneda.cantidadDecimales }} <!--Ej: 1.8-8 = 1 entero como minimo, 8 decimales-->
       </mat-cell>
@@ -80,7 +80,7 @@
   </mat-table>
 
   <!--Mostrar mensaje sin registros caso cantidad de registros de datasource sea igual a 0-->
-  <div *ngIf="listMovimientosListaDTO.length == 0" class="label-tabla-vacia">
+  <div *ngIf="listMovimientosListaDTO.length == 0" [ngClass]="'label-tabla-vacia-global'">
     <mat-label>{{'sin-registros' | transloco}}</mat-label>
   </div>
 

@@ -129,40 +129,7 @@
         <!--Tab 2-->
         <mat-tab label="Mercaderías">
           <div class="style-contenedor-tab">
-
-            <form [formGroup]="formItemToAgregar">
-              <div class="style-contenedor-agregar-item">
-                <mat-form-field appearance="outline" class="style-campos" style="width: 400px;">
-                  <mat-label>{{ "titulos.mercaderia" | transloco }}</mat-label>
-                  <input type="text" matInput [matAutocomplete]="acMercaderia" formControlName="mercaderia">
-                  <mat-icon matSuffix>search</mat-icon>
-                  <mat-autocomplete #acMercaderia="matAutocomplete" [displayWith]="displayMercaderia">
-                    <mat-option *ngFor="let mercaderia of listaMercaderiasFiltrado$ | async" [value]="mercaderia">
-                      {{mercaderia._id + " - " + mercaderia.descripcion}}
-                    </mat-option>
-                  </mat-autocomplete>
-                  <mat-error *ngIf="formItemToAgregar.get('mercaderia')?.invalid">
-                    {{ getMensajeError('mercaderia') }}
-                  </mat-error>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline" class="style-campos" style="width: 120px;">
-                  <mat-label>{{ "titulos.cantidad" | transloco }}</mat-label>
-                  <input type="number" matInput formControlName="cantidad">
-                </mat-form-field>
-
-                <mat-form-field appearance="outline" class="style-campos" style="width: 220px;">
-                  <mat-label>{{ "titulos.valor-unitario" | transloco }}</mat-label>
-                  <input type="number" matInput formControlName="valorUnitario">
-                </mat-form-field>
-
-                <button name="button-agregar" mat-raised-button color="primary" class="style-campos" style="width: 120px;"
-                        (click)="agregarItem()" [disabled]=formMovimientoDetalle.disabled>
-                  {{ "botones.agregar" | transloco }}
-                </button>
-              </div>
-            </form>
-
+            <app-lista-items [dsItems]="movimientoDetalleDTO.items" (itemToAgregarEvent)="agregarItemALista($event)"></app-lista-items>
           </div>
         </mat-tab>
 

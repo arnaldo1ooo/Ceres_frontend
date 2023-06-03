@@ -2,7 +2,7 @@ import { MovimientoDetalleDTO } from './../model/dtos/movimientoDetalleDTO';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LocalDateTime } from '@js-joda/core';
-import { delay, first, Observable } from 'rxjs';
+import { catchError, delay, first, Observable, throwError } from 'rxjs';
 import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 
@@ -32,7 +32,12 @@ export class MovimientosService {
     return this._httpClient.get<MovimientoListaDTO[]>(API_URL_MOVIMIENTOS)
       .pipe(                                        //Manipular datos
         first(),                                    //Ejecuta la accion al primer resultado
-        delay(100)/*,                                //Espera de x segundos*/
+        delay(100),
+        catchError(() => {
+          const error = new Error('Servidor no disponible');
+          console.error('Error en la solicitud:', error);
+          return throwError(() => error);
+        })
       );
   }
 

@@ -20,8 +20,6 @@ import { AvisoHelpersService } from './../../../../compartido/services/aviso-hel
 import { FechaHelpersService } from './../../../../compartido/services/fecha-helpers.service';
 import { ClaseEntidad } from './../../../entidades/enums/clase-entidad.enum';
 import { Entidad } from './../../../entidades/models/entidad';
-import { MercaderiasService } from 'src/app/modulos/mercaderias/services/mercaderias.service';
-import { Mercaderia } from 'src/app/modulos/mercaderias/model/mercaderia';
 import { ItemMovimiento } from '../../model/item-movimiento';
 
 @Component({
@@ -43,11 +41,9 @@ export class MovimientoFormComponent implements OnInit {
 
   public listaSituaciones = Object.values(Situacion);
 
-  public listaMercaderias: Mercaderia[] = [];
-  public listaMercaderiasFiltrado$: Observable<Mercaderia[]> | undefined;
+  public movimientoDetalleDTO: MovimientoDetalleDTO = new MovimientoDetalleDTO();
 
   public formMovimientoDetalle: FormGroup = this.formMovimientoInit();
-  public formItemToAgregar: FormGroup = this.formItemToAgregarInit();
 
   private modoEdicion: string = this._ruta.snapshot.data['modoEdicion'];  //Recibe el modo desde el path
 
@@ -59,8 +55,7 @@ export class MovimientoFormComponent implements OnInit {
     private _entidadesService: EntidadesService,
     private _departamentosService: DepartamentosService,
     private _avisoHelpersService: AvisoHelpersService,
-    private _tiposMovimientoService: TiposMovimientoService,
-    private _mercaderiasService: MercaderiasService) {
+    private _tiposMovimientoService: TiposMovimientoService) {
 
   }
 
@@ -72,8 +67,6 @@ export class MovimientoFormComponent implements OnInit {
     this.listarFiltrarEntidades();
     this.listarDepartamentos();
     this.listarFiltrarCompradoresVendedores();
-    this.listarFiltrarMercaderias();
-
   }
 
   public onGuardar() {
@@ -164,16 +157,6 @@ export class MovimientoFormComponent implements OnInit {
     }
   }
 
-  public displayMercaderia(mercaderia: Mercaderia): string {
-    if (mercaderia._id) {
-      return mercaderia.descripcion
-              ? mercaderia._id + ' - ' + mercaderia.descripcion
-              : mercaderia._id;
-    }
-
-    return '';
-  }
-
   private listarDepartamentos() {
     this._departamentosService.listarTodosDepartamentos().subscribe({
       next: (respuesta: Departamento[]) => {
@@ -207,53 +190,32 @@ export class MovimientoFormComponent implements OnInit {
     });
   }
 
-  private listarFiltrarMercaderias() {
-    let control = this.formItemToAgregar.get('mercaderia');
-
-    this._mercaderiasService.listarTodosMercaderias().subscribe({
-      next: (respuesta: Mercaderia[]) => {
-        this.listaMercaderias = respuesta;
-
-        // Se ejecuta cuando se escribe en autocomplete
-        this.listaMercaderiasFiltrado$ = control?.valueChanges.pipe(
-          startWith(''), // Se inicia con valor vacío para listar todos los registros
-          map(valorAFiltrar =>
-            this.listaMercaderias?.filter(mercaderia =>
-              mercaderia._id?.toString().includes(valorAFiltrar || '') ||
-              mercaderia.descripcion?.toLocaleLowerCase().includes(valorAFiltrar || ''))
-          )
-        );
-      },
-      error: () => this._avisoHelpersService.mostrarMensaje('Error al listar Mercaderias', '', 4000) // Mensaje cuando ocurre un error
-    });
-  }
-
   private async cargarDatos() {
     //Carga datos de movimiento en caso en modo editar
-    let movimientoDetalle: MovimientoDetalleDTO = this._ruta.snapshot.data['movimiento'];  //Obtiene el objeto del resolver
+    this.movimientoDetalleDTO = this._ruta.snapshot.data['movimiento'];  //Obtiene el objeto del resolver
 
     //Si es nuevo
-    if (movimientoDetalle._id == null || movimientoDetalle._id == '') {
-      movimientoDetalle = new MovimientoDetalleDTO();
+    if (this.movimientoDetalleDTO._id == null || this.movimientoDetalleDTO._id == '') {
+      this.movimientoDetalleDTO = new MovimientoDetalleDTO();
 
-      movimientoDetalle._id = '0';
+      this.movimientoDetalleDTO._id = '0';
       //Await sirve para esperar hasta que retorne el llamado para continuar la ejecucion
-      movimientoDetalle.tipo = await this._tiposMovimientoService.cargarPorId(this._tiposMovimientoService.getIdTipoMovSeleccionado());
-      movimientoDetalle.fechaEmision = FechaHelpersService.getFechaHoraActualLDT();
-      movimientoDetalle.situacion = Situacion.ACTIVO;
+      this.movimientoDetalleDTO.tipo = await this._tiposMovimientoService.cargarPorId(this._tiposMovimientoService.getIdTipoMovSeleccionado());
+      this.movimientoDetalleDTO.fechaEmision = FechaHelpersService.getFechaHoraActualLDT();
+      this.movimientoDetalleDTO.situacion = Situacion.ACTIVO;
     }
 
     this.formMovimientoDetalle.setValue({ //Setamos los datos para que aparezca al editar o visualizar
-      _id: movimientoDetalle._id,
-      tipo: movimientoDetalle.tipo,
-      moneda: movimientoDetalle.moneda,
-      entidad: movimientoDetalle.entidad,
-      fechaEmision: movimientoDetalle.fechaEmision,
-      departamento: movimientoDetalle.departamento,
-      compradorVendedor: movimientoDetalle.compradorVendedor,
-      observacion: movimientoDetalle.observacion,
-      situacion: movimientoDetalle.situacion,
-      items: movimientoDetalle.items
+      _id: this.movimientoDetalleDTO._id,
+      tipo: this.movimientoDetalleDTO.tipo,
+      moneda: this.movimientoDetalleDTO.moneda,
+      entidad: this.movimientoDetalleDTO.entidad,
+      fechaEmision: this.movimientoDetalleDTO.fechaEmision,
+      departamento: this.movimientoDetalleDTO.departamento,
+      compradorVendedor: this.movimientoDetalleDTO.compradorVendedor,
+      observacion: this.movimientoDetalleDTO.observacion,
+      situacion: this.movimientoDetalleDTO.situacion,
+      items: this.movimientoDetalleDTO.items
     });
 
   }
@@ -275,25 +237,12 @@ export class MovimientoFormComponent implements OnInit {
     )
   }
 
-  private formItemToAgregarInit(): FormGroup {
-    return this._formBuilder.group(
-      {
-        mercaderia: [''],
-        cantidad: [''],
-        valorUnitario: ['']
-      }
-    )
+  public agregarItemALista(item: ItemMovimiento) {
+    this.movimientoDetalleDTO.items.push(item);
   }
 
-  public agregarItem() {
-    let itemToAgregar: ItemMovimiento = new ItemMovimiento();
 
-    itemToAgregar.mercaderia = this.formItemToAgregar.get('mercaderia')?.value;
-    itemToAgregar.cantidad = this.formItemToAgregar.get('cantidad')?.value;
-    itemToAgregar.valorUnitario = this.formItemToAgregar.get('valorUnitario')?.value;
 
-    console.log(itemToAgregar)
-  }
 
   /*abrirDialogoQuillEditor(): void {
     const dialogRef = this._dialogo.open(DialogoQuillEditorComponent, {

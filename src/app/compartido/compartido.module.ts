@@ -38,7 +38,7 @@ import { SituacionPipe } from './pipes/situacion.pipe';
     TranslocoRootModule,
     SelectorIdiomaComponent,
     DialogoQuillEditorComponent,
-    QuillModule
+    //QuillModule
   ]
 })
 export class CompartidoModule { }

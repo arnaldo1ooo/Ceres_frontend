@@ -47,7 +47,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   justify-content: center;
 }
 
-.label-tabla-vacia {
+.label-tabla-vacia-global {
   padding-top: 100px;
   padding-bottom: 100px;
   text-align: center;
@@ -55,12 +55,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   font-weight: 500;  //cuanto valor mas alto, mas negrita quedará
 }
 
-.centrar-texto {
+.centrar-texto-global {
   display: flex;
   justify-content: center;
 }
 
-.izquierda-texto {
+.izquierda-texto-global {
   display: flex;
   justify-content: flex-start;
 }
@@ -78,3 +78,51 @@ input[disabled] {
   color:rgb(0, 0, 0);
 }
 
+.style-campo-global {
+  width: 450px;
+  height: 50px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.titulo-tabla-global { //Titulos de tabla
+  background-color: #f2f2f2; /* Color de fondo */
+  color: #333; /* Color de texto */
+  font-weight: bold; /* Negrita */
+  padding: 12px; /* Espaciado interno */
+  text-align: left; /* Alineación del texto */
+  border-bottom: 1px solid #ccc; /* Borde inferior */
+  font-size: 16px;
+}
+
+
+
+
+/* Estilo para la tabla */
+.mat-table {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+}
+
+/* Estilo para las celdas de encabezado */
+.mat-header-cell {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 12px;
+  font-weight: bold;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Estilo para las celdas de datos */
+.mat-cell {
+  padding: 12px;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Estilo para las filas impares */
+.mat-row:nth-child(odd) {
+  background-color: #f9f9f9;
+}

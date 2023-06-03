@@ -3,31 +3,31 @@
     <!-- Columna id -->
     <ng-container matColumnDef="_id">
       <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
-      <mat-cell *matCellDef="let mercaderia" class="centrar-texto">{{mercaderia._id}}</mat-cell>
+      <mat-cell *matCellDef="let mercaderia" class="centrar-texto-global">{{mercaderia._id}}</mat-cell>
     </ng-container>
 
     <!-- Columna descripcion -->
     <ng-container matColumnDef="descripcion">
       <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
-      <mat-cell *matCellDef="let mercaderia" class="izquierda-texto">{{mercaderia.descripcion}}</mat-cell>
+      <mat-cell *matCellDef="let mercaderia" class="izquierda-texto-global">{{mercaderia.descripcion}}</mat-cell>
     </ng-container>
 
     <!-- Columna tipo -->
     <ng-container matColumnDef="tipo">
       <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
-      <mat-cell *matCellDef="let mercaderia" class="centrar-texto">{{mercaderia.tipo | tipoMercaderiaPipe}}</mat-cell>
+      <mat-cell *matCellDef="let mercaderia" class="centrar-texto-global">{{mercaderia.tipo | tipoMercaderiaPipe}}</mat-cell>
     </ng-container>
 
     <!-- Columna sucursal -->
     <ng-container matColumnDef="sucursal">
       <mat-header-cell *matHeaderCellDef>Sucursal</mat-header-cell>
-      <mat-cell *matCellDef="let mercaderia" class="centrar-texto">{{mercaderia.sucursal.descripcion}}</mat-cell>
+      <mat-cell *matCellDef="let mercaderia" class="centrar-texto-global">{{mercaderia.sucursal.descripcion}}</mat-cell>
     </ng-container>
 
     <!-- Columna situacion -->
     <ng-container matColumnDef="situacion">
       <mat-header-cell *matHeaderCellDef>Situación</mat-header-cell>
-      <mat-cell *matCellDef="let mercaderia" class="centrar-texto">{{mercaderia.situacion | situacionPipe}}</mat-cell>
+      <mat-cell *matCellDef="let mercaderia" class="centrar-texto-global">{{mercaderia.situacion | situacionPipe}}</mat-cell>
     </ng-container>
 
     <!-- Columna Acciones -->
@@ -59,7 +59,7 @@
   </mat-table>
 
   <!--Mostrar mensaje sin registros caso cantidad de registros de datasource sea igual a 0-->
-  <div *ngIf="listMercaderias.length == 0" class="label-tabla-vacia">
+  <div *ngIf="listMercaderias.length == 0" [ngClass]="'label-tabla-vacia-global'">
     <mat-label>{{'sin-registros' | transloco}}</mat-label>
   </div>
 

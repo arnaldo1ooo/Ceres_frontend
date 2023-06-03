@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, delay, first, firstValueFrom, Observable } from 'rxjs';
+import { catchError, delay, first, firstValueFrom, Observable, throwError } from 'rxjs';
 import { TipoMovimiento } from '../models/tipo-movimiento';
 
 import { API_URL_TIPOS_MOVIMIENTO } from './../../../compartido/constantes/constantes';
@@ -30,7 +30,11 @@ export class TiposMovimientoService {
     return this._httpClient.get<MovimientoListaDTO[]>(API_URL_TIPOS_MOVIMIENTO)
       .pipe(
         first(),
-        delay(100)
+        delay(100),
+        catchError(() => {
+          const error = new Error('Ocurrió un error en el servidor');
+          return throwError(() => error);
+        })
       );
   }
 
