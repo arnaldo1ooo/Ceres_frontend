@@ -4,16 +4,21 @@ import { Departamento } from '../../departamentos/model/departamento';
 import { Moneda } from '../../monedas/models/moneda';
 import { TipoMovimiento } from '../../tipos-movimiento/models/tipo-movimiento';
 import { ItemMovimiento } from './item-movimiento';
+import { LocalDateTime } from '@js-joda/core';
 
-export interface Movimiento {
-  _id: string;
-  tipo: TipoMovimiento;
-  moneda: Moneda;
-  entidad: Entidad;
-  fechaEmision: Date;
-  departamento: Departamento;
-  compradorVendedor: Entidad;
-  observacion: string;
-  situacion: Situacion;
-  items: ItemMovimiento[];
+export class Movimiento {
+  _id: string | null = null;
+  tipo: TipoMovimiento = new TipoMovimiento();
+  moneda: Moneda = new Moneda();
+  entidad: Entidad = new Entidad();
+  fechaEmision: LocalDateTime | null = null;;
+  departamento: Departamento = new Departamento();
+  compradorVendedor: Entidad = new Entidad();
+  observacion: string | null = null;
+  situacion: Situacion | null = null;
+  items: ItemMovimiento[] = [];
+
+  constructor() {
+
+  }
 }

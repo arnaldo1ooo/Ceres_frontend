@@ -1,6 +1,6 @@
 export class TipoMovimiento {
 
-  _id: string | null = null;
+  _id: string= '';
   descripcion: string | null = null;
   tipoEntradaSalida: string | null = null;
 

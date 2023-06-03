@@ -19,9 +19,9 @@ $tema-custom-light: mat.define-light-theme((
 
 //Tema dark
 $tema-custom-dark: mat.define-dark-theme((
-  color: (primary: mat.define-palette(mat.$indigo-palette),
-          accent: mat.define-palette(mat.$blue-grey-palette),
-          warning: mat.define-palette($mat-red)
+  color: (primary: mat.define-palette(mat.$indigo-palette, 300),  //Usa uno menos oscuro
+          accent: mat.define-palette(mat.$blue-grey-palette, 500),
+          warning: mat.define-palette(mat.$red-palette)
          ),
          //Solo incluir `typography` and `density` en el default dark theme.
          typography: mat.define-typography-config(),
@@ -29,7 +29,7 @@ $tema-custom-dark: mat.define-dark-theme((
 ));
 
 //Se asigna el tema light por default
-@include mat.all-component-themes($tema-custom-light);
+@include mat.all-component-themes($tema-custom-dark);
 
 .dark-theme {
   // This mixin only generates the color styles now.
@@ -65,6 +65,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   justify-content: flex-start;
 }
 
+.derecha-texto-global {
+  display: flex;
+  justify-content: flex-end;
+}
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
@@ -79,7 +84,7 @@ input[disabled] {
 }
 
 .style-campo-global {
-  width: 450px;
+  width: 30%;
   height: 50px;
   margin-left: 5px;
   margin-right: 5px;
@@ -87,42 +92,8 @@ input[disabled] {
 }
 
 .titulo-tabla-global { //Titulos de tabla
-  background-color: #f2f2f2; /* Color de fondo */
-  color: #333; /* Color de texto */
   font-weight: bold; /* Negrita */
   padding: 12px; /* Espaciado interno */
   text-align: left; /* Alineación del texto */
-  border-bottom: 1px solid #ccc; /* Borde inferior */
   font-size: 16px;
-}
-
-
-
-
-/* Estilo para la tabla */
-.mat-table {
-  width: 100%;
-  border: 1px solid #ccc;
-  border-collapse: collapse;
-  font-family: Arial, sans-serif;
-}
-
-/* Estilo para las celdas de encabezado */
-.mat-header-cell {
-  background-color: rgba(0, 0, 0, 0.1);
-  padding: 12px;
-  font-weight: bold;
-  text-align: left;
-  border-bottom: 1px solid #ccc;
-}
-
-/* Estilo para las celdas de datos */
-.mat-cell {
-  padding: 12px;
-  border-bottom: 1px solid #ccc;
-}
-
-/* Estilo para las filas impares */
-.mat-row:nth-child(odd) {
-  background-color: #f9f9f9;
 }

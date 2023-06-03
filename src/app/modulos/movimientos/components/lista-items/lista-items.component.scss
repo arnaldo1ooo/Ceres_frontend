@@ -3,9 +3,29 @@
   padding: 10px; /* Agrega un margen mínimo de 10px */
 }
 
+.campo-mercaderia {
+  width: 30%;
+  margin-left: 20px;
+  margin-right: 30px;
+}
+
+.campo-cantidad {
+  width: 20%;
+  margin-right: 30px;
+}
+
+.campo-valor-unitario {
+  width: 30%;
+  margin-right: 30px;
+}
+
+.boton-agregar {
+  width: 120px;
+  height:55px;
+}
+
 .contenedor-tabla-items {
   padding: 10px;
   margin-left: 5%;
   margin-right: 5%;
 }
-

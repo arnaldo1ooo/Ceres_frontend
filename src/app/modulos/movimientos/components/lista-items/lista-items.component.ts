@@ -6,7 +6,6 @@ import { AvisoHelpersService } from 'src/app/compartido/services/aviso-helpers.s
 import { Mercaderia } from 'src/app/modulos/mercaderias/model/mercaderia';
 import { MercaderiasService } from 'src/app/modulos/mercaderias/services/mercaderias.service';
 import { ItemMovimiento } from '../../model/item-movimiento';
-import { Moneda } from '../../../monedas/models/moneda';
 import { Movimiento } from '../../model/movimiento';
 
 @Component({
@@ -16,13 +15,12 @@ import { Movimiento } from '../../model/movimiento';
 })
 export class ListaItemsComponent implements OnInit {
 
-  @Input() dsItems: Array<ItemMovimiento> = []; //Recibe un data source de items
-  //@Input() movimiento!: Movimiento;
+  @Input() movimiento: Movimiento = new Movimiento(); //Se recibe el movimiento
   @Output() itemToAgregarEvent: EventEmitter<ItemMovimiento> = new EventEmitter<ItemMovimiento>();;  //Sirve para emitir el nuevo item y agregar a la lista desde el movimiento form
 
   @ViewChild('tablaItems') tablaItems!: MatTable<any>; //ViewChild sirve para acceder a un elemento del html
 
-  public formItemToAgregar: FormGroup = this._formBuilder.group(
+  protected formItemToAgregar: FormGroup = this._formBuilder.group(
     {
       mercaderia: [''],
       cantidad: [''],
@@ -30,10 +28,9 @@ export class ListaItemsComponent implements OnInit {
     }
   );
 
-  public listaMercaderias: Mercaderia[] = [];
-  public listaMercaderiasFiltrado$: Observable<Mercaderia[]> | undefined;
-  public columnasAMostrarItems: string[] = ['_id', 'descripcion', 'cantidad', 'valorUnitario'];
-  protected isMostrarSimboloMoneda: boolean = true;
+  protected listaMercaderias: Mercaderia[] = [];
+  protected listaMercaderiasFiltrado$: Observable<Mercaderia[]> | undefined;
+  protected columnasAMostrarItems: string[] = ['_id', 'descripcion', 'cantidad', 'valorUnitario'];
 
   constructor(
     private _avisoHelpersService: AvisoHelpersService,

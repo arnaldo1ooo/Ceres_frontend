@@ -129,7 +129,7 @@
         <!--Tab 2-->
         <mat-tab label="Mercaderías">
           <div class="style-contenedor-tab">
-            <app-lista-items [dsItems]="movimientoDetalleDTO.items" (itemToAgregarEvent)="agregarItemALista($event)"></app-lista-items>
+            <app-lista-items [movimiento]="movimientoDetalleDTO" (itemToAgregarEvent)="agregarItemALista($event)"></app-lista-items>
           </div>
         </mat-tab>
 
