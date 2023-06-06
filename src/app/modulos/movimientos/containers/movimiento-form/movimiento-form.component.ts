@@ -21,6 +21,7 @@ import { FechaHelpersService } from './../../../../compartido/services/fecha-hel
 import { ClaseEntidad } from './../../../entidades/enums/clase-entidad.enum';
 import { Entidad } from './../../../entidades/models/entidad';
 import { ItemMovimiento } from '../../model/item-movimiento';
+import { FormaPago } from '../../enums/formaPago.enum';
 
 @Component({
   selector: 'app-movimiento-form',
@@ -40,12 +41,12 @@ export class MovimientoFormComponent implements OnInit {
   public listaCompradoresVendedoresFiltrado$: Observable<Entidad[]> | undefined;
 
   public listaSituaciones = Object.values(Situacion);
-
+  public listaFormasPago = Object.values(FormaPago);
   public movimientoDetalleDTO: MovimientoDetalleDTO = new MovimientoDetalleDTO();
 
   public formMovimientoDetalle: FormGroup = this.formMovimientoInit();
 
-  private modoEdicion: string = this._ruta.snapshot.data['modoEdicion'];  //Recibe el modo desde el path
+  public modoEdicion: string = this._ruta.snapshot.data['modoEdicion'];  //Recibe el modo desde el path
 
   constructor(
     private _formBuilder: NonNullableFormBuilder,
@@ -215,7 +216,8 @@ export class MovimientoFormComponent implements OnInit {
       compradorVendedor: this.movimientoDetalleDTO.compradorVendedor,
       observacion: this.movimientoDetalleDTO.observacion,
       situacion: this.movimientoDetalleDTO.situacion,
-      items: this.movimientoDetalleDTO.items
+      items: this.movimientoDetalleDTO.items,
+      formaPago: this.movimientoDetalleDTO.formaPago
     });
 
   }
@@ -232,7 +234,8 @@ export class MovimientoFormComponent implements OnInit {
         compradorVendedor: ['', Validators.required],
         observacion: ['', Validators.maxLength(500)],
         situacion: ['', Validators.required],
-        items: ['', Validators.required]
+        items: ['', Validators.required],
+        formaPago: ['']
       }
     )
   }

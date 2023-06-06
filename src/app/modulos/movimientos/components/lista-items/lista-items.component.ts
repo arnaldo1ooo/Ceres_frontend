@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { MatTable } from '@angular/material/table';
 import { map, Observable, startWith } from 'rxjs';
@@ -7,6 +7,7 @@ import { Mercaderia } from 'src/app/modulos/mercaderias/model/mercaderia';
 import { MercaderiasService } from 'src/app/modulos/mercaderias/services/mercaderias.service';
 import { ItemMovimiento } from '../../model/item-movimiento';
 import { Movimiento } from '../../model/movimiento';
+import { ModoEdicion } from '../../../../compartido/enums/modoEdicion.enum';
 
 @Component({
   selector: 'app-lista-items',
@@ -16,6 +17,7 @@ import { Movimiento } from '../../model/movimiento';
 export class ListaItemsComponent implements OnInit {
 
   @Input() movimiento: Movimiento = new Movimiento(); //Se recibe el movimiento
+  @Input() modoEdicion: string = '';
   @Output() itemToAgregarEvent: EventEmitter<ItemMovimiento> = new EventEmitter<ItemMovimiento>();;  //Sirve para emitir el nuevo item y agregar a la lista desde el movimiento form
 
   @ViewChild('tablaItems') tablaItems!: MatTable<any>; //ViewChild sirve para acceder a un elemento del html
@@ -42,6 +44,26 @@ export class ListaItemsComponent implements OnInit {
   ngOnInit(): void {
     this.listarFiltrarMercaderias();
     this.formItemToAgregar;
+    this.verificarModoEdicion();
+  }
+
+  private verificarModoEdicion() {
+    switch (this.modoEdicion) {
+      case ModoEdicion.MODO_NUEVO:
+        break;
+
+      case ModoEdicion.MODO_EDITAR:
+        this.inhabilitarCampos();
+        break;
+
+      case ModoEdicion.MODO_VISUALIZAR:
+        this.inhabilitarCampos();
+        break;
+    }
+  }
+
+  private inhabilitarCampos() {
+    this.formItemToAgregar.disable();
   }
 
   private listarFiltrarMercaderias() {

@@ -29,7 +29,7 @@ $tema-custom-dark: mat.define-dark-theme((
 ));
 
 //Se asigna el tema light por default
-@include mat.all-component-themes($tema-custom-dark);
+@include mat.all-component-themes($tema-custom-light);
 
 .dark-theme {
   // This mixin only generates the color styles now.

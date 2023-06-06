@@ -18,7 +18,7 @@ export class ModoEdicionUtils {
     }
   }
 
-  public static getModoOperacionPorDescripcion(descripcion: string): ModoEdicion | string {
+  public static getModoOperacionPorDescripcion(descripcion: string): ModoEdicion | null {
     const modosEdicion = Object.values(ModoEdicion);
 
     for (let i in modosEdicion) {
@@ -27,7 +27,7 @@ export class ModoEdicionUtils {
       }
     }
 
-    return `Valor no reconocido: ${descripcion}`;
+    return null;
   }
 }
 

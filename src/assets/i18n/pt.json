@@ -48,7 +48,8 @@
       "observacion": "Observação",
       "mercaderia": "Mercadoria",
       "cantidad": "Quantidade",
-      "valor-unitario": "Valor Unitario"
+      "valor-unitario": "Valor Unitario",
+      "forma-pago": "Forma de pago"
     },
 
     "botones": {

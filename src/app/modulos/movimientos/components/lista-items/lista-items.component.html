@@ -23,8 +23,8 @@
       <input type="number" matInput formControlName="valorUnitario">
     </mat-form-field>
 
-    <button name="button-agregar-item" mat-raised-button color="primary"
-      [ngClass]="['style-campo-global', 'boton-agregar']" (click)="agregarItem()">
+    <button #botonAgregarItem mat-raised-button color="primary"
+      [ngClass]="['style-campo-global', 'boton-agregar']" (click)="agregarItem()" [disabled]="formItemToAgregar.disabled">
       {{ "botones.agregar" | transloco }}
     </button>
   </div>

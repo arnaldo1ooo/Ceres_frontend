@@ -6,6 +6,7 @@ import { TipoMovimiento } from '../../../tipos-movimiento/models/tipo-movimiento
 import { Departamento } from './../../../departamentos/model/departamento';
 import { Entidad } from './../../../entidades/models/entidad';
 import { ItemMovimiento } from './../item-movimiento';
+import { FormaPago } from '../../enums/formaPago.enum';
 
 export class MovimientoDetalleDTO {
   _id: string | null = null; //Valor por defecto
@@ -18,6 +19,7 @@ export class MovimientoDetalleDTO {
   observacion: string = '';
   situacion: Situacion | null = null;
   items: Array<ItemMovimiento> = [];
+  formaPago: FormaPago | null = null;
 
 
   constructor() {

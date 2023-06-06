@@ -11,6 +11,7 @@ import { MovimientoFormComponent } from './containers/movimiento-form/movimiento
 import { MovimientosComponent } from './containers/movimientos/movimientos.component';
 import { MovimientosRoutingModule } from './movimientos-routing.module';
 import { ListaItemsComponent } from './components/lista-items/lista-items.component';
+import { FormaPagoPipe } from './pipes/formaPago.pipe';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ListaItemsComponent } from './components/lista-items/lista-items.compon
     MovimientosListaComponent,
     MovimientoFormComponent,
     TiposMovimientoSeleccionComponent,
-    ListaItemsComponent
+    ListaItemsComponent,
+    FormaPagoPipe
   ],
   imports: [
     CommonModule,
