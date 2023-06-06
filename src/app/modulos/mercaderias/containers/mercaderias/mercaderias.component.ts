@@ -11,7 +11,7 @@ import { DEFAULT_ORDENAR_POR, DEFAULT_PAGE_TAMANHO, ID_OPCION_TODOS, PAGE_INICIA
 import { Situacion, SituacionUtils } from 'src/app/compartido/enums/situacion.enum';
 import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
-import { SucursalesService } from 'src/app/modulos/sucursales/services/sucursales.service';
+import { DepartamentosService } from 'src/app/modulos/departamentos/services/departamentos.service';
 
 import { TipoMercaderia, TipoMercaderiaUtils } from '../../enums/tipoMercaderia.enum';
 import { MercaderiaFiltroDTO } from '../../model/dtos/mercaderiaFiltroDTO';
@@ -29,7 +29,7 @@ export class MercaderiasComponent implements OnInit {
 
   protected listMercaderias$: Observable<Mercaderia[]> | null = of([]); //El $ indica que es Observable, se inicializa con array vacio, acepta Observable o null
   protected listaTiposMercaderia = Object.values(TipoMercaderia);
-  protected listaSucursales: any;
+  protected listaDepartamentos: any;
   protected listaSituaciones = Object.values(Situacion);
   protected tipoMercaderiaUtils = TipoMercaderiaUtils;
   protected situacionUtils = SituacionUtils;
@@ -51,12 +51,12 @@ export class MercaderiasComponent implements OnInit {
     private _ruta: Router,
     private _rutaActual: ActivatedRoute,
     private _alertaSnackBar: MatSnackBar,
-    private _sucursalService: SucursalesService) {
+    private _departamentosService: DepartamentosService) {
 
   }
 
   ngOnInit(): void {
-    this.listarSucursales();
+    this.listarDepartamentos();
     this.filtrar();
   }
 
@@ -92,7 +92,7 @@ export class MercaderiasComponent implements OnInit {
       id: null,
       descripcion: null,
       idTipo: ID_OPCION_TODOS, //Opcion TODOS por defecto
-      idSucursal: ID_OPCION_TODOS,
+      idDepartamento: ID_OPCION_TODOS,
       idSituacion: Situacion.ACTIVO //Opcion TODOS por defecto
     };
   }
@@ -183,9 +183,9 @@ export class MercaderiasComponent implements OnInit {
     return HelpersService.compararOpcionesSelect(opcion, opcionSeleccionada);
   }
 
-  private listarSucursales() { //Cargamos la lista de sucursales para mostrar en el dropdown
-    this._sucursalService.listarTodosSucursales().subscribe((respuesta: any) => {
-      this.listaSucursales = respuesta;
+  private listarDepartamentos() { //Cargamos la lista de sucursales para mostrar en el dropdown
+    this._departamentosService.listarTodosDepartamentos().subscribe((respuesta: any) => {
+      this.listaDepartamentos = respuesta;
     })
   }
 

@@ -4,7 +4,7 @@ export interface Mercaderia {
   _id: string;
   descripcion: string;
   tipo: string;
-  sucursal: string;
+  departamento: string;
   situacion: string;
 }
 

@@ -4,7 +4,7 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Situacion } from 'src/app/compartido/enums/situacion.enum';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
-import { SucursalesService } from 'src/app/modulos/sucursales/services/sucursales.service';
+import { DepartamentosService } from 'src/app/modulos/departamentos/services/departamentos.service';
 
 import { TipoMercaderia } from '../../enums/tipoMercaderia.enum';
 import { Mercaderia } from '../../model/mercaderia';
@@ -19,7 +19,7 @@ import { ErrorHelpersService } from './../../../../compartido/services/error-hel
 })
 export class MercaderiaFormComponent implements OnInit {
   public listaTiposMercaderia = Object.values(TipoMercaderia);
-  public listaSucursales: any;
+  public listaDepartamentos: any;
   public listaSituaciones = Object.values(Situacion);
 
   public formMercaderia = this._formBuilder.group({
@@ -32,7 +32,7 @@ export class MercaderiaFormComponent implements OnInit {
     tipo: ['', [
       Validators.required
     ]],
-    sucursal: ['', [
+    departamento: ['', [
       Validators.required
     ]],
     situacion: ['', [
@@ -45,13 +45,13 @@ export class MercaderiaFormComponent implements OnInit {
     private _mercaderiaService: MercaderiasService,
     private _location: Location,
     private _ruta: ActivatedRoute,
-    private _sucursalService: SucursalesService,
+    private _departamentosService: DepartamentosService,
     private _avisoHelpersService: AvisoHelpersService) {
 
   }
 
   ngOnInit(): void {  //Se ejecuta al iniciar componente
-    this.listaSucursales = this.listarSucursales();
+    this.listaDepartamentos = this.listarDepartamentos();
     this.verificarModo();
 
     const mercaderia: Mercaderia = this._ruta.snapshot.data['mercaderia'];  //Obtiene el objeto del resolver
@@ -60,7 +60,7 @@ export class MercaderiaFormComponent implements OnInit {
       _id: mercaderia._id,
       descripcion: mercaderia.descripcion,
       tipo: mercaderia.tipo,
-      sucursal: mercaderia.sucursal,
+      departamento: mercaderia.departamento,
       situacion: HelpersService.isNoNuloYNoVacio(mercaderia.situacion)
                   ? mercaderia.situacion
                   : Situacion.ACTIVO //Se pone por default Activo
@@ -110,9 +110,9 @@ export class MercaderiaFormComponent implements OnInit {
     return HelpersService.isModoVisualizar(this._ruta.snapshot.routeConfig?.path);
   }
 
-  private listarSucursales() { //Cargamos la lista de sucursales para mostrar en el dropdown
-    this._sucursalService.listarTodosSucursales().subscribe((respuesta: any) => {
-      this.listaSucursales = respuesta;
+  private listarDepartamentos() {
+    this._departamentosService.listarTodosDepartamentos().subscribe((respuesta: any) => {
+      this.listaDepartamentos = respuesta;
     })
   }
 }

@@ -37,7 +37,7 @@ export class MercaderiasService {
       + '/filtroPage?' + `id=${mercaderiaFiltro.id}`
                        + `&descripcion=${mercaderiaFiltro.descripcion}`
                        + `&idTipo=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idTipo)}`
-                       + `&idSucursal=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idSucursal)}`
+                       + `&idDepartamento=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idDepartamento)}`
                        + `&idSituacion=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idSituacion)}`
       + `&page=${pageRequest.pagina}&size=${pageRequest.tamanho}&sort=${pageRequest.ordenarPor},${pageRequest.orden}`);
   }

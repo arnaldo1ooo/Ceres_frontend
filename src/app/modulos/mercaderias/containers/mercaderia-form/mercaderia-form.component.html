@@ -6,8 +6,8 @@
     <form [formGroup]="formMercaderia" class="anchura-minima">
       <mat-form-field appearance="outline" class="anchura-maxima">
         <mat-label>{{ "titulos.descripcion" | transloco }}</mat-label>
-        <input matInput formControlName="descripcion" #descripcion>
-        <mat-hint align="end">{{ descripcion.value.length || 0 }} / 100</mat-hint> <!--Requiere poner #descripcion-->
+        <input matInput #descripcionMercaderia formControlName="descripcion" oninput="this.value = this.value.toUpperCase()">
+        <mat-hint align="end">{{ descripcionMercaderia.value.length || 0 }} / 100</mat-hint>
         <mat-error *ngIf="formMercaderia.get('descripcion')?.invalid">{{getMensajeError('descripcion')}}</mat-error> <!--verifica validaciones, invalid evita error con null o valor invalido-->
       </mat-form-field>
 
@@ -23,12 +23,14 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="anchura-maxima">
-        <mat-label>{{ "titulos.sucursal" | transloco }}</mat-label>
-        <mat-select formControlName="sucursal" [compareWith]="compararOpcionesSelect">
+        <mat-label>{{ "titulos.departamento" | transloco }}</mat-label>
+        <mat-select formControlName="departamento" [compareWith]="compararOpcionesSelect">
           <mat-option disabled selected value="">{{ "seleccion.seleccion-sucursal" | transloco }}</mat-option>
-          <mat-option *ngFor="let sucursal of listaSucursales" [value]="sucursal">{{sucursal.id}} - {{sucursal.descripcion}}</mat-option>
+          <mat-option *ngFor="let departamento of listaDepartamentos" [value]="departamento">
+            {{departamento.id}} - {{departamento.descripcion}}
+          </mat-option>
         </mat-select>
-        <mat-error *ngIf="formMercaderia.get('sucursal')?.invalid">{{getMensajeError('sucursal')}}</mat-error>
+        <mat-error *ngIf="formMercaderia.get('departamento')?.invalid">{{getMensajeError('departamento')}}</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="anchura-maxima">

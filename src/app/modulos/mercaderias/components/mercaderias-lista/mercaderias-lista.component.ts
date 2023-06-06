@@ -28,7 +28,7 @@ export class MercaderiasListaComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginador: MatPaginator | undefined;
 
-  protected readonly columnasAMostrar = ['_id', 'descripcion', 'tipo', 'sucursal', 'situacion', 'acciones'];
+  protected readonly columnasAMostrar = ['_id', 'descripcion', 'tipo', 'departamento', 'situacion', 'acciones'];
   protected tamanhosPage = DEFAULT_PAGE_TAMANHOS;
 
 

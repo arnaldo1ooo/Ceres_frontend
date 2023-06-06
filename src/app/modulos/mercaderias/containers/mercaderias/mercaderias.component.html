@@ -26,11 +26,11 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="style-select-filtro-sucursal">
-      <mat-label>Sucursal</mat-label>
-      <mat-select [(ngModel)]="mercaderiaFiltro.idSucursal" [compareWith]="compararOpcionesSelect">
+    <mat-form-field appearance="outline" class="style-select-filtro-departamento">
+      <mat-label>Departamento</mat-label>
+      <mat-select [(ngModel)]="mercaderiaFiltro.idDepartamento" [compareWith]="compararOpcionesSelect">
         <mat-option [value]="-1">TODOS</mat-option>
-        <mat-option *ngFor="let sucursal of listaSucursales" value={{sucursal.id}}>{{sucursal.descripcion}}</mat-option>
+        <mat-option *ngFor="let departamento of listaDepartamentos" value={{departamento._id}}>{{departamento.descripcion}}</mat-option>
       </mat-select>
     </mat-form-field>
 

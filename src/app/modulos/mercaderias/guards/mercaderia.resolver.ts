@@ -21,6 +21,6 @@ export class MercaderiaResolver implements Resolve<Mercaderia> {
       return this.mercaderiasService.cargarPorId(route.params['id']);
     }
 
-    return of({ _id: '', descripcion: '', tipo: '', sucursal: '', situacion: '' });
+    return of({ _id: '', descripcion: '', tipo: '', departamento: '', situacion: '' });
   }
 }
