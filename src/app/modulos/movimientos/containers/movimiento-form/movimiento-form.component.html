@@ -8,8 +8,8 @@
     <form [formGroup]="formMovimientoDetalle" class="anchura-minima">
       <mat-tab-group class="style-tab-grupo">
 
-        <!-------DATOS GENERALES------->
-        <mat-tab label="Datos generales">
+        <!-----------------------------------------------------DATOS INICIALES----------------------------------------------------->
+        <mat-tab label="{{ 'titulos.datos-iniciales' | transloco | uppercase }}">
           <div class="style-contenedor-tab">
             <mat-grid-list [cols]="2" rowHeight="93px">
 
@@ -145,15 +145,16 @@
           </div>
         </mat-tab>
 
-        <!-------MERCADERIAS------->
-        <mat-tab label="Mercaderías">
+        <!-----------------------------------------------------MERCADERIAS----------------------------------------------------->
+        <mat-tab label="{{ 'titulos.mercaderias' | transloco | uppercase }}">
           <div class="style-contenedor-tab">
-            <app-lista-items [movimiento]="movimientoDetalleDTO" [modoEdicion]= "modoEdicion" (itemToAgregarEvent)="agregarItemALista($event)"></app-lista-items>
+            <app-lista-items [movimiento]="movimientoDetalleDTO" [modoEdicion]="modoEdicion"
+              (itemToAgregarEvent)="agregarItemALista($event)"></app-lista-items>
           </div>
         </mat-tab>
 
-        <!-------FINANCIERO------->
-        <mat-tab label="Financiero">
+        <!-----------------------------------------------------FINANCIERO----------------------------------------------------->
+        <mat-tab label="{{ 'titulos.financiero' | transloco | uppercase }}">
           <div>
             Content 3
           </div>
@@ -163,7 +164,7 @@
 
   </mat-card-content>
 
-  <!--Botones-->
+  <!-----Botones----->
   <mat-card-actions class="style-barra-acciones">
     <button name="button-guardar" mat-raised-button color="primary" (click)="onGuardar()"
       [disabled]=formMovimientoDetalle.disabled>{{ "botones.guardar" | transloco }}</button>
