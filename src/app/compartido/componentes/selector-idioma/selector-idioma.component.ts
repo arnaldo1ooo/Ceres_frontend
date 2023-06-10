@@ -12,29 +12,17 @@ import { COD_ESPANHOL, COD_PORTUGUES } from '../../constantes/constantes';
 
 export class SelectorIdiomaComponent implements OnInit {
 
-  idiomasDisponibles: Idioma[] = [];
-  idiomaSeleccionado!: Idioma;
-
   constructor(private _transLocoService: TranslocoService) {
   }
 
   ngOnInit(): void {
-
-    this.idiomasDisponibles = [
-      { key: COD_ESPANHOL,  descripcion: 'ESPAÑOL' },  //descripcion estaria en el json
-      { key: COD_PORTUGUES, descripcion: 'PORTUGUÉS' }
-    ];
-
-    this.idiomaSeleccionado = this.idiomasDisponibles.find(idioma =>
-              idioma.key === HelpersService.obtenerItemDelStorage('key-idioma'))
-                || this.idiomasDisponibles[0];
-
-    this.cambiarIdioma();
+    let keyIdiomaAlmacenado = HelpersService.obtenerItemDelStorage('key-idioma');
+    this.cambiarIdioma(keyIdiomaAlmacenado != null ? keyIdiomaAlmacenado : COD_ESPANHOL);
   }
 
-  cambiarIdioma() {
-    HelpersService.salvarItemEnStorage('key-idioma', this.idiomaSeleccionado.key);
-    this._transLocoService.setActiveLang(this.idiomaSeleccionado.key); // cambia el idioma activo en Transloco
+  cambiarIdioma(keyIdioma: string) {
+    HelpersService.salvarItemEnStorage('key-idioma', keyIdioma);
+    this._transLocoService.setActiveLang(keyIdioma); // cambia el idioma activo en Transloco
   }
 
 }

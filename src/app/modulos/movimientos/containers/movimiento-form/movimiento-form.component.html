@@ -115,7 +115,8 @@
                 <mat-form-field appearance="outline" class="style-campos">
                   <mat-label>{{ "titulos.situacion" | transloco }}</mat-label>
                   <mat-select formControlName="situacion">
-                    <mat-option *ngFor="let situacion of listaSituaciones" [value]="situacion">   <!--Muestra en modo enabled-->
+                    <mat-option *ngFor="let situacion of listaSituaciones" [value]="situacion">
+                      <!--Muestra en modo enabled-->
                       {{ situacion | situacionPipe }}
                     </mat-option>
                   </mat-select>
@@ -164,11 +165,13 @@
 
   </mat-card-content>
 
-  <!-----Botones----->
+  <!-----BOTONES----->
   <mat-card-actions class="style-barra-acciones">
-    <button id="boton-guardar" mat-raised-button color="primary" (click)="onGuardar()"
-      [disabled]=formMovimientoDetalle.disabled>{{ "botones.guardar" | transloco }}</button>
-    <button id="boton-cancelar" mat-raised-button color="warn" (click)="onCancelar()" class="style-espacio-boton">{{
-      "botones.cancelar" | transloco }}</button>
+    <button id="boton-guardar" mat-raised-button color="primary" (click)="onGuardar()" [disabled]=formMovimientoDetalle.disabled>
+      {{ "botones.guardar" | transloco }}
+    </button>
+    <button id="boton-cancelar" mat-raised-button color="warn" (click)="onCancelar()" class="style-espacio-boton">
+      {{ "botones.cancelar" | transloco }}
+    </button>
   </mat-card-actions>
 </mat-card>

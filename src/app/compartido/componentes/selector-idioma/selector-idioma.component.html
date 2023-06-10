@@ -1,7 +1,13 @@
-<mat-form-field>
-  <mat-select [(value)]="idiomaSeleccionado" (selectionChange)="cambiarIdioma()">
-    <mat-option *ngFor="let idioma of idiomasDisponibles" [value]="idioma">
-      {{idioma.descripcion}}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
+<div>
+  <button id="boton-espanhol" mat-fab (click)="cambiarIdioma('es')" title="Español">
+    <mat-icon [ngClass]="'icon-idiomas'">
+      <img src="assets/imagenes/bandera-paraguay.png" alt="paraguay" width="100%" height="100%">
+    </mat-icon>
+  </button>
+
+  <button id="boton-portugues" mat-fab (click)="cambiarIdioma('pt')" title="Portugués">
+    <mat-icon [ngClass]="'icon-idiomas'">
+      <img src="assets/imagenes/bandera-brasil.png" alt="brasil" width="100%" height="100%">
+    </mat-icon>
+  </button>
+</div>
