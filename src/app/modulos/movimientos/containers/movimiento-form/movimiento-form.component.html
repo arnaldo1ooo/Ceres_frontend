@@ -9,7 +9,7 @@
       <mat-tab-group class="style-tab-grupo">
 
         <!-----------------------------------------------------DATOS INICIALES----------------------------------------------------->
-        <mat-tab label="{{ 'titulos.datos-iniciales' | transloco | uppercase }}">
+        <mat-tab label="{{ 'titulos.datos-iniciales' | transloco | uppercase }}" class="">
           <div class="style-contenedor-tab">
             <mat-grid-list [cols]="2" rowHeight="93px">
 
@@ -102,7 +102,7 @@
               </mat-grid-tile>
 
               <!--Fila 4-->
-              <mat-grid-tile class="style-grid-tile">
+              <mat-grid-tile class="grid-tile-observacion">
                 <mat-form-field appearance="outline" class="style-campos text-area-observacion">
                   <mat-label>{{ "titulos.observacion" | transloco }}</mat-label>
                   <textarea matInput cdkTextareaAutosize formControlName="observacion" placeholder="Observación"
@@ -115,7 +115,7 @@
                 <mat-form-field appearance="outline" class="style-campos">
                   <mat-label>{{ "titulos.situacion" | transloco }}</mat-label>
                   <mat-select formControlName="situacion">
-                    <mat-option *ngFor="let situacion of listaSituaciones" [value]="situacion">
+                    <mat-option *ngFor="let situacion of listaSituaciones" [value]="situacion">   <!--Muestra en modo enabled-->
                       {{ situacion | situacionPipe }}
                     </mat-option>
                   </mat-select>
@@ -166,9 +166,9 @@
 
   <!-----Botones----->
   <mat-card-actions class="style-barra-acciones">
-    <button name="button-guardar" mat-raised-button color="primary" (click)="onGuardar()"
+    <button id="boton-guardar" mat-raised-button color="primary" (click)="onGuardar()"
       [disabled]=formMovimientoDetalle.disabled>{{ "botones.guardar" | transloco }}</button>
-    <button name="button-cancelar" mat-raised-button color="warn" (click)="onCancelar()" class="style-espacio-boton">{{
+    <button id="boton-cancelar" mat-raised-button color="warn" (click)="onCancelar()" class="style-espacio-boton">{{
       "botones.cancelar" | transloco }}</button>
   </mat-card-actions>
 </mat-card>

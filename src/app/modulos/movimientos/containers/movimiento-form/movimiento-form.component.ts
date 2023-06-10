@@ -46,7 +46,7 @@ export class MovimientoFormComponent implements OnInit {
 
   public formMovimientoDetalle: FormGroup = this.formMovimientoInit();
 
-  public modoEdicion: string = this._ruta.snapshot.data['modoEdicion'];  //Recibe el modo desde el path
+  public modoEdicion: string = this._ruta.snapshot.data['modoEdicion']; //Proviene del routing
 
   constructor(
     private _formBuilder: NonNullableFormBuilder,
@@ -72,7 +72,7 @@ export class MovimientoFormComponent implements OnInit {
 
   public onGuardar() {
     /* if(this.formMercaderia.valid) { //Verifica los validators de cada campo del form
-       this._mercaderiaService.guardar(this.formMercaderia.value)
+       this._mercaderiaService.guardar(this.formMercaderia.getRawValue())
        .subscribe(resultado => this.onExito(), error => this.onError());
      }
      else {
@@ -103,13 +103,14 @@ export class MovimientoFormComponent implements OnInit {
     return ErrorHelpersService.verificarMensajeError(campo);
   }
 
-  public verificarModoEdicion() {
+  private verificarModoEdicion() {
     switch (this.modoEdicion) {
       case ModoEdicion.MODO_NUEVO:
         this.formMovimientoDetalle.get('situacion')?.disable();
         break;
 
       case ModoEdicion.MODO_EDITAR:
+        this.formMovimientoDetalle.get('situacion')?.disable();
         break;
 
       case ModoEdicion.MODO_VISUALIZAR:

@@ -49,10 +49,11 @@
       "mercaderia": "Mercadoria",
       "cantidad": "Quantidade",
       "valor-unitario": "Valor Unitario",
-      "forma-pago": "Forma de pago",
+      "forma-pago": "Forma de pagamento",
       "datos-iniciales": "Dados iniciais",
       "mercaderias": "Mercadorías",
-      "financiero": "Financeiro"
+      "financiero": "Financeiro",
+      "id": "Id"
     },
 
     "botones": {

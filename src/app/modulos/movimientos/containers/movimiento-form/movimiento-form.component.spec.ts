@@ -1,18 +1,17 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';import { MovimientoFormComponent } from './movimiento-form.component';
+';
 
-import { MercaderiaFormComponent } from './mercaderia-form.component';
-
-describe('MercaderiaFormComponent', () => {
-  let component: MercaderiaFormComponent;
-  let fixture: ComponentFixture<MercaderiaFormComponent>;
+describe('MovimientoFormComponent', () => {
+  let component: MovimientoFormComponent;
+  let fixture: ComponentFixture<MovimientoFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MercaderiaFormComponent ]
+      declarations: [ MovimientoFormComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(MercaderiaFormComponent);
+    fixture = TestBed.createComponent(MovimientoFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -19,7 +19,7 @@
 }
 
 .style-campos {
-  width: 450px;
+  width: 60%;
   height: 50px;
   margin-left: 5px;
   margin-right: 5px;
@@ -59,11 +59,15 @@
   border-radius: 4px;
 }
 
-.style-grid-tile {
-  height: 150px !important; //Utiliza important para priorizar este style por encima de otras
+.grid-tile-observacion {
+  height: 180px !important; //Utiliza important para priorizar este style por encima de otras
 }
 
 .text-area-observacion {
-  margin-top: -60px;
+  margin-top: -90px;
+}
+
+.titulos-tab {
+
 }
 

@@ -14,6 +14,6 @@ export class AvisoHelpersService {
   }
 
   public mostrarMensajeDatosInvalidosForm() {
-    this.mostrarMensaje('Hay datos inválidos en el formulario', '', 4000);
+    this.mostrarMensaje('Existen datos inválidos en el formulario', '', 4000);
   }
 }

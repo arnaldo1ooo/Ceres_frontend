@@ -61,7 +61,7 @@ export class DepartamentoFormComponent implements OnInit {
 
   public onGuardar() {
     if(this.formDepartamento.valid) { //Verifica los validators de cada campo del form
-      this._departamentoService.guardar(this.formDepartamento.value)
+      this._departamentoService.guardar(this.formDepartamento.getRawValue())
       .subscribe(resultado => this.onExito(), error => this.onError());
     }
     else {
