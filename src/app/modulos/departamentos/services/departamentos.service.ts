@@ -5,6 +5,7 @@ import { API_URL_DEPARTAMENTOS } from 'src/app/compartido/constantes/constantes'
 
 import { Departamento } from '../model/departamento';
 import { DepartamentoListaDTO } from './../model/dtos/departamentoListaDTO';
+import { Sucursal } from '../../sucursales/model/sucursal';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,14 @@ export class DepartamentosService {
         first(),                                    //Ejecuta la accion al primer resultado
         delay(100)                             //Espera de x segundos
       );
+  }
+
+  listarTodosPorSucursal(idSucursal: string) {
+    return this._httpClient.get<DepartamentoListaDTO[]>(API_URL_DEPARTAMENTOS + '/filtrarPorSucursal?' + `idSucursal=${idSucursal}`)
+    .pipe(
+      first(),
+      delay(100)
+    );
   }
 
   guardar(departamento: Partial<Departamento>) { //Se usa Partial cuando se espera que no reciba todos los datos de Departamento

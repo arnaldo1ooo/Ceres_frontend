@@ -1,32 +1,67 @@
 <mat-card>
-  <!-- Selector de Idioma -->
-
-  <app-selector-idioma></app-selector-idioma>
-
-  <mat-card-title>{{'login.titulo-login' | transloco}}</mat-card-title>
 
   <mat-card-content>
-    <form class="mx-auto" #form="ngForm" (ngSubmit)="login(form)">
 
+    <!-- Contenido izquierdo -->
+    <div id="div-izquierdo" [ngClass]="['div-izquierdo', 'centrar-container-vert-hor-global']">
 
-      <p>
-        <mat-form-field>
-          <input matInput id="nombreUsuario" name="nombreUsuario" type="text"
-            placeholder="{{'login.nombre-usuario' | transloco}}" [(ngModel)]="credenciales.nombreUsuario">
-        </mat-form-field>
-      </p>
+      <h2>CERES</h2>
 
-      <p>
-        <mat-form-field>
-          <input matInput id="contrasena" name="contrasena" type="password" placeholder="{{'login.contrasenha' | transloco}}"
-            [(ngModel)]="credenciales.contrasena">
-        </mat-form-field>
-      </p>
+    </div>
 
-      <div class="estilo-boton">
-        <button mat-raised-button color="primary">{{'login.ingresar' | transloco}}</button>
+    <!-- Contenido derecho -->
+    <div id="div-derecho" [ngClass]="['div-derecho']">
+
+      <!-- Selector de Idioma -->
+      <div [ngClass]="['derecha-container-global', 'selector-idiomas']">
+        <app-selector-idioma></app-selector-idioma>
       </div>
 
-    </form>
+
+      <mat-card-title class="titulo-inicio-sesion">{{'login.titulo-login' | transloco}}</mat-card-title>
+
+
+      <form>
+        <div class="container-div-form">
+          <p>
+            <mat-form-field>
+              <input matInput id="nombreUsuario" name="nombreUsuario" type="text" (blur)="listarSucursales()"
+                placeholder="{{'login.nombre-usuario' | transloco}}" [(ngModel)]="credenciales.nombreUsuario">
+            </mat-form-field>
+          </p>
+
+          <p>
+            <mat-form-field>
+              <input matInput id="contrasena" name="contrasena" type="password"
+                placeholder="{{'login.contrasenha' | transloco}}" [(ngModel)]="credenciales.contrasena">
+            </mat-form-field>
+          </p>
+
+          <p>
+            <mat-form-field appearance="outline">
+              <mat-label>Sucursal</mat-label>
+              <mat-select #selectSucursal [(ngModel)]="credenciales.sucursal" [compareWith]="compararOpcionesSelect"
+                (selectionChange)="listarDepartamentos(selectSucursal.value)" name="selectSucursal">
+                <mat-option *ngFor="let sucursal of listaSucursales" value={{sucursal._id}}>{{sucursal.descripcion}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </p>
+
+          <p>
+            <mat-form-field appearance="outline">
+              <mat-label>Departamento</mat-label>
+              <mat-select [(ngModel)]="credenciales.departamento" [compareWith]="compararOpcionesSelect" name="selectDepartamento">
+                <mat-option *ngFor="let departamento of listaDepartamentos" value={{departamento._id}}>{{departamento.descripcion}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </p>
+
+          <button mat-raised-button color="primary" (click)="login()">{{'login.ingresar' | transloco}}</button>
+        </div>
+      </form>
+    </div>
+
+
+
   </mat-card-content>
 </mat-card>

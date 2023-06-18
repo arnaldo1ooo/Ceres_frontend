@@ -70,9 +70,25 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   justify-content: flex-end;
 }
 
-.centrar-contenido-global {
+.centrar-container-hor-global {
   display: flex;
   justify-content: center;
+}
+
+.izquierda-container-global {
+  display: flex;
+  justify-content: left;
+}
+
+.derecha-container-global {
+  display: flex;
+  justify-content: right;
+}
+
+.centrar-container-vert-hor-global {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 html, body { height: 100%; }

@@ -39,7 +39,7 @@ export class TiposMovimientoService {
   }
 
   //Sincronica, usar await al llamar para esperar a que se complete el llamado para continuar la ejecucion
-  async cargarPorId(id: string): Promise<TipoMovimiento> {
+  public async cargarPorId(id: string): Promise<TipoMovimiento> {
     try {
       const respuesta = await firstValueFrom(this._httpClient.get<TipoMovimiento>(`${API_URL_TIPOS_MOVIMIENTO}/${id}`));
       return respuesta;

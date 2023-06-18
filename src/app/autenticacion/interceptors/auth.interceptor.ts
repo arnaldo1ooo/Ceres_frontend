@@ -33,7 +33,7 @@ export class AuthInterceptor implements HttpInterceptor {
         this.logoutYredigirLogin();
       }
 
-      console.log("token vacio, rediriendo a login..");
+      //console.log("token vacio, rediriendo a login..");
       this.logoutYredigirLogin();
     }
 
