@@ -49,6 +49,10 @@ export class HelpersService {
     return valor != '';
   }
 
+  public static isNuloOrVacio(valor: any) {
+    return valor == null || valor == '';
+  }
+
   public static isUndefined(valor: any) {
     return valor == 'undefined' && valor == undefined;
   }

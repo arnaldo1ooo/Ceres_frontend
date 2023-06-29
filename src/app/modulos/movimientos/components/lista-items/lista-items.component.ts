@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { MatTable } from '@angular/material/table';
 import { map, Observable, startWith } from 'rxjs';
@@ -8,16 +8,18 @@ import { MercaderiasService } from 'src/app/modulos/mercaderias/services/mercade
 import { ItemMovimiento } from '../../model/item-movimiento';
 import { Movimiento } from '../../model/movimiento';
 import { ModoEdicion } from '../../../../compartido/enums/modoEdicion.enum';
+import { HelpersService } from '../../../../compartido/services/helpers.service';
 
 @Component({
   selector: 'app-lista-items',
   templateUrl: './lista-items.component.html',
   styleUrls: ['./lista-items.component.scss']
+
 })
 export class ListaItemsComponent implements OnInit {
 
-  @Input() movimiento: Movimiento = new Movimiento(); //Se recibe el movimiento
-  @Input() modoEdicion: string = '';
+  @Input() movimiento!: Movimiento; //Se recibe el movimiento
+  @Input() modoEdicion!: string;
   @Output() itemToAgregarEvent: EventEmitter<ItemMovimiento> = new EventEmitter<ItemMovimiento>();;  //Sirve para emitir el nuevo item y agregar a la lista desde el movimiento form
 
   @ViewChild('tablaItems') tablaItems!: MatTable<any>; //ViewChild sirve para acceder a un elemento del html
@@ -45,6 +47,10 @@ export class ListaItemsComponent implements OnInit {
     this.listarFiltrarMercaderias();
     this.formItemToAgregar;
     this.verificarModoEdicion();
+  }
+
+  public setMovimiento(movimientoActualizado: Movimiento) {
+    this.movimiento = movimientoActualizado;
   }
 
   private verificarModoEdicion() {
@@ -99,18 +105,65 @@ export class ListaItemsComponent implements OnInit {
 
   public agregarItem() {
     let nuevoItem: ItemMovimiento = new ItemMovimiento();
-
     nuevoItem.mercaderia = this.formItemToAgregar.get('mercaderia')?.value;
     nuevoItem.cantidad = this.formItemToAgregar.get('cantidad')?.value;
     nuevoItem.valorUnitario = this.formItemToAgregar.get('valorUnitario')?.value;
 
-    this.itemToAgregarEvent.emit(nuevoItem); //Enviamos el nuevo item por el evento output
+    if(this.verificarValidaciones() && this.validarItem(nuevoItem)) {
+      this.itemToAgregarEvent.emit(nuevoItem); //Enviamos el nuevo item por el evento output
+      this.limpiarCamposItemAgregar();
+      this.refrescarTablaItems();
+    }
 
-    this.refrescarTablaItems();
   }
 
   private refrescarTablaItems() {
     this.tablaItems.renderRows();
+  }
+
+  private verificarValidaciones(): boolean {
+    let isValido: boolean = true;
+    let mensaje: string = '';
+
+    if(HelpersService.isNuloOrVacio(this.movimiento.moneda._id)) {
+      mensaje = 'Seleccione la moneda del movimiento!';
+      isValido = false;
+    }
+
+    if(!isValido) {
+      this._avisoHelpersService.mostrarMensaje(mensaje, '', 4000);
+    }
+
+    return isValido;
+  }
+
+  private validarItem(nuevoItem: ItemMovimiento): boolean {
+    let isValido: boolean = true;
+    let mensaje: string = '';
+
+    if(HelpersService.isNuloOrVacio(nuevoItem.mercaderia)) {
+      mensaje = 'Seleccione una mercaderia!';
+      isValido = false;
+    }
+    else if(HelpersService.isNuloOrVacio(nuevoItem.cantidad)) {
+
+      mensaje = 'Ingrese una cantidad!';
+      isValido = false;
+    }
+    else if(HelpersService.isNuloOrVacio(nuevoItem.valorUnitario)) {
+      mensaje = 'Ingrese un valor unitario!';
+      isValido = false;
+    }
+
+    if(!isValido) {
+      this._avisoHelpersService.mostrarMensaje(mensaje);
+    }
+
+    return isValido;
+  }
+
+  limpiarCamposItemAgregar() {
+    this.formItemToAgregar.reset();
   }
 
 }

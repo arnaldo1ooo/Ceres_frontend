@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { map, Observable, startWith } from 'rxjs';
@@ -22,6 +22,8 @@ import { ClaseEntidad } from './../../../entidades/enums/clase-entidad.enum';
 import { Entidad } from './../../../entidades/models/entidad';
 import { ItemMovimiento } from '../../model/item-movimiento';
 import { FormaPago } from '../../enums/formaPago.enum';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+import { ListaItemsComponent } from '../../components/lista-items/lista-items.component';
 
 @Component({
   selector: 'app-movimiento-form',
@@ -31,22 +33,21 @@ import { FormaPago } from '../../enums/formaPago.enum';
 
 export class MovimientoFormComponent implements OnInit {
   public listaMonedas: Moneda[] = [];
-
   public listaEntidades: Entidad[] = [];
   public listaEntidadesFiltrado$: Observable<Entidad[]> | undefined;
-
   public listaDepartamentos: Departamento[] = [];
-
   public listaCompradoresVendedores: Entidad[] = [];
   public listaCompradoresVendedoresFiltrado$: Observable<Entidad[]> | undefined;
-
   public listaSituaciones = Object.values(Situacion);
   public listaFormasPago = Object.values(FormaPago);
-  public movimientoDetalleDTO: MovimientoDetalleDTO = new MovimientoDetalleDTO();
+  public modoEdicion: string = this._ruta.snapshot.data['modoEdicion']; //Proviene del routing
 
+  public movimientoDetalleDTO: MovimientoDetalleDTO = new MovimientoDetalleDTO();
   public formMovimientoDetalle: FormGroup = this.formMovimientoInit();
 
-  public modoEdicion: string = this._ruta.snapshot.data['modoEdicion']; //Proviene del routing
+  public INDEX_TAB_MERCADERIAS = 1;
+
+  @ViewChild(ListaItemsComponent) listaItemsComponent!: ListaItemsComponent;
 
   constructor(
     private _formBuilder: NonNullableFormBuilder,
@@ -62,7 +63,7 @@ export class MovimientoFormComponent implements OnInit {
 
   ngOnInit(): void {  //Se ejecuta al iniciar componente
     this.verificarModoEdicion();
-    this.cargarDatos();
+    this.cargarDatosMovimiento();
 
     this.listarMonedas();
     this.listarFiltrarEntidades();
@@ -192,12 +193,12 @@ export class MovimientoFormComponent implements OnInit {
     });
   }
 
-  private async cargarDatos() {
+  private async cargarDatosMovimiento() {
     //Carga datos de movimiento en caso en modo editar
     this.movimientoDetalleDTO = this._ruta.snapshot.data['movimiento'];  //Obtiene el objeto del resolver
 
     //Si es nuevo
-    if (this.movimientoDetalleDTO._id == null || this.movimientoDetalleDTO._id == '') {
+    if (HelpersService.isNuloOrVacio(this.movimientoDetalleDTO._id)) {
       this.movimientoDetalleDTO = new MovimientoDetalleDTO();
 
       this.movimientoDetalleDTO._id = '0';
@@ -205,21 +206,10 @@ export class MovimientoFormComponent implements OnInit {
       this.movimientoDetalleDTO.tipo = await this._tiposMovimientoService.cargarPorId(this._tiposMovimientoService.getIdTipoMovSeleccionado());
       this.movimientoDetalleDTO.fechaEmision = FechaHelpersService.getFechaHoraActualLDT();
       this.movimientoDetalleDTO.situacion = Situacion.ACTIVO;
+      this.movimientoDetalleDTO.formaPago = FormaPago.EFECTIVO;
     }
 
-    this.formMovimientoDetalle.setValue({ //Setamos los datos para que aparezca al editar o visualizar
-      _id: this.movimientoDetalleDTO._id,
-      tipo: this.movimientoDetalleDTO.tipo,
-      moneda: this.movimientoDetalleDTO.moneda,
-      entidad: this.movimientoDetalleDTO.entidad,
-      fechaEmision: this.movimientoDetalleDTO.fechaEmision,
-      departamento: this.movimientoDetalleDTO.departamento,
-      compradorVendedor: this.movimientoDetalleDTO.compradorVendedor,
-      observacion: this.movimientoDetalleDTO.observacion,
-      situacion: this.movimientoDetalleDTO.situacion,
-      items: this.movimientoDetalleDTO.items,
-      formaPago: this.movimientoDetalleDTO.formaPago
-    });
+    this.actualizarInfoObjetoToForm();
 
   }
 
@@ -245,23 +235,39 @@ export class MovimientoFormComponent implements OnInit {
     this.movimientoDetalleDTO.items.push(item);
   }
 
-
-
-
-  /*abrirDialogoQuillEditor(): void {
-    const dialogRef = this._dialogo.open(DialogoQuillEditorComponent, {
-      data: {
-        titulo: 'Observación del movimiento',
-        textoInicial: this.formMovimientoDetalle.get('observacion')?.value,
-        modoLectura: this.modoOperacion == ModoOperacion.MODO_VISUALIZAR
-      }
+  public actualizarInfoObjetoToForm() {
+    this.formMovimientoDetalle.setValue({
+      _id: this.movimientoDetalleDTO._id,
+      tipo: this.movimientoDetalleDTO.tipo,
+      moneda: this.movimientoDetalleDTO.moneda,
+      entidad: this.movimientoDetalleDTO.entidad,
+      fechaEmision: this.movimientoDetalleDTO.fechaEmision,
+      departamento: this.movimientoDetalleDTO.departamento,
+      compradorVendedor: this.movimientoDetalleDTO.compradorVendedor,
+      observacion: this.movimientoDetalleDTO.observacion,
+      situacion: this.movimientoDetalleDTO.situacion,
+      items: this.movimientoDetalleDTO.items,
+      formaPago: this.movimientoDetalleDTO.formaPago
     });
+  }
 
-    dialogRef.afterClosed().subscribe(textoAlterado => { //Al cerrar dialogo
-      if(textoAlterado) {
-        this.formMovimientoDetalle.get('observacion')?.setValue(textoAlterado);
-      }
-    });
-  }*/
+  public actualizarInfoFormGroupToObject() {
+    this.movimientoDetalleDTO.tipo = this.formMovimientoDetalle.get('tipo')?.value;
+    this.movimientoDetalleDTO.moneda = this.formMovimientoDetalle.get('moneda')?.value;
+    this.movimientoDetalleDTO.entidad = this.formMovimientoDetalle.get('entidad')?.value;
+    this.movimientoDetalleDTO.fechaEmision = this.formMovimientoDetalle.get('fechaEmision')?.value;
+    this.movimientoDetalleDTO.departamento = this.formMovimientoDetalle.get('departamento')?.value;
+    this.movimientoDetalleDTO.compradorVendedor = this.formMovimientoDetalle.get('compradorVendedor')?.value;
+    this.movimientoDetalleDTO.observacion = this.formMovimientoDetalle.get('observacion')?.value;
+    this.movimientoDetalleDTO.situacion = this.formMovimientoDetalle.get('situacion')?.value;
+    this.movimientoDetalleDTO.formaPago = this.formMovimientoDetalle.get('formaPago')?.value;
+  }
+
+  tabChange(changeEvent : MatTabChangeEvent) {
+    if(changeEvent.index == this.INDEX_TAB_MERCADERIAS) {
+      this.actualizarInfoFormGroupToObject();
+      this.listaItemsComponent.movimiento = this.movimientoDetalleDTO;
+    }
+  }
 
 }

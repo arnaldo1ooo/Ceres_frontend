@@ -18,7 +18,7 @@ export class MovimientoDetalleDTO {
   compradorVendedor : Entidad = new Entidad();
   observacion: string = '';
   situacion: Situacion | null = null;
-  items: Array<ItemMovimiento> = [];
+  items: ItemMovimiento[] = [];
   formaPago: FormaPago | null = null;
 
 

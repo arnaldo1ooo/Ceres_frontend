@@ -9,7 +9,7 @@ export class AvisoHelpersService {
 
   constructor(private _snackBar: MatSnackBar) { }
 
-  public mostrarMensaje(mensaje: string, accion: string, duracion: number) {
+  public mostrarMensaje(mensaje:string, accion:string='', duracion:number=4000) {
     return this._snackBar.open(mensaje, accion, { duration: duracion });
   }
 
