@@ -70,7 +70,7 @@ export class LoginFormComponent implements OnInit {
   public async listarSucursales() {
     let isNombreUsuarioExiste: boolean = await this._loginService.isNombreUsuarioExiste(this.credenciales.nombreUsuario);
 
-    console.log(isNombreUsuarioExiste ? "Nombrede usuario existe" : "Nombre de usuario no existe");
+    //console.log(isNombreUsuarioExiste ? "Nombre de usuario existe" : "Nombre de usuario no existe");
 
     if(isNombreUsuarioExiste) { //await espera hasta recibir respuesta de servidor
       this._sucursalesService.listarTodosSucursales().subscribe((lista: any) => {

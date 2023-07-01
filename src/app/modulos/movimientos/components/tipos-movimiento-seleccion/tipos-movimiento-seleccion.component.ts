@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { TiposMovimientoService } from 'src/app/modulos/tipos-movimiento/services/tipos-movimiento.service';
+import { HelpersService } from '../../../../compartido/services/helpers.service';
 
 @Component({
   selector: 'app-tipos-movimiento-seleccion',
@@ -18,9 +19,8 @@ export class TiposMovimientoSeleccionComponent implements OnInit {
 
   }
 
-  generarNuevoMovimiento(tipoMovimiento: string) {
-    this._tiposMovimientoService.setIdTipoMovSeleccionado(tipoMovimiento);  //Se asigna el tipo de mov seleccionado al service
-
+  generarNuevoMovimiento(idTipoMovimiento: string) {
+    HelpersService.salvarItemEnStorage('idTipoMovimiento', idTipoMovimiento);
     this.eventTipoMovSeleccionado.emit();
   }
 

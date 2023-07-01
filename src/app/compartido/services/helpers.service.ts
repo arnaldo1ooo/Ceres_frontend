@@ -29,47 +29,48 @@ export class HelpersService {
     localStorage.setItem(key, valor);
   }
 
-  public static obtenerItemDelStorage(key: string) {
-    return localStorage.getItem(key);
+  public static obtenerItemDelStorage(key: string): string {
+    const resultado = localStorage.getItem(key);
+    return resultado != null ? resultado : '';
   }
 
-  public static isNulo(valor: any) {
+  public static isNulo(valor: any): boolean {
     return valor == null;
   }
 
-  public static isNoNulo(valor: any) {
+  public static isNoNulo(valor: any): boolean {
     return valor != null;
   }
 
-  public static isVacio(valor: any) {
+  public static isVacio(valor: any): boolean {
     return valor == '';
   }
 
-  public static isNoVacio(valor: any) {
+  public static isNoVacio(valor: any): boolean {
     return valor != '';
   }
 
-  public static isNuloOrVacio(valor: any) {
+  public static isNuloOrVacio(valor: any): boolean {
     return valor == null || valor == '';
   }
 
-  public static isUndefined(valor: any) {
+  public static isUndefined(valor: any): boolean {
     return valor == 'undefined' && valor == undefined;
   }
 
-  public static isNoUndefined(valor: any) {
+  public static isNoUndefined(valor: any): boolean {
     return valor != 'undefined' && valor != undefined;
   }
 
-  public static isNoNuloYNoVacio(valor: any) {
+  public static isNoNuloYNoVacio(valor: any): boolean {
     return HelpersService.isNoNulo(valor) && this.isNoVacio(valor);
   }
 
-  public static isNoNuloYNoVacioYNoUndefined(valor: any) {
+  public static isNoNuloYNoVacioYNoUndefined(valor: any): boolean {
     return this.isNoNuloYNoVacio(valor) && this.isNoUndefined(valor);
   }
 
-  public static isNuloRetornaVacio(valor: any) {
+  public static isNuloRetornaVacio(valor: any): boolean {
     return this.isNulo(valor) ? '' : valor;
   }
 
@@ -85,11 +86,11 @@ export class HelpersService {
     return path.includes('nuevo');
   }
 
-  public static urlDistintoALogin(url: any) {
+  public static urlDistintoALogin(url: any): boolean {
     return url != null && !url.includes('login');
   }
 
-  public static idTodosReturnVacio(valor: string) {
+  public static idTodosReturnVacio(valor: string): string {
     return valor != "-1" ? valor : "";
   }
 

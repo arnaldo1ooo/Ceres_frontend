@@ -202,14 +202,14 @@ export class MovimientoFormComponent implements OnInit {
       this.movimientoDetalleDTO = new MovimientoDetalleDTO();
 
       this.movimientoDetalleDTO._id = '0';
-      //Await sirve para esperar hasta que retorne el llamado para continuar la ejecucion
-      this.movimientoDetalleDTO.tipo = await this._tiposMovimientoService.cargarPorId(this._tiposMovimientoService.getIdTipoMovSeleccionado());
+
+      this.movimientoDetalleDTO.tipo = await this._tiposMovimientoService.cargarPorId(HelpersService.obtenerItemDelStorage('idTipoMovimiento')); //Await sirve para esperar hasta que retorne el llamado para continuar la ejecucion
       this.movimientoDetalleDTO.fechaEmision = FechaHelpersService.getFechaHoraActualLDT();
       this.movimientoDetalleDTO.situacion = Situacion.ACTIVO;
       this.movimientoDetalleDTO.formaPago = FormaPago.EFECTIVO;
     }
 
-    this.actualizarInfoObjetoToForm();
+    this.cargarDatosObjectEnForm();
 
   }
 
@@ -226,7 +226,7 @@ export class MovimientoFormComponent implements OnInit {
         observacion: ['', Validators.maxLength(500)],
         situacion: ['', Validators.required],
         items: ['', Validators.required],
-        formaPago: ['']
+        formaPago: ['', Validators.required]
       }
     )
   }
@@ -235,7 +235,7 @@ export class MovimientoFormComponent implements OnInit {
     this.movimientoDetalleDTO.items.push(item);
   }
 
-  public actualizarInfoObjetoToForm() {
+  public cargarDatosObjectEnForm() {
     this.formMovimientoDetalle.setValue({
       _id: this.movimientoDetalleDTO._id,
       tipo: this.movimientoDetalleDTO.tipo,
@@ -251,7 +251,7 @@ export class MovimientoFormComponent implements OnInit {
     });
   }
 
-  public actualizarInfoFormGroupToObject() {
+  public cargarDatosFormEnObject() {
     this.movimientoDetalleDTO.tipo = this.formMovimientoDetalle.get('tipo')?.value;
     this.movimientoDetalleDTO.moneda = this.formMovimientoDetalle.get('moneda')?.value;
     this.movimientoDetalleDTO.entidad = this.formMovimientoDetalle.get('entidad')?.value;
@@ -265,7 +265,7 @@ export class MovimientoFormComponent implements OnInit {
 
   tabChange(changeEvent : MatTabChangeEvent) {
     if(changeEvent.index == this.INDEX_TAB_MERCADERIAS) {
-      this.actualizarInfoFormGroupToObject();
+      this.cargarDatosFormEnObject();
       this.listaItemsComponent.movimiento = this.movimientoDetalleDTO;
     }
   }
