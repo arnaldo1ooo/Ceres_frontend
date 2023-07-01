@@ -24,6 +24,7 @@ import { ItemMovimiento } from '../../model/item-movimiento';
 import { FormaPago } from '../../enums/formaPago.enum';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ListaItemsComponent } from '../../components/lista-items/lista-items.component';
+import { MonedaEnum } from '../../../monedas/models/moneda';
 
 @Component({
   selector: 'app-movimiento-form',
@@ -204,6 +205,7 @@ export class MovimientoFormComponent implements OnInit {
       this.movimientoDetalleDTO._id = '0';
 
       this.movimientoDetalleDTO.tipo = await this._tiposMovimientoService.cargarPorId(HelpersService.obtenerItemDelStorage('idTipoMovimiento')); //Await sirve para esperar hasta que retorne el llamado para continuar la ejecucion
+      this.movimientoDetalleDTO.moneda = await this._monedasService.cargarPorId(MonedaEnum.GUARANI);
       this.movimientoDetalleDTO.fechaEmision = FechaHelpersService.getFechaHoraActualLDT();
       this.movimientoDetalleDTO.situacion = Situacion.ACTIVO;
       this.movimientoDetalleDTO.formaPago = FormaPago.EFECTIVO;

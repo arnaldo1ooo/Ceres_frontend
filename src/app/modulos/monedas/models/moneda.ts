@@ -8,3 +8,7 @@ export class Moneda {
 
   }
 }
+
+export enum MonedaEnum {
+  GUARANI = '1'
+}
