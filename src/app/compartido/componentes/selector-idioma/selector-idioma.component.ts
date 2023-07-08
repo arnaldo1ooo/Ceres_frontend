@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 
-import { COD_ESPANHOL, COD_PORTUGUES } from '../../constantes/constantes';
+import { COD_ESPANHOL } from '../../constantes/constantes';
 
 @Component({
   selector: 'app-selector-idioma',
@@ -12,12 +12,14 @@ import { COD_ESPANHOL, COD_PORTUGUES } from '../../constantes/constantes';
 
 export class SelectorIdiomaComponent implements OnInit {
 
+  idiomaDefault: string = COD_ESPANHOL;
+
   constructor(private _transLocoService: TranslocoService) {
   }
 
   ngOnInit(): void {
-    let keyIdiomaAlmacenado = HelpersService.obtenerItemDelStorage('key-idioma');
-    this.cambiarIdioma(keyIdiomaAlmacenado != null ? keyIdiomaAlmacenado : COD_ESPANHOL);
+    let keyIdiomaAlmacenado: string = HelpersService.obtenerItemDelStorage('key-idioma');
+    this.cambiarIdioma(HelpersService.isNoNuloYNoVacioYNoUndefined(keyIdiomaAlmacenado) ? keyIdiomaAlmacenado : this.idiomaDefault);
   }
 
   cambiarIdioma(keyIdioma: string) {

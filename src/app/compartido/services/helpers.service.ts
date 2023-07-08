@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
 
 
 
@@ -12,9 +13,12 @@ export class HelpersService {
   ) { }
 
   public static isTokenExpirado(token: any): boolean {
-    /*return !this.jwtHelperService.isTokenExpired(token);*/
-    const fechaExpiracion = (JSON.parse(atob(token.split('.')[1]))).exp;
-    return fechaExpiracion * 1000 < Date.now();
+    if(this.isNoNuloYNoVacio(token)) {
+      const fechaExpiracion = (JSON.parse(atob(token.split('.')[1]))).exp;
+      return fechaExpiracion * 1000 < Date.now();
+    }
+
+    return true;
   }
 
   public static limpiarStorage() {
@@ -119,4 +123,12 @@ export class HelpersService {
     }
   }
 
+}
+
+export function RequerirAutocomplete(control: AbstractControl) {
+  const selection: any = control.value;
+  if (typeof selection === 'string') {
+      return { incorrect: true };
+  }
+  return null;
 }
