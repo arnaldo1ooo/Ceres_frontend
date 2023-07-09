@@ -35,7 +35,7 @@
           <mat-form-field appearance="outline" [ngClass]="'ui-campo'">
             <mat-label>Sucursal</mat-label>
             <mat-select id="sucursalSelect" name="sucursalSelect" [(ngModel)]="credenciales.sucursal"
-            (ngModelChange)="listarDepartamentosPorSucursal($event._id)" [compareWith]="compararOpcionesSelect">
+              (ngModelChange)="listarDepartamentosPorSucursal($event._id)" [compareWith]="compararOpcionesSelect">
               <mat-option *ngFor="let sucursal of listaSucursales" [value]="sucursal">
                 {{sucursal._id}} - {{sucursal.descripcion}}
               </mat-option>

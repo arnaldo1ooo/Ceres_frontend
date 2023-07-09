@@ -5,7 +5,6 @@ import { API_URL_DEPARTAMENTOS } from 'src/app/compartido/constantes/constantes'
 
 import { Departamento } from '../model/departamento';
 import { DepartamentoListaDTO } from './../model/dtos/departamentoListaDTO';
-import { Sucursal } from '../../sucursales/model/sucursal';
 
 @Injectable({
   providedIn: 'root'

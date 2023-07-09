@@ -9,6 +9,7 @@ import { ItemMovimiento } from '../../model/item-movimiento';
 import { Movimiento } from '../../model/movimiento';
 import { ModoEdicion } from '../../../../compartido/enums/modoEdicion.enum';
 import { HelpersService } from '../../../../compartido/services/helpers.service';
+import { MovimientosService } from '../../services/movimientos.service';
 
 @Component({
   selector: 'app-lista-items',
@@ -18,19 +19,13 @@ import { HelpersService } from '../../../../compartido/services/helpers.service'
 })
 export class ListaItemsComponent implements OnInit {
 
-  @Input() movimiento!: Movimiento; //Se recibe el movimiento
+  @Input() movimiento: Movimiento = new Movimiento(); //Se recibe el movimiento
   @Input() modoEdicion!: string;
   @Output() itemToAgregarEvent: EventEmitter<ItemMovimiento> = new EventEmitter<ItemMovimiento>();;  //Sirve para emitir el nuevo item y agregar a la lista desde el movimiento form
 
   @ViewChild('tablaItems') tablaItems!: MatTable<any>; //ViewChild sirve para acceder a un elemento del html
 
-  protected formItemToAgregar: FormGroup = this._formBuilder.group(
-    {
-      mercaderia: [''],
-      cantidad: [''],
-      valorUnitario: ['']
-    }
-  );
+  protected formItemToAgregar: FormGroup = this._movimientosService.crearItemFormGroup();
 
   protected listaMercaderias: Mercaderia[] = [];
   protected listaMercaderiasFiltrado$: Observable<Mercaderia[]> | undefined;
@@ -39,7 +34,7 @@ export class ListaItemsComponent implements OnInit {
   constructor(
     private _avisoHelpersService: AvisoHelpersService,
     private _mercaderiasService: MercaderiasService,
-    private _formBuilder: NonNullableFormBuilder) {
+    private _movimientosService: MovimientosService) {
 
   }
 
@@ -47,10 +42,6 @@ export class ListaItemsComponent implements OnInit {
     this.listarFiltrarMercaderias();
     this.formItemToAgregar;
     this.verificarModoEdicion();
-  }
-
-  public setMovimiento(movimientoActualizado: Movimiento) {
-    this.movimiento = movimientoActualizado;
   }
 
   private verificarModoEdicion() {
@@ -94,7 +85,7 @@ export class ListaItemsComponent implements OnInit {
   }
 
   public displayMercaderia(mercaderia: Mercaderia): string {
-    if (mercaderia._id) {
+    if (HelpersService.isNoNulo(mercaderia) && mercaderia._id) {
       return mercaderia.descripcion
         ? mercaderia._id + ' - ' + mercaderia.descripcion
         : mercaderia._id;
@@ -109,7 +100,7 @@ export class ListaItemsComponent implements OnInit {
     nuevoItem.cantidad = this.formItemToAgregar.get('cantidad')?.value;
     nuevoItem.valorUnitario = this.formItemToAgregar.get('valorUnitario')?.value;
 
-    if(this.verificarValidaciones() && this.validarItem(nuevoItem)) {
+    if (this.verificarValidaciones() && this.validarItem(nuevoItem)) {
       this.itemToAgregarEvent.emit(nuevoItem); //Enviamos el nuevo item por el evento output
       this.limpiarCamposItemAgregar();
       this.refrescarTablaItems();
@@ -125,12 +116,12 @@ export class ListaItemsComponent implements OnInit {
     let isValido: boolean = true;
     let mensaje: string = '';
 
-    if(HelpersService.isNuloOrVacio(this.movimiento.moneda._id)) {
+    if (HelpersService.isNuloOrVacio(this.movimiento.moneda._id)) {
       mensaje = 'Seleccione la moneda del movimiento!';
       isValido = false;
     }
 
-    if(!isValido) {
+    if (!isValido) {
       this._avisoHelpersService.mostrarMensaje(mensaje, '', 4000);
     }
 
@@ -141,28 +132,28 @@ export class ListaItemsComponent implements OnInit {
     let isValido: boolean = true;
     let mensaje: string = '';
 
-    if(HelpersService.isNuloOrVacio(nuevoItem.mercaderia)) {
+    if (HelpersService.isNuloOrVacio(nuevoItem.mercaderia)) {
       mensaje = 'Seleccione una mercaderia!';
       isValido = false;
     }
-    else if(HelpersService.isNuloOrVacio(nuevoItem.cantidad)) {
+    else if (HelpersService.isNuloOrVacio(nuevoItem.cantidad)) {
 
       mensaje = 'Ingrese una cantidad!';
       isValido = false;
     }
-    else if(HelpersService.isNuloOrVacio(nuevoItem.valorUnitario)) {
+    else if (HelpersService.isNuloOrVacio(nuevoItem.valorUnitario)) {
       mensaje = 'Ingrese un valor unitario!';
       isValido = false;
     }
 
-    if(!isValido) {
+    if (!isValido) {
       this._avisoHelpersService.mostrarMensaje(mensaje);
     }
 
     return isValido;
   }
 
-  limpiarCamposItemAgregar() {
+  protected limpiarCamposItemAgregar() {
     this.formItemToAgregar.reset();
   }
 

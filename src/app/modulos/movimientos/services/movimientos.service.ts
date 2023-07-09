@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { LocalDateTime } from '@js-joda/core';
 import { catchError, delay, first, Observable, throwError } from 'rxjs';
 import { PageRequest } from 'src/app/compartido/interfaces/page-request';
-import { HelpersService } from 'src/app/compartido/services/helpers.service';
+import { HelpersService, RequerirAutocomplete } from 'src/app/compartido/services/helpers.service';
 
 import { MovimientoFiltroDTO } from '../model/dtos/movimientoFiltroDTO';
 import { Movimiento } from '../model/movimiento';
@@ -19,6 +19,8 @@ import {
 } from './../../../compartido/constantes/constantes';
 import { FechaHelpersService } from './../../../compartido/services/fecha-helpers.service';
 import { MovimientoListaDTO, Page } from './../model/dtos/movimientoListaDTO';
+import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { ItemMovimiento } from '../model/item-movimiento';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +28,9 @@ import { MovimientoListaDTO, Page } from './../model/dtos/movimientoListaDTO';
 export class MovimientosService {
 
 
-  constructor(private _httpClient: HttpClient) { } //El httpClient permite la conexion con el backend
+  constructor(
+    private _httpClient: HttpClient,
+    private _formBuilder: NonNullableFormBuilder) { } //El httpClient permite la conexion con el backend
 
   listarTodosMovimientosLista() {
     return this._httpClient.get<MovimientoListaDTO[]>(API_URL_MOVIMIENTOS)
@@ -64,7 +68,7 @@ export class MovimientosService {
   }
 
   guardar(movimiento: Partial<Movimiento>) { //Se usa Partial cuando se espera que no reciba todos los datos de la entidad
-    if (movimiento._id) {
+    if (movimiento._id == '' || movimiento._id != '0') {
       return this.actualizar(movimiento);
     }
 
@@ -103,6 +107,33 @@ export class MovimientosService {
 
     return FechaHelpersService.asignarHoraAFechaLDT(
       fechaFinalLDT, HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL); //Asignamos hora 23:59:59
+  }
+
+  public crearMovimientoFormGroup(): FormGroup {
+    return this._formBuilder.group({
+      _id: [''],
+      tipo: ['', Validators.required],
+      moneda: ['', Validators.required],
+      entidad: ['', [Validators.required, RequerirAutocomplete]],
+      fechaEmision: ['', Validators.required],
+      departamento: ['', Validators.required],
+      compradorVendedor: ['', [Validators.required, RequerirAutocomplete]],
+      observacion: ['', Validators.maxLength(500)],
+      situacion: ['', Validators.required],
+      items: this._formBuilder.array([], Validators.required),
+      formaPago: ['', Validators.required]
+    })
+  }
+
+  public crearItemFormGroup(itemMovimiento: ItemMovimiento = new ItemMovimiento()): FormGroup {
+    return this._formBuilder.group({
+      _id: [itemMovimiento._id],
+      movimiento: [itemMovimiento.movimiento],
+      mercaderia: [itemMovimiento.mercaderia],
+      cantidad: [itemMovimiento.cantidad],
+      valorUnitario: [itemMovimiento.valorUnitario],
+      observacion: [itemMovimiento.observacion]
+    });
   }
 
 }

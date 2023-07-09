@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { map, Observable, startWith } from 'rxjs';
 import { Situacion } from 'src/app/compartido/enums/situacion.enum';
@@ -25,6 +25,8 @@ import { FormaPago } from '../../enums/formaPago.enum';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ListaItemsComponent } from '../../components/lista-items/lista-items.component';
 import { MonedaEnum } from '../../../monedas/models/moneda';
+import { MovimientosService } from '../../services/movimientos.service';
+import { LoginService } from '../../../login/services/login.service';
 
 @Component({
   selector: 'app-movimiento-form',
@@ -44,21 +46,22 @@ export class MovimientoFormComponent implements OnInit {
   public modoEdicion: string = this._ruta.snapshot.data['modoEdicion']; //Proviene del routing
 
   public movimientoDetalleDTO: MovimientoDetalleDTO = new MovimientoDetalleDTO();
-  public formMovimientoDetalle: FormGroup = this.formMovimientoInit();
+  public formMovimientoDetalle: FormGroup = this._movimientosService.crearMovimientoFormGroup();
 
   public INDEX_TAB_MERCADERIAS = 1;
 
   @ViewChild(ListaItemsComponent) listaItemsComponent!: ListaItemsComponent;
 
   constructor(
-    private _formBuilder: NonNullableFormBuilder,
     private _location: Location,
     private _ruta: ActivatedRoute,
+    private _movimientosService: MovimientosService,
     private _monedasService: MonedasService,
     private _entidadesService: EntidadesService,
     private _departamentosService: DepartamentosService,
     private _avisoHelpersService: AvisoHelpersService,
-    private _tiposMovimientoService: TiposMovimientoService) {
+    private _tiposMovimientoService: TiposMovimientoService,
+    private _loginService: LoginService) {
 
   }
 
@@ -72,15 +75,26 @@ export class MovimientoFormComponent implements OnInit {
     this.listarFiltrarCompradoresVendedores();
   }
 
+  //Se ejecuta luego de que se hayan cargado todos los componentes
+  ngAfterViewInit(): void {
+
+  }
+
   public onGuardar() {
-    /* if(this.formMercaderia.valid) { //Verifica los validators de cada campo del form
-       this._mercaderiaService.guardar(this.formMercaderia.getRawValue())
-       .subscribe(resultado => this.onExito(), error => this.onError());
-     }
-     else {
-       this.formMercaderia.markAllAsTouched(); //Marca todos los campos invalidos
-       this._avisoHelpersService.mostrarMensajeDatosInvalidosForm();
-     }*/
+
+    console.log(this.movimientoDetalleDTO);
+    if (this.formMovimientoDetalle.valid) { //Verifica los validators de cada campo del form
+      /*this._movimientosService.guardar(this.formMovimientoDetalle.getRawValue())
+        .subscribe({
+          next: () => this.onExito(),
+          error: error => this.onError()
+        });*/
+      console.log("Es valido")
+    }
+    else {
+      this.formMovimientoDetalle.markAllAsTouched(); //Marca todos los campos invalidos
+      this._avisoHelpersService.mostrarMensajeDatosInvalidosForm();
+    }
   }
 
   public onCancelar() {
@@ -153,12 +167,11 @@ export class MovimientoFormComponent implements OnInit {
   }
 
   public displayEntidad(entidad: Entidad): string {
-    if (entidad._id && entidad.nombre) {
+    if (entidad && entidad._id && entidad.nombre) {
       return entidad._id + " - " + entidad.nombre + (entidad.apellido ? ' ' + entidad.apellido : '');
     }
-    else {
-      return '';
-    }
+
+    return '';
   }
 
   private listarDepartamentos() {
@@ -203,11 +216,11 @@ export class MovimientoFormComponent implements OnInit {
       this.movimientoDetalleDTO = new MovimientoDetalleDTO();
 
       this.movimientoDetalleDTO._id = '0';
-
       this.movimientoDetalleDTO.tipo = await this._tiposMovimientoService.cargarPorId(HelpersService.obtenerItemDelStorage('idTipoMovimiento')); //Await sirve para esperar hasta que retorne el llamado para continuar la ejecucion
       this.movimientoDetalleDTO.moneda = await this._monedasService.cargarPorId(MonedaEnum.GUARANI);
       this.movimientoDetalleDTO.fechaEmision = FechaHelpersService.getFechaHoraActualLDT();
       this.movimientoDetalleDTO.situacion = Situacion.ACTIVO;
+      this.movimientoDetalleDTO.departamento = this._loginService.loginSesionActual.departamento;
       this.movimientoDetalleDTO.formaPago = FormaPago.EFECTIVO;
     }
 
@@ -215,26 +228,9 @@ export class MovimientoFormComponent implements OnInit {
 
   }
 
-  private formMovimientoInit(): FormGroup {
-    return this._formBuilder.group(
-      {
-        _id: [''],
-        tipo: ['', Validators.required],
-        moneda: ['', Validators.required],
-        entidad: ['', Validators.required],
-        fechaEmision: ['', Validators.required],
-        departamento: ['', Validators.required],
-        compradorVendedor: ['', Validators.required],
-        observacion: ['', Validators.maxLength(500)],
-        situacion: ['', Validators.required],
-        items: ['', Validators.required],
-        formaPago: ['', Validators.required]
-      }
-    )
-  }
-
   public agregarItemALista(item: ItemMovimiento) {
     this.movimientoDetalleDTO.items.push(item);
+    (this.formMovimientoDetalle.get('items') as FormArray).push(this._movimientosService.crearItemFormGroup(item));
   }
 
   public cargarDatosObjectEnForm() {
@@ -251,6 +247,7 @@ export class MovimientoFormComponent implements OnInit {
       items: this.movimientoDetalleDTO.items,
       formaPago: this.movimientoDetalleDTO.formaPago
     });
+
   }
 
   public cargarDatosFormEnObject() {
@@ -265,8 +262,8 @@ export class MovimientoFormComponent implements OnInit {
     this.movimientoDetalleDTO.formaPago = this.formMovimientoDetalle.get('formaPago')?.value;
   }
 
-  tabChange(changeEvent : MatTabChangeEvent) {
-    if(changeEvent.index == this.INDEX_TAB_MERCADERIAS) {
+  tabChange(changeEvent: MatTabChangeEvent) {
+    if (changeEvent.index == this.INDEX_TAB_MERCADERIAS) {
       this.cargarDatosFormEnObject();
       this.listaItemsComponent.movimiento = this.movimientoDetalleDTO;
     }
