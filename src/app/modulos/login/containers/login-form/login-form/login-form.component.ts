@@ -68,12 +68,12 @@ export class LoginFormComponent implements OnInit {
     if (HelpersService.isNuloOrVacio(this.credenciales.nombreUsuario)) {
       mensaje = "Ingrese un nombre de usuario!"
       isValido = false;
-      document.getElementById('nombreUsuario')?.focus();
+      document.getElementById('nombreUsuarioInput')?.focus();
     }
     else if (HelpersService.isNuloOrVacio(this.credenciales.contrasena)) {
       mensaje = "Ingrese la contraseña!"
       isValido = false;
-      document.getElementById('contrasena')?.focus();
+      document.getElementById('contrasenaInput')?.focus();
     }
     else if (HelpersService.isNuloOrVacio(this.credenciales.sucursal._id)) {
       mensaje = "Seleccione la sucursal!"

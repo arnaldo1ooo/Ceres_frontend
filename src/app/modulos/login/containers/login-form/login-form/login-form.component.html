@@ -23,12 +23,12 @@
         <div class="container-div-form">
 
           <mat-form-field [ngClass]="'ui-campo'">
-            <input matInput id="nombreUsuario" name="nombreUsuario" type="text" (blur)="listarSucursales()"
+            <input matInput id="nombreUsuarioInput" name="nombreUsuarioInput" type="text" (blur)="listarSucursales()"
               placeholder="{{'login.nombre-usuario' | transloco}}" [(ngModel)]="credenciales.nombreUsuario">
           </mat-form-field>
 
           <mat-form-field [ngClass]="'ui-campo'">
-            <input matInput id="contrasena" name="contrasena" type="password"
+            <input matInput id="contrasenaInput" name="contrasenaInput" type="password"
               placeholder="{{'login.contrasenha' | transloco}}" [(ngModel)]="credenciales.contrasena">
           </mat-form-field>
 
