@@ -1,11 +1,11 @@
 
-export interface Mercaderia {
+export class Mercaderia {
 
-  _id: string;
-  descripcion: string;
-  tipo: string;
-  departamento: string;
-  situacion: string;
+  _id: string = '';
+  descripcion: string | null = null;
+  tipo: string | null = null;
+  departamento: string | null = null;
+  situacion: string | null = null;
 }
 
 export interface Page {

@@ -1,7 +1,7 @@
 
 export class Sucursal {
 
-  _id: string | null = null;
+  _id: string = '';
   descripcion: string | null = null;
   municipio: string | null = null;
   barrio: string | null = null;
