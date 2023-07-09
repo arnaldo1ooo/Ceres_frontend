@@ -7,7 +7,7 @@
   <mat-card-content>
     <form [formGroup]="formMovimientoDetalle" class="anchura-minima">
 
-      <mat-tab-group class="style-tab-grupo" (focusChange)="tabChange($event)">
+      <mat-tab-group #movimientoTabGroup class="style-tab-grupo" (focusChange)="tabChange($event)">
 
         <!-----------------------------------------------------DATOS INICIALES----------------------------------------------------->
         <mat-tab label="{{ 'titulos.datos-iniciales' | transloco | uppercase }}" class="">
@@ -18,7 +18,7 @@
               <mat-grid-tile>
                 <mat-form-field appearance="outline" class="style-campos">
                   <mat-label>Id</mat-label>
-                  <input matInput formControlName="_id" #_id readonly="true">
+                  <input #idInput matInput formControlName="_id" readonly="true">
                   <!--# sirve para poder acceder desde el ts a este elemento-->
                 </mat-form-field>
               </mat-grid-tile>
@@ -26,7 +26,8 @@
               <mat-grid-tile>
                 <mat-form-field appearance="outline" class="style-campos">
                   <mat-label>{{ "titulos.moneda" | transloco }}</mat-label>
-                  <mat-select formControlName="moneda" [compareWith]="compararOpcionesSelect">
+                  <mat-select #monedaSelect formControlName="moneda"
+                    [compareWith]="compararOpcionesSelect">
                     <!--[] solicita info, () envia info-->
                     <mat-option disabled selected value="">{{ "seleccion.seleccion-moneda" | transloco }}</mat-option>
                     <mat-option *ngFor="let moneda of listaMonedas" [value]="moneda">
@@ -42,10 +43,10 @@
               <mat-grid-tile>
                 <mat-form-field appearance="outline" class="style-campos">
                   <mat-label>{{ "titulos.entidad" | transloco }}</mat-label>
-                  <input type="text" name="entidad" formControlName="entidad" matInput
-                    [matAutocomplete]="autocompleteEntidad">
+                  <input #entidadInputAC type="text" formControlName="entidad"
+                    matInput [matAutocomplete]="entidadAutocomplete">
 
-                  <mat-autocomplete #autocompleteEntidad="matAutocomplete" [displayWith]="displayEntidad">
+                  <mat-autocomplete #entidadAutocomplete="matAutocomplete" [displayWith]="displayEntidad">
                     <mat-option *ngFor="let entidad of listaEntidadesFiltrado$ | async" [value]="entidad">
                       {{ entidad._id + ' - ' + entidad.nombre + ' ' + entidad.apellido }}
                     </mat-option>
@@ -55,16 +56,11 @@
                 </mat-form-field>
               </mat-grid-tile>
 
-
-
-
-
-
-
               <mat-grid-tile>
                 <mat-form-field appearance="outline" class="style-campos">
                   <mat-label>{{ "titulos.fecha-emision" | transloco }}</mat-label>
-                  <input matInput formControlName="fechaEmision" readonly="true"
+                  <input #fechaEmisionInput formControlName="fechaEmision" matInput
+                    readonly="true"
                     [value]="formMovimientoDetalle.get('fechaEmision')?.value | date:'dd/MM/yyyy HH:mm:ss'">
                 </mat-form-field>
               </mat-grid-tile>
@@ -73,7 +69,8 @@
               <mat-grid-tile>
                 <mat-form-field appearance="outline" class="style-campos">
                   <mat-label>{{ "titulos.departamento" | transloco }}</mat-label>
-                  <mat-select formControlName="departamento" [compareWith]="compararOpcionesSelect">
+                  <mat-select #departamentoSelect formControlName="departamento"
+                    [compareWith]="compararOpcionesSelect">
                     <mat-option disabled selected value="">{{ "seleccion.seleccion-departamento" | transloco }}
                     </mat-option>
                     <mat-option *ngFor="let departamento of listaDepartamentos" [value]="departamento">
@@ -93,10 +90,10 @@
                     ? ('titulos.comprador' | transloco)
                     : ('titulos.vendedor' | transloco) }}
                   </mat-label>
-                  <input formControlName="compradorVendedor" type="text" matInput
-                    [matAutocomplete]="autocompleteCompradorVendedor">
+                  <input #compradorVendeorInput formControlName="compradorVendedor"
+                  type="text" matInput [matAutocomplete]="compradorVendedorAutocomplete">
 
-                  <mat-autocomplete #autocompleteCompradorVendedor="matAutocomplete" [displayWith]="displayEntidad">
+                  <mat-autocomplete #compradorVendedorAutocomplete="matAutocomplete" [displayWith]="displayEntidad">
                     <mat-option *ngFor="let compradorVendedor of listaCompradoresVendedoresFiltrado$ | async"
                       [value]="compradorVendedor">
                       {{ compradorVendedor._id + ' - ' + compradorVendedor.nombre + ' ' + compradorVendedor.apellido }}
@@ -112,7 +109,7 @@
               <mat-grid-tile class="grid-tile-observacion">
                 <mat-form-field appearance="outline" class="style-campos text-area-observacion">
                   <mat-label>{{ "titulos.observacion" | transloco }}</mat-label>
-                  <textarea matInput cdkTextareaAutosize formControlName="observacion" placeholder="Observación"
+                  <textarea #observacionTextArea matInput cdkTextareaAutosize formControlName="observacion" placeholder="Observación"
                     #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5" cdkAutosizeMaxRows="5">
                   </textarea>
                 </mat-form-field>
@@ -121,7 +118,7 @@
               <mat-grid-tile>
                 <mat-form-field appearance="outline" class="style-campos">
                   <mat-label>{{ "titulos.situacion" | transloco }}</mat-label>
-                  <mat-select formControlName="situacion">
+                  <mat-select #situacionSelect formControlName="situacion">
                     <mat-option *ngFor="let situacion of listaSituaciones" [value]="situacion">
                       <!--Muestra en modo enabled-->
                       {{ situacion | situacionPipe }}
@@ -139,7 +136,7 @@
               <mat-grid-tile>
                 <mat-form-field appearance="outline" class="style-campos">
                   <mat-label>{{ "titulos.forma-pago" | transloco }}</mat-label>
-                  <mat-select formControlName="formaPago">
+                  <mat-select #formaPagoSelect formControlName="formaPago">
                     <mat-option *ngFor="let formaPago of listaFormasPago" [value]="formaPago">
                       {{ formaPago | formaPagoPipe }}
                     </mat-option>
@@ -168,20 +165,6 @@
           </div>
         </mat-tab>
       </mat-tab-group>
-    </form>
-
-    <form>
-        <mat-form-field appearance="outline" class="style-campos">
-          <mat-label>{{ "titulos.entidad" | transloco }}</mat-label>
-          <input id="entidad2" name="entidad2" type="text" [(ngModel)]="movimientoDetalleDTO.entidad"
-            matInput [matAutocomplete]="autocompleteEntidad2">
-
-          <mat-autocomplete #autocompleteEntidad2="matAutocomplete" [displayWith]="displayEntidad">
-            <mat-option *ngFor="let entidad of listaEntidadesFiltrado$ | async" [value]="entidad">
-              {{  entidad._id + ' a- ' + entidad.nombre + ' ' + entidad.apellido }}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
     </form>
 
   </mat-card-content>

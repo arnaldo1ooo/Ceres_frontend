@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { map, Observable, startWith } from 'rxjs';
@@ -22,11 +22,12 @@ import { ClaseEntidad } from './../../../entidades/enums/clase-entidad.enum';
 import { Entidad } from './../../../entidades/models/entidad';
 import { ItemMovimiento } from '../../model/item-movimiento';
 import { FormaPago } from '../../enums/formaPago.enum';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ListaItemsComponent } from '../../components/lista-items/lista-items.component';
 import { MonedaEnum } from '../../../monedas/models/moneda';
 import { MovimientosService } from '../../services/movimientos.service';
 import { LoginService } from '../../../login/services/login.service';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-movimiento-form',
@@ -48,9 +49,18 @@ export class MovimientoFormComponent implements OnInit {
   public movimientoDetalleDTO: MovimientoDetalleDTO = new MovimientoDetalleDTO();
   public formMovimientoDetalle: FormGroup = this._movimientosService.crearMovimientoFormGroup();
 
+  public INDEX_TAB_DATOS_INICIALES = 0;
   public INDEX_TAB_MERCADERIAS = 1;
 
+
+  @ViewChild('movimientoTabGroup') movimientoTabGroup!: MatTabGroup;
+  @ViewChild('monedaSelect') monedaSelect!: MatSelect;
+  @ViewChild('entidadInputAC') entidadInputAC!: ElementRef;
+  @ViewChild('departamentoSelect') departamentoSelect!: MatSelect;
+  @ViewChild('compradorVendeorInput') compradorVendeorInput!: ElementRef;
+  @ViewChild('formaPagoSelect') formaPagoSelect!: MatSelect;
   @ViewChild(ListaItemsComponent) listaItemsComponent!: ListaItemsComponent;
+
 
   constructor(
     private _location: Location,
@@ -83,18 +93,69 @@ export class MovimientoFormComponent implements OnInit {
   public onGuardar() {
 
     console.log(this.movimientoDetalleDTO);
-    if (this.formMovimientoDetalle.valid) { //Verifica los validators de cada campo del form
-      /*this._movimientosService.guardar(this.formMovimientoDetalle.getRawValue())
+    if (this.isCamposValidos()) { //Verifica los validators de cada campo del form
+      this._movimientosService.guardar(this.formMovimientoDetalle.getRawValue())
         .subscribe({
           next: () => this.onExito(),
           error: error => this.onError()
-        });*/
-      console.log("Es valido")
+        });
     }
     else {
       this.formMovimientoDetalle.markAllAsTouched(); //Marca todos los campos invalidos
-      this._avisoHelpersService.mostrarMensajeDatosInvalidosForm();
     }
+  }
+
+  private isCamposValidos(): boolean {
+    let isValido: boolean = false;
+    let mensaje: string = '';
+
+    if (HelpersService.isNuloOrVacio(this.monedaSelect.value._id)) {
+      mensaje = "Seleccione una moneda!"
+      isValido = false;
+
+      setTimeout(() => { this.monedaSelect.focus(); }, 100);
+    }
+    else if (HelpersService.isNuloOrVacio(this.entidadInputAC.nativeElement.value)) {
+
+      mensaje = "Seleccione una entidad!"
+      isValido = false;
+      this.moverseDeTab(this.INDEX_TAB_DATOS_INICIALES);
+      setTimeout(() => { this.entidadInputAC.nativeElement.focus(); }, 100);
+    }
+    else if (HelpersService.isNuloOrVacio(this.departamentoSelect.value._id)) {
+      mensaje = "Seleccione una departamento!"
+      isValido = false;
+      this.moverseDeTab(this.INDEX_TAB_DATOS_INICIALES);
+      setTimeout(() => { this.departamentoSelect.focus(); }, 100);
+    }
+    else if (HelpersService.isNuloOrVacio(this.compradorVendeorInput.nativeElement.value)) {
+      mensaje = "Seleccione un comprador o vendedor!"
+      isValido = false;
+      this.moverseDeTab(this.INDEX_TAB_DATOS_INICIALES);
+      setTimeout(() => { this.compradorVendeorInput.nativeElement.focus(); }, 100);
+    }
+    else if (HelpersService.isNuloOrVacio(this.formaPagoSelect.value)) {
+      mensaje = "Seleccione una Forma de pago!"
+      isValido = false;
+      this.moverseDeTab(this.INDEX_TAB_DATOS_INICIALES);
+      setTimeout(() => { this.formaPagoSelect.focus(); }, 100);
+    }
+    else if (this.formMovimientoDetalle.get('items')?.value.length == 0) {
+      mensaje = "Agregue al menos un item!"
+      isValido = false;
+      this.moverseDeTab(this.INDEX_TAB_MERCADERIAS);
+    }
+
+    if (!isValido) {
+      this._avisoHelpersService.mostrarMensaje(mensaje);
+    }
+
+    return isValido;
+
+  }
+
+  private moverseDeTab(tab: number) {
+    this.movimientoTabGroup.selectedIndex = tab;
   }
 
   public onCancelar() {
