@@ -12,6 +12,7 @@ import { LoginService } from 'src/app/modulos/login/services/login.service';
 import { Sucursal } from 'src/app/modulos/sucursales/model/sucursal';
 import { SucursalesService } from 'src/app/modulos/sucursales/services/sucursales.service';
 import { Departamento } from '../../../../departamentos/model/departamento';
+import { AvisoHelpersService } from '../../../../../compartido/services/aviso-helpers.service';
 
 @Component({
   selector: 'app-login-form',
@@ -32,29 +33,60 @@ export class LoginFormComponent implements OnInit {
     public dialog: MatDialog,
     private _translocoService: TranslocoService,
     private _sucursalesService: SucursalesService,
-    private _departamentosService: DepartamentosService) { }
+    private _departamentosService: DepartamentosService,
+    private _avisoHelpersService: AvisoHelpersService) { }
 
   ngOnInit(): void {
 
   }
 
   login() {
-    this._loginService.loginCredenciales = this.credenciales;
+    if (this.isCamposValidos()) {
+      this._loginService.loginSesionActual = this.credenciales;
 
-    this._loginService.login(this.credenciales)
-      .subscribe(response => {
-        this._ruta.navigate(['/home']);  //Caso se acepte las credenciales, se redirige al home
-      },
-        error => {
-          if (error.status === COD_ERROR_DATOS_INVALIDOS) {
-            this.onError(this._translocoService.translate('errores.error-login-incorrecto'));
-          } else if (error.status === COD_ERROR_CONEXION) {
-            this.onError(this._translocoService.translate('errores.error-conexion-servidor'));
-          } else {
-            this.onError(this._translocoService.translate('errores.error-login'));
+      this._loginService.login(this.credenciales)
+        .subscribe(response => {
+          this._ruta.navigate(['/home']);  //Caso se acepte las credenciales, se redirige al home
+        },
+          error => {
+            if (error.status === COD_ERROR_DATOS_INVALIDOS) {
+              this.onError(this._translocoService.translate('errores.error-login-incorrecto'));
+            } else if (error.status === COD_ERROR_CONEXION) {
+              this.onError(this._translocoService.translate('errores.error-conexion-servidor'));
+            } else {
+              this.onError(this._translocoService.translate('errores.error-login'));
+            }
           }
-        }
-      )
+        )
+    }
+  }
+
+  private isCamposValidos(): boolean {
+    let isValido: boolean = true;
+    let mensaje: string = '';
+
+    if (HelpersService.isNuloOrVacio(this.credenciales.nombreUsuario)) {
+      mensaje = "Ingrese un nombre de usuario!"
+      isValido = false;
+    }
+    else if (HelpersService.isNuloOrVacio(this.credenciales.contrasena)) {
+      mensaje = "Ingrese la contraseña!"
+      isValido = false;
+    }
+    else if (HelpersService.isNuloOrVacio(this.credenciales.sucursal._id)) {
+      mensaje = "Seleccione la sucursal!"
+      isValido = false;
+    }
+    else if (HelpersService.isNuloOrVacio(this.credenciales.departamento._id)) {
+      mensaje = "Seleccione el departamento!"
+      isValido = false;
+    }
+
+    if (!isValido) {
+      this._avisoHelpersService.mostrarMensaje(mensaje);
+    }
+
+    return isValido;
   }
 
   onError(errorMsg: string) {
@@ -72,16 +104,18 @@ export class LoginFormComponent implements OnInit {
 
     //console.log(isNombreUsuarioExiste ? "Nombre de usuario existe" : "Nombre de usuario no existe");
 
-    if(isNombreUsuarioExiste) { //await espera hasta recibir respuesta de servidor
+    if (isNombreUsuarioExiste) { //await espera hasta recibir respuesta de servidor
       this._sucursalesService.listarTodosSucursales().subscribe((lista: any) => {
         this.listaSucursales = lista;
       });
     }
   }
 
-  public listarDepartamentos(idSucursal: string) {
+  public listarDepartamentosPorSucursal(idSucursal: string) {
     this._departamentosService.listarTodosPorSucursal(idSucursal).subscribe((lista: any) => {
       this.listaDepartamentos = lista;
     })
   }
+
+
 }

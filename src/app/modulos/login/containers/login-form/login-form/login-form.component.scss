@@ -29,8 +29,6 @@ mat-card {
   min-height: 180px;
 }
 
-
-
 .div-izquierdo{
   background-color: rgb(41, 91, 91);
   width: 50%;
@@ -54,4 +52,9 @@ mat-card {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+.ui-campo {
+  width: 50%;
+  margin-bottom: 10px;
 }

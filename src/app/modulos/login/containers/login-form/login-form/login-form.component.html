@@ -17,44 +17,41 @@
         <app-selector-idioma></app-selector-idioma>
       </div>
 
-
       <mat-card-title class="titulo-inicio-sesion">{{'login.titulo-login' | transloco}}</mat-card-title>
-
 
       <form>
         <div class="container-div-form">
-          <p>
-            <mat-form-field>
-              <input matInput id="nombreUsuario" name="nombreUsuario" type="text" (blur)="listarSucursales()"
-                placeholder="{{'login.nombre-usuario' | transloco}}" [(ngModel)]="credenciales.nombreUsuario">
-            </mat-form-field>
-          </p>
 
-          <p>
-            <mat-form-field>
-              <input matInput id="contrasena" name="contrasena" type="password"
-                placeholder="{{'login.contrasenha' | transloco}}" [(ngModel)]="credenciales.contrasena">
-            </mat-form-field>
-          </p>
+          <mat-form-field [ngClass]="'ui-campo'">
+            <input matInput id="nombreUsuario" name="nombreUsuario" type="text" (blur)="listarSucursales()"
+              placeholder="{{'login.nombre-usuario' | transloco}}" [(ngModel)]="credenciales.nombreUsuario">
+          </mat-form-field>
 
-          <p>
-            <mat-form-field appearance="outline">
-              <mat-label>Sucursal</mat-label>
-              <mat-select #selectSucursal [(ngModel)]="credenciales.sucursal" [compareWith]="compararOpcionesSelect"
-                (selectionChange)="listarDepartamentos(selectSucursal.value)" name="selectSucursal">
-                <mat-option *ngFor="let sucursal of listaSucursales" value={{sucursal._id}}>{{sucursal.descripcion}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </p>
+          <mat-form-field [ngClass]="'ui-campo'">
+            <input matInput id="contrasena" name="contrasena" type="password"
+              placeholder="{{'login.contrasenha' | transloco}}" [(ngModel)]="credenciales.contrasena">
+          </mat-form-field>
 
-          <p>
-            <mat-form-field appearance="outline">
-              <mat-label>Departamento</mat-label>
-              <mat-select [(ngModel)]="credenciales.departamento" [compareWith]="compararOpcionesSelect" name="selectDepartamento">
-                <mat-option *ngFor="let departamento of listaDepartamentos" value={{departamento._id}}>{{departamento.descripcion}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </p>
+          <mat-form-field appearance="outline" [ngClass]="'ui-campo'">
+            <mat-label>Sucursal</mat-label>
+            <mat-select [(ngModel)]="credenciales.sucursal" (ngModelChange)="listarDepartamentosPorSucursal($event._id)"
+              [compareWith]="compararOpcionesSelect" name="selectSucursal">
+              <mat-option *ngFor="let sucursal of listaSucursales" [value]="sucursal">
+                {{sucursal._id}} - {{sucursal.descripcion}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" [ngClass]="'ui-campo'">
+            <mat-label>Departamento</mat-label>
+            <mat-select [(ngModel)]="credenciales.departamento" [compareWith]="compararOpcionesSelect"
+              name="selectDepartamento">
+              <mat-option *ngFor="let departamento of listaDepartamentos" [value]="departamento">
+                {{departamento._id}} - {{departamento.descripcion}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
 
           <button mat-raised-button color="primary" (click)="login()">{{'login.ingresar' | transloco}}</button>
         </div>
