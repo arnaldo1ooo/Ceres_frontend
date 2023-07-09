@@ -34,8 +34,8 @@
 
           <mat-form-field appearance="outline" [ngClass]="'ui-campo'">
             <mat-label>Sucursal</mat-label>
-            <mat-select [(ngModel)]="credenciales.sucursal" (ngModelChange)="listarDepartamentosPorSucursal($event._id)"
-              [compareWith]="compararOpcionesSelect" name="selectSucursal">
+            <mat-select id="sucursalSelect" name="sucursalSelect" [(ngModel)]="credenciales.sucursal"
+            (ngModelChange)="listarDepartamentosPorSucursal($event._id)" [compareWith]="compararOpcionesSelect">
               <mat-option *ngFor="let sucursal of listaSucursales" [value]="sucursal">
                 {{sucursal._id}} - {{sucursal.descripcion}}
               </mat-option>
@@ -44,8 +44,8 @@
 
           <mat-form-field appearance="outline" [ngClass]="'ui-campo'">
             <mat-label>Departamento</mat-label>
-            <mat-select [(ngModel)]="credenciales.departamento" [compareWith]="compararOpcionesSelect"
-              name="selectDepartamento">
+            <mat-select id="departamentoSelect" name="departamentoSelect" [(ngModel)]="credenciales.departamento"
+              [compareWith]="compararOpcionesSelect">
               <mat-option *ngFor="let departamento of listaDepartamentos" [value]="departamento">
                 {{departamento._id}} - {{departamento.descripcion}}
               </mat-option>

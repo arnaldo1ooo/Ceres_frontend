@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -68,18 +68,22 @@ export class LoginFormComponent implements OnInit {
     if (HelpersService.isNuloOrVacio(this.credenciales.nombreUsuario)) {
       mensaje = "Ingrese un nombre de usuario!"
       isValido = false;
+      document.getElementById('nombreUsuario')?.focus();
     }
     else if (HelpersService.isNuloOrVacio(this.credenciales.contrasena)) {
       mensaje = "Ingrese la contraseña!"
       isValido = false;
+      document.getElementById('contrasena')?.focus();
     }
     else if (HelpersService.isNuloOrVacio(this.credenciales.sucursal._id)) {
       mensaje = "Seleccione la sucursal!"
       isValido = false;
+      document.getElementById('sucursalSelect')?.focus();
     }
     else if (HelpersService.isNuloOrVacio(this.credenciales.departamento._id)) {
       mensaje = "Seleccione el departamento!"
       isValido = false;
+      document.getElementById('departamentoSelect')?.focus();
     }
 
     if (!isValido) {
