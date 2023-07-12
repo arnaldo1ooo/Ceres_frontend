@@ -19,8 +19,15 @@ import {
 } from './../../../compartido/constantes/constantes';
 import { FechaHelpersService } from './../../../compartido/services/fecha-helpers.service';
 import { MovimientoListaDTO, Page } from './../model/dtos/movimientoListaDTO';
-import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { FormGroup, NonNullableFormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 import { ItemMovimiento } from '../model/item-movimiento';
+import { TipoMovimientoEnum } from '../../tipos-movimiento/enums/tipo-movimiento-enum.enum';
+import { Moneda } from '../../monedas/models/moneda';
+import { Entidad } from '../../entidades/models/entidad';
+import { Departamento } from '../../departamentos/model/departamento';
+import { Situacion } from '../../../compartido/enums/situacion.enum';
+import { FormaPago } from '../enums/formaPago.enum';
+import { Mercaderia } from '../../mercaderias/model/mercaderia';
 
 @Injectable({
   providedIn: 'root'
@@ -111,28 +118,28 @@ export class MovimientosService {
 
   public crearMovimientoFormGroup(): FormGroup {
     return this._formBuilder.group({
-      _id: [''],
-      tipo: ['', Validators.required],
-      moneda: ['', Validators.required],
-      entidad: ['', [Validators.required, RequerirAutocomplete]],
-      fechaEmision: ['', Validators.required],
-      departamento: ['', Validators.required],
-      compradorVendedor: ['', [Validators.required, RequerirAutocomplete]],
-      observacion: ['', Validators.maxLength(500)],
-      situacion: ['', Validators.required],
-      items: this._formBuilder.array([], Validators.required),
-      formaPago: ['', Validators.required]
+      _id: new FormControl<string>(''),
+      tipo: new FormControl<TipoMovimientoEnum | null>(null, Validators.required),
+      moneda: new FormControl<Moneda | null>(null, Validators.required),
+      entidad: new FormControl<Entidad | null>(null, [Validators.required, RequerirAutocomplete]),
+      fechaEmision: new FormControl<LocalDateTime | null> (null, Validators.required),
+      departamento: new FormControl<Departamento | null> (null, Validators.required),
+      compradorVendedor: new FormControl<Entidad | null> (null, Validators.required),
+      observacion: new FormControl<string> (''),
+      situacion: new FormControl<Situacion | null> (null, Validators.required),
+      items: this._formBuilder.array ([], Validators.required),
+      formaPago: new FormControl<FormaPago | null> (null, Validators.required),
     })
   }
 
   public crearItemFormGroup(itemMovimiento: ItemMovimiento = new ItemMovimiento()): FormGroup {
     return this._formBuilder.group({
-      _id: [itemMovimiento._id],
-      movimiento: [itemMovimiento.movimiento],
-      mercaderia: [itemMovimiento.mercaderia],
-      cantidad: [itemMovimiento.cantidad],
-      valorUnitario: [itemMovimiento.valorUnitario],
-      observacion: [itemMovimiento.observacion]
+      _id: new FormControl<string> (itemMovimiento._id),
+      movimiento: new FormControl<Movimiento | null> (itemMovimiento.movimiento),
+      mercaderia: new FormControl<Mercaderia | null> (itemMovimiento.mercaderia),
+      cantidad: new FormControl<number> (itemMovimiento.cantidad),
+      valorUnitario: new FormControl<number> (itemMovimiento.valorUnitario),
+      observacion: new FormControl<string | null> (itemMovimiento.observacion)
     });
   }
 

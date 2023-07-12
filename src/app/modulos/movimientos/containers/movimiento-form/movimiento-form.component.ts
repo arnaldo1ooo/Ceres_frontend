@@ -1,3 +1,4 @@
+import { TipoMovimiento } from './../../../tipos-movimiento/models/tipo-movimiento';
 import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
@@ -9,7 +10,7 @@ import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { Departamento } from 'src/app/modulos/departamentos/model/departamento';
 import { DepartamentosService } from 'src/app/modulos/departamentos/services/departamentos.service';
 import { EntidadesService } from 'src/app/modulos/entidades/services/entidades.service';
-import { Moneda } from 'src/app/modulos/monedas/models/moneda';
+import { Moneda, MonedaEnum } from 'src/app/modulos/monedas/models/moneda';
 import { MonedasService } from 'src/app/modulos/monedas/services/monedas.service';
 import { TiposMovimientoService } from 'src/app/modulos/tipos-movimiento/services/tipos-movimiento.service';
 
@@ -22,12 +23,12 @@ import { ClaseEntidad } from './../../../entidades/enums/clase-entidad.enum';
 import { Entidad } from './../../../entidades/models/entidad';
 import { ItemMovimiento } from '../../model/item-movimiento';
 import { FormaPago } from '../../enums/formaPago.enum';
-import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { MatTabGroup } from '@angular/material/tabs';
 import { ListaItemsComponent } from '../../components/lista-items/lista-items.component';
-import { MonedaEnum } from '../../../monedas/models/moneda';
 import { MovimientosService } from '../../services/movimientos.service';
 import { LoginService } from '../../../login/services/login.service';
 import { MatSelect } from '@angular/material/select';
+import { LocalDateTime } from '@js-joda/core';
 
 @Component({
   selector: 'app-movimiento-form',
@@ -46,7 +47,6 @@ export class MovimientoFormComponent implements OnInit {
   public listaFormasPago = Object.values(FormaPago);
   public modoEdicion: string = this._ruta.snapshot.data['modoEdicion']; //Proviene del routing
 
-  public movimientoDetalleDTO: MovimientoDetalleDTO = new MovimientoDetalleDTO();
   public formMovimientoDetalle: FormGroup = this._movimientosService.crearMovimientoFormGroup();
 
   public INDEX_TAB_DATOS_INICIALES = 0;
@@ -82,7 +82,6 @@ export class MovimientoFormComponent implements OnInit {
     this.listarMonedas();
     this.listarFiltrarEntidades();
     this.listarDepartamentos();
-    this.listarFiltrarCompradoresVendedores();
   }
 
   //Se ejecuta luego de que se hayan cargado todos los componentes
@@ -90,9 +89,52 @@ export class MovimientoFormComponent implements OnInit {
 
   }
 
+  private async cargarDatosMovimiento() {
+    try {
+      //Carga datos de movimiento en caso en modo editar
+      let movimientoDetalleDTO: MovimientoDetalleDTO = this._ruta.snapshot.data['movimiento'];  //Obtiene el objeto del resolver
+
+      //Si es nuevo
+      if (HelpersService.isNuloOrVacio(movimientoDetalleDTO._id)) {
+        this.cargarDatosEnForm(
+          '0',
+          await this._tiposMovimientoService.cargarPorId(HelpersService.obtenerItemDelStorage('idTipoMovimiento')), //Await sirve para esperar hasta que retorne el llamado para continuar la ejecucion);
+          await this._monedasService.cargarPorId(MonedaEnum.GUARANI),
+          new Entidad(),
+          FechaHelpersService.getFechaHoraActualLDT(),
+          this._loginService.loginSesionActual.departamento,
+          new Entidad(),
+          '',
+          Situacion.ACTIVO,
+          [],
+          FormaPago.EFECTIVO
+        )
+      }
+      else { //Is Editar
+        this.cargarDatosEnForm(
+          movimientoDetalleDTO._id,
+          movimientoDetalleDTO.tipo,
+          movimientoDetalleDTO.moneda,
+          movimientoDetalleDTO.entidad,
+          movimientoDetalleDTO.fechaEmision,
+          movimientoDetalleDTO.departamento,
+          movimientoDetalleDTO.compradorVendedor,
+          movimientoDetalleDTO.observacion,
+          movimientoDetalleDTO.situacion,
+          movimientoDetalleDTO.items,
+          movimientoDetalleDTO.formaPago
+        )
+      }
+
+      this.listarFiltrarCompradoresVendedores();
+    }
+    catch (error) {
+      throw error;
+    }
+  }
+
   public onGuardar() {
 
-    console.log(this.movimientoDetalleDTO);
     if (this.isCamposValidos()) { //Verifica los validators de cada campo del form
       this._movimientosService.guardar(this.formMovimientoDetalle.getRawValue())
         .subscribe({
@@ -106,7 +148,7 @@ export class MovimientoFormComponent implements OnInit {
   }
 
   private isCamposValidos(): boolean {
-    let isValido: boolean = false;
+    let isValido: boolean = true;
     let mensaje: string = '';
 
     if (HelpersService.isNuloOrVacio(this.monedaSelect.value._id)) {
@@ -116,7 +158,6 @@ export class MovimientoFormComponent implements OnInit {
       setTimeout(() => { this.monedaSelect.focus(); }, 100);
     }
     else if (HelpersService.isNuloOrVacio(this.entidadInputAC.nativeElement.value)) {
-
       mensaje = "Seleccione una entidad!"
       isValido = false;
       this.moverseDeTab(this.INDEX_TAB_DATOS_INICIALES);
@@ -268,66 +309,34 @@ export class MovimientoFormComponent implements OnInit {
     });
   }
 
-  private async cargarDatosMovimiento() {
-    //Carga datos de movimiento en caso en modo editar
-    this.movimientoDetalleDTO = this._ruta.snapshot.data['movimiento'];  //Obtiene el objeto del resolver
+  private cargarDatosEnForm(id: string, tipo: TipoMovimiento, moneda: Moneda, entidad: Entidad,
+    fechaEmision: LocalDateTime | null, departamento: Departamento, compradorVendedor: Entidad,
+    observacion: string, situacion: Situacion | null, items: ItemMovimiento[], formaPago: FormaPago | null) {
 
-    //Si es nuevo
-    if (HelpersService.isNuloOrVacio(this.movimientoDetalleDTO._id)) {
-      this.movimientoDetalleDTO = new MovimientoDetalleDTO();
-
-      this.movimientoDetalleDTO._id = '0';
-      this.movimientoDetalleDTO.tipo = await this._tiposMovimientoService.cargarPorId(HelpersService.obtenerItemDelStorage('idTipoMovimiento')); //Await sirve para esperar hasta que retorne el llamado para continuar la ejecucion
-      this.movimientoDetalleDTO.moneda = await this._monedasService.cargarPorId(MonedaEnum.GUARANI);
-      this.movimientoDetalleDTO.fechaEmision = FechaHelpersService.getFechaHoraActualLDT();
-      this.movimientoDetalleDTO.situacion = Situacion.ACTIVO;
-      this.movimientoDetalleDTO.departamento = this._loginService.loginSesionActual.departamento;
-      this.movimientoDetalleDTO.formaPago = FormaPago.EFECTIVO;
-    }
-
-    this.cargarDatosObjectEnForm();
-
-  }
-
-  public agregarItemALista(item: ItemMovimiento) {
-    this.movimientoDetalleDTO.items.push(item);
-    (this.formMovimientoDetalle.get('items') as FormArray).push(this._movimientosService.crearItemFormGroup(item));
-  }
-
-  public cargarDatosObjectEnForm() {
-    this.formMovimientoDetalle.setValue({
-      _id: this.movimientoDetalleDTO._id,
-      tipo: this.movimientoDetalleDTO.tipo,
-      moneda: this.movimientoDetalleDTO.moneda,
-      entidad: this.movimientoDetalleDTO.entidad,
-      fechaEmision: this.movimientoDetalleDTO.fechaEmision,
-      departamento: this.movimientoDetalleDTO.departamento,
-      compradorVendedor: this.movimientoDetalleDTO.compradorVendedor,
-      observacion: this.movimientoDetalleDTO.observacion,
-      situacion: this.movimientoDetalleDTO.situacion,
-      items: this.movimientoDetalleDTO.items,
-      formaPago: this.movimientoDetalleDTO.formaPago
+    this.formMovimientoDetalle.patchValue({
+      _id: id,
+      tipo: tipo,
+      moneda: moneda,
+      entidad: entidad,
+      fechaEmision: fechaEmision,
+      departamento: departamento,
+      compradorVendedor: compradorVendedor,
+      observacion: observacion,
+      situacion: situacion,
+      formaPago: formaPago
     });
 
-  }
-
-  public cargarDatosFormEnObject() {
-    this.movimientoDetalleDTO.tipo = this.formMovimientoDetalle.get('tipo')?.value;
-    this.movimientoDetalleDTO.moneda = this.formMovimientoDetalle.get('moneda')?.value;
-    this.movimientoDetalleDTO.entidad = this.formMovimientoDetalle.get('entidad')?.value;
-    this.movimientoDetalleDTO.fechaEmision = this.formMovimientoDetalle.get('fechaEmision')?.value;
-    this.movimientoDetalleDTO.departamento = this.formMovimientoDetalle.get('departamento')?.value;
-    this.movimientoDetalleDTO.compradorVendedor = this.formMovimientoDetalle.get('compradorVendedor')?.value;
-    this.movimientoDetalleDTO.observacion = this.formMovimientoDetalle.get('observacion')?.value;
-    this.movimientoDetalleDTO.situacion = this.formMovimientoDetalle.get('situacion')?.value;
-    this.movimientoDetalleDTO.formaPago = this.formMovimientoDetalle.get('formaPago')?.value;
-  }
-
-  tabChange(changeEvent: MatTabChangeEvent) {
-    if (changeEvent.index == this.INDEX_TAB_MERCADERIAS) {
-      this.cargarDatosFormEnObject();
-      this.listaItemsComponent.movimiento = this.movimientoDetalleDTO;
+    //Se setea el array por separado para evitar error
+    for (let item of items) {
+      this.addItem(item);
     }
+
+
+  }
+
+  private addItem(item: ItemMovimiento) {
+    (this.formMovimientoDetalle.get('items') as FormArray)
+            .push(this._movimientosService.crearItemFormGroup(item));
   }
 
 }

@@ -33,7 +33,6 @@ export class TiposMovimientoService {
       return respuesta;
 
     } catch (error) {
-      //console.error(error);
       throw error; // Relanzar el error para que pueda ser manejado en un nivel superior
     }
   }

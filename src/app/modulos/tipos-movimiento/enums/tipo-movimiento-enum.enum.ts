@@ -1,22 +1,22 @@
-export enum TipoMovimiento {
+export enum TipoMovimientoEnum {
   COMPRA_NORMAL = "1",
   VENTA_NORMAL = "2"
 }
 
 export class TipoMovimientoUtils {
-  public static getDescripcion(tipoMovimiento: TipoMovimiento): string {
+  public static getDescripcion(tipoMovimiento: TipoMovimientoEnum): string {
     switch (tipoMovimiento) {
-      case TipoMovimiento.COMPRA_NORMAL:
+      case TipoMovimientoEnum.COMPRA_NORMAL:
         return "COMPRA NORMAL";
-      case TipoMovimiento.VENTA_NORMAL:
+      case TipoMovimientoEnum.VENTA_NORMAL:
         return "VENTA NORMAL";
       default:
         return `Valor no reconocido: ${tipoMovimiento}`;
     }
   }
 
-  public static getTipoMovimientoPorDescripcion(descripcion: string): TipoMovimiento | string {
-    const tiposMovimiento = Object.values(TipoMovimiento);
+  public static getTipoMovimientoPorDescripcion(descripcion: string): TipoMovimientoEnum | string {
+    const tiposMovimiento = Object.values(TipoMovimientoEnum);
 
     for (let i in tiposMovimiento) {
       if (this.getDescripcion(tiposMovimiento[i]) == descripcion) {

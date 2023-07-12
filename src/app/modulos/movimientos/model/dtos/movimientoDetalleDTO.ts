@@ -9,7 +9,7 @@ import { ItemMovimiento } from './../item-movimiento';
 import { FormaPago } from '../../enums/formaPago.enum';
 
 export class MovimientoDetalleDTO {
-  _id: string | null = null; //Valor por defecto
+  _id: string = ''; //Valor por defecto
   tipo: TipoMovimiento = new TipoMovimiento();
   moneda: Moneda = new Moneda();
   entidad: Entidad = new Entidad();

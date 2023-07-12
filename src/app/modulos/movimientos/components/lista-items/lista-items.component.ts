@@ -1,12 +1,11 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { FormGroup, NonNullableFormBuilder } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { FormArray, FormGroup } from '@angular/forms';
 import { MatTable } from '@angular/material/table';
 import { map, Observable, startWith } from 'rxjs';
 import { AvisoHelpersService } from 'src/app/compartido/services/aviso-helpers.service';
 import { Mercaderia } from 'src/app/modulos/mercaderias/model/mercaderia';
 import { MercaderiasService } from 'src/app/modulos/mercaderias/services/mercaderias.service';
 import { ItemMovimiento } from '../../model/item-movimiento';
-import { Movimiento } from '../../model/movimiento';
 import { ModoEdicion } from '../../../../compartido/enums/modoEdicion.enum';
 import { HelpersService } from '../../../../compartido/services/helpers.service';
 import { MovimientosService } from '../../services/movimientos.service';
@@ -19,14 +18,12 @@ import { MovimientosService } from '../../services/movimientos.service';
 })
 export class ListaItemsComponent implements OnInit {
 
-  @Input() movimiento: Movimiento = new Movimiento(); //Se recibe el movimiento
+  @Input() movimientoFormGroup: FormGroup = this._movimientosService.crearMovimientoFormGroup();
   @Input() modoEdicion!: string;
-  @Output() itemToAgregarEvent: EventEmitter<ItemMovimiento> = new EventEmitter<ItemMovimiento>();;  //Sirve para emitir el nuevo item y agregar a la lista desde el movimiento form
 
-  @ViewChild('tablaItems') tablaItems!: MatTable<any>; //ViewChild sirve para acceder a un elemento del html
+  @ViewChild('itemsTable') itemsTable!: MatTable<any>; //ViewChild sirve para acceder a un elemento del html
 
   protected formItemToAgregar: FormGroup = this._movimientosService.crearItemFormGroup();
-
   protected listaMercaderias: Mercaderia[] = [];
   protected listaMercaderiasFiltrado$: Observable<Mercaderia[]> | undefined;
   protected columnasAMostrarItems: string[] = ['_id', 'descripcion', 'cantidad', 'valorUnitario'];
@@ -101,7 +98,9 @@ export class ListaItemsComponent implements OnInit {
     nuevoItem.valorUnitario = this.formItemToAgregar.get('valorUnitario')?.value;
 
     if (this.verificarValidaciones() && this.validarItem(nuevoItem)) {
-      this.itemToAgregarEvent.emit(nuevoItem); //Enviamos el nuevo item por el evento output
+
+      (this.movimientoFormGroup.get('items') as FormArray).push(this._movimientosService.crearItemFormGroup(nuevoItem));
+
       this.limpiarCamposItemAgregar();
       this.refrescarTablaItems();
     }
@@ -109,14 +108,14 @@ export class ListaItemsComponent implements OnInit {
   }
 
   private refrescarTablaItems() {
-    this.tablaItems.renderRows();
+    this.itemsTable.renderRows();
   }
 
   private verificarValidaciones(): boolean {
     let isValido: boolean = true;
     let mensaje: string = '';
 
-    if (HelpersService.isNuloOrVacio(this.movimiento.moneda._id)) {
+    if (HelpersService.isNuloOrVacio(this.movimientoFormGroup.get('moneda')?.value._id)) {
       mensaje = 'Seleccione la moneda del movimiento!';
       isValido = false;
     }
