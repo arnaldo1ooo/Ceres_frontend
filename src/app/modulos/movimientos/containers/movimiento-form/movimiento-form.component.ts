@@ -229,6 +229,7 @@ export class MovimientoFormComponent implements OnInit {
 
       case ModoEdicion.MODO_EDITAR:
         this.formMovimientoDetalle.get('situacion')?.disable();
+        this.formMovimientoDetalle.get('fechaEmision')?.disable();
         break;
 
       case ModoEdicion.MODO_VISUALIZAR:

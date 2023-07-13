@@ -59,9 +59,9 @@
               <mat-grid-tile>
                 <mat-form-field appearance="outline" class="style-campos">
                   <mat-label>{{ "titulos.fecha-emision" | transloco }}</mat-label>
-                  <input #fechaEmisionInput formControlName="fechaEmision" matInput
-                    readonly="true"
-                    [value]="formMovimientoDetalle.get('fechaEmision')?.value | date:'dd/MM/yyyy HH:mm:ss'">
+                  <input #fechaEmisionInput formControlName="fechaEmision" type="datetime-local" matInput
+                    readonly="false"
+                    [value]="formMovimientoDetalle.get('fechaEmision')?.value | date:'yyyy-MM-ddTHH:mm:ss'">
                 </mat-form-field>
               </mat-grid-tile>
 
