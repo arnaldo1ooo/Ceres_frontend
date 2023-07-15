@@ -13,6 +13,7 @@ import { Sucursal } from 'src/app/modulos/sucursales/model/sucursal';
 import { SucursalesService } from 'src/app/modulos/sucursales/services/sucursales.service';
 import { Departamento } from '../../../../departamentos/model/departamento';
 import { AvisoHelpersService } from '../../../../../compartido/services/aviso-helpers.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-login-form',
@@ -42,13 +43,19 @@ export class LoginFormComponent implements OnInit {
 
   login() {
     if (this.isCamposValidos()) {
-      this._loginService.loginSesionActual = this.credenciales;
-
       this._loginService.login(this.credenciales)
-        .subscribe(response => {
-          this._ruta.navigate(['/home']);  //Caso se acepte las credenciales, se redirige al home
-        },
-          error => {
+        .pipe(
+          finalize(() => {
+            this._loginService.loginSesionActual = this.credenciales; //Salvamos login actual
+            this._loginService.loginSesionActual.contrasena = ''; // Removemos la contraseña por seguridad
+          })
+        )
+        .subscribe({
+          next: (response) => {
+            this._ruta.navigate(['/home']); // Manejar respuesta exitosa - redirigir al home
+          },
+          error: (error) => {
+            // Manejar error
             if (error.status === COD_ERROR_DATOS_INVALIDOS) {
               this.onError(this._translocoService.translate('errores.error-login-incorrecto'));
             } else if (error.status === COD_ERROR_CONEXION) {
@@ -56,8 +63,8 @@ export class LoginFormComponent implements OnInit {
             } else {
               this.onError(this._translocoService.translate('errores.error-login'));
             }
-          }
-        )
+          },
+        });
     }
   }
 
