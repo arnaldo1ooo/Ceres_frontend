@@ -28,7 +28,7 @@ import { Departamento } from '../../departamentos/model/departamento';
 import { Situacion } from '../../../compartido/enums/situacion.enum';
 import { FormaPago } from '../enums/formaPago.enum';
 import { Mercaderia } from '../../mercaderias/model/mercaderia';
-import { CuentaContableMovimientoDTO } from '../model/dtos/cuentaContableMovimientoDTO';
+import { MovimientoCuentaContable } from '../model/movimientoCuentaContable';
 import { CuentaContableDTO } from '../model/dtos/cuentaContableDTO';
 
 @Injectable({
@@ -131,6 +131,7 @@ export class MovimientosService {
       situacion: new FormControl<Situacion | null> (null, Validators.required),
       items: this._formBuilder.array ([], Validators.required),
       formaPago: new FormControl<FormaPago | null> (null, Validators.required),
+      movimientoCuentasContables: this._formBuilder.array ([], Validators.required),
     })
   }
 
@@ -145,12 +146,11 @@ export class MovimientosService {
     });
   }
 
-  public crearCuentaContableFormGroup(cuentaContableMovimientoDTO: CuentaContableMovimientoDTO = new CuentaContableMovimientoDTO()): FormGroup {
+  public crearMovimientoCuentaFormGroup(movimientoCuentaContable: MovimientoCuentaContable = new MovimientoCuentaContable()): FormGroup {
     return this._formBuilder.group({
-      _id: new FormControl<string> (cuentaContableMovimientoDTO._id),
-      cuentaContable: new FormControl<CuentaContableDTO | null> (cuentaContableMovimientoDTO.cuentaContableDTO),
-      movimiento: new FormControl<Movimiento | null> (cuentaContableMovimientoDTO.movimiento),
-      valor: new FormControl<number> (cuentaContableMovimientoDTO.valor)
+      movimiento: new FormControl<Movimiento | null> (movimientoCuentaContable._id.movimiento),
+      cuentaContable: new FormControl<CuentaContableDTO | null> (movimientoCuentaContable._id.cuentaContable),
+      valor: new FormControl<number> (movimientoCuentaContable.valor)
     });
   }
 

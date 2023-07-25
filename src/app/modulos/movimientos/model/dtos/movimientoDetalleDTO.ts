@@ -1,3 +1,4 @@
+import { MovimientoCuentaContable } from './../movimientoCuentaContable';
 import { LocalDateTime } from '@js-joda/core';
 import { Moneda } from 'src/app/modulos/monedas/models/moneda';
 
@@ -20,6 +21,7 @@ export class MovimientoDetalleDTO {
   situacion: Situacion | null = null;
   items: ItemMovimiento[] = [];
   formaPago: FormaPago | null = null;
+  movimientoCuentasContables: MovimientoCuentaContable[] = [];
 
 
   constructor() {

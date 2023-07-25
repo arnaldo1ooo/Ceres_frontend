@@ -1,30 +1,66 @@
 <div class="ui-container-principal">
-<form [formGroup]="formCuentaContableToAgregar">
 
-    <mat-form-field appearance="outline" [ngClass]="['style-campo-global']">
-      <mat-label>{{ "titulos.cuenta-contable" | transloco }}</mat-label>
-      <input #cuentaContableInputAC formControlName="cuentaContable" type="text" matInput
-        [matAutocomplete]="cuentaContableAutocomplete">
-      <mat-icon matSuffix>search</mat-icon>
+  <form [formGroup]="formMovimientoCuentaToAgregar">
+    <div class="ui-contenedor-agregar-mov-cuenta">
+      <mat-form-field appearance="outline" [ngClass]="['style-campo-global']">
+        <mat-label>{{ "titulos.cuenta-contable" | transloco }}</mat-label>
+        <input #cuentaContableInputAC formControlName="cuentaContable" type="text" matInput
+          [matAutocomplete]="cuentaContableAutocomplete">
+        <mat-icon matSuffix>search</mat-icon>
 
-      <mat-autocomplete #cuentaContableAutocomplete="matAutocomplete" [displayWith]="displayCuentaContable">
-        <mat-option *ngFor="let cuentaContable of listaCuentasContablesFiltrado$ | async" [value]="cuentaContable">
-          {{cuentaContable._id + " - " + cuentaContable.nombre}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+        <mat-autocomplete #cuentaContableAutocomplete="matAutocomplete" [displayWith]="displayCuentaContable">
+          <mat-option *ngFor="let cuentaContable of listaCuentasContablesFiltrado$ | async" [value]="cuentaContable">
+            {{cuentaContable._id + " - " + cuentaContable.nombre}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
 
-    <mat-form-field appearance="outline" [ngClass]="['style-campo-global']">
-      <mat-label>{{ "titulos.valor" | transloco }}</mat-label>
-      <input #valorInput formControlName="valor" type="number" matInput>
-    </mat-form-field>
+      <mat-form-field appearance="outline" [ngClass]="['style-campo-global']">
+        <mat-label>{{ "titulos.valor" | transloco }}</mat-label>
+        <input #valorInput formControlName="valor" type="number" matInput>
+      </mat-form-field>
 
-    <button #agregarCuentaContableButton mat-raised-button color="primary" [ngClass]="['style-campo-global']"
-    (click)="agregarCuentaContable()" [disabled]="formCuentaContableToAgregar.disabled">
-    {{ "botones.agregar" | transloco }}
-  </button>
+      <button #agregarCuentaContableButton mat-raised-button color="primary"
+        [ngClass]="['style-campo-global', 'ui-boton-agregar']" (click)="agregarCuentaContable()"
+        [disabled]="formMovimientoCuentaToAgregar.disabled">
+        {{ "botones.agregar" | transloco }}
+      </button>
+    </div>
+  </form>
 
 
-</form>
+  <form [formGroup]="movimientoFormGroup">
+    <div class="ui-contenedor-tabla-mov-cuentas">
+      <mat-table #movCuentasContablesTable [dataSource]="movimientoFormGroup.get('movimientoCuentasContables')?.value">
+        <!--Columna Cuenta Contable-->
+        <ng-container matColumnDef="_id">
+          <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Cuenta Contable</mat-header-cell>
+          <mat-cell *matCellDef="let movimientoCuentaContable" [ngClass]="'centrar-texto-global'">
+            {{ movimientoCuentaContable.cuentaContable._id + ' - ' + movimientoCuentaContable.cuentaContable.nombre }}
+          </mat-cell>
+        </ng-container>
+
+        <!--Columna Valor-->
+        <ng-container matColumnDef="valor">
+          <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Valor de la Cuenta</mat-header-cell>
+          <mat-cell *matCellDef="let movimientoCuentaContable" [ngClass]="'centrar-texto-global'">
+            {{ movimientoCuentaContable.valor | currency:movimientoFormGroup.get('moneda')?.value.simbolo != null
+                                      ? movimientoFormGroup.get('moneda')?.value.simbolo : 'Gs' : 'symbol'
+                                      : '1.0' + '-' + movimientoFormGroup.get('moneda')?.value.cantidadDecimales }}
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="columnasAMostrarItems"></mat-header-row> <!-- Filas de encabezado -->
+        <mat-row *matRowDef="let row; columns: columnasAMostrarItems;"></mat-row> <!-- Filas de datos -->
+      </mat-table>
+
+
+      <!--Muestra en caso de tabla vacia-->
+    <div *ngIf="movimientoFormGroup.get('movimientoCuentasContables')?.value.length == 0" [ngClass]="'label-tabla-vacia-global'">
+      <mat-label>{{'sin-registros' | transloco}}</mat-label>
+    </div>
+    </div>
+
+  </form>
 
 </div>

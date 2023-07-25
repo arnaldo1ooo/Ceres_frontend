@@ -5,6 +5,7 @@ import { Moneda } from '../../monedas/models/moneda';
 import { TipoMovimiento } from '../../tipos-movimiento/models/tipo-movimiento';
 import { ItemMovimiento } from './itemMovimiento';
 import { LocalDateTime } from '@js-joda/core';
+import { MovimientoCuentaContable } from './movimientoCuentaContable';
 
 export class Movimiento {
   _id: string | null = null;
@@ -17,6 +18,7 @@ export class Movimiento {
   observacion: string | null = null;
   situacion: Situacion | null = null;
   items: ItemMovimiento[] = [];
+  movimientoCuentasContables: MovimientoCuentaContable[] = [];
 
   constructor() {
 
