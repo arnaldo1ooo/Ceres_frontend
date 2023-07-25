@@ -15,6 +15,7 @@ export const API_URL_TIPOS_MOVIMIENTO = API_URL + API_NOMBRE + '/tipos-movimient
 export const API_URL_MOVIMIENTOS = API_URL + API_NOMBRE + '/movimientos';
 export const API_URL_MONEDAS = API_URL + API_NOMBRE + '/monedas';
 export const API_URL_ENTIDADES = API_URL + API_NOMBRE + '/entidades';
+export const API_URL_CUENTAS_CONTABLES = API_URL + API_NOMBRE + '/cuentasContables';
 
 export const DEFAULT_PAGE_TAMANHO = 10;
 export const DEFAULT_PAGE_TAMANHOS = [10, 20, 50];

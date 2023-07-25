@@ -5,7 +5,7 @@ import { Situacion } from '../../../../compartido/enums/situacion.enum';
 import { TipoMovimiento } from '../../../tipos-movimiento/models/tipo-movimiento';
 import { Departamento } from './../../../departamentos/model/departamento';
 import { Entidad } from './../../../entidades/models/entidad';
-import { ItemMovimiento } from './../item-movimiento';
+import { ItemMovimiento } from '../itemMovimiento';
 import { FormaPago } from '../../enums/formaPago.enum';
 
 export class MovimientoDetalleDTO {

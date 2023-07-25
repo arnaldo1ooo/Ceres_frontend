@@ -1,4 +1,4 @@
-import { Mercaderia } from './../../mercaderias/model/mercaderia';
+import { Mercaderia } from '../../mercaderias/model/mercaderia';
 import { Movimiento } from './movimiento';
 
 export class ItemMovimiento {

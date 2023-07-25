@@ -20,7 +20,7 @@ import {
 import { FechaHelpersService } from './../../../compartido/services/fecha-helpers.service';
 import { MovimientoListaDTO, Page } from './../model/dtos/movimientoListaDTO';
 import { FormGroup, NonNullableFormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
-import { ItemMovimiento } from '../model/item-movimiento';
+import { ItemMovimiento } from '../model/itemMovimiento';
 import { TipoMovimientoEnum } from '../../tipos-movimiento/enums/tipo-movimiento-enum.enum';
 import { Moneda } from '../../monedas/models/moneda';
 import { Entidad } from '../../entidades/models/entidad';
@@ -28,6 +28,8 @@ import { Departamento } from '../../departamentos/model/departamento';
 import { Situacion } from '../../../compartido/enums/situacion.enum';
 import { FormaPago } from '../enums/formaPago.enum';
 import { Mercaderia } from '../../mercaderias/model/mercaderia';
+import { CuentaContableMovimientoDTO } from '../model/dtos/cuentaContableMovimientoDTO';
+import { CuentaContableDTO } from '../model/dtos/cuentaContableDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -140,6 +142,15 @@ export class MovimientosService {
       cantidad: new FormControl<number> (itemMovimiento.cantidad),
       valorUnitario: new FormControl<number> (itemMovimiento.valorUnitario),
       observacion: new FormControl<string | null> (itemMovimiento.observacion)
+    });
+  }
+
+  public crearCuentaContableFormGroup(cuentaContableMovimientoDTO: CuentaContableMovimientoDTO = new CuentaContableMovimientoDTO()): FormGroup {
+    return this._formBuilder.group({
+      _id: new FormControl<string> (cuentaContableMovimientoDTO._id),
+      cuentaContable: new FormControl<CuentaContableDTO | null> (cuentaContableMovimientoDTO.cuentaContableDTO),
+      movimiento: new FormControl<Movimiento | null> (cuentaContableMovimientoDTO.movimiento),
+      valor: new FormControl<number> (cuentaContableMovimientoDTO.valor)
     });
   }
 

@@ -1,0 +1,30 @@
+<div class="ui-container-principal">
+<form [formGroup]="formCuentaContableToAgregar">
+
+    <mat-form-field appearance="outline" [ngClass]="['style-campo-global']">
+      <mat-label>{{ "titulos.cuenta-contable" | transloco }}</mat-label>
+      <input #cuentaContableInputAC formControlName="cuentaContable" type="text" matInput
+        [matAutocomplete]="cuentaContableAutocomplete">
+      <mat-icon matSuffix>search</mat-icon>
+
+      <mat-autocomplete #cuentaContableAutocomplete="matAutocomplete" [displayWith]="displayCuentaContable">
+        <mat-option *ngFor="let cuentaContable of listaCuentasContablesFiltrado$ | async" [value]="cuentaContable">
+          {{cuentaContable._id + " - " + cuentaContable.nombre}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" [ngClass]="['style-campo-global']">
+      <mat-label>{{ "titulos.valor" | transloco }}</mat-label>
+      <input #valorInput formControlName="valor" type="number" matInput>
+    </mat-form-field>
+
+    <button #agregarCuentaContableButton mat-raised-button color="primary" [ngClass]="['style-campo-global']"
+    (click)="agregarCuentaContable()" [disabled]="formCuentaContableToAgregar.disabled">
+    {{ "botones.agregar" | transloco }}
+  </button>
+
+
+</form>
+
+</div>

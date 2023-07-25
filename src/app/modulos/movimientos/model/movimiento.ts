@@ -3,7 +3,7 @@ import { Situacion } from '../../../compartido/enums/situacion.enum';
 import { Departamento } from '../../departamentos/model/departamento';
 import { Moneda } from '../../monedas/models/moneda';
 import { TipoMovimiento } from '../../tipos-movimiento/models/tipo-movimiento';
-import { ItemMovimiento } from './item-movimiento';
+import { ItemMovimiento } from './itemMovimiento';
 import { LocalDateTime } from '@js-joda/core';
 
 export class Movimiento {

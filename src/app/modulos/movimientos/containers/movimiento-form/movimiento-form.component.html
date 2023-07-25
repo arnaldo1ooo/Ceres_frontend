@@ -159,9 +159,20 @@
 
         <!-----------------------------------------------------FINANCIERO----------------------------------------------------->
         <mat-tab label="{{ 'titulos.financiero' | transloco | uppercase }}">
-          <div>
-            Content 3
-          </div>
+
+          <mat-tab-group #financieroTabGroup class="ui-tab-group-financiero">
+
+            <mat-tab label="{{ 'titulos.al-contado' | transloco | uppercase }}">
+              <app-lista-financiero></app-lista-financiero>
+            </mat-tab>
+
+            <mat-tab>
+            </mat-tab>
+
+            <mat-tab>
+            </mat-tab>
+
+          </mat-tab-group>
         </mat-tab>
       </mat-tab-group>
     </form>

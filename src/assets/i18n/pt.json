@@ -53,7 +53,10 @@
       "datos-iniciales": "Dados iniciais",
       "mercaderias": "Mercadorías",
       "financiero": "Financeiro",
-      "id": "Id"
+      "id": "Id",
+      "al-contado": "A vista",
+      "cuenta-contable": "Conta contável",
+      "valor": "Valor"
     },
 
     "botones": {

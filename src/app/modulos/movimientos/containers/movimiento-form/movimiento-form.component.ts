@@ -21,7 +21,7 @@ import { AvisoHelpersService } from './../../../../compartido/services/aviso-hel
 import { FechaHelpersService } from './../../../../compartido/services/fecha-helpers.service';
 import { ClaseEntidad } from './../../../entidades/enums/clase-entidad.enum';
 import { Entidad } from './../../../entidades/models/entidad';
-import { ItemMovimiento } from '../../model/item-movimiento';
+import { ItemMovimiento } from '../../model/itemMovimiento';
 import { FormaPago } from '../../enums/formaPago.enum';
 import { MatTabGroup } from '@angular/material/tabs';
 import { ListaItemsComponent } from '../../components/lista-items/lista-items.component';

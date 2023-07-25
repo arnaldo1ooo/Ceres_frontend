@@ -5,7 +5,7 @@ import { map, Observable, startWith } from 'rxjs';
 import { AvisoHelpersService } from 'src/app/compartido/services/aviso-helpers.service';
 import { Mercaderia } from 'src/app/modulos/mercaderias/model/mercaderia';
 import { MercaderiasService } from 'src/app/modulos/mercaderias/services/mercaderias.service';
-import { ItemMovimiento } from '../../model/item-movimiento';
+import { ItemMovimiento } from '../../model/itemMovimiento';
 import { ModoEdicion } from '../../../../compartido/enums/modoEdicion.enum';
 import { HelpersService } from '../../../../compartido/services/helpers.service';
 import { MovimientosService } from '../../services/movimientos.service';
@@ -37,7 +37,6 @@ export class ListaItemsComponent implements OnInit {
 
   ngOnInit(): void {
     this.listarFiltrarMercaderias();
-    this.formItemToAgregar;
     this.verificarModoEdicion();
   }
 
