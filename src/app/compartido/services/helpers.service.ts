@@ -90,6 +90,22 @@ export class HelpersService {
     return path.includes('nuevo');
   }
 
+  public static isMayorACero(valor: number): boolean {
+    return valor > 0;
+  }
+
+  public static isMayorIgualACero(valor: number): boolean {
+    return valor > 0 || valor == 0;
+  }
+
+  public static isMenorACero(valor: number): boolean {
+    return valor < 0;
+  }
+
+  public static isMenorIgualACero(valor: number): boolean {
+    return valor < 0 || valor == 0;
+  }
+
   public static urlDistintoALogin(url: any): boolean {
     return url != null && !url.includes('login');
   }
