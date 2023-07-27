@@ -342,12 +342,20 @@ export class MovimientoFormComponent implements OnInit {
       this.addItem(item);
     }
 
+    for (let movCuentaContable of movCuentasContables) {
+      this.addMovCuentaContable(movCuentaContable);
+    }
 
   }
 
   private addItem(item: ItemMovimiento) {
     (this.formMovimientoDetalle.get('items') as FormArray)
             .push(this._movimientosService.crearItemFormGroup(item));
+  }
+
+  private addMovCuentaContable(movCuentaContable: MovimientoCuentaContable) {
+    (this.formMovimientoDetalle.get('movimientoCuentasContables') as FormArray)
+            .push(this._movimientosService.crearMovimientoCuentaFormGroup(movCuentaContable));
   }
 
 }

@@ -112,6 +112,10 @@ export class ListaFinancieroComponent {
       mensaje = 'Seleccione la moneda del movimiento!';
       isValido = false;
     }
+    else if (this.movimientoFormGroup.get('items')?.value.length <= 0) {
+      mensaje = 'Agregue al menos una mercadería!';
+      isValido = false;
+    }
 
     if (!isValido) {
       this._avisoHelpersService.mostrarMensaje(mensaje, '', 4000);
