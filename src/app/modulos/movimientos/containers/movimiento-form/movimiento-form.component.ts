@@ -29,6 +29,7 @@ import { MovimientosService } from '../../services/movimientos.service';
 import { LoginService } from '../../../login/services/login.service';
 import { MatSelect } from '@angular/material/select';
 import { LocalDateTime } from '@js-joda/core';
+import { MovimientoCuentaContable } from '../../model/movimientoCuentaContable';
 
 @Component({
   selector: 'app-movimiento-form',
@@ -51,7 +52,7 @@ export class MovimientoFormComponent implements OnInit {
 
   public INDEX_TAB_DATOS_INICIALES = 0;
   public INDEX_TAB_MERCADERIAS = 1;
-
+  public INDEX_TAB_FINANCIERO = 2;
 
   @ViewChild('movimientoTabGroup') movimientoTabGroup!: MatTabGroup;
   @ViewChild('monedaSelect') monedaSelect!: MatSelect;
@@ -107,7 +108,8 @@ export class MovimientoFormComponent implements OnInit {
           '',
           Situacion.ACTIVO,
           [],
-          FormaPago.EFECTIVO
+          FormaPago.EFECTIVO,
+          []
         )
       }
       else { //Is Editar
@@ -122,7 +124,8 @@ export class MovimientoFormComponent implements OnInit {
           movimientoDetalleDTO.observacion,
           movimientoDetalleDTO.situacion,
           movimientoDetalleDTO.items,
-          movimientoDetalleDTO.formaPago
+          movimientoDetalleDTO.formaPago,
+          movimientoDetalleDTO.movimientoCuentasContables
         )
       }
 
@@ -185,6 +188,11 @@ export class MovimientoFormComponent implements OnInit {
       mensaje = "Agregue al menos un item!"
       isValido = false;
       this.moverseDeTab(this.INDEX_TAB_MERCADERIAS);
+    }
+    else if (this.formMovimientoDetalle.get('movimientoCuentasContables')?.value.length == 0) {
+      mensaje = "Agregue al menos una cuenta contable en el Financiero!"
+      isValido = false;
+      this.moverseDeTab(this.INDEX_TAB_FINANCIERO);
     }
 
     if (!isValido) {
@@ -312,7 +320,8 @@ export class MovimientoFormComponent implements OnInit {
 
   private cargarDatosEnForm(id: string, tipo: TipoMovimiento, moneda: Moneda, entidad: Entidad,
     fechaEmision: LocalDateTime | null, departamento: Departamento, compradorVendedor: Entidad,
-    observacion: string, situacion: Situacion | null, items: ItemMovimiento[], formaPago: FormaPago | null) {
+    observacion: string, situacion: Situacion | null, items: ItemMovimiento[], formaPago: FormaPago | null,
+    movCuentasContables: MovimientoCuentaContable[]) {
 
     this.formMovimientoDetalle.patchValue({
       _id: id,
@@ -324,7 +333,8 @@ export class MovimientoFormComponent implements OnInit {
       compradorVendedor: compradorVendedor,
       observacion: observacion,
       situacion: situacion,
-      formaPago: formaPago
+      formaPago: formaPago,
+      movCuentasContables: movCuentasContables
     });
 
     //Se setea el array por separado para evitar error

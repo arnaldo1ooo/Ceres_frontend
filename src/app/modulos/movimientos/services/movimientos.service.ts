@@ -19,7 +19,7 @@ import {
 } from './../../../compartido/constantes/constantes';
 import { FechaHelpersService } from './../../../compartido/services/fecha-helpers.service';
 import { MovimientoListaDTO, Page } from './../model/dtos/movimientoListaDTO';
-import { FormGroup, NonNullableFormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
+import { FormGroup, NonNullableFormBuilder, Validators, FormControl } from '@angular/forms';
 import { ItemMovimiento } from '../model/itemMovimiento';
 import { TipoMovimientoEnum } from '../../tipos-movimiento/enums/tipo-movimiento-enum.enum';
 import { Moneda } from '../../monedas/models/moneda';
@@ -124,33 +124,35 @@ export class MovimientosService {
       tipo: new FormControl<TipoMovimientoEnum | null>(null, Validators.required),
       moneda: new FormControl<Moneda | null>(null, Validators.required),
       entidad: new FormControl<Entidad | null>(null, [Validators.required, RequerirAutocomplete]),
-      fechaEmision: new FormControl<LocalDateTime | null> (null, Validators.required),
-      departamento: new FormControl<Departamento | null> (null, Validators.required),
-      compradorVendedor: new FormControl<Entidad | null> (null, Validators.required),
-      observacion: new FormControl<string> (''),
-      situacion: new FormControl<Situacion | null> (null, Validators.required),
-      items: this._formBuilder.array ([], Validators.required),
-      formaPago: new FormControl<FormaPago | null> (null, Validators.required),
-      movimientoCuentasContables: this._formBuilder.array ([], Validators.required),
+      fechaEmision: new FormControl<LocalDateTime | null>(null, Validators.required),
+      departamento: new FormControl<Departamento | null>(null, Validators.required),
+      compradorVendedor: new FormControl<Entidad | null>(null, Validators.required),
+      observacion: new FormControl<string>(''),
+      situacion: new FormControl<Situacion | null>(null, Validators.required),
+      items: this._formBuilder.array([], Validators.required),
+      formaPago: new FormControl<FormaPago | null>(null, Validators.required),
+      movimientoCuentasContables: this._formBuilder.array([], Validators.required),
     })
   }
 
   public crearItemFormGroup(itemMovimiento: ItemMovimiento = new ItemMovimiento()): FormGroup {
     return this._formBuilder.group({
-      _id: new FormControl<string> (itemMovimiento._id),
-      movimiento: new FormControl<Movimiento | null> (itemMovimiento.movimiento),
-      mercaderia: new FormControl<Mercaderia | null> (itemMovimiento.mercaderia),
-      cantidad: new FormControl<number> (itemMovimiento.cantidad),
-      valorUnitario: new FormControl<number> (itemMovimiento.valorUnitario),
-      observacion: new FormControl<string | null> (itemMovimiento.observacion)
+      _id: new FormControl<string>(itemMovimiento._id),
+      movimiento: new FormControl<Movimiento | null>(itemMovimiento.movimiento),
+      mercaderia: new FormControl<Mercaderia | null>(itemMovimiento.mercaderia),
+      cantidad: new FormControl<number>(itemMovimiento.cantidad),
+      valorUnitario: new FormControl<number>(itemMovimiento.valorUnitario),
+      observacion: new FormControl<string | null>(itemMovimiento.observacion)
     });
   }
 
   public crearMovimientoCuentaFormGroup(movimientoCuentaContable: MovimientoCuentaContable = new MovimientoCuentaContable()): FormGroup {
     return this._formBuilder.group({
-      movimiento: new FormControl<Movimiento | null> (movimientoCuentaContable._id.movimiento),
-      cuentaContable: new FormControl<CuentaContableDTO | null> (movimientoCuentaContable._id.cuentaContable),
-      valor: new FormControl<number> (movimientoCuentaContable.valor)
+      _id: this._formBuilder.group({
+        movimiento: new FormControl<Movimiento>(movimientoCuentaContable._id.movimiento),
+        cuentaContable: new FormControl<CuentaContableDTO>(movimientoCuentaContable._id.cuentaContable),
+      }),
+      valor: new FormControl<number>(movimientoCuentaContable.valor)
     });
   }
 

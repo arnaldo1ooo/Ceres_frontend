@@ -51,8 +51,7 @@ export class ListaFinancieroComponent {
 
   public agregarCuentaContable() {
     let nuevoMovCuentaContable: MovimientoCuentaContable = new MovimientoCuentaContable();
-    nuevoMovCuentaContable._id.movimiento = this.formMovimientoCuentaToAgregar.get('movimiento')?.value;
-    nuevoMovCuentaContable._id.cuentaContable = this.formMovimientoCuentaToAgregar.get('cuentaContable')?.value;
+    nuevoMovCuentaContable._id = this.formMovimientoCuentaToAgregar.get('_id')?.value;
     nuevoMovCuentaContable.valor = this.formMovimientoCuentaToAgregar.get('valor')?.value;
 
     if (this.verificarValidaciones() && this.validarMovCuentaContable(nuevoMovCuentaContable)) {
@@ -66,7 +65,7 @@ export class ListaFinancieroComponent {
   }
 
   private listarFiltrarCuentasContables() {
-    let control = this.formMovimientoCuentaToAgregar.get('cuentaContable');
+    let control = this.formMovimientoCuentaToAgregar.get('_id.cuentaContable');
 
     this._cuentasContablesService.listarTodosCuentasContablesActivos().subscribe({
       next: (respuesta: CuentaContableDTO[]) => {

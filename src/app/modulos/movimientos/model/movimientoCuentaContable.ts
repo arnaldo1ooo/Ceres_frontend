@@ -1,10 +1,11 @@
 import { Movimiento } from "./movimiento";
 import { CuentaContableDTO } from './dtos/cuentaContableDTO';
+import { MovimientoDetalleDTO } from './dtos/movimientoDetalleDTO';
 
 
 export class MovimientoCuentaContable {
-  _id: MovimientoCuentaContablePK = new MovimientoCuentaContablePK(new Movimiento(), new CuentaContableDTO);
-  valor: number = 0; // Si el tipo es BigDecimal, se representa como number en TypeScript
+  _id: MovimientoCuentaContablePK = new MovimientoCuentaContablePK(new MovimientoDetalleDTO(), new CuentaContableDTO);
+  valor: number = 0;
 
   constructor() {
 
@@ -12,10 +13,10 @@ export class MovimientoCuentaContable {
 }
 
 export class MovimientoCuentaContablePK {
-  movimiento: Movimiento;
+  movimiento: MovimientoDetalleDTO;
   cuentaContable: CuentaContableDTO;
 
-  constructor(movimiento: Movimiento, cuentaContable: CuentaContableDTO) {
+  constructor(movimiento: MovimientoDetalleDTO, cuentaContable: CuentaContableDTO) {
     this.movimiento = movimiento;
     this.cuentaContable = cuentaContable;
   }
