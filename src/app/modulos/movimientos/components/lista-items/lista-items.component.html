@@ -74,6 +74,17 @@
         </mat-cell>
       </ng-container>
 
+      <!--Columna Subtotal-->
+      <ng-container matColumnDef="subtotal">
+        <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Subtotal
+        </mat-header-cell>
+        <mat-cell *matCellDef="let item" [ngClass]="'centrar-texto-global'">
+          {{ item.cantidad * item.valorUnitario | currency:movimientoFormGroup.get('moneda')?.value.simbolo != null
+                                          ? movimientoFormGroup.get('moneda')?.value.simbolo : 'Gs' : 'symbol'
+                                          : '1.0' + '-' + movimientoFormGroup.get('moneda')?.value.cantidadDecimales }}
+        </mat-cell>
+      </ng-container>
+
       <mat-header-row *matHeaderRowDef="columnasAMostrarItems"></mat-header-row> <!-- Filas de encabezado -->
       <mat-row *matRowDef="let row; columns: columnasAMostrarItems;"></mat-row> <!-- Filas de datos -->
     </mat-table>

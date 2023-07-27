@@ -26,7 +26,7 @@ export class ListaItemsComponent implements OnInit {
   protected formItemToAgregar: FormGroup = this._movimientosService.crearItemFormGroup();
   protected listaMercaderias: Mercaderia[] = [];
   protected listaMercaderiasFiltrado$: Observable<Mercaderia[]> | undefined;
-  protected columnasAMostrarItems: string[] = ['_id', 'descripcion', 'cantidad', 'valorUnitario'];
+  protected columnasAMostrarItems: string[] = ['_id', 'descripcion', 'cantidad', 'valorUnitario', 'subtotal'];
 
   constructor(
     private _avisoHelpersService: AvisoHelpersService,

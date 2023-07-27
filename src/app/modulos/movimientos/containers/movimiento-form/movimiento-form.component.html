@@ -7,7 +7,7 @@
   <mat-card-content>
     <form [formGroup]="formMovimientoDetalle" class="anchura-minima">
 
-      <mat-tab-group #movimientoTabGroup class="style-tab-grupo">
+      <mat-tab-group #movimientoTabGroup class="ui-tab-grupo">
 
         <!-----------------------------------------------------DATOS INICIALES----------------------------------------------------->
         <mat-tab label="{{ 'titulos.datos-iniciales' | transloco | uppercase }}" class="">
@@ -26,8 +26,7 @@
               <mat-grid-tile>
                 <mat-form-field appearance="outline" class="style-campos">
                   <mat-label>{{ "titulos.moneda" | transloco }}</mat-label>
-                  <mat-select #monedaSelect formControlName="moneda"
-                    [compareWith]="compararOpcionesSelect">
+                  <mat-select #monedaSelect formControlName="moneda" [compareWith]="compararOpcionesSelect">
                     <!--[] solicita info, () envia info-->
                     <mat-option disabled selected value="">{{ "seleccion.seleccion-moneda" | transloco }}</mat-option>
                     <mat-option *ngFor="let moneda of listaMonedas" [value]="moneda">
@@ -43,8 +42,8 @@
               <mat-grid-tile>
                 <mat-form-field appearance="outline" class="style-campos">
                   <mat-label>{{ "titulos.entidad" | transloco }}</mat-label>
-                  <input #entidadInputAC type="text" formControlName="entidad"
-                    matInput [matAutocomplete]="entidadAutocomplete">
+                  <input #entidadInputAC type="text" formControlName="entidad" matInput
+                    [matAutocomplete]="entidadAutocomplete">
 
                   <mat-autocomplete #entidadAutocomplete="matAutocomplete" [displayWith]="displayEntidad">
                     <mat-option *ngFor="let entidad of listaEntidadesFiltrado$ | async" [value]="entidad">
@@ -69,8 +68,7 @@
               <mat-grid-tile>
                 <mat-form-field appearance="outline" class="style-campos">
                   <mat-label>{{ "titulos.departamento" | transloco }}</mat-label>
-                  <mat-select #departamentoSelect formControlName="departamento"
-                    [compareWith]="compararOpcionesSelect">
+                  <mat-select #departamentoSelect formControlName="departamento" [compareWith]="compararOpcionesSelect">
                     <mat-option disabled selected value="">{{ "seleccion.seleccion-departamento" | transloco }}
                     </mat-option>
                     <mat-option *ngFor="let departamento of listaDepartamentos" [value]="departamento">
@@ -90,8 +88,8 @@
                     ? ('titulos.comprador' | transloco)
                     : ('titulos.vendedor' | transloco) }}
                   </mat-label>
-                  <input #compradorVendeorInput formControlName="compradorVendedor"
-                  type="text" matInput [matAutocomplete]="compradorVendedorAutocomplete">
+                  <input #compradorVendeorInput formControlName="compradorVendedor" type="text" matInput
+                    [matAutocomplete]="compradorVendedorAutocomplete">
 
                   <mat-autocomplete #compradorVendedorAutocomplete="matAutocomplete" [displayWith]="displayEntidad">
                     <mat-option *ngFor="let compradorVendedor of listaCompradoresVendedoresFiltrado$ | async"
@@ -109,8 +107,9 @@
               <mat-grid-tile class="grid-tile-observacion">
                 <mat-form-field appearance="outline" class="style-campos text-area-observacion">
                   <mat-label>{{ "titulos.observacion" | transloco }}</mat-label>
-                  <textarea #observacionTextArea matInput cdkTextareaAutosize formControlName="observacion" placeholder="Observación"
-                    #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5" cdkAutosizeMaxRows="5">
+                  <textarea #observacionTextArea matInput cdkTextareaAutosize formControlName="observacion"
+                    placeholder="Observación" #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5"
+                    cdkAutosizeMaxRows="5">
                   </textarea>
                 </mat-form-field>
               </mat-grid-tile>
@@ -153,7 +152,8 @@
         <!-----------------------------------------------------MERCADERIAS----------------------------------------------------->
         <mat-tab label="{{ 'titulos.mercaderias' | transloco | uppercase }}">
           <div class="style-contenedor-tab">
-            <app-lista-items [movimientoFormGroup]="formMovimientoDetalle" [modoEdicion]="modoEdicion"></app-lista-items>
+            <app-lista-items [movimientoFormGroup]="formMovimientoDetalle" [modoEdicion]="modoEdicion">
+            </app-lista-items>
           </div>
         </mat-tab>
 
@@ -162,8 +162,10 @@
 
           <mat-tab-group #financieroTabGroup class="ui-tab-group-financiero">
 
-            <mat-tab #alContadoTab label="{{ 'titulos.al-contado' | transloco | uppercase }}" [disabled]='!alContadoTab.isActive'>
-              <app-lista-financiero [movimientoFormGroup]="formMovimientoDetalle" [modoEdicion]="modoEdicion"></app-lista-financiero>
+            <mat-tab #alContadoTab label="{{ 'titulos.al-contado' | transloco | uppercase }}"
+              [disabled]='!alContadoTab.isActive'>
+              <app-lista-financiero [movimientoFormGroup]="formMovimientoDetalle" [modoEdicion]="modoEdicion">
+              </app-lista-financiero>
             </mat-tab>
 
             <mat-tab #bTab [disabled]='!bTab.isActive'>
@@ -179,6 +181,14 @@
 
   </mat-card-content>
 
+  <!-----TOTALES---->
+  <div [ngClass]="['ui-contenedor-totales']">
+    <mat-label [ngClass]="['ui-total']"> <!-- ?? es si es nulo-->
+      Total: {{ totalItems | currency:(formMovimientoDetalle.get('moneda')?.value?.simbolo ?? 'Gs')
+        : 'symbol' : '1.0-' + (formMovimientoDetalle.get('moneda')?.value?.cantidadDecimales ?? '8') }}
+    </mat-label>
+  </div>
+
   <!-----BOTONES----->
   <mat-card-actions class="style-barra-acciones">
     <button id="boton-guardar" mat-raised-button color="primary" (click)="onGuardar()"
@@ -189,4 +199,5 @@
       {{ "botones.cancelar" | transloco }}
     </button>
   </mat-card-actions>
+
 </mat-card>

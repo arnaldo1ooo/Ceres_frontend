@@ -30,6 +30,7 @@ import { LoginService } from '../../../login/services/login.service';
 import { MatSelect } from '@angular/material/select';
 import { LocalDateTime } from '@js-joda/core';
 import { MovimientoCuentaContable } from '../../model/movimientoCuentaContable';
+import { ListaFinancieroComponent } from '../../components/lista-financiero/lista-financiero.component';
 
 @Component({
   selector: 'app-movimiento-form',
@@ -47,6 +48,7 @@ export class MovimientoFormComponent implements OnInit {
   public listaSituaciones = Object.values(Situacion);
   public listaFormasPago = Object.values(FormaPago);
   public modoEdicion: string = this._ruta.snapshot.data['modoEdicion']; //Proviene del routing
+  public totalItems = 0;
 
   public formMovimientoDetalle: FormGroup = this._movimientosService.crearMovimientoFormGroup();
 
@@ -61,7 +63,7 @@ export class MovimientoFormComponent implements OnInit {
   @ViewChild('compradorVendeorInput') compradorVendeorInput!: ElementRef;
   @ViewChild('formaPagoSelect') formaPagoSelect!: MatSelect;
   @ViewChild(ListaItemsComponent) listaItemsComponent!: ListaItemsComponent;
-
+  @ViewChild(ListaFinancieroComponent) listaFinancieroComponent!: ListaFinancieroComponent;
 
   constructor(
     private _location: Location,
@@ -83,11 +85,9 @@ export class MovimientoFormComponent implements OnInit {
     this.listarMonedas();
     this.listarFiltrarEntidades();
     this.listarDepartamentos();
-  }
 
-  //Se ejecuta luego de que se hayan cargado todos los componentes
-  ngAfterViewInit(): void {
-
+    this.actualizarTotalItems(); //Actualiza la primera vez
+    this.itemsChange(); //Actualiza cada vez que cambia items
   }
 
   private async cargarDatosMovimiento() {
@@ -184,7 +184,7 @@ export class MovimientoFormComponent implements OnInit {
       this.moverseDeTab(this.INDEX_TAB_DATOS_INICIALES);
       setTimeout(() => { this.formaPagoSelect.focus(); }, 100);
     }
-    else if (this.formMovimientoDetalle.get('items')?.value.length == 0) {
+    else if (this.formMovimientoDetalle.get('items')?.value?.length == 0) {
       mensaje = "Agregue al menos un item!"
       isValido = false;
       this.moverseDeTab(this.INDEX_TAB_MERCADERIAS);
@@ -350,12 +350,35 @@ export class MovimientoFormComponent implements OnInit {
 
   private addItem(item: ItemMovimiento) {
     (this.formMovimientoDetalle.get('items') as FormArray)
-            .push(this._movimientosService.crearItemFormGroup(item));
+      .push(this._movimientosService.crearItemFormGroup(item));
   }
 
   private addMovCuentaContable(movCuentaContable: MovimientoCuentaContable) {
     (this.formMovimientoDetalle.get('movimientoCuentasContables') as FormArray)
-            .push(this._movimientosService.crearMovimientoCuentaFormGroup(movCuentaContable));
+      .push(this._movimientosService.crearMovimientoCuentaFormGroup(movCuentaContable));
+  }
+
+  private itemsChange() {
+    this.formMovimientoDetalle.get('items')?.valueChanges.subscribe(() => {
+      this.actualizarTotalItems();
+      this.actualizarValorFinanciero();
+    });
+  }
+
+  private actualizarTotalItems() {
+    let items = this.formMovimientoDetalle.get('items') as FormArray;
+    let cantidad;
+    let valorUnitario;
+
+    for (let i = 0; i < items.length; i++) {
+      cantidad = items.at(i).get('cantidad')?.value;
+      valorUnitario = items.at(i).get('valorUnitario')?.value;
+      this.totalItems = this.totalItems + (cantidad * valorUnitario);
+    }
+  }
+
+  private actualizarValorFinanciero() {
+    this.listaFinancieroComponent.formMovimientoCuentaToAgregar.get('valor')?.setValue(this.totalItems);
   }
 
 }

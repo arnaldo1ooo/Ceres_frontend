@@ -9,6 +9,7 @@ import { AvisoHelpersService } from 'src/app/compartido/services/aviso-helpers.s
 import { ModoEdicion } from 'src/app/compartido/enums/modoEdicion.enum';
 import { MovimientoCuentaContable } from '../../model/movimientoCuentaContable';
 import { MatTable } from '@angular/material/table';
+import { MovimientoFormComponent } from '../../containers/movimiento-form/movimiento-form.component';
 
 @Component({
   selector: 'app-lista-financiero',
@@ -22,7 +23,7 @@ export class ListaFinancieroComponent {
 
   @ViewChild('movCuentasContablesTable') movCuentasContablesTable!: MatTable<any>; //ViewChild sirve para acceder a un elemento del html
 
-  protected formMovimientoCuentaToAgregar: FormGroup = this._movimientosService.crearMovimientoCuentaFormGroup();
+  public formMovimientoCuentaToAgregar: FormGroup = this._movimientosService.crearMovimientoCuentaFormGroup();
   protected listaCuentasContables: CuentaContableDTO[] = [];
   protected listaCuentasContablesFiltrado$: Observable<CuentaContableDTO[]> | undefined;
   protected columnasAMostrarItems: string[] = ['_id', 'valor'];
