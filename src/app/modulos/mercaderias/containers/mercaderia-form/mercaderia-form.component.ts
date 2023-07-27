@@ -72,7 +72,10 @@ export class MercaderiaFormComponent implements OnInit {
   public onGuardar() {
     if (this.formGroupMercaderia.valid) { //Verifica los validators de cada campo del form
       this._mercaderiaService.guardar(this.formGroupMercaderia.getRawValue()) //getRawValue incluye los campos disabled
-        .subscribe(resultado => this.onExito(), error => this.onError());
+        .subscribe({
+          next: resultado => this.onExito(),
+          error: err => this.onError()
+        });
     }
     else {
       this.formGroupMercaderia.markAllAsTouched(); //Marca todos los campos invalidos
