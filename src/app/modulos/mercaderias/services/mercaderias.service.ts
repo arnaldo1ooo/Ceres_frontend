@@ -24,6 +24,14 @@ export class MercaderiasService {
       );
   }
 
+  listarTodosMercaderiasActivos() {
+    return this._httpClient.get<Mercaderia[]>(API_URL_MERCADERIAS + '/activos')
+      .pipe(
+        first(),
+        delay(100)
+      );
+  }
+
   listarTodosMercaderiasFiltro() {
     return this._httpClient.get<Mercaderia[]>(API_URL_MERCADERIAS + '/filtro')
       .pipe(                                        //Manipular datos
@@ -35,10 +43,10 @@ export class MercaderiasService {
   listarTodosMercaderiasFiltroPage(mercaderiaFiltro: MercaderiaFiltroDTO, pageRequest: PageRequest): Observable<Page> {
     return this._httpClient.get<Page>(API_URL_MERCADERIAS
       + '/filtroPage?' + `id=${mercaderiaFiltro.id}`
-                       + `&descripcion=${mercaderiaFiltro.descripcion}`
-                       + `&idTipo=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idTipo)}`
-                       + `&idDepartamento=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idDepartamento)}`
-                       + `&idSituacion=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idSituacion)}`
+      + `&descripcion=${mercaderiaFiltro.descripcion}`
+      + `&idTipo=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idTipo)}`
+      + `&idDepartamento=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idDepartamento)}`
+      + `&idSituacion=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idSituacion)}`
       + `&page=${pageRequest.pagina}&size=${pageRequest.tamanho}&sort=${pageRequest.ordenarPor},${pageRequest.orden}`);
   }
 
