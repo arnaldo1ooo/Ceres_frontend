@@ -1,0 +1,203 @@
+<mat-card class="mat-card-detalle-movimiento">
+
+  <mat-toolbar color="primary">{{ "detalles.detalle-movimiento" | transloco }}</mat-toolbar>
+
+  <mat-label class="titulo-tipo-movimiento">{{ formMovimientoDetalle.get('tipo')?.value?.descripcion }}</mat-label>
+
+  <mat-card-content>
+    <form [formGroup]="formMovimientoDetalle" class="anchura-minima">
+
+      <mat-tab-group #movimientoTabGroup class="ui-tab-grupo">
+
+        <!-----------------------------------------------------DATOS INICIALES----------------------------------------------------->
+        <mat-tab label="{{ 'titulos.datos-iniciales' | transloco | uppercase }}" class="">
+          <div class="style-contenedor-tab">
+            <mat-grid-list [cols]="2" rowHeight="93px">
+
+              <!--Fila 1-->
+              <mat-grid-tile>
+                <mat-form-field appearance="outline" class="style-campos">
+                  <mat-label>Id</mat-label>
+                  <input #idInput matInput formControlName="_id" readonly="true">
+                  <!--# sirve para poder acceder desde el ts a este elemento-->
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <mat-form-field appearance="outline" class="style-campos">
+                  <mat-label>{{ "titulos.moneda" | transloco }}</mat-label>
+                  <mat-select #monedaSelect formControlName="moneda" [compareWith]="compararOpcionesSelect">
+                    <!--[] solicita info, () envia info-->
+                    <mat-option disabled selected value="">{{ "seleccion.seleccion-moneda" | transloco }}</mat-option>
+                    <mat-option *ngFor="let moneda of listaMonedas" [value]="moneda">
+                      {{ moneda._id }} - {{ moneda.descripcion }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="formMovimientoDetalle.get('moneda')?.invalid">{{ getMensajeError('moneda') }}
+                  </mat-error>
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <!--Fila 2-->
+              <mat-grid-tile>
+                <mat-form-field appearance="outline" class="style-campos">
+                  <mat-label>{{ "titulos.entidad" | transloco }}</mat-label>
+                  <input #entidadInputAC type="text" formControlName="entidad" matInput
+                    [matAutocomplete]="entidadAutocomplete">
+
+                  <mat-autocomplete #entidadAutocomplete="matAutocomplete" [displayWith]="displayEntidad">
+                    <mat-option *ngFor="let entidad of listaEntidadesFiltrado$ | async" [value]="entidad">
+                      {{ entidad._id + ' - ' + entidad.nombre + ' ' + entidad.apellido }}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-error *ngIf="formMovimientoDetalle.get('entidad')?.invalid">{{ getMensajeError('entidad') }}
+                  </mat-error>
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <mat-form-field appearance="outline" class="style-campos">
+                  <mat-label>{{ "titulos.fecha-emision" | transloco }}</mat-label>
+                  <input #fechaEmisionInput formControlName="fechaEmision" type="datetime-local" matInput
+                    readonly="false"
+                    [value]="formMovimientoDetalle.get('fechaEmision')?.value | date:'yyyy-MM-ddTHH:mm:ss'">
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <!--Fila 3-->
+              <mat-grid-tile>
+                <mat-form-field appearance="outline" class="style-campos">
+                  <mat-label>{{ "titulos.departamento" | transloco }}</mat-label>
+                  <mat-select #departamentoSelect formControlName="departamento" [compareWith]="compararOpcionesSelect">
+                    <mat-option disabled selected value="">{{ "seleccion.seleccion-departamento" | transloco }}
+                    </mat-option>
+                    <mat-option *ngFor="let departamento of listaDepartamentos" [value]="departamento">
+                      {{ departamento._id }} - {{ departamento.descripcion }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="formMovimientoDetalle.get('departamento')?.invalid">
+                    {{ getMensajeError('departamento') }}
+                  </mat-error>
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <mat-form-field appearance="outline" class="style-campos">
+                  <mat-label>
+                    {{ formMovimientoDetalle.get('tipo')?.value?.tipo == 'E'
+                    ? ('titulos.comprador' | transloco)
+                    : ('titulos.vendedor' | transloco) }}
+                  </mat-label>
+                  <input #compradorVendeorInput formControlName="compradorVendedor" type="text" matInput
+                    [matAutocomplete]="compradorVendedorAutocomplete">
+
+                  <mat-autocomplete #compradorVendedorAutocomplete="matAutocomplete" [displayWith]="displayEntidad">
+                    <mat-option *ngFor="let compradorVendedor of listaCompradoresVendedoresFiltrado$ | async"
+                      [value]="compradorVendedor">
+                      {{ compradorVendedor._id + ' - ' + compradorVendedor.nombre + ' ' + compradorVendedor.apellido }}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-error *ngIf="formMovimientoDetalle.get('compradorVendedor')?.invalid">{{
+                    getMensajeError('compradorVendedor') }}
+                  </mat-error>
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <!--Fila 4-->
+              <mat-grid-tile class="grid-tile-observacion">
+                <mat-form-field appearance="outline" class="style-campos text-area-observacion">
+                  <mat-label>{{ "titulos.observacion" | transloco }}</mat-label>
+                  <textarea #observacionTextArea matInput cdkTextareaAutosize formControlName="observacion"
+                    placeholder="Observación" #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5"
+                    cdkAutosizeMaxRows="5">
+                  </textarea>
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <mat-form-field appearance="outline" class="style-campos">
+                  <mat-label>{{ "titulos.situacion" | transloco }}</mat-label>
+                  <mat-select #situacionSelect formControlName="situacion">
+                    <mat-option *ngFor="let situacion of listaSituaciones" [value]="situacion">
+                      <!--Muestra en modo enabled-->
+                      {{ situacion | situacionPipe }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="formMovimientoDetalle.get('situacion')?.invalid">
+                    {{ getMensajeError('situacion') }}
+                  </mat-error>
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <mat-form-field appearance="outline" class="style-campos">
+                  <mat-label>{{ "titulos.forma-pago" | transloco }}</mat-label>
+                  <mat-select #formaPagoSelect formControlName="formaPago">
+                    <mat-option *ngFor="let formaPago of listaFormasPago" [value]="formaPago">
+                      {{ formaPago | formaPagoPipe }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="formMovimientoDetalle.get('formaPago')?.invalid">
+                    {{ getMensajeError('formaPago') }}
+                  </mat-error>
+                </mat-form-field>
+              </mat-grid-tile>
+            </mat-grid-list>
+          </div>
+        </mat-tab>
+
+        <!-----------------------------------------------------MERCADERIAS----------------------------------------------------->
+        <mat-tab label="{{ 'titulos.mercaderias' | transloco | uppercase }}">
+          <div class="style-contenedor-tab">
+            <app-lista-items [movimientoFormGroup]="formMovimientoDetalle" [modoEdicion]="modoEdicion">
+            </app-lista-items>
+          </div>
+        </mat-tab>
+
+        <!-----------------------------------------------------FINANCIERO----------------------------------------------------->
+        <mat-tab label="{{ 'titulos.financiero' | transloco | uppercase }}">
+
+          <mat-tab-group #financieroTabGroup class="ui-tab-group-financiero">
+
+            <mat-tab #alContadoTab label="{{ 'titulos.al-contado' | transloco | uppercase }}"
+              [disabled]='!alContadoTab.isActive'>
+              <app-lista-financiero [movimientoFormGroup]="formMovimientoDetalle" [modoEdicion]="modoEdicion">
+              </app-lista-financiero>
+            </mat-tab>
+
+            <mat-tab #bTab [disabled]='!bTab.isActive'>
+            </mat-tab>
+
+            <mat-tab #cTab [disabled]='!cTab.isActive'>
+            </mat-tab>
+
+          </mat-tab-group>
+        </mat-tab>
+      </mat-tab-group>
+    </form>
+
+  </mat-card-content>
+
+  <!-----TOTALES---->
+  <div [ngClass]="['ui-contenedor-totales']">
+    <mat-label [ngClass]="['ui-total']"> <!-- ?? es si es nulo-->
+      Total: {{ totalItems | currency:(formMovimientoDetalle.get('moneda')?.value?.simbolo ?? 'Gs')
+        : 'symbol' : '1.0-' + (formMovimientoDetalle.get('moneda')?.value?.cantidadDecimales ?? '8') }}
+    </mat-label>
+  </div>
+
+  <!-----BOTONES----->
+  <mat-card-actions class="style-barra-acciones">
+    <button id="boton-guardar" mat-raised-button color="primary" (click)="onGuardar()"
+      [disabled]=formMovimientoDetalle.disabled>
+      {{ "botones.guardar" | transloco }}
+    </button>
+    <button id="boton-cancelar" mat-raised-button color="warn" (click)="onCancelar()" class="style-espacio-boton">
+      {{ "botones.cancelar" | transloco }}
+    </button>
+  </mat-card-actions>
+
+</mat-card>

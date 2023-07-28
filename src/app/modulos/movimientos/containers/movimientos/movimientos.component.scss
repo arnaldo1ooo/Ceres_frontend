@@ -1,0 +1,64 @@
+.style-contenedor-principal {
+  max-width: 90%;
+  margin: 2em auto;
+  text-align: center;
+}
+
+.column-flex {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+
+.style-cargando-spinner {
+  padding: 25px;
+  background: rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.style-contenedor-filtro {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: left;
+  padding: 10px; /* Agrega un margen mínimo de 10px */
+}
+
+.style-input-filtro-id {
+  margin-right: 10px;
+  width: 120px;
+}
+
+.style-select-filtro-tipo {
+  margin-right: 10px;
+  width: 180px;
+}
+
+.style-input-filtro-nombre-apellido-entidad {
+  margin-right: 10px;
+  width: 180px;
+}
+
+.style-date-picker-filtro-fecha-inicial-final {
+  margin-right: 10px;
+  width: 245px;
+}
+
+.style-select-filtro-departamento {
+  margin-right: 10px;
+  width: 180px;
+}
+
+.style-select-filtro-situacion {
+  margin-right: 10px;
+  width: 140px;
+}
+
+.style-button-filtro {
+  margin-right: 10px;
+  width: 120px;
+  height: 50px;
+}

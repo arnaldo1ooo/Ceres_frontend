@@ -1,0 +1,88 @@
+<!-- Es el componente principal o padre, en donde se encuentra el filtro, y el container que posee el componente lista movimiento -->
+
+<mat-card class="style-contenedor-principal" *ngIf="!isMostrarTiposMovimientoSeleccion">
+  <mat-toolbar color="primary">
+    Movimientos Disponibles
+  </mat-toolbar>
+
+  <!--Filtros-->
+  <div id="filtros" class="style-contenedor-filtro" (keyup.enter)="filtrar()">
+    <mat-form-field appearance="outline" class="style-input-filtro-id">
+      <mat-label>Id</mat-label>
+      <input matInput id="filtroId" type="number" [(ngModel)]="movimientoFiltro.id" (blur)="limpiarFiltrosExceptoId()"
+        (keyup.enter)="limpiarFiltrosExceptoId()">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="style-select-filtro-tipo">
+      <mat-label>Tipo Movimiento</mat-label>
+      <mat-select [(ngModel)]="movimientoFiltro.idTipo" [compareWith]="compararOpcionesSelect">
+        <mat-option [value]="-1">TODOS</mat-option>
+        <mat-option *ngFor="let tipoMovimiento of listaTiposMovimiento" value={{tipoMovimiento._id}}>
+          {{tipoMovimiento.descripcion}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="style-input-filtro-nombre-apellido-entidad">
+      <mat-label>Nombre o Apellido</mat-label>
+      <input matInput id="filtroNombreApellidoEntidad" type="text" [(ngModel)]="movimientoFiltro.nombreApellidoEntidad">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="style-date-picker-filtro-fecha-inicial-final">
+      <mat-label>Fecha de emisión</mat-label>
+      <mat-date-range-input [formGroup]="movimientoFiltro.fechaRangoInicialFinal" [rangePicker]="picker">
+        <input matStartDate formControlName="start" placeholder="Start Date">
+        <input matEndDate formControlName="end" placeholder="End Date">
+      </mat-date-range-input>
+      <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="style-select-filtro-departamento">
+      <mat-label>Departamento</mat-label>
+      <mat-select [(ngModel)]="movimientoFiltro.idDepartamento" [compareWith]="compararOpcionesSelect">
+        <mat-option [value]="-1">TODOS</mat-option>
+        <mat-option *ngFor="let departamento of listaDepartamentos" value={{departamento._id}}>
+          {{departamento.descripcion}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="style-select-filtro-situacion">
+      <mat-label>Situación</mat-label>
+      <mat-select [(ngModel)]="movimientoFiltro.keySituacion" [compareWith]="compararOpcionesSelect">
+        <mat-option [value]="-1">TODOS</mat-option>
+        <mat-option *ngFor="let keySituacion of listaKeySituaciones" [value]="keySituacion">
+          {{ situacionUtils.getDescripcion(keySituacion) }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button class="style-button-filtro" (click)="limpiar()" color="accent">{{ ('botones.limpiar' | transloco) }}</button>
+    <button mat-raised-button class="style-button-filtro" (click)="filtrar()" [disabled]="isFiltrando"
+      color="primary">{{ ('botones.filtrar' | transloco) }}</button>
+  </div>
+
+
+  <div class="column flex mat-elevation-z8">
+    <!--Pasamos las variables del componente principal al componente lista-->
+    <app-movimientos-lista *ngIf="listMovimientosListaDTO$ | async as movimientos; else cargando"
+      [listMovimientosListaDTO]="movimientos" [pageResponse]="this.pageRes" [pageRequest]="this.pageRequestDefault"
+      (mostrarTiposMovimientoSeleccion)="onMostrarTiposMovimientoSeleccion()" (visualizar)="onVisualizar($event)"
+      (editar)="onEditar($event)" (eliminar)="onEliminar($event)" (inactivar)="onInactivar($event)">
+    </app-movimientos-lista>
+
+    <ng-template #cargando>
+      <div class="style-cargando-spinner">
+        <mat-spinner></mat-spinner>
+      </div>
+    </ng-template>
+
+  </div>
+</mat-card>
+
+<!--Componente Tipo Movimiento Seleccion, el evento ejecuta onNuevo-->
+<app-tipos-movimiento-seleccion (eventTipoMovSeleccionado)="onNuevo()" *ngIf="isMostrarTiposMovimientoSeleccion">
+
+</app-tipos-movimiento-seleccion>

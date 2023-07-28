@@ -1,0 +1,60 @@
+:host {
+  display: flex;
+  justify-content: center;
+  margin-top: 110px;
+}
+
+.error {
+  padding: 16px;
+  width: 300px;
+  color: white;
+  background-color: red;
+}
+
+.titulo-inicio-sesion {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+mat-card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+mat-card {
+  width: 55%;
+  min-width: 420px;
+  min-height: 180px;
+}
+
+.div-izquierdo{
+  background-color: rgb(41, 91, 91);
+  width: 50%;
+  height: 100%;
+}
+
+.div-derecho {
+  width: 50%;
+  height: 100%;
+  margin: 20px;
+}
+
+.selector-idiomas {
+  margin-bottom: 30px;
+  margin-top: -20px;
+  margin-right: -20px;
+}
+
+.container-div-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.ui-campo {
+  width: 50%;
+  margin-bottom: 10px;
+}

@@ -1,0 +1,55 @@
+.style-contenedor-principal {
+  max-width: 85%;
+  margin: 2em auto;
+  text-align: center;
+}
+
+.column-flex {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+
+.style-cargando-spinner {
+  padding: 25px;
+  background: rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.style-contenedor-filtro {
+  margin: 10px;
+  text-align: left;
+}
+
+.style-input-filtro-id {
+  margin-right: 10px;
+  width: 8%;
+}
+
+.style-input-filtro-descripcion {
+  margin-right: 10px;
+  width: 20%;
+}
+
+.style-select-filtro-tipo {
+  margin-right: 10px;
+  width: 15%;
+}
+
+.style-select-filtro-situacion {
+  margin-right: 10px;
+  width: 10%;
+}
+
+.style-select-filtro-departamento {
+  margin-right: 10px;
+  width: 18%;
+}
+
+.style-button-filtro {
+  margin-right: 10px;
+  width: 120px;
+  height: 50px;
+}

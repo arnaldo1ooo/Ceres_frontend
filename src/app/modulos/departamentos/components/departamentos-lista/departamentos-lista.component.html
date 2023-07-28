@@ -1,0 +1,61 @@
+<div>
+  <mat-table [dataSource]="listDepartamentoListaDTOs">
+
+    <!-- Columna id -->
+    <ng-container matColumnDef="_id">
+      <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
+      <mat-cell *matCellDef="let departamentoListaDTO"> {{ departamentoListaDTO._id }} </mat-cell>
+    </ng-container>
+
+    <!-- Columna nombre -->
+    <ng-container matColumnDef="nombre">
+      <mat-header-cell *matHeaderCellDef> Descripción </mat-header-cell>
+      <mat-cell *matCellDef="let departamentoListaDTO"> {{ departamentoListaDTO.descripcion }} </mat-cell>
+    </ng-container>
+
+    <!-- Columna sucursal -->
+    <ng-container matColumnDef="sucursal">
+      <mat-header-cell *matHeaderCellDef> Sucursal </mat-header-cell>
+      <mat-cell *matCellDef="let departamentoListaDTO"> {{departamentoListaDTO.sucursal.descripcion}} </mat-cell>
+    </ng-container>
+
+    <!-- Columna situacion -->
+    <ng-container matColumnDef="situacion">
+      <mat-header-cell *matHeaderCellDef> Situación </mat-header-cell>
+      <mat-cell *matCellDef="let departamentoListaDTO"> {{ departamentoListaDTO.situacion | situacionPipe }} </mat-cell>
+    </ng-container>
+
+    <!-- Columna Acciones -->
+    <ng-container matColumnDef="acciones">
+      <mat-header-cell *matHeaderCellDef class="style-columna-acciones">
+        <button mat-mini-fab color="accent" aria-label="Crear nuevo departamento" (click)="onNuevo()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-header-cell>
+
+      <mat-cell *matCellDef="let departamentos" class="style-columna-acciones">
+        <button mat-icon-button color="primary" aria-label="Visualizar departamento" (click)="onVisualizar(departamentos)">
+          <mat-icon>visibility</mat-icon>
+        </button>
+
+        <button mat-icon-button color="primary" aria-label="Editar departamento" (click)="onEditar(departamentos)">
+          <mat-icon>edit</mat-icon>
+        </button>
+
+        <button mat-icon-button color="warn" aria-label="Eliminar departamento" (click)="onInactivar(departamentos)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-cell>
+
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="columnasAMostrar"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnasAMostrar;"></mat-row>
+  </mat-table>
+
+
+  <mat-paginator [length]="this.listDepartamentoListaDTOs.length" [pageSize]="pageTamanho"
+    [pageSizeOptions]="pageTamanhos" (page)="onCambiarPage($event)" [showFirstLastButtons]="true">
+  </mat-paginator>
+</div>

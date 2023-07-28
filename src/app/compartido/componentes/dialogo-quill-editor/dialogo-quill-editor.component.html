@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>{{ dialogoTitulo }}</h2>
+
+<mat-dialog-content>
+  <quill-editor appearance="outline" [(ngModel)]="texto" [style.height.px]="altoEditor" [disabled]="modoLectura"
+    [modules]="QuillModulos" (onEditorChanged)="onQuillChangedEditor($event)"></quill-editor>
+</mat-dialog-content>
+
+<mat-dialog-actions class="style-barra-acciones">
+  <button mat-button mat-raised-button color="primary" (click)="onGuardar()">{{ "botones.guardar" | transloco }}</button>
+  <button mat-button mat-raised-button color="warn" (click)="onCancelar()">{{ "botones.cancelar" | transloco }}</button>
+</mat-dialog-actions>

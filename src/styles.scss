@@ -1,4 +1,131 @@
-/* You can add global styles to this file, and also import other style files */
+/* Puede agregar estilos globales a este archivo y también importar otro archivo de estilos */
+@use '@angular/material' as mat;
+@import '@angular/material/theming';
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.snow.css';
+@include mat-core();
+
+
+
+//Tema Light
+$tema-custom-light: mat.define-light-theme((
+  color: (primary: mat.define-palette(mat.$indigo-palette, 500), //color, tono "predeterminado", tono "más claro", tono "más oscuro", tono de "texto"
+          accent: mat.define-palette(mat.$blue-palette, 500),
+          warning: mat.define-palette(mat.$red-palette)
+         ),
+          /*typography: mat.define-typography-config(),
+          density: 0,*/
+));
+
+//Tema dark
+$tema-custom-dark: mat.define-dark-theme((
+  color: (primary: mat.define-palette(mat.$indigo-palette, 300),  //Usa uno menos oscuro
+          accent: mat.define-palette(mat.$blue-grey-palette, 500),
+          warning: mat.define-palette(mat.$red-palette)
+         ),
+         //Solo incluir `typography` and `density` en el default dark theme.
+         typography: mat.define-typography-config(),
+         density: 0,
+));
+
+//Se asigna el tema light por default
+@include mat.all-component-themes($tema-custom-light);
+
+.dark-theme {
+  // This mixin only generates the color styles now.
+  @include mat.all-component-colors($tema-custom-dark);
+}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.cargando-spinner {
+  padding: 30px;
+  background: rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.label-tabla-vacia-global {
+  padding-top: 100px;
+  padding-bottom: 100px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 500;  //cuanto valor mas alto, mas negrita quedará
+}
+
+.centrar-texto-global {
+  display: flex;
+  justify-content: center;
+}
+
+.izquierda-texto-global {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.derecha-texto-global {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.centrar-container-hor-global {
+  display: flex;
+  justify-content: center;
+}
+
+.izquierda-container-global {
+  display: flex;
+  justify-content: left;
+}
+
+.derecha-container-global {
+  display: flex;
+  justify-content: right;
+}
+
+.centrar-container-vert-hor-global {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.background-gradiente {
+  background: linear-gradient(to bottom right, #c7d2fe, #ffffff);;
+}
+
+//Color texto disabled inputText
+input[disabled] {
+  color:rgb(0, 0, 0);
+}
+
+.style-campo-global {
+  width: 30%;
+  height: 50px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.titulo-tabla-global { //Titulos de tabla
+  font-weight: bold; /* Negrita */
+  padding: 12px; /* Espaciado interno */
+  text-align: left; /* Alineación del texto */
+  font-size: 16px;
+}
+
+.ui-fondo-oscuro {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(74, 74, 74, .8);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
