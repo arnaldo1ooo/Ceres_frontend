@@ -30,8 +30,7 @@ registerLocaleData(localeEs, FORMATO_REGIONAL_ES);
     MatToolbarModule,
     HttpClientModule,
     CompartidoModule,
-    MaterialModulosModule,
-    SpinnerCargandoModule
+    MaterialModulosModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, //Sirve para el interceptor de autenticacion helpers/autenticacion

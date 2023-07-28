@@ -13,6 +13,7 @@ import { MiSidenavComponent } from './componentes/mi-sidenav/mi-sidenav.componen
 import { SelectorIdiomaComponent } from './componentes/selector-idioma/selector-idioma.component';
 import { MaterialModulosModule } from './material-modulos/material-modulos.module';
 import { SituacionPipe } from './pipes/situacion.pipe';
+import { SpinnerCargandoModule } from './componentes/spinner-cargando/spinner-cargando.module';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { SituacionPipe } from './pipes/situacion.pipe';
     TranslocoRootModule,
     SelectorIdiomaComponent,
     DialogoQuillEditorComponent,
+    SpinnerCargandoModule
     //QuillModule
   ]
 })
