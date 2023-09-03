@@ -1,11 +1,10 @@
-import { LOCALE_ID } from '@angular/core';
 
 export class Constantes {
 
 
 }
 export const API_NOMBRE = 'ceres-api';
-export const API_URL = 'http://localhost:8180/';  //se pone como export para poder importar directamente
+export const API_URL = 'http://localhost:8080/';  //se pone como export para poder importar directamente
 export const API_URL_LOGIN = API_URL + 'login';
 export const API_URL_IS_NOMBRE_USUARIO_EXISTE = API_URL + 'login/isNombreUsuarioExiste';
 export const API_URL_MERCADERIAS = API_URL + API_NOMBRE + '/mercaderias';
