@@ -15,6 +15,7 @@ export class FooterPrincipalComponent {
   constructor(private _loginService: LoginService) { }
 
   ngOnInit(): void {
+    this.obtenerBaseDatosActual();
     this.obtenerVersionBackEnd();
     this.actualizarFechaHoraPorSegundo();
   }
@@ -32,6 +33,17 @@ export class FooterPrincipalComponent {
       },
       error: (err:any) => {
         console.error('Error al consultar version del backend: ' + err.message)
+      }
+    });
+  }
+
+  private obtenerBaseDatosActual() {
+    this._loginService.getBaseDatosActual().subscribe({
+      next: (resp:string) => {
+        this.nombreBaseDatos = resp;
+      },
+      error: (err:any) => {
+        console.error('Error al consultar base de datos actual: ' + err.message)
       }
     });
   }
