@@ -14,6 +14,7 @@ import { SelectorIdiomaComponent } from './componentes/selector-idioma/selector-
 import { MaterialModulosModule } from './material-modulos/material-modulos.module';
 import { SituacionPipe } from './pipes/situacion.pipe';
 import { SpinnerCargandoModule } from './componentes/spinner-cargando/spinner-cargando.module';
+import { FooterPrincipalComponent } from './componentes/footer-principal/footer-principal.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { SpinnerCargandoModule } from './componentes/spinner-cargando/spinner-ca
     SituacionPipe,
     MiSidenavComponent,
     SelectorIdiomaComponent,
-    DialogoQuillEditorComponent
+    DialogoQuillEditorComponent,
+    FooterPrincipalComponent
   ],
   imports: [
     CommonModule,
@@ -39,7 +41,8 @@ import { SpinnerCargandoModule } from './componentes/spinner-cargando/spinner-ca
     TranslocoRootModule,
     SelectorIdiomaComponent,
     DialogoQuillEditorComponent,
-    SpinnerCargandoModule
+    SpinnerCargandoModule,
+    FooterPrincipalComponent
     //QuillModule
   ]
 })
