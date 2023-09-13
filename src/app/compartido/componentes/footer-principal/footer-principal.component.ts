@@ -9,7 +9,7 @@ import { LoginService } from '../../../modulos/login/services/login.service';
 export class FooterPrincipalComponent {
   nombreBaseDatos: string = 'NO DISPONIBLE';
   versionBackEnd: string = '0.0.0';
-  versionFrontEnd: string = '0.0.0';
+  versionFrontEnd: string | undefined = '0.0.0';
   fechaHoraActual: string = new Date().toLocaleString();
 
   constructor(private _loginService: LoginService) { }
@@ -17,6 +17,7 @@ export class FooterPrincipalComponent {
   ngOnInit(): void {
     this.obtenerBaseDatosActual();
     this.obtenerVersionBackEnd();
+    this.obtenerVersionFrontEnd();
     this.actualizarFechaHoraPorSegundo();
   }
 
@@ -35,6 +36,11 @@ export class FooterPrincipalComponent {
         console.error('Error al consultar version del backend: ' + err.message)
       }
     });
+  }
+
+  private obtenerVersionFrontEnd() {
+    const packageJson = require('package.json');
+    this.versionFrontEnd = packageJson.version;
   }
 
   private obtenerBaseDatosActual() {
