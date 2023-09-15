@@ -3,7 +3,10 @@
 }
 
 .ui-fila {
+  display: flex;
+  align-items: center; /* Centra verticalmente los elementos */
   text-align: left;
+  height: 32px;
 }
 
 .ui-elemento {
@@ -16,6 +19,5 @@
 
 .ui-icono {
   vertical-align: middle;
-  margin-top: -4px;
   margin-right: -3px;
 }

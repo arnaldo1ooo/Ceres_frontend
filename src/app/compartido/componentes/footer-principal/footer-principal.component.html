@@ -1,21 +1,20 @@
 <footer class="footer" [ngClass]="'ui-footer'">
 
   <div class="fila" [ngClass]="'ui-fila'">
-    <h2 [ngClass]="'ui-elemento'">
+    <div [ngClass]="'ui-elemento'">
       <mat-icon [ngClass]="'ui-icono'">storage</mat-icon>
       {{ nombreBaseDatos }}
-    </h2>
+    </div>
 
-    <h2 [ngClass]="'ui-elemento'">
+    <div [ngClass]="'ui-elemento'">
       <mat-icon [ngClass]="'ui-icono'">device_hub</mat-icon>
       {{ versionFrontEnd }} - {{ versionBackEnd }}
-    </h2>
+    </div>
 
-    <h2 [ngClass]="'ui-elemento'">
+    <div [ngClass]="'ui-elemento'">
       <mat-icon [ngClass]="'ui-icono'">access_time</mat-icon>
       {{ fechaHoraActual }}
-    </h2>
-
+    </div>
   </div>
 
 </footer>
