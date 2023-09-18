@@ -111,14 +111,14 @@ export class LoginFormComponent implements OnInit {
   }
 
   public async listarSucursales() {
-    let isNombreUsuarioExiste: boolean = await this._loginService.isNombreUsuarioExiste(this.credenciales.nombreUsuario);
+    if(HelpersService.isNoNuloYNoVacio(this.credenciales.nombreUsuario)) {
+      let isNombreUsuarioExiste: boolean = await this._loginService.isNombreUsuarioExiste(this.credenciales.nombreUsuario);
 
-    //console.log(isNombreUsuarioExiste ? "Nombre de usuario existe" : "Nombre de usuario no existe");
-
-    if (isNombreUsuarioExiste) { //await espera hasta recibir respuesta de servidor
-      this._sucursalesService.listarTodosSucursales().subscribe((lista: any) => {
-        this.listaSucursales = lista;
-      });
+      if (isNombreUsuarioExiste) { //await espera hasta recibir respuesta de servidor
+        this._sucursalesService.listarTodosSucursales().subscribe((lista: any) => {
+          this.listaSucursales = lista;
+        });
+      }
     }
   }
 
