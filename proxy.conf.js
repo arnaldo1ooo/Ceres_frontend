@@ -1,7 +1,7 @@
 const PROXY_CONFIG = [
   {
     context: ['/ceres-api'],
-    target: 'http://localhost:8180/',
+    target: 'http://localhost:8080/',
     secure: false,
     loglevel: 'debug'
   }

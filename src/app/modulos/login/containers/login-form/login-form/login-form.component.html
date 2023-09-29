@@ -5,7 +5,7 @@
     <!-- Contenido izquierdo -->
     <div id="div-izquierdo" [ngClass]="['div-izquierdo', 'centrar-container-vert-hor-global']">
 
-      <h2>CERES</h2>
+      <img src="./assets/logo_ceres.png" width="80%">
 
     </div>
 
@@ -53,7 +53,7 @@
           </mat-form-field>
 
 
-          <button mat-raised-button color="primary" (click)="login()">{{'login.ingresar' | transloco}}</button>
+          <button [ngClass]="'ui-boton-ingresar'" mat-raised-button color="primary" (click)="login()">{{'login.ingresar' | transloco}}</button>
         </div>
       </form>
     </div>
