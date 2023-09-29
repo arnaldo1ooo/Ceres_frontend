@@ -1,0 +1,40 @@
+<mat-card>
+
+  <mat-toolbar color="primary">Detalles del Departamento</mat-toolbar>
+
+  <mat-card-content>
+    <form [formGroup]="formDepartamento" class="anchura-minima">
+      <mat-form-field appearance="outline" class="anchura-maxima">
+        <input matInput #descripcionDepartamento placeholder="Descripción" formControlName="descripcion" oninput="this.value = this.value.toUpperCase()"> <!--Requiere poner #descripcion-->
+        <mat-hint align="end">{{ descripcionDepartamento.value.length || 0 }} / 100</mat-hint>
+        <mat-error *ngIf="formDepartamento.get('descripcion')?.invalid">{{getMensajeError('descripcion')}}</mat-error> <!--verifica validaciones, invalid evita error con null o valor invalido-->
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" appearance="outline" class="anchura-maxima">
+        <mat-label>Sucursal</mat-label>
+        <mat-select formControlName="sucursal" [compareWith]="compararOpcionesSelect">
+          <mat-option disabled selected value="">Seleccione una sucursal</mat-option>
+          <mat-option *ngFor="let sucursal of listaSucursales" [value]="sucursal">{{ sucursal._id }} - {{ sucursal.descripcion }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="formDepartamento.get('sucursal')?.invalid">{{getMensajeError('sucursal')}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="anchura-maxima">
+        <mat-label>Situación</mat-label>
+        <mat-select formControlName="situacion">
+          <mat-option *ngFor="let situacion of listaSituaciones" [value]="situacion">
+            {{situacion | situacionPipe}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formDepartamento.get('situacion')?.invalid">{{getMensajeError('situacion')}}</mat-error>
+      </mat-form-field>
+
+
+    </form>
+  </mat-card-content>
+
+  <mat-card-actions class="style-barra-acciones">
+    <button mat-raised-button color="primary" (click)="onGuardar()" [disabled]="isModoVisualizar()">{{ "botones.guardar" | transloco }}</button>
+    <button mat-raised-button color="warn" (click)="onRetroceder()" class="style-espacio-boton">{{ "botones.cancelar" | transloco }}</button>
+  </mat-card-actions>
+</mat-card>

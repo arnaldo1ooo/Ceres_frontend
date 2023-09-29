@@ -1,0 +1,71 @@
+  {
+    "login": {
+      "titulo-login": "Entrar",
+      "nombre-usuario": "Nome de usuário",
+      "contrasenha": "Senha",
+      "ingresar": "Entrar"
+    },
+    "errores": {
+      "error-login": "Falhou o início da sessão",
+      "error-login-incorrecto": "Nome de usuario ou senha incorreta",
+      "error-conexion-servidor": "Erro de conexão com o servidor"
+    },
+
+    "tipo-movimiento" : {
+      "titulo": "Selecione o tipo de movimento",
+      "entrada" : "Entrada",
+      "salida" : "Saida",
+      "compra-normal" : "Compra normal",
+      "venta-normal" : "Venda normal"
+    },
+
+    "detalles": {
+      "detalle-movimiento": "Detalhes do Movimento",
+      "detalle-mercaderia": "Detalhes da Mercadoria"
+    },
+
+    "seleccion": {
+        "seleccion-tipo-mercaderia": "Selecione um tipo de mercadoría",
+        "seleccion-sucursal": "Selecione a sucursal",
+        "seleccion-tipo-movimiento": "Selecione o tipo de movimento",
+        "seleccion-moneda": "Selecione a moeda",
+        "seleccion-departamento": "Selecione o departamento",
+        "seleccion-entidad": "Selecione a entidade"
+    },
+
+    "titulos": {
+      "descripcion": "Descrição",
+      "tipo": "Tipo",
+      "sucursal": "Filial",
+      "situacion": "Situação",
+      "movimiento": "Tipo",
+      "moneda": "Moeda",
+      "departamento": "Departamento",
+      "entidad": "Entidade",
+      "fecha-emision": "Data de emissão",
+      "comprador": "Comprador",
+      "vendedor": "Vendedor",
+      "observacion": "Observação",
+      "mercaderia": "Mercadoria",
+      "cantidad": "Quantidade",
+      "valor-unitario": "Valor Unitario",
+      "forma-pago": "Forma de pagamento",
+      "datos-iniciales": "Dados iniciais",
+      "mercaderias": "Mercadorías",
+      "financiero": "Financeiro",
+      "id": "Id",
+      "al-contado": "A vista",
+      "cuenta-contable": "Conta contável",
+      "valor": "Valor"
+    },
+
+    "botones": {
+      "guardar": "Salvar",
+      "cancelar": "Cancelar",
+      "limpiar": "Limpar",
+      "filtrar": "Filtrar",
+      "agregar": "Agregar"
+    },
+
+    "sin-registros": "Sem registros"
+  }

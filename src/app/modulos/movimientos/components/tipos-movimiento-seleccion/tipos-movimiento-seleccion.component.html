@@ -1,0 +1,32 @@
+<div class="container-principal">
+
+  <div class="container-vertical">
+    <h1 class="h1-titulo">{{ 'tipo-movimiento.titulo' | transloco }}</h1>
+
+    <div class="container-horizontal">
+      <mat-card class="card-container card card-entrada">
+        <mat-card-title class="card-titulo">
+          <mat-icon>input</mat-icon>
+          {{ 'tipo-movimiento.entrada' | transloco }}
+        </mat-card-title>
+        <mat-divider></mat-divider> <!--Linea divisoria-->
+        <button class="card-boton button-entrada" (click)="generarNuevoMovimiento('1')">
+          {{ 'tipo-movimiento.compra-normal' | transloco }}
+        </button>
+      </mat-card>
+
+      <mat-card class="card-container card card-salida">
+        <mat-card-title class="card-titulo">
+          <mat-icon>open_in_new</mat-icon>
+          {{ 'tipo-movimiento.salida' | transloco }}
+        </mat-card-title>
+        <mat-divider></mat-divider> <!--Linea divisoria-->
+        <button class="card-boton button-salida" (click)="generarNuevoMovimiento('2')">
+          {{ 'tipo-movimiento.venta-normal' | transloco }}
+        </button>
+      </mat-card>
+    </div>
+
+  </div>
+
+</div>

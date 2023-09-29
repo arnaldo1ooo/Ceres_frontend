@@ -1,0 +1,73 @@
+{
+  "login": {
+    "titulo-login": "Inicio de sesión",
+    "nombre-usuario": "Nombre de usuario",
+    "contrasenha": "Contraseña",
+    "ingresar": "Ingresar"
+
+  },
+
+  "errores": {
+    "error-login": "Falló el inicio de sesión",
+    "error-login-incorrecto": "Nombre de usuario o contraseña incorrecta",
+    "error-conexion-servidor": "Error de conexión con el servidor"
+  },
+
+  "tipo-movimiento" : {
+    "titulo": "Selecciona el tipo de movimiento",
+    "entrada" : "Entrada",
+    "salida" : "Salida",
+    "compra-normal" : "Compra normal",
+    "venta-normal" : "Venta normal"
+  },
+
+  "detalles": {
+    "detalle-movimiento": "Detalles del Movimiento",
+    "detalle-mercaderia": "Detalles de la Mercaderia"
+  },
+
+  "seleccion": {
+    "seleccion-tipo-mercaderia": "Seleccione el tipo de mercadería",
+    "seleccion-sucursal": "Seleccione la sucursal",
+    "seleccion-tipo-movimiento": "Seleccione el tipo de movimiento",
+    "seleccion-moneda": "Seleccione la moneda",
+    "seleccion-departamento": "Seleccione el departamento",
+    "seleccion-entidad": "Seleccione la entidad"
+  },
+
+  "titulos": {
+    "descripcion": "Descripción",
+    "tipo": "Tipo",
+    "sucursal": "Sucursal",
+    "situacion": "Situación",
+    "tipo-movimiento": "Tipo",
+    "moneda": "Moneda",
+    "departamento": "Departamento",
+    "entidad": "Entidad",
+    "fecha-emision": "Fecha de emisión",
+    "comprador": "Comprador",
+    "vendedor": "Vendedor",
+    "observacion": "Observación",
+    "mercaderia": "Mercadería",
+    "cantidad": "Cantidad",
+    "valor-unitario": "Valor Unitario",
+    "forma-pago": "Forma de pago",
+    "datos-iniciales": "Datos iniciales",
+    "mercaderias": "Mercaderías",
+    "financiero": "Financiero",
+    "id": "Id",
+    "al-contado": "Al contado",
+    "cuenta-contable": "Cuenta contable",
+    "valor": "Valor"
+  },
+
+  "botones": {
+    "guardar": "Guardar",
+    "cancelar": "Cancelar",
+    "limpiar": "Limpiar",
+    "filtrar": "Filtrar",
+    "agregar": "Agregar"
+  },
+
+  "sin-registros": "Sin registros"
+}

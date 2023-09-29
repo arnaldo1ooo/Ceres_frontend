@@ -1,0 +1,14 @@
+version: '3.9'
+
+services:
+  ceres_frontend_docker:
+    container_name: ceres_frontend_container
+    image: ceres_frontend_image
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - 4500:80
