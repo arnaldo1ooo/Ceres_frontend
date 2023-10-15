@@ -369,6 +369,7 @@ export class MovimientoFormComponent implements OnInit {
     let items = this.formMovimientoDetalle.get('items') as FormArray;
     let cantidad;
     let valorUnitario;
+    this.totalItems = 0;
 
     for (let i = 0; i < items.length; i++) {
       cantidad = items.at(i).get('cantidad')?.value;

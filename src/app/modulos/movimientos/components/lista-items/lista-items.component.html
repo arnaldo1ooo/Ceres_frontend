@@ -1,6 +1,6 @@
 <form [formGroup]="formItemToAgregar">
   <div class="ui-contenedor-agregar-item">
-    <mat-form-field appearance="outline" [ngClass]="['style-campo-global', 'campo-mercaderia']">
+    <mat-form-field appearance="outline" [ngClass]="['style-campo-global', 'ui-campo-mercaderia']">
       <mat-label>{{ "titulos.mercaderia" | transloco }}</mat-label>
       <input #mercaderiaInputAC formControlName="mercaderia" type="text" matInput
         [matAutocomplete]="mercaderiaAutocomplete">
@@ -13,21 +13,16 @@
       </mat-autocomplete>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" [ngClass]="['style-campo-global', 'campo-cantidad']">
+    <mat-form-field appearance="outline" [ngClass]="['style-campo-global', 'ui-campo-cantidad']">
       <mat-label>{{ "titulos.cantidad" | transloco }}</mat-label>
       <input #cantidadInput formControlName="cantidad" type="number" matInput>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" [ngClass]="['style-campo-global', 'campo-valor-unitario']">
+    <mat-form-field appearance="outline" [ngClass]="['style-campo-global', 'ui-campo-valor-unitario']">
       <mat-label>{{ "titulos.valor-unitario" | transloco }}</mat-label>
       <input #valorUnitarioInput formControlName="valorUnitario" type="number" matInput>
     </mat-form-field>
 
-    <!-- <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">
-      {{ movimientoListaDTO.total | currency:movimientoListaDTO.moneda.simbolo : 'symbol'
-        : '1.' + movimientoListaDTO.moneda.cantidadDecimales + '-' + movimientoListaDTO.moneda.cantidadDecimales }}
-
-    </mat-cell> -->
     <!--Ej: 1.8-8 = 1 entero como minimo, 8 decimales como minimo, 8 decimales como maximo,.-->
     <!--tipos simbolos code: USD, symbol: $, symbol-narrow: $ pequeño-->
 
@@ -82,6 +77,19 @@
           {{ item.cantidad * item.valorUnitario | currency:movimientoFormGroup.get('moneda')?.value.simbolo != null
                                           ? movimientoFormGroup.get('moneda')?.value.simbolo : 'Gs' : 'symbol'
                                           : '1.0' + '-' + movimientoFormGroup.get('moneda')?.value.cantidadDecimales }}
+        </mat-cell>
+      </ng-container>
+
+      <!-- Columna Acciones -->
+      <ng-container matColumnDef="acciones">
+        <mat-header-cell *matHeaderCellDef>
+        </mat-header-cell>
+
+        <mat-cell *matCellDef="let item" class="style-columna-acciones">
+          <button mat-icon-button color="warn" aria-label="Remover item"
+                  (click)="removerItem(item)" [disabled]="formItemToAgregar.disabled">
+            <mat-icon>delete</mat-icon>
+          </button>
         </mat-cell>
       </ng-container>
 
