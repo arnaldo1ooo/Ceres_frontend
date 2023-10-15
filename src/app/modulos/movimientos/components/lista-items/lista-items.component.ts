@@ -26,7 +26,7 @@ export class ListaItemsComponent implements OnInit {
   protected formItemToAgregar: FormGroup = this._movimientosService.crearItemFormGroup();
   protected listaMercaderias: Mercaderia[] = [];
   protected listaMercaderiasFiltrado$: Observable<Mercaderia[]> | undefined;
-  protected columnasAMostrarItems: string[] = ['_id', 'descripcion', 'cantidad', 'valorUnitario', 'subtotal'];
+  protected columnasAMostrarItems: string[] = ['_id', 'descripcion', 'cantidad', 'valorUnitario', 'subtotal', 'acciones'];
 
   constructor(
     private _avisoHelpersService: AvisoHelpersService,
@@ -97,13 +97,28 @@ export class ListaItemsComponent implements OnInit {
     nuevoItem.valorUnitario = this.formItemToAgregar.get('valorUnitario')?.value;
 
     if (this.verificarValidaciones() && this.validarItem(nuevoItem)) {
-
-      (this.movimientoFormGroup.get('items') as FormArray).push(this._movimientosService.crearItemFormGroup(nuevoItem));
+      const itemsArray = this.movimientoFormGroup.get('items') as FormArray;
+      itemsArray.push(this._movimientosService.crearItemFormGroup(nuevoItem));
 
       this.limpiarCamposItemAgregar();
       this.refrescarTablaItems();
     }
 
+  }
+
+  public removerItem(itemARemover: ItemMovimiento) {
+    const itemsArray = this.movimientoFormGroup.get('items') as FormArray;
+
+    const indexItemARemover = itemsArray.controls.findIndex((control) => {
+      const controlValue = JSON.stringify(control.value);
+      const itemARemoverValue = JSON.stringify(this._movimientosService.crearItemFormGroup(itemARemover).value);
+
+      return controlValue === itemARemoverValue;
+    });
+
+    if (indexItemARemover !== -1) {
+      itemsArray.removeAt(indexItemARemover);
+    }
   }
 
   private refrescarTablaItems() {
