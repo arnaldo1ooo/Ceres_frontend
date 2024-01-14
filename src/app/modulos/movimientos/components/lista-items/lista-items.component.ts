@@ -9,6 +9,7 @@ import { ItemMovimiento } from '../../model/itemMovimiento';
 import { ModoEdicion } from '../../../../compartido/enums/modoEdicion.enum';
 import { HelpersService } from '../../../../compartido/services/helpers.service';
 import { MovimientosService } from '../../services/movimientos.service';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-lista-items',
@@ -190,6 +191,10 @@ export class ListaItemsComponent implements OnInit {
 
   protected limpiarCamposItemAgregar() {
     this.formItemToAgregar.reset();
+  }
+
+  onChangeMercaderia() {
+    this.formItemToAgregar.get('cantidad')?.setValue(1);
   }
 
 }

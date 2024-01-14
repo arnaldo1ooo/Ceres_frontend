@@ -59,11 +59,15 @@
       </mat-select>
     </mat-form-field>
 
-    <button mat-raised-button class="style-button-filtro" (click)="limpiar()" color="accent">{{ ('botones.limpiar' | transloco) }}</button>
-    <button mat-raised-button class="style-button-filtro" (click)="filtrar()" [disabled]="isFiltrando"
-      color="primary">{{ ('botones.filtrar' | transloco) }}</button>
+    <button mat-raised-button class="style-button-filtro" (click)="limpiar()" color="accent"
+      matTooltip="Limpia o vacía los campos de filtro de búsqueda">
+      {{ ('botones.limpiar' | transloco) }}
+    </button>
+    <button mat-raised-button class="style-button-filtro" (click)="filtrar()" [disabled]="isFiltrando" color="primary"
+      matTooltip="Realiza una búsqueda de los movimientos de acuerdo a los filtros seleccionados">
+      {{ ('botones.filtrar' | transloco) }}
+    </button>
   </div>
-
 
   <div class="column flex mat-elevation-z8">
     <!--Pasamos las variables del componente principal al componente lista-->
