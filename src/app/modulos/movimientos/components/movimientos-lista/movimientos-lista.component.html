@@ -2,75 +2,110 @@
   <mat-table [dataSource]="listMovimientosListaDTO">
     <!-- Columna id -->
     <ng-container matColumnDef="_id">
-      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Id</mat-header-cell>
-      <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">{{ movimientoListaDTO._id }}</mat-cell>
+      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Id
+      </mat-header-cell>
+      <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">{{ movimientoListaDTO._id }}
+      </mat-cell>
     </ng-container>
 
     <!-- Columna tipo -->
     <ng-container matColumnDef="tipo">
-      <mat-header-cell *matHeaderCellDef [ngClass]="['izquierda-texto-global', 'titulo-tabla-global']">Tipo</mat-header-cell>
-      <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'izquierda-texto-global'">{{ movimientoListaDTO.tipo.descripcion }}
+      <mat-header-cell *matHeaderCellDef [ngClass]="['izquierda-texto-global', 'titulo-tabla-global']">Tipo
+      </mat-header-cell>
+      <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'izquierda-texto-global'">
+        {{ movimientoListaDTO.tipo.descripcion }}
       </mat-cell>
     </ng-container>
 
     <!-- Columna nombreApellido -->
     <ng-container matColumnDef="nombreApellidoEntidad">
-      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Entidad</mat-header-cell>
-      <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">{{ movimientoListaDTO.nombreApellidoEntidad }}
+      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Entidad
+      </mat-header-cell>
+      <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">
+        {{ movimientoListaDTO.nombreApellidoEntidad }}
       </mat-cell>
     </ng-container>
 
     <!-- Columna fecha emision -->
     <ng-container matColumnDef="fechaEmision">
-      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Fecha Emisión</mat-header-cell>
-      <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">{{ movimientoListaDTO.fechaEmision | date: 'dd/MM/yyyy' }}
+      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Fecha Emisión
+      </mat-header-cell>
+      <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">
+        {{ movimientoListaDTO.fechaEmision | date: 'dd/MM/yyyy' }}
       </mat-cell>
     </ng-container>
 
     <!-- Columna departamento -->
     <ng-container matColumnDef="departamento">
-      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Departamento</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Departamento
+      </mat-header-cell>
       <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">
         {{movimientoListaDTO.departamento.descripcion}}</mat-cell>
     </ng-container>
 
     <!-- Columna situacion -->
     <ng-container matColumnDef="situacion">
-      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Situación</mat-header-cell>
-      <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">{{ movimientoListaDTO.situacion | situacionPipe }}</mat-cell>
+      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Situación
+      </mat-header-cell>
+      <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">
+        {{ movimientoListaDTO.situacion | situacionPipe }}</mat-cell>
     </ng-container>
 
     <!-- Columna total -->
     <ng-container matColumnDef="total">
-      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Total</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Total
+      </mat-header-cell>
       <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">
         {{ movimientoListaDTO.total | currency:movimientoListaDTO.moneda.simbolo : 'symbol'
-          : '1.' + movimientoListaDTO.moneda.cantidadDecimales + '-' + movimientoListaDTO.moneda.cantidadDecimales }} <!--Ej: 1.8-8 = 1 entero como minimo, 8 decimales como minimo, 8 decimales como maximo,.--> <!--tipos simbolos code: USD, symbol: $, symbol-narrow: $ pequeño-->
+          : '1.' + movimientoListaDTO.moneda.cantidadDecimales + '-' + movimientoListaDTO.moneda.cantidadDecimales }}
+        <!--Ej: 1.8-8 = 1 entero como minimo, 8 decimales como minimo, 8 decimales como maximo,.-->
+        <!--tipos simbolos code: USD, symbol: $, symbol-narrow: $ pequeño-->
       </mat-cell>
     </ng-container>
 
     <!-- Columna Acciones -->
     <ng-container matColumnDef="acciones">
       <mat-header-cell *matHeaderCellDef class="style-columna-acciones">
-        <button mat-mini-fab color="accent" aria-label="Crear nuevo movimiento" (click)="onMostrarTiposMovimientoSeleccion()">
+        <button mat-mini-fab color="accent" aria-label="Crear nuevo movimiento"
+          (click)="onMostrarTiposMovimientoSeleccion()">
           <mat-icon>add</mat-icon>
         </button>
       </mat-header-cell>
 
       <mat-cell *matCellDef="let movimientoListaDTO" class="style-columna-acciones">
-        <button mat-icon-button color="primary" aria-label="Visualizar movimiento"
-          (click)="onVisualizar(movimientoListaDTO)">
-          <mat-icon>visibility</mat-icon>
+        <button mat-icon-button [matMenuTriggerFor]="menuOpciones" matTooltip="Acciones">
+          <mat-icon>more_vert</mat-icon>
         </button>
 
-        <button mat-icon-button color="primary" aria-label="Editar movimiento" (click)="onEditar(movimientoListaDTO)">
-          <mat-icon>edit</mat-icon>
-        </button>
+        <mat-menu #menuOpciones="matMenu" xPosition="before" yPosition="below">
+          <button mat-menu-item color="primary" aria-label="Visualiza el movimiento"
+            (click)="onVisualizar(movimientoListaDTO)">
+            <mat-icon>visibility</mat-icon>
+            <span>Visualizar</span>
+          </button>
 
-        <button mat-icon-button color="warn" aria-label="Inactivar movimiento"
-          (click)="onInactivar(movimientoListaDTO)">
-          <mat-icon>delete</mat-icon>
-        </button>
+          <button mat-menu-item aria-label="Edita el movimiento" (click)="onEditar(movimientoListaDTO)">
+            <mat-icon>edit</mat-icon>
+            <span>Editar</span>
+          </button>
+
+          <button mat-menu-item aria-label="Inactiva el movimiento" (click)="onInactivar(movimientoListaDTO)">
+            <mat-icon>delete</mat-icon>
+            <span>Inactivar</span>
+          </button>
+
+          <button mat-menu-item aria-label="Imprimir movimiento" [matMenuTriggerFor]="subMenuImprimir">
+            <mat-icon>print</mat-icon>
+            <span>Imprimir</span>
+          </button>
+
+          <mat-menu #subMenuImprimir="matMenu">
+            <button mat-menu-item (click)="onImprimirMovimientoA4Pdf(movimientoListaDTO)">
+              <mat-icon>print</mat-icon>
+              <span>Movimiento A4</span>
+            </button>
+          </mat-menu>
+        </mat-menu>
       </mat-cell>
     </ng-container>
 

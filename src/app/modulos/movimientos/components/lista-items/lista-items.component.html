@@ -86,7 +86,7 @@
         </mat-header-cell>
 
         <mat-cell *matCellDef="let item" class="style-columna-acciones">
-          <button mat-icon-button color="warn" aria-label="Remover item"
+          <button mat-icon-button color="warn" matTooltip="Remover item"
                   (click)="removerItem(item)" [disabled]="formItemToAgregar.disabled">
             <mat-icon>delete</mat-icon>
           </button>
