@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { MatTable } from '@angular/material/table';
 import { map, Observable, startWith } from 'rxjs';
@@ -141,6 +141,24 @@ export class ListaItemsComponent implements OnInit {
     return isValido;
   }
 
+  private isItemYaAgregado(itemAAgregar: ItemMovimiento): boolean {
+    const itemsArray = this.movimientoFormGroup.get('items') as FormArray;
+
+    for (const itemArray of itemsArray.controls) {
+      const controlValue = itemArray.value as ItemMovimiento;
+
+      if (
+        itemAAgregar.mercaderia === controlValue.mercaderia &&
+        itemAAgregar.cantidad === controlValue.cantidad &&
+        itemAAgregar.valorUnitario === controlValue.valorUnitario
+      ) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   private validarItem(nuevoItem: ItemMovimiento): boolean {
     let isValido: boolean = true;
     let mensaje: string = '';
@@ -156,6 +174,10 @@ export class ListaItemsComponent implements OnInit {
     }
     else if (HelpersService.isNuloOrVacio(nuevoItem.valorUnitario)) {
       mensaje = 'Ingrese un valor unitario!';
+      isValido = false;
+    }
+    else if (this.isItemYaAgregado(nuevoItem)) {
+      mensaje = 'La mercaderia seleccionada ya fue agregada con la misma cantidad y valor unitario!';
       isValido = false;
     }
 
