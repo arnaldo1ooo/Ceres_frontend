@@ -33,21 +33,21 @@
     <!-- Columna Acciones -->
     <ng-container matColumnDef="acciones">
       <mat-header-cell *matHeaderCellDef class="style-columna-acciones">
-        <button mat-mini-fab color="accent" aria-label="Crear nueva mercaderia" (click)="onNuevo()">
+        <button mat-mini-fab color="accent" matTooltip="Crear nueva mercaderia" (click)="onNuevo()">
           <mat-icon>add</mat-icon>
         </button>
       </mat-header-cell>
 
       <mat-cell *matCellDef="let mercaderias" class="style-columna-acciones">
-        <button mat-icon-button color="primary" aria-label="Visualizar mercaderia" (click)="onVisualizar(mercaderias)">
+        <button mat-icon-button color="primary" matTooltip="Visualizar mercaderia" (click)="onVisualizar(mercaderias)">
           <mat-icon>visibility</mat-icon>
         </button>
 
-        <button mat-icon-button color="primary" aria-label="Editar mercaderia" (click)="onEditar(mercaderias)">
+        <button mat-icon-button color="primary" matTooltip="Editar mercaderia" (click)="onEditar(mercaderias)">
           <mat-icon>edit</mat-icon>
         </button>
 
-        <button mat-icon-button color="warn" aria-label="Inactivar mercaderia" (click)="onInactivar(mercaderias)">
+        <button mat-icon-button color="warn" matTooltip="Inactivar mercaderia" (click)="onInactivar(mercaderias)">
           <mat-icon>delete</mat-icon>
         </button>
       </mat-cell>

@@ -1,11 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { tap } from 'rxjs';
 import { DEFAULT_PAGE_TAMANHOS } from 'src/app/compartido/constantes/constantes';
 import { PageRequest } from 'src/app/compartido/interfaces/page-request';
+import { AvisoHelpersService } from 'src/app/compartido/services/aviso-helpers.service';
 
 import { MovimientosComponent } from '../../containers/movimientos/movimientos.component';
 import { MovimientoListaDTO, Page } from '../../model/dtos/movimientoListaDTO';
 import { Movimiento } from '../../model/movimiento';
+import { MovimientosService } from '../../services/movimientos.service';
 
 
 @Component({
@@ -31,7 +34,9 @@ export class MovimientosListaComponent implements OnInit {
   protected readonly columnasAMostrar = ['_id', 'tipo', 'nombreApellidoEntidad', 'fechaEmision', 'departamento', 'total', 'situacion', 'acciones'];
   protected tamanhosPage = DEFAULT_PAGE_TAMANHOS;
 
-  constructor(private _movimientosComponent: MovimientosComponent) { }
+  constructor(private _movimientosComponent: MovimientosComponent,
+    private _movimientosService: MovimientosService,
+    private _avisoHelpersService: AvisoHelpersService) { }
 
   ngOnInit(): void {
 
@@ -57,6 +62,26 @@ export class MovimientosListaComponent implements OnInit {
     this.inactivar.emit(movimiento);
   }
 
+
+  onImprimirMovimientoA4Pdf(movimiento: MovimientoListaDTO) {
+    return this._movimientosService.imprimirMovimientoA4Pdf(movimiento._id)
+      .subscribe({
+        next: (respuesta: any) => {
+          const blob = new Blob([respuesta], { type: 'application/pdf' });
+          const url = window.URL.createObjectURL(blob);
+          window.open(url, '_blank');
+          window.URL.revokeObjectURL(url); // Liberar recursos después de abrir la ventana
+        },
+        error: (error) => {
+          console.error('Error al imprimir Movimiento A4: ', error);
+          this.onError('Error al imprimir Movimiento A4');
+        },
+        complete: () => {
+          // Lógica a ejecutar cuando la operación está completa
+        }
+      });
+  }
+
   onCambiarPage(event: PageEvent) {
     if (this.listMovimientosListaDTO.length > 0) {
       this.pageRequest.pagina = event.pageIndex; //Asignamos el numero de pagina
@@ -64,6 +89,10 @@ export class MovimientosListaComponent implements OnInit {
 
       this._movimientosComponent.refrescar(this.pageRequest);
     }
+  }
+
+  private onError(error: string) {
+    this._avisoHelpersService.mostrarMensaje(error, '', 4000);
   }
 
 }
