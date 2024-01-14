@@ -66,27 +66,47 @@
     <!-- Columna Acciones -->
     <ng-container matColumnDef="acciones">
       <mat-header-cell *matHeaderCellDef class="style-columna-acciones">
-          <button mat-mini-fab color="accent" aria-label="Crear nuevo movimiento"
-            (click)="onMostrarTiposMovimientoSeleccion()">
-            <mat-icon>add</mat-icon>
-          </button>
-        </mat-header-cell>
+        <button mat-mini-fab color="accent" aria-label="Crear nuevo movimiento"
+          (click)="onMostrarTiposMovimientoSeleccion()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-header-cell>
 
-        <mat-cell *matCellDef="let movimientoListaDTO" class="style-columna-acciones">
-          <button mat-icon-button color="primary" aria-label="Visualizar movimiento"
+      <mat-cell *matCellDef="let movimientoListaDTO" class="style-columna-acciones">
+        <button mat-icon-button [matMenuTriggerFor]="menuOpciones" matTooltip="Acciones">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+
+        <mat-menu #menuOpciones="matMenu" xPosition="before" yPosition="below">
+          <button mat-menu-item color="primary" aria-label="Visualiza el movimiento"
             (click)="onVisualizar(movimientoListaDTO)">
             <mat-icon>visibility</mat-icon>
+            <span>Visualizar</span>
           </button>
 
-          <button mat-icon-button color="primary" aria-label="Editar movimiento" (click)="onEditar(movimientoListaDTO)">
+          <button mat-menu-item aria-label="Edita el movimiento" (click)="onEditar(movimientoListaDTO)">
             <mat-icon>edit</mat-icon>
+            <span>Editar</span>
           </button>
 
-          <button mat-icon-button color="warn" aria-label="Inactivar movimiento"
-            (click)="onInactivar(movimientoListaDTO)">
+          <button mat-menu-item aria-label="Inactiva el movimiento" (click)="onInactivar(movimientoListaDTO)">
             <mat-icon>delete</mat-icon>
+            <span>Inactivar</span>
           </button>
-        </mat-cell>
+
+          <button mat-menu-item aria-label="Imprimir movimiento" [matMenuTriggerFor]="subMenuImprimir">
+            <mat-icon>print</mat-icon>
+            <span>Imprimir</span>
+          </button>
+
+          <mat-menu #subMenuImprimir="matMenu">
+            <button mat-menu-item (click)="onImprimirMovimientoA4Pdf(movimientoListaDTO)">
+              <mat-icon>print</mat-icon>
+              <span>Movimiento A4</span>
+            </button>
+          </mat-menu>
+        </mat-menu>
+      </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="columnasAMostrar"></mat-header-row>

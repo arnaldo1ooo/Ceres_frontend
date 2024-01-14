@@ -104,6 +104,10 @@ export class MovimientosService {
     return this._httpClient.get<MovimientoDetalleDTO>(`${API_URL_MOVIMIENTOS}/${id}`);
   }
 
+  imprimirMovimientoA4Pdf(id: string) {
+    return this._httpClient.get(`${API_URL_MOVIMIENTOS}/generarMovimientoA4PDF/${id}`, { responseType: 'blob' });
+  }
+
   private convertirToLDTasignarHorasInicial(fechaInicial: Date): LocalDateTime | null {
     let fechaInicialLDT = FechaHelpersService.dateALocalDateTime(fechaInicial);
 
