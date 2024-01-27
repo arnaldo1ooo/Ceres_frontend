@@ -24,7 +24,7 @@ const FORMATO_FECHA_PERSONALIZADO: NgxMatDateFormats = {
   },
   display: {
     dateInput: 'DD/MM/YYYY HH:mm',
-    monthYearLabel: 'MMM YYYY',
+    monthYearLabel: 'MMMM YYYY',
     dateA11yLabel: 'LL',
     monthYearA11yLabel: 'MMMM YYYY'
   }
