@@ -100,15 +100,8 @@ export class MovimientosComponent implements OnInit {
     const idFiltro: Number = this.movimientoFiltro.id;  //Salva id ingresado
     this.limpiarFiltros();
     this.movimientoFiltro.id = idFiltro;  //Vuelve a agregar filtro ingresado
-
-    this.movimientoFiltro.fechaRangoInicialFinal = new FormGroup({
-      start: new FormControl(
-        null
-      ),
-      end: new FormControl(
-        null
-      )
-    });
+    this.movimientoFiltro.fechaInicial = null;
+    this.movimientoFiltro.fechaFinal = null;
   }
 
   private filtroInicial() {
@@ -117,14 +110,8 @@ export class MovimientosComponent implements OnInit {
       id: "",
       idTipo: ID_OPCION_TODOS,
       nombreApellidoEntidad: "",
-      fechaRangoInicialFinal: new FormGroup({
-        start: new FormControl(
-          FechaHelpersService.getPrimerDiaDelAnho()
-        ),
-        end: new FormControl(
-          FechaHelpersService.getUltimoDiaDelMesActual()
-        )
-      }),
+      fechaInicial: FechaHelpersService.getPrimerDiaDelAnho(),
+      fechaFinal: new Date(),
       idDepartamento: ID_OPCION_TODOS,
       keySituacion: Situacion.ACTIVO
     };

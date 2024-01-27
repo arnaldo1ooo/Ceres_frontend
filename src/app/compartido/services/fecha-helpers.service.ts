@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LocalDateTime } from '@js-joda/core';
+import * as moment from 'moment';
+import { HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL } from '../constantes/constantes';
 
 @Injectable({
   providedIn: 'root'
@@ -41,11 +43,11 @@ export class FechaHelpersService {
 
   public static asignarHoraAFechaLDT(fecha: LocalDateTime | null, hora: number, minuto: number, segundo: number): LocalDateTime | null {
     return fecha != null
-            ? fecha.withHour(hora).withMinute(minuto).withSecond(segundo)
-            : null;
+      ? fecha.withHour(hora).withMinute(minuto).withSecond(segundo)
+      : null;
   }
 
-  public static dateALocalDateTime(fecha: Date | null): LocalDateTime | null{
+  public static dateALocalDateTime(fecha: Date | null): LocalDateTime | null {
     if (fecha != null) {
       // Crear una instancia de LocalDateTime con los valores del objeto Date
       const localDateTime = LocalDateTime.of(fecha.getFullYear(), fecha.getMonth() + 1, fecha.getDate());
@@ -55,6 +57,10 @@ export class FechaHelpersService {
     }
 
     return null;
+  }
+
+  public static formatearFecha(fecha: Date | null): string {
+    return (moment(fecha)).format('DD/MM/yyyy HH:mm:ss')
   }
 
 }

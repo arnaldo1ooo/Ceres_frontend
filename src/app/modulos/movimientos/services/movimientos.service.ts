@@ -69,8 +69,10 @@ export class MovimientosService {
       + `id=${movimientoFiltro.id}`
       + `&idTipo=${movimientoFiltro.idTipo}`
       + `&nombreApellidoEntidad=${movimientoFiltro.nombreApellidoEntidad}`
-      + `&fechaInicial=${this.convertirToLDTasignarHorasInicial(movimientoFiltro.fechaRangoInicialFinal.value.start)}`
-      + `&fechaFinal=${this.convertirToLDTasignarHorasFinal(movimientoFiltro.fechaRangoInicialFinal.value.end)}`
+      + `&fechaInicial=${FechaHelpersService.formatearFecha(movimientoFiltro.fechaInicial)}`
+      + `&fechaFinal=${FechaHelpersService.formatearFecha(
+                  FechaHelpersService.asignarHoraAFechaDate(
+                    movimientoFiltro.fechaFinal!, HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL))}`
       + `&idDepartamento=${HelpersService.idTodosReturnVacio(movimientoFiltro.idDepartamento)}`
       + `&keySituacion=${HelpersService.idTodosReturnVacio(movimientoFiltro.keySituacion)}`
       + `&page=${pageRequest.pagina}&size=${pageRequest.tamanho}&sort=${pageRequest.ordenarPor},${pageRequest.orden}`);
@@ -113,13 +115,6 @@ export class MovimientosService {
 
     return FechaHelpersService.asignarHoraAFechaLDT(
       fechaInicialLDT, HORA_INICIAL, MINUTO_INICIAL, SEGUNDO_INICIAL); //Asignamos hora 00:00:00
-  }
-
-  private convertirToLDTasignarHorasFinal(fechaFinal: Date): LocalDateTime | null {
-    let fechaFinalLDT = FechaHelpersService.dateALocalDateTime(fechaFinal);
-
-    return FechaHelpersService.asignarHoraAFechaLDT(
-      fechaFinalLDT, HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL); //Asignamos hora 23:59:59
   }
 
   public crearMovimientoFormGroup(): FormGroup {
