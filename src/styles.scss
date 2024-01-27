@@ -211,7 +211,7 @@ $temaDark: (
 );
 
 // Theme Init
-@include mat.all-component-themes($temaLight);
+@include mat.all-component-themes($temaDark);
 
 .theme-alternate {
   @include mat.all-component-colors($temaDark);
@@ -306,3 +306,33 @@ input[disabled] {
   align-items: center;
   justify-content: center;
 }
+
+
+//Inicio - Styles para solucionar problema con mat-datetimepicker
+.mat-datepicker-content, .time-container {
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+  display: block;
+  border-radius: 4px;
+  background-color: var(--mat-datepicker-calendar-container-background-color);
+  color: var(--mat-datepicker-calendar-container-text-color);
+}
+
+.mat-calendar-body-cell-content {
+  color: var(--mat-datepicker-calendar-date-text-color);
+  border-color: var(--mat-datepicker-calendar-date-outline-color)
+}
+
+.mat-calendar-body-selected {
+  background-color: var(--mat-datepicker-calendar-date-selected-state-background-color);
+  color: var(--mat-datepicker-calendar-date-selected-state-text-color);
+}
+
+.mat-calendar-body-cell-content {
+  border: none !important;
+}
+
+.mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+  background-color: var(--mat-datepicker-calendar-date-hover-state-background-color);
+}
+
+//Fin - Styles para solucionar problema con mat-datetimepicker

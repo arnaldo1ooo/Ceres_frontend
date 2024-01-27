@@ -102,7 +102,7 @@ export class MovimientoFormComponent implements OnInit {
           await this._tiposMovimientoService.cargarPorId(HelpersService.obtenerItemDelStorage('idTipoMovimiento')), //Await sirve para esperar hasta que retorne el llamado para continuar la ejecucion);
           await this._monedasService.cargarPorId(MonedaEnum.GUARANI),
           new Entidad(),
-          FechaHelpersService.getFechaHoraActualLDT(),
+          FechaHelpersService.getFechaHoraActual(),
           this._loginService.loginSesionActual.departamento,
           new Entidad(),
           '',
@@ -319,7 +319,7 @@ export class MovimientoFormComponent implements OnInit {
   }
 
   private cargarDatosEnForm(id: string, tipo: TipoMovimiento, moneda: Moneda, entidad: Entidad,
-    fechaEmision: LocalDateTime | null, departamento: Departamento, compradorVendedor: Entidad,
+    fechaEmision: Date | null, departamento: Departamento, compradorVendedor: Entidad,
     observacion: string, situacion: Situacion | null, items: ItemMovimiento[], formaPago: FormaPago | null,
     movCuentasContables: MovimientoCuentaContable[]) {
 
