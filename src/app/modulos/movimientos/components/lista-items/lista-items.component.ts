@@ -9,7 +9,6 @@ import { ItemMovimiento } from '../../model/itemMovimiento';
 import { ModoEdicion } from '../../../../compartido/enums/modoEdicion.enum';
 import { HelpersService } from '../../../../compartido/services/helpers.service';
 import { MovimientosService } from '../../services/movimientos.service';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-lista-items',
@@ -108,6 +107,13 @@ export class ListaItemsComponent implements OnInit {
   }
 
   public removerItem(itemARemover: ItemMovimiento) {
+    const movCuentasContables = this.movimientoFormGroup.get('movimientoCuentasContables') as FormArray;
+
+    if (movCuentasContables.length > 0) {
+      this._avisoHelpersService.mostrarMensaje("Remueva primero el financiero!");
+      return;
+    }
+
     const itemsArray = this.movimientoFormGroup.get('items') as FormArray;
 
     const indexItemARemover = itemsArray.controls.findIndex((control) => {

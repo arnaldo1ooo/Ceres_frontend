@@ -23,7 +23,7 @@ import { ClaseEntidad } from './../../../entidades/enums/clase-entidad.enum';
 import { Entidad } from './../../../entidades/models/entidad';
 import { ItemMovimiento } from '../../model/itemMovimiento';
 import { FormaPago } from '../../enums/formaPago.enum';
-import { MatTabGroup } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ListaItemsComponent } from '../../components/lista-items/lista-items.component';
 import { MovimientosService } from '../../services/movimientos.service';
 import { LoginService } from '../../../login/services/login.service';
@@ -194,6 +194,11 @@ export class MovimientoFormComponent implements OnInit {
       isValido = false;
       this.moverseDeTab(this.INDEX_TAB_FINANCIERO);
     }
+    else if (this.listaFinancieroComponent.saldoLanzar > 0) {
+      mensaje = "Existe saldo a lanzar en el financiero!"
+      isValido = false;
+      this.moverseDeTab(this.INDEX_TAB_FINANCIERO);
+    }
 
     if (!isValido) {
       this._avisoHelpersService.mostrarMensaje(mensaje);
@@ -361,7 +366,6 @@ export class MovimientoFormComponent implements OnInit {
   private itemsChange() {
     this.formMovimientoDetalle.get('items')?.valueChanges.subscribe(() => {
       this.actualizarTotalItems();
-      this.actualizarValorFinanciero();
     });
   }
 
@@ -378,8 +382,9 @@ export class MovimientoFormComponent implements OnInit {
     }
   }
 
-  private actualizarValorFinanciero() {
+  protected tabOnChange(tabChangeEvent: MatTabChangeEvent): void {
     this.listaFinancieroComponent.formMovimientoCuentaToAgregar.get('valor')?.setValue(this.totalItems);
+    this.listaFinancieroComponent.actualizarSaldoLanzar();
   }
 
 }
