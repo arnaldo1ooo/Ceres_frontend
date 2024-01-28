@@ -383,8 +383,11 @@ export class MovimientoFormComponent implements OnInit {
   }
 
   protected tabOnChange(tabChangeEvent: MatTabChangeEvent): void {
-    this.listaFinancieroComponent.formMovimientoCuentaToAgregar.get('valor')?.setValue(this.totalItems);
-    this.listaFinancieroComponent.actualizarSaldoLanzar();
+    if(tabChangeEvent.index == 2) {
+      this.listaFinancieroComponent.formMovimientoCuentaToAgregar.get('valor')?.setValue(this.totalItems);
+      this.listaFinancieroComponent.actualizarSaldoLanzar();
+    }
+
   }
 
 }
