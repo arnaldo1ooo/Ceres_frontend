@@ -1,12 +1,13 @@
 <form [formGroup]="formItemToAgregar">
   <div class="ui-contenedor-agregar-item">
+
     <mat-form-field appearance="outline" [ngClass]="['style-campo-global', 'ui-campo-mercaderia']">
       <mat-label>{{ "titulos.mercaderia" | transloco }}</mat-label>
       <input #mercaderiaInputAC formControlName="mercaderia" type="text" matInput
         [matAutocomplete]="mercaderiaAutocomplete">
       <mat-icon matSuffix>search</mat-icon>
-
-      <mat-autocomplete #mercaderiaAutocomplete="matAutocomplete" [displayWith]="displayMercaderia">
+      <mat-autocomplete #mercaderiaAutocomplete="matAutocomplete" [displayWith]="displayMercaderia"
+        (optionSelected)="onChangeMercaderia()">
         <mat-option *ngFor="let mercaderia of listaMercaderiasFiltrado$ | async" [value]="mercaderia">
           {{mercaderia._id + " - " + mercaderia.descripcion}}
         </mat-option>
@@ -86,8 +87,8 @@
         </mat-header-cell>
 
         <mat-cell *matCellDef="let item" class="style-columna-acciones">
-          <button mat-icon-button color="warn" matTooltip="Remover item"
-                  (click)="removerItem(item)" [disabled]="formItemToAgregar.disabled">
+          <button mat-icon-button color="warn" matTooltip="Remover item" (click)="removerItem(item)"
+            [disabled]="formItemToAgregar.disabled">
             <mat-icon>delete</mat-icon>
           </button>
         </mat-cell>

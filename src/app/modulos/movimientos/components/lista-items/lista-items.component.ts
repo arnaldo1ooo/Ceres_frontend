@@ -107,6 +107,13 @@ export class ListaItemsComponent implements OnInit {
   }
 
   public removerItem(itemARemover: ItemMovimiento) {
+    const movCuentasContables = this.movimientoFormGroup.get('movimientoCuentasContables') as FormArray;
+
+    if (movCuentasContables.length > 0) {
+      this._avisoHelpersService.mostrarMensaje("Remueva primero el financiero!");
+      return;
+    }
+
     const itemsArray = this.movimientoFormGroup.get('items') as FormArray;
 
     const indexItemARemover = itemsArray.controls.findIndex((control) => {
@@ -190,6 +197,10 @@ export class ListaItemsComponent implements OnInit {
 
   protected limpiarCamposItemAgregar() {
     this.formItemToAgregar.reset();
+  }
+
+  onChangeMercaderia() {
+    this.formItemToAgregar.get('cantidad')?.setValue(1);
   }
 
 }

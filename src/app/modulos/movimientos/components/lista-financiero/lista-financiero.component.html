@@ -1,10 +1,12 @@
 <div class="ui-container-principal">
 
-  <form [formGroup]="formMovimientoCuentaToAgregar"> <!-- FormGroup principal -->
+  <form [formGroup]="formMovimientoCuentaToAgregar">
+    <!-- FormGroup principal -->
     <div class="ui-contenedor-agregar-mov-cuenta">
-      <mat-form-field appearance="outline" [ngClass]="['style-campo-global']" formGroupName="_id"> <!-- FormGroup anidado -->
+      <mat-form-field appearance="outline" [ngClass]="['style-campo-global']" formGroupName="_id">
+        <!-- FormGroup anidado -->
         <mat-label>{{ "titulos.cuenta-contable" | transloco }}</mat-label>
-        <input #cuentaContableInputAC formControlName="cuentaContable" type="text" matInput
+        <input #cuentaContableAC formControlName="cuentaContable" type="text" matInput
           [matAutocomplete]="cuentaContableAutocomplete">
         <mat-icon matSuffix>search</mat-icon>
 
@@ -52,8 +54,21 @@
           </mat-cell>
         </ng-container>
 
-        <mat-header-row *matHeaderRowDef="columnasAMostrarItems"></mat-header-row> <!-- Filas de encabezado -->
-        <mat-row *matRowDef="let row; columns: columnasAMostrarItems;"></mat-row> <!-- Filas de datos -->
+        <!-- Columna Acciones -->
+        <ng-container matColumnDef="acciones">
+          <mat-header-cell *matHeaderCellDef>
+          </mat-header-cell>
+
+          <mat-cell *matCellDef="let item" class="style-columna-acciones">
+            <button mat-icon-button color="warn" matTooltip="Remover cuenta contable"
+              (click)="removerCuentaContable(item)" [disabled]="formMovimientoCuentaToAgregar.disabled">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="columnasAMostrarFinanciero"></mat-header-row> <!-- Filas de encabezado -->
+        <mat-row *matRowDef="let row; columns: columnasAMostrarFinanciero;"></mat-row> <!-- Filas de datos -->
       </mat-table>
 
 
@@ -64,6 +79,14 @@
       </div>
     </div>
 
+
+
   </form>
+
+  <div>
+    <mat-label class="ui-saldo-lanzar">Saldo a lanzar: {{saldoLanzar | currency:movimientoFormGroup.get('moneda')?.value.simbolo != null
+      ? movimientoFormGroup.get('moneda')?.value.simbolo : 'Gs' : 'symbol'
+      : '1.0' + '-' + movimientoFormGroup.get('moneda')?.value.cantidadDecimales }}</mat-label>
+  </div>
 
 </div>

@@ -23,7 +23,7 @@ import { ClaseEntidad } from './../../../entidades/enums/clase-entidad.enum';
 import { Entidad } from './../../../entidades/models/entidad';
 import { ItemMovimiento } from '../../model/itemMovimiento';
 import { FormaPago } from '../../enums/formaPago.enum';
-import { MatTabGroup } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ListaItemsComponent } from '../../components/lista-items/lista-items.component';
 import { MovimientosService } from '../../services/movimientos.service';
 import { LoginService } from '../../../login/services/login.service';
@@ -102,7 +102,7 @@ export class MovimientoFormComponent implements OnInit {
           await this._tiposMovimientoService.cargarPorId(HelpersService.obtenerItemDelStorage('idTipoMovimiento')), //Await sirve para esperar hasta que retorne el llamado para continuar la ejecucion);
           await this._monedasService.cargarPorId(MonedaEnum.GUARANI),
           new Entidad(),
-          FechaHelpersService.getFechaHoraActualLDT(),
+          FechaHelpersService.getFechaHoraActual(),
           this._loginService.loginSesionActual.departamento,
           new Entidad(),
           '',
@@ -191,6 +191,11 @@ export class MovimientoFormComponent implements OnInit {
     }
     else if (this.formMovimientoDetalle.get('movimientoCuentasContables')?.value.length == 0) {
       mensaje = "Agregue al menos una cuenta contable en el Financiero!"
+      isValido = false;
+      this.moverseDeTab(this.INDEX_TAB_FINANCIERO);
+    }
+    else if (this.listaFinancieroComponent.saldoLanzar > 0) {
+      mensaje = "Existe saldo a lanzar en el financiero!"
       isValido = false;
       this.moverseDeTab(this.INDEX_TAB_FINANCIERO);
     }
@@ -319,7 +324,7 @@ export class MovimientoFormComponent implements OnInit {
   }
 
   private cargarDatosEnForm(id: string, tipo: TipoMovimiento, moneda: Moneda, entidad: Entidad,
-    fechaEmision: LocalDateTime | null, departamento: Departamento, compradorVendedor: Entidad,
+    fechaEmision: Date | null, departamento: Departamento, compradorVendedor: Entidad,
     observacion: string, situacion: Situacion | null, items: ItemMovimiento[], formaPago: FormaPago | null,
     movCuentasContables: MovimientoCuentaContable[]) {
 
@@ -361,7 +366,6 @@ export class MovimientoFormComponent implements OnInit {
   private itemsChange() {
     this.formMovimientoDetalle.get('items')?.valueChanges.subscribe(() => {
       this.actualizarTotalItems();
-      this.actualizarValorFinanciero();
     });
   }
 
@@ -378,8 +382,12 @@ export class MovimientoFormComponent implements OnInit {
     }
   }
 
-  private actualizarValorFinanciero() {
-    this.listaFinancieroComponent.formMovimientoCuentaToAgregar.get('valor')?.setValue(this.totalItems);
+  protected tabOnChange(tabChangeEvent: MatTabChangeEvent): void {
+    if(tabChangeEvent.index == this.INDEX_TAB_FINANCIERO) {
+      this.listaFinancieroComponent.formMovimientoCuentaToAgregar.get('valor')?.setValue(this.totalItems);
+      this.listaFinancieroComponent.actualizarSaldoLanzar();
+    }
+
   }
 
 }

@@ -14,7 +14,7 @@ export class MovimientoDetalleDTO {
   tipo: TipoMovimiento = new TipoMovimiento();
   moneda: Moneda = new Moneda();
   entidad: Entidad = new Entidad();
-  fechaEmision: LocalDateTime | null = null; //Fecha actual por defecto
+  fechaEmision: Date | null = null; //Fecha actual por defecto
   departamento: Departamento = new Departamento();
   compradorVendedor : Entidad = new Entidad();
   observacion: string = '';

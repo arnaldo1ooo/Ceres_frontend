@@ -7,7 +7,7 @@
   <mat-card-content>
     <form [formGroup]="formMovimientoDetalle" class="anchura-minima">
 
-      <mat-tab-group #movimientoTabGroup class="ui-tab-grupo">
+      <mat-tab-group #movimientoTabGroup class="ui-tab-grupo" (selectedTabChange)="tabOnChange($event)">
 
         <!-----------------------------------------------------DATOS INICIALES----------------------------------------------------->
         <mat-tab label="{{ 'titulos.datos-iniciales' | transloco | uppercase }}" class="">
@@ -58,9 +58,10 @@
               <mat-grid-tile>
                 <mat-form-field appearance="outline" class="style-campos">
                   <mat-label>{{ "titulos.fecha-emision" | transloco }}</mat-label>
-                  <input #fechaEmisionInput formControlName="fechaEmision" type="datetime-local" matInput
-                    readonly="false"
-                    [value]="formMovimientoDetalle.get('fechaEmision')?.value | date:'yyyy-MM-ddTHH:mm:ss'">
+                  <input matInput [ngxMatDatetimePicker]="miPicker" placeholder="Seleccione fecha y hora"
+                    formControlName="fechaEmision">
+                  <mat-datepicker-toggle matSuffix [for]="$any(miPicker)"></mat-datepicker-toggle>
+                  <ngx-mat-datetime-picker #miPicker [showSpinners]="true"></ngx-mat-datetime-picker>
                 </mat-form-field>
               </mat-grid-tile>
 
@@ -159,22 +160,23 @@
 
         <!-----------------------------------------------------FINANCIERO----------------------------------------------------->
         <mat-tab label="{{ 'titulos.financiero' | transloco | uppercase }}">
+          <div class="style-contenedor-tab">
+            <mat-tab-group #financieroTabGroup class="ui-tab-group-financiero">
 
-          <mat-tab-group #financieroTabGroup class="ui-tab-group-financiero">
+              <mat-tab #alContadoTab label="{{ 'titulos.al-contado' | transloco | uppercase }}"
+                [disabled]='!alContadoTab.isActive'>
+                <app-lista-financiero [movimientoFormGroup]="formMovimientoDetalle" [modoEdicion]="modoEdicion">
+                </app-lista-financiero>
+              </mat-tab>
 
-            <mat-tab #alContadoTab label="{{ 'titulos.al-contado' | transloco | uppercase }}"
-              [disabled]='!alContadoTab.isActive'>
-              <app-lista-financiero [movimientoFormGroup]="formMovimientoDetalle" [modoEdicion]="modoEdicion">
-              </app-lista-financiero>
-            </mat-tab>
+              <mat-tab #bTab [disabled]='!bTab.isActive'>
+              </mat-tab>
 
-            <mat-tab #bTab [disabled]='!bTab.isActive'>
-            </mat-tab>
+              <mat-tab #cTab [disabled]='!cTab.isActive'>
+              </mat-tab>
 
-            <mat-tab #cTab [disabled]='!cTab.isActive'>
-            </mat-tab>
-
-          </mat-tab-group>
+            </mat-tab-group>
+          </div>
         </mat-tab>
       </mat-tab-group>
     </form>
@@ -183,7 +185,8 @@
 
   <!-----TOTALES---->
   <div [ngClass]="['ui-contenedor-totales']">
-    <mat-label [ngClass]="['ui-total']"> <!-- ?? es si es nulo-->
+    <mat-label [ngClass]="['ui-total']">
+      <!-- ?? es si es nulo-->
       Total: {{ totalItems | currency:(formMovimientoDetalle.get('moneda')?.value?.simbolo ?? 'Gs')
         : 'symbol' : '1.0-' + (formMovimientoDetalle.get('moneda')?.value?.cantidadDecimales ?? '8') }}
     </mat-label>

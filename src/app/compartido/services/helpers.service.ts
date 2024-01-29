@@ -13,7 +13,7 @@ export class HelpersService {
   ) { }
 
   public static isTokenExpirado(token: any): boolean {
-    if(this.isNoNuloYNoVacio(token)) {
+    if (this.isNoNuloYNoVacio(token)) {
       const fechaExpiracion = (JSON.parse(atob(token.split('.')[1]))).exp;
       return fechaExpiracion * 1000 < Date.now();
     }
@@ -119,7 +119,7 @@ export class HelpersService {
       if (this.isNoUndefined(opcion.id) && this.isNoUndefined(opcionSeleccionada.id)) {
         return opcion.id === opcionSeleccionada.id
       }
-      else if(this.isNoUndefined(opcion._id) && this.isNoUndefined(opcionSeleccionada._id)) {
+      else if (this.isNoUndefined(opcion._id) && this.isNoUndefined(opcionSeleccionada._id)) {
         return opcion._id === opcionSeleccionada._id
       }
     }
@@ -134,7 +134,8 @@ export class HelpersService {
   public static convertirToMinus(cadena: string): string {
     try {
       return cadena.toLocaleLowerCase();
-    }catch{
+    }
+    catch {
       return cadena;
     }
   }
@@ -144,7 +145,8 @@ export class HelpersService {
 export function RequerirAutocomplete(control: AbstractControl) {
   const selection: any = control.value;
   if (typeof selection === 'string') {
-      return { incorrect: true };
+    return { incorrect: true };
   }
+
   return null;
 }
