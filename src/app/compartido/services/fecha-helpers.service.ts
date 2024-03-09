@@ -59,8 +59,13 @@ export class FechaHelpersService {
     return null;
   }
 
-  public static formatearFecha(fecha: Date | null): string {
+  public static formatearFecha(fecha: Date): string {
     return (moment(fecha)).format('DD/MM/yyyy HH:mm:ss')
+  }
+
+  public static formatearFechaYasignarHoraAFechaDate(fecha: Date, hora: number, minuto: number, segundo: number): string {
+    return this.formatearFecha(
+          this.asignarHoraAFechaDate(fecha, hora, minuto, segundo));
   }
 
 }
