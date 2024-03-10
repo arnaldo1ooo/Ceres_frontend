@@ -18,12 +18,12 @@ export class SelectorIdiomaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let keyIdiomaAlmacenado: string = HelpersService.obtenerItemDelStorage('key-idioma');
+    let keyIdiomaAlmacenado: string = HelpersService.obtenerItemDelLocalStorage('key-idioma');
     this.cambiarIdioma(HelpersService.isNoNuloYNoVacioYNoUndefined(keyIdiomaAlmacenado) ? keyIdiomaAlmacenado : this.idiomaDefault);
   }
 
   cambiarIdioma(keyIdioma: string) {
-    HelpersService.salvarItemEnStorage('key-idioma', keyIdioma);
+    HelpersService.salvarItemEnLocalStorage('key-idioma', keyIdioma);
     this._transLocoService.setActiveLang(keyIdioma); // cambia el idioma activo en Transloco
   }
 

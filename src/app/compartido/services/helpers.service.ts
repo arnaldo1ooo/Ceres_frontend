@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -25,17 +22,41 @@ export class HelpersService {
     localStorage.clear;
   }
 
-  public static removerItemDelStorage(key: string) {
+  public static removerItemDelLocalStorage(key: string) {
     localStorage.removeItem(key);
   }
 
-  public static salvarItemEnStorage(key: string, valor: string) {
+  public static salvarItemEnLocalStorage(key: string, valor: string) {
     localStorage.setItem(key, valor);
   }
 
-  public static obtenerItemDelStorage(key: string): string {
+  public static obtenerItemDelLocalStorage(key: string): string {
     const resultado = localStorage.getItem(key);
     return resultado != null ? resultado : '';
+  }
+
+  public static removerItemDelSessionStorage(key: string) {
+    sessionStorage.removeItem(key);
+  }
+
+  public static salvarItemEnSessionStorage(key: string, valor: any) {
+    if(typeof valor === 'object') {
+      valor = JSON.stringify(valor);
+    }
+
+    sessionStorage.setItem(key, valor);
+  }
+
+  public static obtenerItemDelSessionStorage(key: string) {
+
+    const valor = sessionStorage.getItem(key);
+
+    try {
+      return JSON.parse(valor!);
+    }
+    catch (e) {
+      return valor;
+    }
   }
 
   public static isNulo(valor: any): boolean {
@@ -124,7 +145,7 @@ export class HelpersService {
       }
     }
 
-    return opcion === opcionSeleccionada;
+    return opcion == opcionSeleccionada;
   }
 
   public static removerAcentos(cadena: string): string {

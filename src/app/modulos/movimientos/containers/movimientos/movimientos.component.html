@@ -49,7 +49,7 @@
       <mat-select [(ngModel)]="movimientoFiltro.idDepartamento" [compareWith]="compararOpcionesSelect">
         <mat-option [value]="-1">TODOS</mat-option>
         <mat-option *ngFor="let departamento of listaDepartamentos" value={{departamento._id}}>
-          {{departamento.descripcion}}
+          {{ departamento.descripcion }}
         </mat-option>
       </mat-select>
     </mat-form-field>

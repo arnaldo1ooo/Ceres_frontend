@@ -99,11 +99,11 @@ export class MovimientoFormComponent implements OnInit {
       if (HelpersService.isNuloOrVacio(movimientoDetalleDTO._id)) {
         this.cargarDatosEnForm(
           '0',
-          await this._tiposMovimientoService.cargarPorId(HelpersService.obtenerItemDelStorage('idTipoMovimiento')), //Await sirve para esperar hasta que retorne el llamado para continuar la ejecucion);
+          await this._tiposMovimientoService.cargarPorId(HelpersService.obtenerItemDelLocalStorage('idTipoMovimiento')), //Await sirve para esperar hasta que retorne el llamado para continuar la ejecucion);
           await this._monedasService.cargarPorId(MonedaEnum.GUARANI),
           new Entidad(),
           FechaHelpersService.getFechaHoraActual(),
-          this._loginService.loginSesionActual.departamento,
+          this._loginService.getDepartamentoLogado(),
           new Entidad(),
           '',
           Situacion.ACTIVO,

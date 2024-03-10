@@ -6,12 +6,12 @@ import { Login } from '../model/login';
 import { AuthService } from './../../../autenticacion/services/auth.service';
 import { API_URL_VERSION_ACTUAL } from '../../../compartido/constantes/constantes';
 import { HttpClient } from '@angular/common/http';
+import { HelpersService } from '../../../compartido/services/helpers.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  public loginSesionActual: Login = new Login();
 
   constructor(
     private authService: AuthService,
@@ -33,6 +33,10 @@ export class LoginService {
 
   public getBaseDatosActual(): Observable<string> {
     return this._httpClient.get(API_URL_BD_ACTUAL, { responseType: 'text' });  //Para recibir string
+  }
+
+  public getDepartamentoLogado() {
+    return HelpersService.obtenerItemDelSessionStorage('departamentoLogado');
   }
 
 }
