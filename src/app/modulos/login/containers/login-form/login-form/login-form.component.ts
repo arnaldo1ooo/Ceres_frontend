@@ -46,6 +46,7 @@ export class LoginFormComponent implements OnInit {
       this._loginService.login(this.credenciales)
         .pipe(
           finalize(() => {
+            HelpersService.salvarItemEnSessionStorage('nombreUsuarioLogado', this.credenciales.nombreUsuario);
             HelpersService.salvarItemEnSessionStorage('departamentoLogado', this.credenciales.departamento);
           })
         )

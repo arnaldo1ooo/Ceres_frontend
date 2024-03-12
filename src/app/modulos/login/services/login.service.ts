@@ -39,4 +39,8 @@ export class LoginService {
     return HelpersService.obtenerItemDelSessionStorage('departamentoLogado');
   }
 
+  public getNombreUsuarioLogado() {
+    return HelpersService.obtenerItemDelSessionStorage('nombreUsuarioLogado');
+  }
+
 }
