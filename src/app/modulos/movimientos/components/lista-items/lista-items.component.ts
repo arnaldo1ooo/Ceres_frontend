@@ -55,8 +55,13 @@ export class ListaItemsComponent implements OnInit {
     }
   }
 
-  public isModoNuevo() {
-    return HelpersService.isModoNuevo(this.modoEdicion);
+  public isModoEditarOVisualizar() {
+    console.log("HelpersService.isModoEditar(this.modoEdicion) " + HelpersService.isModoEditar(this.modoEdicion))
+    console.log("HelpersService.isModoVisualizar(this.modoEdicion) " + HelpersService.isModoVisualizar(this.modoEdicion))
+    console.log("HelpersService.isModoNuevo(this.modoEdicion) " + HelpersService.isModoNuevo(this.modoEdicion))
+
+    return HelpersService.isModoEditar(this.modoEdicion)
+            || HelpersService.isModoVisualizar(this.modoEdicion);
   }
 
   private inhabilitarCampos() {
