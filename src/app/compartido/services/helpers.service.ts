@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
+import { ModoEdicion } from '../enums/modoEdicion.enum';
 @Injectable({
   providedIn: 'root'
 })
@@ -99,15 +100,15 @@ export class HelpersService {
     return this.isNulo(valor) ? '' : valor;
   }
 
-  public static isModoVisualizar(path: any): boolean {
+  public static isPathModoVisualizar(path: any): boolean {
     return path.includes('visualizar');
   }
 
-  public static isModoEditar(path: any): boolean {
+  public static isPathModoEditar(path: any): boolean {
     return path.includes('editar');
   }
 
-  public static isModoNuevo(path: any): boolean {
+  public static isPathModoNuevo(path: any): boolean {
     return path.includes('nuevo');
   }
 
@@ -159,6 +160,18 @@ export class HelpersService {
     catch {
       return cadena;
     }
+  }
+
+  public static isModoNuevo(modoEdicion: string): boolean {
+    return modoEdicion != null && modoEdicion == ModoEdicion.MODO_NUEVO;
+  }
+
+  public static isModoEditar(modoEdicion: string): boolean {
+    return modoEdicion != null && modoEdicion == ModoEdicion.MODO_EDITAR;
+  }
+
+  public static isModoVisualizar(modoEdicion: string): boolean {
+    return modoEdicion != null && modoEdicion == ModoEdicion.MODO_VISUALIZAR;
   }
 
 }

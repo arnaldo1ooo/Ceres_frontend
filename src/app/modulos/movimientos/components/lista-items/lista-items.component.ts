@@ -55,6 +55,10 @@ export class ListaItemsComponent implements OnInit {
     }
   }
 
+  public isModoNuevo() {
+    return HelpersService.isModoNuevo(this.modoEdicion);
+  }
+
   private inhabilitarCampos() {
     this.formItemToAgregar.disable();
   }
