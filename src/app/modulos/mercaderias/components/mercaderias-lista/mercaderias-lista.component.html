@@ -18,12 +18,6 @@
       <mat-cell *matCellDef="let mercaderia" class="centrar-texto-global">{{mercaderia.tipo | tipoMercaderiaPipe}}</mat-cell>
     </ng-container>
 
-    <!-- Columna departamento -->
-    <ng-container matColumnDef="departamento">
-      <mat-header-cell *matHeaderCellDef>Departamento</mat-header-cell>
-      <mat-cell *matCellDef="let mercaderia" class="centrar-texto-global">{{mercaderia.departamento.descripcion}}</mat-cell>
-    </ng-container>
-
     <!-- Columna situacion -->
     <ng-container matColumnDef="situacion">
       <mat-header-cell *matHeaderCellDef>Situación</mat-header-cell>
