@@ -89,11 +89,12 @@
         <mat-cell *matCellDef="let item" class="style-columna-acciones">
           <button mat-raised-button color="primary" [matMenuTriggerFor]="menuOpciones">Opciones</button>
           <mat-menu #menuOpciones="matMenu">
-            <button #btnRemoverItem mat-menu-item matTooltip="Remover item" (click)="removerItem(item)"
+            <button #btnRemoverItem mat-menu-item matTooltip="Remover item" matTooltipPosition="right" (click)="removerItem(item)"
               [disabled]="isModoEditarOVisualizar()">Remover
             </button>
 
-            <button #btnOpcionesItem mat-menu-item>
+            <button #btnObsItem mat-menu-item (click)="abrirDialogoObsItem(item)"
+                    matTooltip="Agregar una observación al item" matTooltipPosition="right">
               Observación
             </button>
           </mat-menu>

@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>{{ dialogoTitulo }}</h1>
+
+<div mat-dialog-content>
+  <mat-form-field appearance="outline" style="width: 500px;">
+    <textarea [maxlength]="tamanhoMaximo" matInput cdkTextareaAutosize [(ngModel)]="texto" [readonly]="isModoLectura"
+    #autosize="cdkTextareaAutosize" [cdkAutosizeMinRows]="cantidadMinLineas" [cdkAutosizeMaxRows]="cantidadMaxLineas">
+    </textarea>
+  </mat-form-field>
+
+  <mat-dialog-actions class="style-barra-acciones">
+    <button mat-button mat-raised-button color="primary" [disabled]="isModoLectura"
+      (click)="onGuardar()">{{ "botones.guardar" | transloco }}</button>
+    <button mat-button mat-raised-button color="warn"
+      (click)="onCancelar()">{{ "botones.cancelar" | transloco }}</button>
+  </mat-dialog-actions>
+</div>

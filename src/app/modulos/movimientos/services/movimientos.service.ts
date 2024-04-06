@@ -70,10 +70,10 @@ export class MovimientosService {
       + `&idTipo=${movimientoFiltro.idTipo}`
       + `&nombreApellidoEntidad=${movimientoFiltro.nombreApellidoEntidad}`
       + `&fechaInicial=${movimientoFiltro.fechaInicial != null
-                          ? FechaHelpersService.formatearFecha(movimientoFiltro.fechaInicial) : ""}`
+        ? FechaHelpersService.formatearFecha(movimientoFiltro.fechaInicial) : ""}`
       + `&fechaFinal=${movimientoFiltro.fechaFinal != null
-                        ? FechaHelpersService.formatearFechaYasignarHoraAFechaDate(
-                      movimientoFiltro.fechaFinal, HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL) : ""}`
+        ? FechaHelpersService.formatearFechaYasignarHoraAFechaDate(
+          movimientoFiltro.fechaFinal, HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL) : ""}`
       + `&idDepartamento=${HelpersService.idTodosReturnVacio(movimientoFiltro.idDepartamento)}`
       + `&keySituacion=${HelpersService.idTodosReturnVacio(movimientoFiltro.keySituacion)}`
       + `&page=${pageRequest.pagina}&size=${pageRequest.tamanho}&sort=${pageRequest.ordenarPor},${pageRequest.orden}`);

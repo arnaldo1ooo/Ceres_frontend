@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MatTable } from '@angular/material/table';
 import { map, Observable, startWith } from 'rxjs';
 import { AvisoHelpersService } from 'src/app/compartido/services/aviso-helpers.service';
@@ -9,6 +9,8 @@ import { ItemMovimiento } from '../../model/itemMovimiento';
 import { ModoEdicion } from '../../../../compartido/enums/modoEdicion.enum';
 import { HelpersService } from '../../../../compartido/services/helpers.service';
 import { MovimientosService } from '../../services/movimientos.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogoIngresarTextoComponent } from '../../../../compartido/componentes/dialogo-ingresar-texto/dialogo-ingresar-texto.component';
 
 @Component({
   selector: 'app-lista-items',
@@ -28,10 +30,12 @@ export class ListaItemsComponent implements OnInit {
   protected listaMercaderiasFiltrado$: Observable<Mercaderia[]> | undefined;
   protected columnasAMostrarItems: string[] = ['_id', 'descripcion', 'cantidad', 'valorUnitario', 'subtotal', 'acciones'];
 
+
   constructor(
     private _avisoHelpersService: AvisoHelpersService,
     private _mercaderiasService: MercaderiasService,
-    private _movimientosService: MovimientosService) {
+    private _movimientosService: MovimientosService,
+    private _dialogo: MatDialog) {
 
   }
 
@@ -56,12 +60,8 @@ export class ListaItemsComponent implements OnInit {
   }
 
   public isModoEditarOVisualizar() {
-    console.log("HelpersService.isModoEditar(this.modoEdicion) " + HelpersService.isModoEditar(this.modoEdicion))
-    console.log("HelpersService.isModoVisualizar(this.modoEdicion) " + HelpersService.isModoVisualizar(this.modoEdicion))
-    console.log("HelpersService.isModoNuevo(this.modoEdicion) " + HelpersService.isModoNuevo(this.modoEdicion))
-
     return HelpersService.isModoEditar(this.modoEdicion)
-            || HelpersService.isModoVisualizar(this.modoEdicion);
+      || HelpersService.isModoVisualizar(this.modoEdicion);
   }
 
   private inhabilitarCampos() {
@@ -164,9 +164,9 @@ export class ListaItemsComponent implements OnInit {
       const controlValue = itemArray.value as ItemMovimiento;
 
       if (
-        itemAAgregar.mercaderia === controlValue.mercaderia &&
-        itemAAgregar.cantidad === controlValue.cantidad &&
-        itemAAgregar.valorUnitario === controlValue.valorUnitario
+        itemAAgregar.mercaderia === controlValue.mercaderia
+        && itemAAgregar.cantidad === controlValue.cantidad
+        && itemAAgregar.valorUnitario === controlValue.valorUnitario
       ) {
         return true;
       }
@@ -210,6 +210,37 @@ export class ListaItemsComponent implements OnInit {
 
   onChangeMercaderia() {
     this.formItemToAgregar.get('cantidad')?.setValue(1);
+  }
+
+  abrirDialogoObsItem(itemSeleccionado: ItemMovimiento): void {
+    const dialogRef = this._dialogo.open(DialogoIngresarTextoComponent, {
+      data: {
+        titulo: 'Observación del item',
+        textoInicial: itemSeleccionado.observacion,
+        isModoLectura: HelpersService.isModoVisualizar(this.modoEdicion)
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(textoAlterado => { //Al cerrar dialogo
+
+      if (textoAlterado && !HelpersService.isModoVisualizar(this.modoEdicion)) {
+        itemSeleccionado.observacion = textoAlterado;
+
+        let itemsArray: FormArray = this.movimientoFormGroup.get('items') as FormArray;
+
+        for (let item of itemsArray.controls) {
+          if (item instanceof FormGroup) {
+            if (itemSeleccionado.mercaderia === item.controls['mercaderia'].value
+                && itemSeleccionado.cantidad === item.controls['cantidad'].value
+                && itemSeleccionado.valorUnitario === item.controls['valorUnitario'].value
+            ) {
+              item.controls['observacion'].setValue(textoAlterado);
+              break;
+            }
+          }
+        }
+      }
+    });
   }
 
 }

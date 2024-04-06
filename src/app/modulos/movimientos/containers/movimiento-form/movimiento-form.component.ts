@@ -28,7 +28,6 @@ import { ListaItemsComponent } from '../../components/lista-items/lista-items.co
 import { MovimientosService } from '../../services/movimientos.service';
 import { LoginService } from '../../../login/services/login.service';
 import { MatSelect } from '@angular/material/select';
-import { LocalDateTime } from '@js-joda/core';
 import { MovimientoCuentaContable } from '../../model/movimientoCuentaContable';
 import { ListaFinancieroComponent } from '../../components/lista-financiero/lista-financiero.component';
 
