@@ -142,7 +142,8 @@ export class MovimientosService {
       mercaderia: new FormControl<Mercaderia | null>(itemMovimiento.mercaderia),
       cantidad: new FormControl<number>(itemMovimiento.cantidad),
       valorUnitario: new FormControl<number>(itemMovimiento.valorUnitario),
-      observacion: new FormControl<string | null>(itemMovimiento.observacion)
+      observacion: new FormControl<string | null>(itemMovimiento.observacion),
+      numItem: new FormControl<number | null>(itemMovimiento.numItem)
     });
   }
 

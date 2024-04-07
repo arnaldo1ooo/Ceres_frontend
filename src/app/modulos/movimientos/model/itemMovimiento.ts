@@ -8,6 +8,7 @@ export class ItemMovimiento {
   cantidad: number = 0;
   valorUnitario: number = 0;
   observacion: string | null = null;
+  numItem: number | null = null;
 
   constructor() {
 

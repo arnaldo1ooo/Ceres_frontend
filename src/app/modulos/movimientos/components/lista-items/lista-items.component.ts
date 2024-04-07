@@ -78,10 +78,16 @@ export class ListaItemsComponent implements OnInit {
         // Se ejecuta cuando se escribe en autocomplete
         this.listaMercaderiasFiltrado$ = control?.valueChanges.pipe(
           startWith(''), // Se inicia con valor vacío para listar todos los registros
-          map(valorAFiltrar =>
-            this.listaMercaderias?.filter(mercaderia =>
-              mercaderia._id?.toString().includes(valorAFiltrar || '') ||
-              mercaderia.descripcion?.toLocaleLowerCase().includes(valorAFiltrar || ''))
+          map(valorAFiltrar => {
+            if (valorAFiltrar) {
+              return this.listaMercaderias?.filter(mercaderia =>
+                mercaderia._id?.toString().includes(valorAFiltrar || '') ||
+                mercaderia.descripcion?.toUpperCase().includes(valorAFiltrar.toUpperCase() || '')
+              );
+            } else {
+              return this.listaMercaderias; // Devuelve la lista sin filtrar si valorAFiltrar es vacío
+            }
+          }
           )
         );
       },
@@ -100,13 +106,15 @@ export class ListaItemsComponent implements OnInit {
   }
 
   public agregarItem() {
+    let itemsArray = this.movimientoFormGroup.get('items') as FormArray;
+
     let nuevoItem: ItemMovimiento = new ItemMovimiento();
     nuevoItem.mercaderia = this.formItemToAgregar.get('mercaderia')?.value;
     nuevoItem.cantidad = this.formItemToAgregar.get('cantidad')?.value;
     nuevoItem.valorUnitario = this.formItemToAgregar.get('valorUnitario')?.value;
+    nuevoItem.numItem = itemsArray.length + 1;
 
     if (this.verificarValidaciones() && this.validarItem(nuevoItem)) {
-      const itemsArray = this.movimientoFormGroup.get('items') as FormArray;
       itemsArray.push(this._movimientosService.crearItemFormGroup(nuevoItem));
 
       this.limpiarCamposItemAgregar();
@@ -123,7 +131,7 @@ export class ListaItemsComponent implements OnInit {
       return;
     }
 
-    const itemsArray = this.movimientoFormGroup.get('items') as FormArray;
+    let itemsArray = this.movimientoFormGroup.get('items') as FormArray;
 
     const indexItemARemover = itemsArray.controls.findIndex((control) => {
       const controlValue = JSON.stringify(control.value);
@@ -135,6 +143,8 @@ export class ListaItemsComponent implements OnInit {
     if (indexItemARemover !== -1) {
       itemsArray.removeAt(indexItemARemover);
     }
+
+    this.actualizarNumeroItem();
   }
 
   private refrescarTablaItems() {
@@ -158,16 +168,13 @@ export class ListaItemsComponent implements OnInit {
   }
 
   private isItemYaAgregado(itemAAgregar: ItemMovimiento): boolean {
-    const itemsArray = this.movimientoFormGroup.get('items') as FormArray;
+    let itemsArray = this.movimientoFormGroup.get('items') as FormArray;
 
-    for (const itemArray of itemsArray.controls) {
-      const controlValue = itemArray.value as ItemMovimiento;
+    for (let itemArray of itemsArray.controls) {
+      const itemControlValue = itemArray.value as ItemMovimiento;
 
-      if (
-        itemAAgregar.mercaderia === controlValue.mercaderia
-        && itemAAgregar.cantidad === controlValue.cantidad
-        && itemAAgregar.valorUnitario === controlValue.valorUnitario
-      ) {
+      if (itemAAgregar.mercaderia === itemControlValue.mercaderia
+        && itemAAgregar.valorUnitario === itemControlValue.valorUnitario) {
         return true;
       }
     }
@@ -230,10 +237,7 @@ export class ListaItemsComponent implements OnInit {
 
         for (let item of itemsArray.controls) {
           if (item instanceof FormGroup) {
-            if (itemSeleccionado.mercaderia === item.controls['mercaderia'].value
-                && itemSeleccionado.cantidad === item.controls['cantidad'].value
-                && itemSeleccionado.valorUnitario === item.controls['valorUnitario'].value
-            ) {
+            if (itemSeleccionado.numItem === item.controls['numItem'].value) {
               item.controls['observacion'].setValue(textoAlterado);
               break;
             }
@@ -241,6 +245,18 @@ export class ListaItemsComponent implements OnInit {
         }
       }
     });
+  }
+
+  private actualizarNumeroItem() {
+    let itemsArray = this.movimientoFormGroup.get('items') as FormArray;
+    let contador: number = 0;
+
+    for (let item of itemsArray.controls) {
+      if (item instanceof FormGroup) {
+        item.controls['numItem'].setValue(contador + 1);
+        contador = contador + 1;
+      }
+    }
   }
 
 }

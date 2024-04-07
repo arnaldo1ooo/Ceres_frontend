@@ -3,8 +3,8 @@
 
     <mat-form-field appearance="outline" [ngClass]="['style-campo-global', 'ui-campo-mercaderia']">
       <mat-label>{{ "titulos.mercaderia" | transloco }}</mat-label>
-      <input #mercaderiaInputAC formControlName="mercaderia" type="text" matInput
-        [matAutocomplete]="mercaderiaAutocomplete">
+      <input #mercaderiaInputAC formControlName="mercaderia"
+             type="text" matInput [matAutocomplete]="mercaderiaAutocomplete">
       <mat-icon matSuffix>search</mat-icon>
       <mat-autocomplete #mercaderiaAutocomplete="matAutocomplete" [displayWith]="displayMercaderia"
         (optionSelected)="onChangeMercaderia()">
@@ -89,12 +89,12 @@
         <mat-cell *matCellDef="let item" class="style-columna-acciones">
           <button mat-raised-button color="primary" [matMenuTriggerFor]="menuOpciones">Opciones</button>
           <mat-menu #menuOpciones="matMenu">
-            <button #btnRemoverItem mat-menu-item matTooltip="Remover item" matTooltipPosition="right" (click)="removerItem(item)"
-              [disabled]="isModoEditarOVisualizar()">Remover
+            <button #btnRemoverItem mat-menu-item matTooltip="Remover item" matTooltipPosition="right"
+              (click)="removerItem(item)" [disabled]="isModoEditarOVisualizar()">Remover
             </button>
 
             <button #btnObsItem mat-menu-item (click)="abrirDialogoObsItem(item)"
-                    matTooltip="Agregar una observación al item" matTooltipPosition="right">
+              matTooltip="Agregar una observación al item" matTooltipPosition="right">
               Observación
             </button>
           </mat-menu>
