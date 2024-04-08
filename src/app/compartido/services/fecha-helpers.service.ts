@@ -14,6 +14,10 @@ export class FechaHelpersService {
     return new Date();
   }
 
+  public static getFechaHoraActualString(): string {
+    return this.formatearFecha(new Date());
+  }
+
   public static getFechaHoraActualLDT(): LocalDateTime {
     return LocalDateTime.now();
   }
@@ -60,7 +64,11 @@ export class FechaHelpersService {
   }
 
   public static formatearFecha(fecha: Date): string {
-    return (moment(fecha)).format('DD/MM/yyyy HH:mm:ss')
+    return this.formatearFechaCustom(fecha, 'DD/MM/yyyy HH:mm:ss');
+  }
+
+  public static formatearFechaCustom(fecha: Date, formatoFecha: string): string {
+    return (moment(fecha)).format(formatoFecha)
   }
 
   public static formatearFechaYasignarHoraAFechaDate(fecha: Date, hora: number, minuto: number, segundo: number): string {

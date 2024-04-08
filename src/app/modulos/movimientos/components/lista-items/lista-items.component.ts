@@ -82,7 +82,7 @@ export class ListaItemsComponent implements OnInit {
             if (valorAFiltrar) {
               return this.listaMercaderias?.filter(mercaderia =>
                 mercaderia._id?.toString().includes(valorAFiltrar || '') ||
-                mercaderia.descripcion?.toUpperCase().includes(valorAFiltrar.toUpperCase() || '')
+                mercaderia.descripcion?.toUpperCase().includes(HelpersService.convertirToMayus(valorAFiltrar) || '')
               );
             } else {
               return this.listaMercaderias; // Devuelve la lista sin filtrar si valorAFiltrar es vacío
@@ -186,7 +186,9 @@ export class ListaItemsComponent implements OnInit {
     let isValido: boolean = true;
     let mensaje: string = '';
 
-    if (HelpersService.isNuloOrVacio(nuevoItem.mercaderia)) {
+    if (HelpersService.isNuloOrVacio(nuevoItem.mercaderia)
+      || HelpersService.isNuloOrVacioOrUndefined(nuevoItem.mercaderia._id)) {
+      this.formItemToAgregar.get('mercaderia')?.setValue("");
       mensaje = 'Seleccione una mercaderia!';
       isValido = false;
     }

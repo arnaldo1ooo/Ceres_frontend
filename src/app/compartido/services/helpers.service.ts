@@ -41,7 +41,7 @@ export class HelpersService {
   }
 
   public static salvarItemEnSessionStorage(key: string, valor: any) {
-    if(typeof valor === 'object') {
+    if (typeof valor === 'object') {
       valor = JSON.stringify(valor);
     }
 
@@ -96,6 +96,10 @@ export class HelpersService {
     return this.isNoNuloYNoVacio(valor) && this.isNoUndefined(valor);
   }
 
+  public static isNuloOrVacioOrUndefined(valor: any): boolean {
+    return this.isNuloOrVacio(valor) || this.isUndefined(valor);
+  }
+
   public static isNuloRetornaVacio(valor: any): boolean {
     return this.isNulo(valor) ? '' : valor;
   }
@@ -126,6 +130,30 @@ export class HelpersService {
 
   public static isMenorIgualACero(valor: number): boolean {
     return valor < 0 || valor == 0;
+  }
+
+  public static isCadenaTexto(cadena: string): boolean {
+    if (cadena === null || cadena === undefined) {
+      return false;
+    }
+    try {
+      cadena.toUpperCase();
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  public static convertirToMayus(cadena: string): string {
+    try {
+      if (cadena === null || cadena === undefined) {
+        return cadena;
+      }
+
+      return cadena.toUpperCase();
+    } catch (error) {
+      return cadena;
+    }
   }
 
   public static urlDistintoALogin(url: any): boolean {
