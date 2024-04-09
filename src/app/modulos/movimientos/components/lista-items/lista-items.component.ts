@@ -106,7 +106,7 @@ export class ListaItemsComponent implements OnInit {
   }
 
   public agregarItem() {
-    let itemsArray = this.movimientoFormGroup.get('items') as FormArray;
+    let itemsArray: FormArray = this.movimientoFormGroup.get('items') as FormArray;
 
     let nuevoItem: ItemMovimiento = new ItemMovimiento();
     nuevoItem.mercaderia = this.formItemToAgregar.get('mercaderia')?.value;
@@ -114,13 +114,18 @@ export class ListaItemsComponent implements OnInit {
     nuevoItem.valorUnitario = this.formItemToAgregar.get('valorUnitario')?.value;
     nuevoItem.numItem = itemsArray.length + 1;
 
+
     if (this.verificarValidaciones() && this.validarItem(nuevoItem)) {
-      itemsArray.push(this._movimientosService.crearItemFormGroup(nuevoItem));
+      if (this.sumCantidadSiItemYaAgregado(nuevoItem, itemsArray)) {
+        this._avisoHelpersService.mostrarMensaje('Mercaderia ya fue agregada, se adicionó a la misma');
+      }
+      else {
+        itemsArray.push(this._movimientosService.crearItemFormGroup(nuevoItem));
+      }
 
       this.limpiarCamposItemAgregar();
       this.refrescarTablaItems();
     }
-
   }
 
   public removerItem(itemARemover: ItemMovimiento) {
@@ -167,15 +172,14 @@ export class ListaItemsComponent implements OnInit {
     return isValido;
   }
 
-  private isItemYaAgregado(itemAAgregar: ItemMovimiento): boolean {
-    let itemsArray = this.movimientoFormGroup.get('items') as FormArray;
-
-    for (let itemArray of itemsArray.controls) {
-      const itemControlValue = itemArray.value as ItemMovimiento;
-
-      if (itemAAgregar.mercaderia === itemControlValue.mercaderia
-        && itemAAgregar.valorUnitario === itemControlValue.valorUnitario) {
-        return true;
+  private sumCantidadSiItemYaAgregado(itemAAgregar: ItemMovimiento, items: FormArray): boolean {
+    for (let item of items.controls) {
+      if (item instanceof FormGroup) {
+        if (itemAAgregar.mercaderia === item.controls['mercaderia'].value
+          && itemAAgregar.valorUnitario === item.controls['valorUnitario'].value) {
+          item.controls['cantidad'].setValue(item.controls['cantidad'].value + itemAAgregar.cantidad);
+          return true;
+        }
       }
     }
 
@@ -199,10 +203,6 @@ export class ListaItemsComponent implements OnInit {
     }
     else if (HelpersService.isNuloOrVacio(nuevoItem.valorUnitario)) {
       mensaje = 'Ingrese un valor unitario!';
-      isValido = false;
-    }
-    else if (this.isItemYaAgregado(nuevoItem)) {
-      mensaje = 'La mercaderia seleccionada ya fue agregada con la misma cantidad y valor unitario!';
       isValido = false;
     }
 
