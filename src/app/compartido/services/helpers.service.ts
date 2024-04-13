@@ -6,9 +6,7 @@ import { ModoEdicion } from '../enums/modoEdicion.enum';
 })
 export class HelpersService {
 
-  constructor(
-
-  ) { }
+  constructor() { }
 
   public static isTokenExpirado(token: any): boolean {
     if (this.isNoNuloYNoVacio(token)) {
@@ -69,11 +67,11 @@ export class HelpersService {
   }
 
   public static isVacio(valor: any): boolean {
-    return valor == '';
+    return valor === '';
   }
 
-  public static isNoVacio(valor: any): boolean {
-    return valor != '';
+  public static isNoVacio(valor: string): boolean {
+    return valor !== '';
   }
 
   public static isNuloOrVacio(valor: any): boolean {
@@ -89,7 +87,7 @@ export class HelpersService {
   }
 
   public static isNoNuloYNoVacio(valor: any): boolean {
-    return HelpersService.isNoNulo(valor) && this.isNoVacio(valor);
+    return this.isNoNulo(valor) && this.isNoVacio(valor);
   }
 
   public static isNoNuloYNoVacioYNoUndefined(valor: any): boolean {
@@ -117,7 +115,7 @@ export class HelpersService {
   }
 
   public static isMayorACero(valor: number): boolean {
-    return valor > 0;
+    return this.isNoNuloYNoVacioYNoUndefined(valor) && valor > 0;
   }
 
   public static isMayorIgualACero(valor: number): boolean {

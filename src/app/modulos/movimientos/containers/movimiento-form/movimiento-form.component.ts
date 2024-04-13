@@ -30,6 +30,7 @@ import { LoginService } from '../../../login/services/login.service';
 import { MatSelect } from '@angular/material/select';
 import { MovimientoCuentaContable } from '../../model/movimientoCuentaContable';
 import { ListaFinancieroComponent } from '../../components/lista-financiero/lista-financiero.component';
+import { MonedaHelpersService } from 'src/app/compartido/services/moneda-helpers.service';
 
 @Component({
   selector: 'app-movimiento-form',
@@ -386,7 +387,10 @@ export class MovimientoFormComponent implements OnInit {
       this.listaFinancieroComponent.formMovimientoCuentaToAgregar.get('valor')?.setValue(this.totalItems);
       this.listaFinancieroComponent.actualizarSaldoLanzar();
     }
+  }
 
+  public formatearValorMoneda(valor: number, moneda: any): string {
+    return MonedaHelpersService.formatearValorMoneda(valor, moneda);
   }
 
 }

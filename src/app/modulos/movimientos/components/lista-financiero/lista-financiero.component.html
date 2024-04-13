@@ -48,9 +48,7 @@
           <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Valor de la
             Cuenta</mat-header-cell>
           <mat-cell *matCellDef="let movimientoCuentaContable" [ngClass]="'centrar-texto-global'">
-            {{ movimientoCuentaContable.valor | currency:movimientoFormGroup.get('moneda')?.value.simbolo != null
-                                      ? movimientoFormGroup.get('moneda')?.value.simbolo : 'Gs' : 'symbol'
-                                      : '1.0' + '-' + movimientoFormGroup.get('moneda')?.value.cantidadDecimales }}
+            {{ formatearValorMoneda(movimientoCuentaContable.valor, movimientoFormGroup.get('moneda')?.value) }}
           </mat-cell>
         </ng-container>
 
@@ -84,9 +82,9 @@
   </form>
 
   <div>
-    <mat-label class="ui-saldo-lanzar">Saldo a lanzar: {{saldoLanzar | currency:movimientoFormGroup.get('moneda')?.value.simbolo != null
-      ? movimientoFormGroup.get('moneda')?.value.simbolo : 'Gs' : 'symbol'
-      : '1.0' + '-' + movimientoFormGroup.get('moneda')?.value.cantidadDecimales }}</mat-label>
+    <mat-label class="ui-saldo-lanzar">
+      Saldo a lanzar: {{ formatearValorMoneda(saldoLanzar, movimientoFormGroup.get('moneda')?.value) }}
+    </mat-label>
   </div>
 
 </div>

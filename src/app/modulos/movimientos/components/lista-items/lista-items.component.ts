@@ -11,6 +11,8 @@ import { HelpersService } from '../../../../compartido/services/helpers.service'
 import { MovimientosService } from '../../services/movimientos.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogoIngresarTextoComponent } from '../../../../compartido/componentes/dialogo-ingresar-texto/dialogo-ingresar-texto.component';
+import { Moneda } from 'src/app/modulos/monedas/models/moneda';
+import { MonedaHelpersService } from '../../../../compartido/services/moneda-helpers.service';
 
 @Component({
   selector: 'app-lista-items',
@@ -259,6 +261,10 @@ export class ListaItemsComponent implements OnInit {
         contador = contador + 1;
       }
     }
+  }
+
+  public formatearValorMoneda(valor: number, moneda: any): string {
+    return MonedaHelpersService.formatearValorMoneda(valor, moneda);
   }
 
 }

@@ -10,6 +10,7 @@ import { ModoEdicion } from 'src/app/compartido/enums/modoEdicion.enum';
 import { MovimientoCuentaContable } from '../../model/movimientoCuentaContable';
 import { MatTable } from '@angular/material/table';
 import { ItemMovimiento } from '../../model/itemMovimiento';
+import { MonedaHelpersService } from 'src/app/compartido/services/moneda-helpers.service';
 
 @Component({
   selector: 'app-lista-financiero',
@@ -200,5 +201,8 @@ export class ListaFinancieroComponent {
     this.saldoLanzar = totalItems - totalCuentas;
   }
 
+  public formatearValorMoneda(valor: number, moneda: any): string {
+    return MonedaHelpersService.formatearValorMoneda(valor, moneda);
+  }
 
 }

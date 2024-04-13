@@ -56,10 +56,7 @@
       <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Total
       </mat-header-cell>
       <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">
-        {{ movimientoListaDTO.total | currency:movimientoListaDTO.moneda.simbolo : 'symbol'
-          : '1.' + movimientoListaDTO.moneda.cantidadDecimales + '-' + movimientoListaDTO.moneda.cantidadDecimales }}
-        <!--Ej: 1.8-8 = 1 entero como minimo, 8 decimales como minimo, 8 decimales como maximo,.-->
-        <!--tipos simbolos code: USD, symbol: $, symbol-narrow: $ pequeño-->
+        {{ formatearValorMoneda(movimientoListaDTO.total, movimientoListaDTO.moneda) }}
       </mat-cell>
     </ng-container>
 

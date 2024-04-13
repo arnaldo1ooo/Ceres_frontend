@@ -64,9 +64,7 @@
         <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Valor unitario
         </mat-header-cell>
         <mat-cell *matCellDef="let item" [ngClass]="'centrar-texto-global'">
-          {{ item.valorUnitario | currency:movimientoFormGroup.get('moneda')?.value.simbolo != null
-                                    ? movimientoFormGroup.get('moneda')?.value.simbolo : 'Gs' : 'symbol'
-                                    : '1.0' + '-' + movimientoFormGroup.get('moneda')?.value.cantidadDecimales }}
+          {{ formatearValorMoneda(item.valorUnitario, movimientoFormGroup.get('moneda')?.value) }}
         </mat-cell>
       </ng-container>
 
@@ -75,9 +73,7 @@
         <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Subtotal
         </mat-header-cell>
         <mat-cell *matCellDef="let item" [ngClass]="'centrar-texto-global'">
-          {{ item.cantidad * item.valorUnitario | currency:movimientoFormGroup.get('moneda')?.value.simbolo != null
-                                          ? movimientoFormGroup.get('moneda')?.value.simbolo : 'Gs' : 'symbol'
-                                          : '1.0' + '-' + movimientoFormGroup.get('moneda')?.value.cantidadDecimales }}
+          {{ formatearValorMoneda(item.cantidad * item.valorUnitario, movimientoFormGroup.get('moneda')?.value) }}
         </mat-cell>
       </ng-container>
 

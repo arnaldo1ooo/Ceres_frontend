@@ -122,7 +122,7 @@ export class MovimientosService {
     return this._formBuilder.group({
       _id: new FormControl<string>(''),
       tipo: new FormControl<TipoMovimientoEnum | null>(null, Validators.required),
-      moneda: new FormControl<Moneda | null>(null, Validators.required),
+      moneda: new FormControl<Moneda>(new Moneda(), Validators.required),
       entidad: new FormControl<Entidad | null>(null, [Validators.required, RequerirAutocomplete]),
       fechaEmision: new FormControl<LocalDateTime | null>(null, Validators.required),
       departamento: new FormControl<Departamento | null>(null, Validators.required),
