@@ -130,6 +130,22 @@ export class HelpersService {
     return valor < 0 || valor == 0;
   }
 
+  public static isMayorQue(valor1: number, valor2: number): boolean {
+    return valor1 != null && valor2 != null && valor1 > valor2;
+  }
+
+  public static isMenorQue(valor1: number, valor2: number): boolean {
+    return valor1 != null && valor2 != null && valor1 < valor2;
+  }
+
+  public static isIgualOMayorQue(valor1: number, valor2: number): boolean {
+    return valor1 != null && valor2 != null && valor1 >= valor2;
+  }
+
+  public static isIgualOMenorQue(valor1: number, valor2: number): boolean {
+    return valor1 != null && valor2 != null && valor1 <= valor2;
+  }
+
   public static isCadenaTexto(cadena: string): boolean {
     if (cadena === null || cadena === undefined) {
       return false;
@@ -198,6 +214,10 @@ export class HelpersService {
 
   public static isModoVisualizar(modoEdicion: string): boolean {
     return modoEdicion != null && modoEdicion == ModoEdicion.MODO_VISUALIZAR;
+  }
+
+  public static stringToNumber(cadena: string) {
+    return Number(cadena);
   }
 
 }

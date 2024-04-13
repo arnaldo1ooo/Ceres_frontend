@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Moneda } from 'src/app/modulos/monedas/models/moneda';
 import { HelpersService } from './helpers.service';
 
 @Injectable({
@@ -8,16 +9,16 @@ export class MonedaHelpersService {
 
   constructor() { }
 
-  public static formatearValorMoneda(valor: number, moneda: any): string {
+  public static formatearValorMoneda(valor: number, moneda: Moneda): string {
     try {
       if (HelpersService.isNoNuloYNoVacioYNoUndefined(valor)
-          && moneda != null && HelpersService.isMayorACero(moneda._id)) {
+          && moneda != null && HelpersService.isMayorACero(Number(moneda._id))) {
         const opciones = {
           style: 'currency',
-          currency: moneda.codigoIso,
+          currency: moneda.codigoIso || undefined,
           currencyDisplay: 'symbol',
-          minimumFractionDigits: moneda.cantidadDecimales, //Número mínimo de dígitos decimales
-          maximumFractionDigits: moneda.cantidadDecimales, //Número máximo de dígitos decimales
+          minimumFractionDigits: moneda.cantidadDecimales || undefined, //Número mínimo de dígitos decimales
+          maximumFractionDigits: moneda.cantidadDecimales || undefined, //Número máximo de dígitos decimales
           minimumIntegerDigits: 1, //Número mínimo de dígitos enteros
           useGrouping: true //Mostrar separador de miles
         };

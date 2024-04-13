@@ -11,6 +11,7 @@ import { MovimientoCuentaContable } from '../../model/movimientoCuentaContable';
 import { MatTable } from '@angular/material/table';
 import { ItemMovimiento } from '../../model/itemMovimiento';
 import { MonedaHelpersService } from 'src/app/compartido/services/moneda-helpers.service';
+import { Moneda } from 'src/app/modulos/monedas/models/moneda';
 
 @Component({
   selector: 'app-lista-financiero',
@@ -132,6 +133,7 @@ export class ListaFinancieroComponent {
   private validarMovCuentaContable(nuevoMovCuentaContable: MovimientoCuentaContable): boolean {
     let isValido: boolean = true;
     let mensaje: string = '';
+    let moneda: Moneda = this.movimientoFormGroup.get('moneda')?.value;
 
     if (HelpersService.isNuloOrVacio(nuevoMovCuentaContable._id.cuentaContable._id)) {
       mensaje = 'Seleccione una cuenta contable!';
@@ -143,6 +145,11 @@ export class ListaFinancieroComponent {
     }
     else if (HelpersService.isMenorIgualACero(nuevoMovCuentaContable.valor)) {
       mensaje = 'Ingrese valor mayor a cero!';
+      isValido = false;
+    }
+    else if (HelpersService.isMayorQue(nuevoMovCuentaContable.valor, this.saldoLanzar)) {
+      mensaje = 'El valor de la cuenta ('+ this.formatearValorMoneda(nuevoMovCuentaContable.valor, moneda)
+                  + ') no puede ser mayor al saldo a lanzar (' + this.formatearValorMoneda(this.saldoLanzar, moneda) + ')';
       isValido = false;
     }
 
@@ -179,8 +186,8 @@ export class ListaFinancieroComponent {
   }
 
   public actualizarSaldoLanzar(): void {
-    const itemsArray = this.movimientoFormGroup.get('items') as FormArray;
-    const movCuentasContables = this.movimientoFormGroup.get('movimientoCuentasContables') as FormArray;
+    const itemsArray: FormArray = this.movimientoFormGroup.get('items') as FormArray;
+    const movCuentasContables: FormArray = this.movimientoFormGroup.get('movimientoCuentasContables') as FormArray;
     let cantidad;
     let valorUnitario;
     let totalItems = 0;
