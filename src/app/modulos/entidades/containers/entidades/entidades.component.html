@@ -1,0 +1,26 @@
+<mat-card>
+  <mat-toolbar color="primary">
+    Entidades Disponibles
+  </mat-toolbar>
+
+  <div class="column flex mat-elevation-z8">
+
+    <!--Pasamos las departamentos a la lista-->
+    <app-entidades-lista
+      *ngIf="dsEntidades$ | async as entidades; else cargando"
+      [listEntidadListaDTOs]="entidades"
+      (nuevo)="onNuevo()"
+      (visualizar)="onVisualizar($event)"
+      (editar)="onEditar($event)"
+      (eliminar)="onEliminar($event)"
+      (inactivar)="onInactivar($event)">
+    </app-entidades-lista>
+
+    <ng-template #cargando>
+      <div class="style-cargando-spinner">
+        <mat-spinner></mat-spinner>
+      </div>
+    </ng-template>
+
+  </div>
+</mat-card>

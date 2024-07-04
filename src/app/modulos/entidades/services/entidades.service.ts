@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, delay, first, Observable, throwError } from 'rxjs';
+import { EntidadListaDTO } from '../models/dtos/entidadListaDTO';
 
 import { Entidad } from '../models/entidad';
 import { API_URL_ENTIDADES } from './../../../compartido/constantes/constantes';
@@ -12,11 +13,11 @@ export class EntidadesService {
 
   constructor(private _httpClient: HttpClient) { } //El httpClient permite la conexion con el backend
 
-  public listarTodosEntidades() {
-    return this._httpClient.get<Entidad[]>(API_URL_ENTIDADES)
+  listarTodosEntidades() {
+    return this._httpClient.get<EntidadListaDTO[]>(API_URL_ENTIDADES)
       .pipe(
         first(),
-        delay(100)
+        delay(100)  //Espera de x segundos
       );
   }
 
@@ -33,5 +34,9 @@ export class EntidadesService {
           return [] //Devuelve lista vacia
         })
       );
+  }
+
+  cargarPorId(id: string) {
+    return this._httpClient.get<Entidad>(`${API_URL_ENTIDADES}/${id}`);
   }
 }

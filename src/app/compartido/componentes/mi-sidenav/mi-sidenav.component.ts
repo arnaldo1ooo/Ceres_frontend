@@ -14,9 +14,10 @@ export class MiSidenavComponent implements OnInit {
   shouldRun = true;
   isAbierto = true;
 
-  menus = [
+  menus = [ //Las rutas se encuentran en app-routing.module
     { nombre: "Home", ruta: "home", icono: "home" },
     { nombre: "Departamentos", ruta: "departamentos", icono: "supervisor_account" },
+    { nombre: "Entidades", ruta: "entidades", icono: "person_pin" },
     { nombre: "Mercaderias", ruta: "mercaderias", icono: "shopping_basket" },
     { nombre: "Movimientos", ruta: "movimientos", icono: "input" }
   ]
@@ -46,7 +47,7 @@ export class MiSidenavComponent implements OnInit {
     this.authService.cerrarSesion();
   }
 
-  AbrirOCerrar() {
+  abrirOCerrar() {
     this.isAbierto = !this.isAbierto;
  }
 

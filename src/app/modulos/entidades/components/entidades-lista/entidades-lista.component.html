@@ -1,0 +1,61 @@
+<div>
+  <mat-table [dataSource]="listEntidadListaDTOs">
+
+    <!-- Columna id -->
+    <ng-container matColumnDef="_id">
+      <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
+      <mat-cell *matCellDef="let entidadListaDTO"> {{ entidadListaDTO._id }} </mat-cell>
+    </ng-container>
+
+    <!-- Columna nombre -->
+    <ng-container matColumnDef="nombre">
+      <mat-header-cell *matHeaderCellDef>Descripción</mat-header-cell>
+      <mat-cell *matCellDef="let entidadListaDTO"> {{ entidadListaDTO.descripcion }} </mat-cell>
+    </ng-container>
+
+    <!-- Columna sucursal -->
+    <ng-container matColumnDef="sucursal">
+      <mat-header-cell *matHeaderCellDef> Sucursal </mat-header-cell>
+      <mat-cell *matCellDef="let entidadListaDTO"> {{entidadListaDTO.sucursal.descripcion}} </mat-cell>
+    </ng-container>
+
+    <!-- Columna situacion -->
+    <ng-container matColumnDef="situacion">
+      <mat-header-cell *matHeaderCellDef> Situación </mat-header-cell>
+      <mat-cell *matCellDef="let entidadListaDTO"> {{ entidadListaDTO.situacion | situacionPipe }} </mat-cell>
+    </ng-container>
+
+    <!-- Columna Acciones -->
+    <ng-container matColumnDef="acciones">
+      <mat-header-cell *matHeaderCellDef class="style-columna-acciones">
+        <button mat-mini-fab color="accent" matTooltip="Crear nueva entidad" (click)="onNuevo()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-header-cell>
+
+      <mat-cell *matCellDef="let entidades" class="style-columna-acciones">
+        <button mat-icon-button color="primary" matTooltip="Visualizar entidad" (click)="onVisualizar(entidades)">
+          <mat-icon>visibility</mat-icon>
+        </button>
+
+        <button mat-icon-button color="primary" matTooltip="Editar entidad" (click)="onEditar(entidades)">
+          <mat-icon>edit</mat-icon>
+        </button>
+
+        <button mat-icon-button color="warn" matTooltip="Eliminar entidad" (click)="onInactivar(entidades)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-cell>
+
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="columnasAMostrar"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnasAMostrar;"></mat-row>
+  </mat-table>
+
+
+  <mat-paginator [length]="this.listEntidadListaDTOs.length" [pageSize]="pageTamanho"
+    [pageSizeOptions]="pageTamanhos" (page)="onCambiarPage($event)" [showFirstLastButtons]="true">
+  </mat-paginator>
+</div>
