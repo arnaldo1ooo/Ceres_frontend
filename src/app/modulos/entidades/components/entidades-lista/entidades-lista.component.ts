@@ -18,7 +18,7 @@ export class EntidadesListaComponent implements OnInit {
   @Output() eliminar = new EventEmitter(false);
   @Output() inactivar = new EventEmitter(false);
 
-  readonly columnasAMostrar = ['_id', 'nombre', 'sucursal', 'situacion', 'acciones'];
+  readonly columnasAMostrar = ['_id', 'nombreApellido', 'sucursal', 'situacion', 'acciones'];
 
   pageRegistrosSeparados  = this.listEntidadListaDTOs;
   pageTamanho = 10;

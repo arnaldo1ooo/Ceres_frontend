@@ -70,9 +70,9 @@ export class MovimientosService {
       + `&idTipo=${movimientoFiltro.idTipo}`
       + `&nombreApellidoEntidad=${movimientoFiltro.nombreApellidoEntidad}`
       + `&fechaInicial=${movimientoFiltro.fechaInicial != null
-        ? FechaHelpersService.formatearFecha(movimientoFiltro.fechaInicial) : ""}`
+        ? FechaHelpersService.formatearFechaISO8601(movimientoFiltro.fechaInicial) : ""}`
       + `&fechaFinal=${movimientoFiltro.fechaFinal != null
-        ? FechaHelpersService.formatearFechaYasignarHoraAFechaDate(
+        ? FechaHelpersService.formatearFechaISO8601YasignarHoraAFechaDate(
           movimientoFiltro.fechaFinal, HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL) : ""}`
       + `&idDepartamento=${HelpersService.idTodosReturnVacio(movimientoFiltro.idDepartamento)}`
       + `&keySituacion=${HelpersService.idTodosReturnVacio(movimientoFiltro.keySituacion)}`

@@ -43,3 +43,8 @@ export const SEGUNDO_FINAL = 59;
 
 //SELECT
 export const ID_OPCION_TODOS = -1;
+
+//FORMATO FECHAS
+export const FORMATO_FECHA_HORA_COMUN = 'DD/MM/yyyy HH:mm:ss';
+export const FORMATO_FECHA_HORA_SIN_SEG_COMUN = 'DD/MM/yyyy HH:mm';
+export const FORMATO_FECHA_HORA_ISO8601 = 'YYYY-MM-DDTHH:mm:ss';

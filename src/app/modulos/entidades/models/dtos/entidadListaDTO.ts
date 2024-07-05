@@ -1,7 +1,8 @@
 
 export interface EntidadListaDTO {
   _id: string;
-  descripcion: string;
+  nombre: string;
+  apellido: string;
   sucursal: string;
   situacion: string;
 }
