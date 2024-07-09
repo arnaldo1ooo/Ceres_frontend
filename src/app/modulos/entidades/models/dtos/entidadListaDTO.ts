@@ -5,4 +5,5 @@ export interface EntidadListaDTO {
   apellido: string;
   sucursal: string;
   situacion: string;
+  nombreApellido: string;
 }
