@@ -20,4 +20,17 @@ export class Entidad {
   constructor() {
 
   }
+
 }
+
+export interface Page {
+  content: Array<Entidad>
+  totalPages: number;
+  totalElements: number;
+  last: boolean;
+  size: number;
+  number: number;
+  sort?: any;
+  numberOfElements: number;
+  first: boolean;
+};

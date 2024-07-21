@@ -1,28 +1,28 @@
 <div>
-  <mat-table [dataSource]="listEntidadListaDTOs">
+  <mat-table [dataSource]="listEntidades">
 
     <!-- Columna id -->
     <ng-container matColumnDef="_id">
       <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
-      <mat-cell *matCellDef="let entidadListaDTO"> {{ entidadListaDTO._id }} </mat-cell>
+      <mat-cell *matCellDef="let entidad"> {{ entidad._id }} </mat-cell>
     </ng-container>
 
     <!-- Columna nombreApellido -->
     <ng-container matColumnDef="nombreApellido">
       <mat-header-cell *matHeaderCellDef>Nombre y Apellido</mat-header-cell>
-      <mat-cell *matCellDef="let entidadListaDTO"> {{ entidadListaDTO.nombreApellido }} </mat-cell>
+      <mat-cell *matCellDef="let entidad"> {{ entidad.nombreApellido }} </mat-cell>
     </ng-container>
 
     <!-- Columna sucursal -->
     <ng-container matColumnDef="sucursal">
       <mat-header-cell *matHeaderCellDef>Sucursal</mat-header-cell>
-      <mat-cell *matCellDef="let entidadListaDTO"> {{entidadListaDTO.sucursal.descripcion}} </mat-cell>
+      <mat-cell *matCellDef="let entidad"> {{entidad.sucursal.descripcion}} </mat-cell>
     </ng-container>
 
     <!-- Columna situacion -->
     <ng-container matColumnDef="situacion">
       <mat-header-cell *matHeaderCellDef> Situación </mat-header-cell>
-      <mat-cell *matCellDef="let entidadListaDTO"> {{ entidadListaDTO.situacion | situacionPipe }} </mat-cell>
+      <mat-cell *matCellDef="let entidad"> {{ entidad.situacion | situacionPipe }} </mat-cell>
     </ng-container>
 
     <!-- Columna Acciones -->
@@ -55,7 +55,13 @@
   </mat-table>
 
 
-  <mat-paginator [length]="this.listEntidadListaDTOs.length" [pageSize]="pageTamanho"
-    [pageSizeOptions]="pageTamanhos" (page)="onCambiarPage($event)" [showFirstLastButtons]="true">
+  <!--Paginador-->
+  <mat-paginator
+    [length]="this.pageResponse?.totalElements"
+    [pageSizeOptions]="tamanhosPage"
+    [pageIndex]="this.pageRequest.pagina"
+    [pageSize]="this.pageRequest.tamanho"
+    (page)="onCambiarPage($event)"
+    [showFirstLastButtons]="true" #paginador>
   </mat-paginator>
 </div>

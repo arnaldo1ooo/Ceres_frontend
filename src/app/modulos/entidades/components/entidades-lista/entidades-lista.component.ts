@@ -1,8 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DEFAULT_PAGE_TAMANHOS } from 'src/app/compartido/constantes/constantes';
+import { PageRequest } from 'src/app/compartido/interfaces/page-request';
+import { EntidadesComponent } from '../../containers/entidades/entidades.component';
 import { EntidadListaDTO } from '../../models/dtos/entidadListaDTO';
-import { Entidad } from '../../models/entidad';
+import { Entidad, Page } from '../../models/entidad';
 
 @Component({
   selector: 'app-entidades-lista',
@@ -10,27 +13,25 @@ import { Entidad } from '../../models/entidad';
   styleUrls: ['./entidades-lista.component.scss']
 })
 export class EntidadesListaComponent implements OnInit {
-
-  @Input() listEntidadListaDTOs: EntidadListaDTO[] = [];
+  @Input() listEntidades: Entidad[] = [];
+  @Input() pageResponse: Page | undefined;
+  @Input() pageRequest!: PageRequest; //Recibe el request default
   @Output() nuevo = new EventEmitter(false);
   @Output() visualizar = new EventEmitter(false);
   @Output() editar = new EventEmitter(false);
   @Output() eliminar = new EventEmitter(false);
   @Output() inactivar = new EventEmitter(false);
 
+  @ViewChild(MatPaginator) paginador: MatPaginator | undefined;
+
   readonly columnasAMostrar = ['_id', 'nombreApellido', 'sucursal', 'situacion', 'acciones'];
+  protected tamanhosPage = DEFAULT_PAGE_TAMANHOS;
 
-  pageRegistrosSeparados  = this.listEntidadListaDTOs;
-  pageTamanho = 10;
-  pageTamanhos = [10, 20, 50];
+  constructor(private _entidadesComponent: EntidadesComponent) { }
 
-  constructor(
-    private ruta: Router,
-    private rutaActual: ActivatedRoute) { }
+    ngOnInit(): void {
 
-  ngOnInit(): void {
-    this.pageRegistrosSeparados = this.listEntidadListaDTOs.slice(0, this.pageTamanho);  //Se separa los primeros X registros para la 1ra pagina
-  }
+    }
 
   onNuevo() {
     this.nuevo.emit(true);
@@ -54,15 +55,12 @@ export class EntidadesListaComponent implements OnInit {
   }
 
   onCambiarPage(event: PageEvent) {
-    let totalRegistros = this.listEntidadListaDTOs;
-    const inicioIndex = event.pageIndex * event.pageSize;
-    let finIndex = inicioIndex + event.pageSize;
+    if(this.listEntidades.length > 0) {
+      this.pageRequest.pagina = event.pageIndex; //Asignamos el numero de pagina
+      this.pageRequest.tamanho = event.pageSize;  //Asignamos el tamaño de las pagina
 
-    if(finIndex > totalRegistros.length) {
-      finIndex = totalRegistros.length;
+      this._entidadesComponent.refrescar(this.pageRequest);
     }
-
-    this.pageRegistrosSeparados = totalRegistros.slice(inicioIndex, finIndex);
   }
 
 }

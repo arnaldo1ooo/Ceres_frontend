@@ -1,9 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, delay, first, Observable, throwError } from 'rxjs';
+import { PageRequest } from 'src/app/compartido/interfaces/page-request';
+import { HelpersService } from 'src/app/compartido/services/helpers.service';
+import { EntidadFiltroDTO } from '../models/dtos/entidadFiltroDTO';
 import { EntidadListaDTO } from '../models/dtos/entidadListaDTO';
 
-import { Entidad } from '../models/entidad';
+import { Entidad, Page } from '../models/entidad';
 import { API_URL_ENTIDADES } from './../../../compartido/constantes/constantes';
 
 @Injectable({
@@ -19,6 +22,18 @@ export class EntidadesService {
         first(),
         delay(100)  //Espera de x segundos
       );
+  }
+
+  listarTodosEntidadesFiltroPage(entidadFiltro: EntidadFiltroDTO, pageRequest: PageRequest): Observable<Page> {
+    return this._httpClient.get<Page>(API_URL_ENTIDADES
+      + '/filtroPage?'
+      + `id=${HelpersService.isNuloRetornaVacio(entidadFiltro.id)}`
+      + `&nombreApellido=${HelpersService.isNuloRetornaVacio(entidadFiltro.nombreApellido)}`
+      + `&idsClase=${entidadFiltro.idsClase}`
+      + `&idSucursal=${HelpersService.idTodosReturnVacio(entidadFiltro.idSucursal)}`
+      + `&ci=${HelpersService.isNuloRetornaVacio(entidadFiltro.ci)}`
+      + `&idSituacion=${HelpersService.idTodosReturnVacio(entidadFiltro.idSituacion)}`
+      + `&page=${pageRequest.pagina}&size=${pageRequest.tamanho}&sort=${pageRequest.ordenarPor},${pageRequest.orden}`);
   }
 
   public listarEntidadesPorClases(idsClaseEntidad: string) {

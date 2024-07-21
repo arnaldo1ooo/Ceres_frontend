@@ -3,17 +3,27 @@
     Entidades Disponibles
   </mat-toolbar>
 
+  <!--Filtros-->
+  <div id="filtros" class="style-contenedor-filtro" (keyup.enter)="filtrar()">
+    <mat-form-field appearance="outline" class="style-input-filtro-id">
+      <mat-label>Id</mat-label>
+      <input matInput id="filtroId" type="number" [(ngModel)]="entidadFiltro.id" (blur)="limpiarFiltrosExceptoId()"
+        (keyup.enter)="limpiarFiltrosExceptoId()">
+    </mat-form-field>
+
+    <button mat-raised-button class="style-button-filtro" (click)="limpiar()" color="accent">Limpiar</button>
+    <button mat-raised-button class="style-button-filtro" (click)="filtrar()"
+            [disabled]="isFiltrando" color="primary">Filtrar</button>
+  </div>
+
   <div class="column flex mat-elevation-z8">
 
-    <!--Pasamos las departamentos a la lista-->
-    <app-entidades-lista
-      *ngIf="dsEntidades$ | async as entidades; else cargando"
-      [listEntidadListaDTOs]="entidades"
-      (nuevo)="onNuevo()"
-      (visualizar)="onVisualizar($event)"
-      (editar)="onEditar($event)"
-      (eliminar)="onEliminar($event)"
-      (inactivar)="onInactivar($event)">
+    <app-entidades-lista *ngIf="listEntidades$ | async as entidades; else cargando"
+      [listEntidades]="entidades"
+      [pageResponse]="this.pageRes"
+      [pageRequest]="this.pageRequestDefault"
+      (nuevo)="onNuevo()" (visualizar)="onVisualizar($event)" (editar)="onEditar($event)"
+      (eliminar)="onEliminar($event)" (inactivar)="onInactivar($event)">
     </app-entidades-lista>
 
     <ng-template #cargando>
