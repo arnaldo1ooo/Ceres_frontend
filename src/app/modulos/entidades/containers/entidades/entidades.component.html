@@ -25,6 +25,16 @@
       </mat-select>
     </mat-form-field>
 
+    <mat-form-field appearance="outline" class="style-select-filtro-sucursal">
+      <mat-label>Sucursal</mat-label>
+      <mat-select [(ngModel)]="entidadFiltro.idSucursal" [compareWith]="compararOpcionesSelect">
+        <mat-option [value]="-1">TODOS</mat-option>
+        <mat-option *ngFor="let sucursal of listSucursales" value={{sucursal._id}}>
+          {{ sucursal.descripcion }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <mat-form-field appearance="outline" class="style-select-filtro-situacion">
       <mat-label>Situación</mat-label>
       <mat-select [(ngModel)]="entidadFiltro.idSituacion" [compareWith]="compararOpcionesSelect">

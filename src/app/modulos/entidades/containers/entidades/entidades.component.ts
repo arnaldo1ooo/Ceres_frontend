@@ -16,6 +16,8 @@ import { EntidadFiltroDTO } from '../../models/dtos/entidadFiltroDTO';
 import { Situacion, SituacionUtils } from 'src/app/compartido/enums/situacion.enum';
 import { ClaseEntidad, ClaseEntidadUtils } from '../../enums/clase-entidad.enum';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
+import { SucursalesService } from 'src/app/modulos/sucursales/services/sucursales.service';
+import { Sucursal } from 'src/app/modulos/sucursales/model/sucursal';
 
 @Component({
   selector: 'app-entidades',
@@ -29,6 +31,7 @@ export class EntidadesComponent implements OnInit {
   protected claseEntidadUtils = ClaseEntidadUtils;
   protected listSituaciones = Object.values(Situacion);
   protected situacionUtils = SituacionUtils;
+  protected listSucursales: any;
   protected entidadFiltro: EntidadFiltroDTO = this.filtroInicial();
   protected isFiltrando: boolean = false;
   protected pageRes: Page | undefined;
@@ -45,7 +48,8 @@ export class EntidadesComponent implements OnInit {
     public dialog: MatDialog,
     private ruta: Router,
     private rutaActual: ActivatedRoute,
-    private alertaSnackBar: MatSnackBar) {
+    private alertaSnackBar: MatSnackBar,
+    private _sucursalService: SucursalesService,) {
 
     }
 
@@ -54,7 +58,8 @@ export class EntidadesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.listarSucursales();
+    this.filtrar();
   }
 
   refrescar(page: PageRequest) {
@@ -181,6 +186,12 @@ export class EntidadesComponent implements OnInit {
       ci: null,
       idSituacion: Situacion.ACTIVO
     };
+  }
+
+  private listarSucursales() {
+    this._sucursalService.listarTodosSucursales().subscribe((lista: Sucursal[]) => {
+      this.listSucursales = lista;
+    })
   }
 
   protected compararOpcionesSelect(opcion: any, opcionSeleccionada: any): boolean {
