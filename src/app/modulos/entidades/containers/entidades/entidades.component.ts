@@ -13,7 +13,9 @@ import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 import { DEFAULT_ORDENAR_POR, DEFAULT_PAGE_TAMANHO, ID_OPCION_TODOS, PAGE_INICIAL } from 'src/app/compartido/constantes/constantes';
 import { Orden } from 'src/app/compartido/enums/orden.enum';
 import { EntidadFiltroDTO } from '../../models/dtos/entidadFiltroDTO';
-import { Situacion } from 'src/app/compartido/enums/situacion.enum';
+import { Situacion, SituacionUtils } from 'src/app/compartido/enums/situacion.enum';
+import { ClaseEntidad, ClaseEntidadUtils } from '../../enums/clase-entidad.enum';
+import { HelpersService } from 'src/app/compartido/services/helpers.service';
 
 @Component({
   selector: 'app-entidades',
@@ -23,6 +25,10 @@ import { Situacion } from 'src/app/compartido/enums/situacion.enum';
 export class EntidadesComponent implements OnInit {
 
   protected listEntidades$: Observable<Entidad[]> | null = of([]);
+  protected listClasesEntidad = Object.values(ClaseEntidad);
+  protected claseEntidadUtils = ClaseEntidadUtils;
+  protected listSituaciones = Object.values(Situacion);
+  protected situacionUtils = SituacionUtils;
   protected entidadFiltro: EntidadFiltroDTO = this.filtroInicial();
   protected isFiltrando: boolean = false;
   protected pageRes: Page | undefined;
@@ -175,6 +181,10 @@ export class EntidadesComponent implements OnInit {
       ci: null,
       idSituacion: Situacion.ACTIVO
     };
+  }
+
+  protected compararOpcionesSelect(opcion: any, opcionSeleccionada: any): boolean {
+    return HelpersService.compararOpcionesSelect(opcion, opcionSeleccionada);
   }
 
 }

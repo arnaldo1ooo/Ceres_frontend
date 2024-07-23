@@ -11,19 +11,41 @@
         (keyup.enter)="limpiarFiltrosExceptoId()">
     </mat-form-field>
 
+    <mat-form-field appearance="outline" class="style-input-filtro-nombreApellido">
+      <mat-label>Nombre Apellido</mat-label>
+      <input matInput id="filtroNombreApellido" type="text" [(ngModel)]="entidadFiltro.nombreApellido">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="style-input-filtro-idsClaseEntidad">
+      <mat-label>Clase de entidad</mat-label>
+      <mat-select [(ngModel)]="entidadFiltro.idsClase" name="clasesEntidad" multiple>
+        <mat-option *ngFor="let claseEntidad of listClasesEntidad" [value]="claseEntidad">
+          {{claseEntidadUtils.getDescripcion(claseEntidad)}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="style-select-filtro-situacion">
+      <mat-label>Situación</mat-label>
+      <mat-select [(ngModel)]="entidadFiltro.idSituacion" [compareWith]="compararOpcionesSelect">
+        <mat-option [value]="-1">TODOS</mat-option>
+        <mat-option *ngFor="let situacion of listSituaciones" [value]="situacion">
+          {{situacionUtils.getDescripcion(situacion)}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <button mat-raised-button class="style-button-filtro" (click)="limpiar()" color="accent">Limpiar</button>
-    <button mat-raised-button class="style-button-filtro" (click)="filtrar()"
-            [disabled]="isFiltrando" color="primary">Filtrar</button>
+    <button mat-raised-button class="style-button-filtro" (click)="filtrar()" [disabled]="isFiltrando"
+      color="primary">Filtrar</button>
   </div>
 
   <div class="column flex mat-elevation-z8">
 
-    <app-entidades-lista *ngIf="listEntidades$ | async as entidades; else cargando"
-      [listEntidades]="entidades"
-      [pageResponse]="this.pageRes"
-      [pageRequest]="this.pageRequestDefault"
-      (nuevo)="onNuevo()" (visualizar)="onVisualizar($event)" (editar)="onEditar($event)"
-      (eliminar)="onEliminar($event)" (inactivar)="onInactivar($event)">
+    <app-entidades-lista *ngIf="listEntidades$ | async as entidades; else cargando" [listEntidades]="entidades"
+      [pageResponse]="this.pageRes" [pageRequest]="this.pageRequestDefault" (nuevo)="onNuevo()"
+      (visualizar)="onVisualizar($event)" (editar)="onEditar($event)" (eliminar)="onEliminar($event)"
+      (inactivar)="onInactivar($event)">
     </app-entidades-lista>
 
     <ng-template #cargando>
