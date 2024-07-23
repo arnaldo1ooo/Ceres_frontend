@@ -35,6 +35,11 @@
       </mat-select>
     </mat-form-field>
 
+    <mat-form-field appearance="outline" class="style-input-filtro-ci">
+      <mat-label>CI/RUC</mat-label>
+      <input matInput id="filtroCiRuc" type="text" [(ngModel)]="entidadFiltro.ciRuc">
+    </mat-form-field>
+
     <mat-form-field appearance="outline" class="style-select-filtro-situacion">
       <mat-label>Situación</mat-label>
       <mat-select [(ngModel)]="entidadFiltro.idSituacion" [compareWith]="compararOpcionesSelect">

@@ -183,7 +183,7 @@ export class EntidadesComponent implements OnInit {
       nombreApellido: null,
       idsClase: [],
       idSucursal: ID_OPCION_TODOS,
-      ci: null,
+      ciRuc: null,
       idSituacion: Situacion.ACTIVO
     };
   }

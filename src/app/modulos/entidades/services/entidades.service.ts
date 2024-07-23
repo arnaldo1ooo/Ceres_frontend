@@ -31,7 +31,7 @@ export class EntidadesService {
       + `&nombreApellido=${HelpersService.isNuloRetornaVacio(entidadFiltro.nombreApellido)}`
       + `&idsClase=${entidadFiltro.idsClase}`
       + `&idSucursal=${HelpersService.idTodosReturnVacio(entidadFiltro.idSucursal)}`
-      + `&ci=${HelpersService.isNuloRetornaVacio(entidadFiltro.ci)}`
+      + `&ciRuc=${HelpersService.isNuloRetornaVacio(entidadFiltro.ciRuc)}`
       + `&idSituacion=${HelpersService.idTodosReturnVacio(entidadFiltro.idSituacion)}`
       + `&page=${pageRequest.pagina}&size=${pageRequest.tamanho}&sort=${pageRequest.ordenarPor},${pageRequest.orden}`);
   }

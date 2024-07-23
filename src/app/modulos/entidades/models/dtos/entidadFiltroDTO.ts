@@ -4,6 +4,6 @@ export interface EntidadFiltroDTO {
   nombreApellido: any;
   idsClase: number[];
   idSucursal: any;
-  ci: any;
+  ciRuc: any;
   idSituacion: any;
 }
