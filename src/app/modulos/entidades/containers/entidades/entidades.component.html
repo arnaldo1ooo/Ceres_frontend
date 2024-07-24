@@ -59,8 +59,7 @@
 
     <app-entidades-lista *ngIf="listEntidades$ | async as entidades; else cargando" [listEntidades]="entidades"
       [pageResponse]="this.pageRes" [pageRequest]="this.pageRequestDefault" (nuevo)="onNuevo()"
-      (visualizar)="onVisualizar($event)" (editar)="onEditar($event)" (eliminar)="onEliminar($event)"
-      (inactivar)="onInactivar($event)">
+      (visualizar)="onVisualizar($event)" (editar)="onEditar($event)" (inactivar)="onInactivar($event)">
     </app-entidades-lista>
 
     <ng-template #cargando>

@@ -19,7 +19,6 @@ export class EntidadesListaComponent implements OnInit {
   @Output() nuevo = new EventEmitter(false);
   @Output() visualizar = new EventEmitter(false);
   @Output() editar = new EventEmitter(false);
-  @Output() eliminar = new EventEmitter(false);
   @Output() inactivar = new EventEmitter(false);
 
   @ViewChild(MatPaginator) paginador: MatPaginator | undefined;
@@ -43,10 +42,6 @@ export class EntidadesListaComponent implements OnInit {
 
   onEditar(entidad: Entidad) {
     this.editar.emit(entidad);
-  }
-
-  onEliminar(entidad: Entidad) {
-    this.eliminar.emit(entidad);
   }
 
   onInactivar(entidad: Entidad) {
