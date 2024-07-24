@@ -54,4 +54,8 @@ export class EntidadesService {
   cargarPorId(id: string) {
     return this._httpClient.get<Entidad>(`${API_URL_ENTIDADES}/${id}`);
   }
+
+  inactivar(id: string) {
+    return this._httpClient.put<Entidad>(`${API_URL_ENTIDADES}/inactivar/${id}`, null).pipe(first());
+  }
 }

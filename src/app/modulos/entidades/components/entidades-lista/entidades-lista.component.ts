@@ -50,8 +50,7 @@ export class EntidadesListaComponent implements OnInit {
   }
 
   onInactivar(entidad: Entidad) {
-    this.inactivar.emit(entidad
-      );
+    this.inactivar.emit(entidad);
   }
 
   onCambiarPage(event: PageEvent) {

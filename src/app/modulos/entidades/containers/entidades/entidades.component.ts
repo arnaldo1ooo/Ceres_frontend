@@ -51,7 +51,7 @@ export class EntidadesComponent implements OnInit {
     private alertaSnackBar: MatSnackBar,
     private _sucursalService: SucursalesService,) {
 
-    }
+  }
 
   abrirDialogoError(msgError: string) {
     this.dialog.open(DialogoErrorComponent, { data: msgError });
@@ -84,47 +84,28 @@ export class EntidadesComponent implements OnInit {
     this.ruta.navigate(['editar', entidad._id], { relativeTo: this.rutaActual }); //Navega a esa direccion con los datos del departamento
   }
 
-  onEliminar(entidad: Entidad) {
-    const dialogoRef = this.dialog.open(DialogoConfirmacionComponent, {
-      data: '¿Seguro que desea eliminar esta entidad?',
-    });
-
-    dialogoRef.afterClosed().subscribe((respuesta: boolean) => {
-      /*if (respuesta) {
-        this.entidadesService.eliminar(entidad._id).subscribe(
-          () => {
-            this.refrescar();
-            this.alertaSnackBar.open('Departamento eliminado con suceso!', 'X', {
-              duration: 5000,
-              verticalPosition: 'top',
-              horizontalPosition: 'center'
-            });
-          },
-          () => this.onError('Error al intentar eliminar departamento.')
-        );
-      }*/
-    });
-  }
-
   onInactivar(entidad: Entidad) {
     const dialogoRef = this.dialog.open(DialogoConfirmacionComponent, {
-      data: '¿Seguro que desea inactivar esta departamento?',
+      data: '¿Seguro que desea inactivar esta entidad?',
     });
 
-    dialogoRef.afterClosed().subscribe((respuesta: boolean) => {
-      /*if (respuesta) {
-        this.departamentosService.inactivar(departamento._id).subscribe(
-          () => {
-            this.refrescar();
-            this.alertaSnackBar.open('Departamento inactivado con suceso!', 'X', {
-              duration: 5000,
-              verticalPosition: 'top',
-              horizontalPosition: 'center'
-            });
-          },
-          () => this.onError('Error al intentar inactivar departamento.')
-        );
-      }*/
+    dialogoRef.afterClosed().subscribe({
+      next: (respuesta: boolean) => {
+        if (respuesta) {
+          this._entidadesService.inactivar(entidad._id!).subscribe({
+            next: () => {
+              this.refrescar(this.pageRequestDefault);
+              this.alertaSnackBar.open('Entidad inactivada con exito!', 'X', {
+                duration: 5000,
+                verticalPosition: 'top',
+                horizontalPosition: 'center'
+              });
+            },
+            error: () => this.onError('Error al intentar inactivar entidad.')
+          });
+        }
+      },
+      error: (err) => this.onError('Error al cerrar el diálogo.')
     });
   }
 
