@@ -6,8 +6,8 @@ import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 
 import { MercaderiaFiltroDTO } from '../model/dtos/mercaderiaFiltroDTO';
-import { Mercaderia } from '../model/mercaderia';
-import { Page } from './../model/mercaderia';
+import { Mercaderia } from '../model/mercaderia.model';
+import { Page } from '../model/mercaderia.model';
 
 @Injectable({
   providedIn: 'root'

@@ -1,5 +1,5 @@
-import { Sucursal } from '../../sucursales/model/sucursal';
-import { Departamento } from '../../departamentos/model/departamento';
+import { Sucursal } from '../../sucursales/model/sucursal.model';
+import { Departamento } from '../../departamentos/model/departamento.model';
 
 export class Login {
   nombreUsuario: string = '';

@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 
-import { Mercaderia } from '../../model/mercaderia';
+import { Mercaderia } from '../../model/mercaderia.model';
 import { MercaderiasComponent } from './../../containers/mercaderias/mercaderias.component';
-import { Page } from './../../model/mercaderia';
+import { Page } from '../../model/mercaderia.model';
 import { DEFAULT_PAGE_TAMANHOS } from 'src/app/compartido/constantes/constantes';
 
 

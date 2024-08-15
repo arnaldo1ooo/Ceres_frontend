@@ -5,8 +5,8 @@ import {
   ActivatedRouteSnapshot
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { Sucursal } from '../../sucursales/model/sucursal';
-import { Entidad } from '../models/entidad';
+import { Sucursal } from '../../sucursales/model/sucursal.model';
+import { Entidad } from '../models/entidad.model';
 import { EntidadesService } from '../services/entidades.service';
 
 //Un resolver se ejecuta al clickar en un boton y antes de que cargue el enlace de la misma
@@ -27,6 +27,6 @@ export class EntidadResolver implements Resolve<Entidad> {
 
     return of({ _id: '', nombre: '', apellido: '', sucursal: new Sucursal(),  //Devuelve una entidad vacia
                        municipio: '', direccion: '', tipo: null, ci: null, ruc: null,
-                       email: null, fechaCreacion: null, observacion: '', situacion: null });
+                       email: null, fechaCreacion: null, observacion: '', situacion: null, clases: [] });
   }
 }

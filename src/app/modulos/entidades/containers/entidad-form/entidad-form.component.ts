@@ -1,15 +1,22 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router';
 import { Situacion } from 'src/app/compartido/enums/situacion.enum';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
+import { Sucursal } from 'src/app/modulos/sucursales/model/sucursal.model';
 
 import { AvisoHelpersService } from '../../../../compartido/services/aviso-helpers.service';
 import { ErrorHelpersService } from '../../../../compartido/services/error-helpers.service';
 import { SucursalesService } from '../../../sucursales/services/sucursales.service';
-import { EntidadDetalleDTO } from '../../models/dtos/entidadDetalleDTO';
 import { EntidadesService } from '../../services/entidades.service';
+import { Municipio } from '../../models/municipio.model';
+import { MunicipiosService } from '../../services/municipios.service';
+import { DepartamentoPolitico } from '../../models/departamentoPolitico.model';
+import { LoginService } from 'src/app/modulos/login/services/login.service';
+import { EntidadDetalleDTO } from '../../models/dtos/entidadDetalleDTO';
+import { FormGroup } from '@angular/forms';
+import { Observable, of } from 'rxjs';
+import { DepartamentosPoliticoService } from '../../services/departamentosPolitico.service';
 
 @Component({
   selector: 'app-entidad-form',
@@ -17,55 +24,37 @@ import { EntidadesService } from '../../services/entidades.service';
   styleUrls: ['./entidad-form.component.scss']
 })
 export class EntidadFormComponent implements OnInit {
-  listaSucursales: any;
-  listaSituaciones = Object.values(Situacion);
-
-  formEntidad = this._formBuilder.group({
-    _id: [''],  //Sirve para el modo editar
-    descripcion: ['', [
-      Validators.required, //Los validators sirven para agregar validaciones al campo
-      Validators.minLength(3),
-      Validators.maxLength(100)
-    ]],
-    sucursal: ['', [
-      Validators.required
-    ]],
-    situacion: ['', [
-      Validators.required
-    ]]
-  });
+  public listaSucursales: Sucursal[] = [];
+  public listaMunicipios!: Municipio[];
+  public listaSituaciones = Object.values(Situacion);
+  public formEntidadDetalle = this._entidadService.formEntidadInicial();
 
   constructor(
-    private _formBuilder: NonNullableFormBuilder,
     private _entidadService: EntidadesService,
     private _location: Location,
     private _ruta: ActivatedRoute,
     private _sucursalService: SucursalesService,
-    private _avisoHelpersService: AvisoHelpersService) {
+    private _departamentosPoliticoService: DepartamentosPoliticoService,
+    private _municipiosService: MunicipiosService,
+    private _avisoHelpersService: AvisoHelpersService,
+    private _loginService: LoginService) {
 
   }
 
   ngOnInit(): void {  //Se ejecuta al iniciar componente
     this.cargarSelectSucursal();
+    this.cargarSelectMunicipio();
     this.verificarModo();
-
-    const entidadDetalleDTO: EntidadDetalleDTO = this._ruta.snapshot.data['entidad'];  //Obtiene el objeto entidad del resolver
-
-    this.formEntidad.setValue({ //Setamos los datos del departamento para que aparezca al editar
-      _id: entidadDetalleDTO._id,
-      descripcion: entidadDetalleDTO.descripcion,
-      sucursal: entidadDetalleDTO.sucursal,
-      situacion: HelpersService.isNoNuloYNoVacio(entidadDetalleDTO.situacion) ? entidadDetalleDTO.situacion : Situacion.ACTIVO //Se pone por default Activo
-    });
+    this.setFormValoresEntidad(this._ruta.snapshot.data['entidad'], this.formEntidadDetalle);
   }
 
   public onGuardar() {
-    if (this.formEntidad.valid) { //Verifica los validators de cada campo del form
+    if (this.formEntidadDetalle.valid) { //Verifica los validators de cada campo del form
       /*this._departamentoService.guardar(this.formEntidad.getRawValue())
         .subscribe(resultado => this.onExito(), error => this.onError());*/
     }
     else {
-      this.formEntidad.markAllAsTouched(); //Marca todos los campos invalidos
+      this.formEntidadDetalle.markAllAsTouched(); //Marca todos los campos invalidos
       this._avisoHelpersService.mostrarMensajeDatosInvalidosForm();
     }
   }
@@ -75,18 +64,29 @@ export class EntidadFormComponent implements OnInit {
   }
 
   private onExito() {
-    this._avisoHelpersService.mostrarMensaje('Departamento guardado con exito!', '', 4000)
+    this._avisoHelpersService.mostrarMensaje('Entidad guardado con exito!', '', 4000)
     this.onRetroceder(); //Para que vuelva atras
   }
 
   private onError() {
-    this._avisoHelpersService.mostrarMensaje('Error al guardar departamento', '', 4000);
+    this._avisoHelpersService.mostrarMensaje('Error al guardar entidad', '', 4000);
   }
 
   private cargarSelectSucursal() {
-    this._sucursalService.listarTodosSucursales().subscribe((lista: any) => {  //Cargamos la lista de sucursales para mostrar en el dropdown
+    this._sucursalService.listarTodosSucursales().subscribe((lista: Sucursal[]) => {
       this.listaSucursales = lista;
+
     })
+  }
+
+  public cargarSelectMunicipio() {
+    this._municipiosService.listarTodosMunicipios().subscribe((lista: Municipio[]) => {
+      this.listaMunicipios = lista;
+
+      if (lista.length > 0) {
+        this.formEntidadDetalle.get('municipio')?.setValue(lista[0]); //Autoseleccionar primer registro
+      }
+    });
   }
 
   protected compararOpcionesSelect(opcion: any, opcionRecibida: any): boolean {
@@ -94,13 +94,13 @@ export class EntidadFormComponent implements OnInit {
   }
 
   public getMensajeError(nombreCampo: string) {
-    const campo = this.formEntidad.get(nombreCampo); //Obtenemos el elemento
-    ErrorHelpersService.verificarMensajeError(campo);
+    const campo = this.formEntidadDetalle.get(nombreCampo);
+    return ErrorHelpersService.verificarMensajeError(campo);
   }
 
   public verificarModo() {
     if (this.isPathModoVisualizar()) {
-      this.formEntidad.disable();
+      this.formEntidadDetalle.disable();
     }
   }
 
@@ -108,7 +108,47 @@ export class EntidadFormComponent implements OnInit {
     return HelpersService.isPathModoVisualizar(this._ruta.snapshot.routeConfig?.path);
   }
 
+  public setFormValoresEntidad(entidadDetalleDTO: EntidadDetalleDTO,  formEntidadDetalle: FormGroup): void {
+    if(HelpersService.isNoNuloYNoVacioYNoUndefined(entidadDetalleDTO)) {
+      formEntidadDetalle.patchValue({
+        _id: entidadDetalleDTO._id,
+        nombre: entidadDetalleDTO.nombre,
+        apellido: entidadDetalleDTO.apellido,
+        sucursal: entidadDetalleDTO.sucursal,
+        municipio: entidadDetalleDTO.municipio,
+        direccion: entidadDetalleDTO.direccion,
+        tipo: entidadDetalleDTO.tipo,
+        ci: entidadDetalleDTO.ci,
+        ruc: entidadDetalleDTO.ruc,
+        email: entidadDetalleDTO.email,
+        observacion: entidadDetalleDTO.observacion,
+        situacion: entidadDetalleDTO.situacion,
+        clases: entidadDetalleDTO.clases
+      });
+    }
+    else {  //Valores por default
+      formEntidadDetalle.patchValue({
+        sucursal: this._loginService.getSucursalLogado(),
+        situacion: Situacion.ACTIVO
+      });
+    }
 
+  }
 
+  public displayDepartamentoPolitico(dptoPolitico: DepartamentoPolitico): string {
+    if (dptoPolitico && dptoPolitico._id && dptoPolitico.descripcion) {
+      return dptoPolitico.descripcion;
+    }
+
+    return '';
+  }
+
+  public displayMunicipio(municipio: Municipio): string {
+    if (municipio && municipio._id && municipio.descripcion) {
+      return municipio.descripcion;
+    }
+
+    return '';
+  }
 
 }

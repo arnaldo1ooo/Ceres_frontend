@@ -5,7 +5,7 @@ import {
   ActivatedRouteSnapshot
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { Departamento } from '../model/departamento';
+import { Departamento } from '../model/departamento.model';
 import { DepartamentosService } from '../services/departamentos.service';
 
 //Un resolver se ejecuta al clickar en un boton y antes de que cargue el enlace de la misma

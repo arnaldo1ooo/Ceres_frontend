@@ -7,7 +7,7 @@ import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 import { HelpersService, RequerirAutocomplete } from 'src/app/compartido/services/helpers.service';
 
 import { MovimientoFiltroDTO } from '../model/dtos/movimientoFiltroDTO';
-import { Movimiento } from '../model/movimiento';
+import { Movimiento } from '../model/movimiento.model';
 import {
   API_URL_MOVIMIENTOS,
   HORA_FINAL,
@@ -23,11 +23,11 @@ import { FormGroup, NonNullableFormBuilder, Validators, FormControl } from '@ang
 import { ItemMovimiento } from '../model/itemMovimiento';
 import { TipoMovimientoEnum } from '../../tipos-movimiento/enums/tipo-movimiento-enum.enum';
 import { Moneda } from '../../monedas/models/moneda';
-import { Entidad } from '../../entidades/models/entidad';
-import { Departamento } from '../../departamentos/model/departamento';
+import { Entidad } from '../../entidades/models/entidad.model';
+import { Departamento } from '../../departamentos/model/departamento.model';
 import { Situacion } from '../../../compartido/enums/situacion.enum';
 import { FormaPago } from '../enums/formaPago.enum';
-import { Mercaderia } from '../../mercaderias/model/mercaderia';
+import { Mercaderia } from '../../mercaderias/model/mercaderia.model';
 import { MovimientoCuentaContable } from '../model/movimientoCuentaContable';
 import { CuentaContableDTO } from '../model/dtos/cuentaContableDTO';
 

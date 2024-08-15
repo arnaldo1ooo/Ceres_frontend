@@ -15,10 +15,10 @@ import { DepartamentosService } from 'src/app/modulos/departamentos/services/dep
 
 import { TipoMercaderia, TipoMercaderiaUtils } from '../../enums/tipoMercaderia.enum';
 import { MercaderiaFiltroDTO } from '../../model/dtos/mercaderiaFiltroDTO';
-import { Mercaderia } from '../../model/mercaderia';
+import { Mercaderia } from '../../model/mercaderia.model';
 import { MercaderiasService } from '../../services/mercaderias.service';
 import { Orden } from './../../../../compartido/enums/orden.enum';
-import { Page } from './../../model/mercaderia';
+import { Page } from '../../model/mercaderia.model';
 
 @Component({
   selector: 'app-mercaderias',

@@ -1,5 +1,6 @@
-import { Sucursal } from '../../sucursales/model/sucursal';
-import { Situacion } from './../../../compartido/enums/situacion.enum';
+import { Sucursal } from '../../sucursales/model/sucursal.model';
+import { Situacion } from '../../../compartido/enums/situacion.enum';
+import { ClaseEntidad } from '../enums/clase-entidad.enum';
 
 export class Entidad {
 
@@ -16,6 +17,7 @@ export class Entidad {
   fechaCreacion: string | null = null;
   observacion: string | null = null;
   situacion: Situacion | null = null;
+  clases: ClaseEntidad[] = [];
 
   constructor() {
 

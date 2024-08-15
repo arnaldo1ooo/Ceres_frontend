@@ -9,7 +9,7 @@ import { MonedaHelpersService } from 'src/app/compartido/services/moneda-helpers
 
 import { MovimientosComponent } from '../../containers/movimientos/movimientos.component';
 import { MovimientoListaDTO, Page } from '../../model/dtos/movimientoListaDTO';
-import { Movimiento } from '../../model/movimiento';
+import { Movimiento } from '../../model/movimiento.model';
 import { MovimientosService } from '../../services/movimientos.service';
 
 

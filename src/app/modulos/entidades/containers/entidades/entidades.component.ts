@@ -8,7 +8,7 @@ import {
 } from 'src/app/compartido/componentes/dialogo-confirmacion/dialogo-confirmacion/dialogo-confirmacion.component';
 import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-error/dialogo-error.component';
 import { EntidadesService } from '../../services/entidades.service';
-import { Entidad, Page } from '../../models/entidad';
+import { Entidad, Page } from '../../models/entidad.model';
 import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 import { DEFAULT_ORDENAR_POR, DEFAULT_PAGE_TAMANHO, ID_OPCION_TODOS, PAGE_INICIAL } from 'src/app/compartido/constantes/constantes';
 import { Orden } from 'src/app/compartido/enums/orden.enum';
@@ -17,7 +17,7 @@ import { Situacion, SituacionUtils } from 'src/app/compartido/enums/situacion.en
 import { ClaseEntidad, ClaseEntidadUtils } from '../../enums/clase-entidad.enum';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { SucursalesService } from 'src/app/modulos/sucursales/services/sucursales.service';
-import { Sucursal } from 'src/app/modulos/sucursales/model/sucursal';
+import { Sucursal } from 'src/app/modulos/sucursales/model/sucursal.model';
 
 @Component({
   selector: 'app-entidades',

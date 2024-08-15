@@ -1,4 +1,4 @@
-import { Departamento } from '../../departamentos/model/departamento';
+import { Departamento } from '../../departamentos/model/departamento.model';
 
 export class Mercaderia {
 

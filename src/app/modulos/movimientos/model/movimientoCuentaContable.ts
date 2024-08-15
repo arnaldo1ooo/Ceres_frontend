@@ -1,4 +1,4 @@
-import { Movimiento } from "./movimiento";
+import { Movimiento } from "./movimiento.model";
 import { CuentaContableDTO } from './dtos/cuentaContableDTO';
 import { MovimientoDetalleDTO } from './dtos/movimientoDetalleDTO';
 

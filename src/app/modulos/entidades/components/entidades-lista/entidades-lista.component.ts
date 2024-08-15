@@ -5,7 +5,7 @@ import { DEFAULT_PAGE_TAMANHOS } from 'src/app/compartido/constantes/constantes'
 import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 import { EntidadesComponent } from '../../containers/entidades/entidades.component';
 import { EntidadListaDTO } from '../../models/dtos/entidadListaDTO';
-import { Entidad, Page } from '../../models/entidad';
+import { Entidad, Page } from '../../models/entidad.model';
 
 @Component({
   selector: 'app-entidades-lista',

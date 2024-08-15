@@ -57,7 +57,9 @@
       "id": "Id",
       "al-contado": "A vista",
       "cuenta-contable": "Conta contável",
-      "valor": "Valor"
+      "valor": "Valor",
+      "nombre": "Nome",
+      "apellido": "Sobrenome"
     },
 
     "botones": {

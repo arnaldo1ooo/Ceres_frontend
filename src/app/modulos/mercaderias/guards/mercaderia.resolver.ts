@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
-import { Mercaderia } from '../model/mercaderia';
+import { Mercaderia } from '../model/mercaderia.model';
 import { MercaderiasService } from '../services/mercaderias.service';
 
 //Un resolver se ejecuta al clickar en un boton y antes de que cargue el enlace de la misma

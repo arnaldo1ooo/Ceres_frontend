@@ -30,12 +30,12 @@ export class ErrorHelpersService {
 
     if (this.isErrorTamanhoMin(valor)) {
       const minCaracteres = valor.errors ? valor.errors['minlength']['requiredLength'] : null; //Se obtiene el minimo requerido
-      return `Tamaño mínimo es de ${minCaracteres} carácteres`;
+      return `Tamaño mínimo es de ${minCaracteres} caracteres`;
     }
 
     if (this.isErrorTamanhoMax(valor)) {
-      const maxCaracteres = valor.errors ? valor.errors['maxlength']['requiredLength'] : null; //Se obtiene el minimo requerido
-      return `Tamaño máximo es de ${maxCaracteres} carácteres`;
+      const maxCaracteres = valor.errors ? valor.errors['maxlength']['requiredLength'] : null; //Se obtiene el maximo requerido
+      return `Tamaño máximo es de ${maxCaracteres} caracteres`;
     }
 
     if (this.isErrorEmail(valor)) {

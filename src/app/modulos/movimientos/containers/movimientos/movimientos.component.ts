@@ -17,7 +17,7 @@ import {
 import { Situacion, SituacionUtils } from 'src/app/compartido/enums/situacion.enum';
 import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
-import { Departamento } from 'src/app/modulos/departamentos/model/departamento';
+import { Departamento } from 'src/app/modulos/departamentos/model/departamento.model';
 import { DepartamentosService } from 'src/app/modulos/departamentos/services/departamentos.service';
 import { LoginService } from 'src/app/modulos/login/services/login.service';
 import { TiposMovimientoService } from 'src/app/modulos/tipos-movimiento/services/tipos-movimiento.service';
