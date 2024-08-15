@@ -46,8 +46,8 @@ export class LoginFormComponent implements OnInit {
       this._loginService.login(this.credenciales)
         .pipe(
           finalize(() => {
-            this._loginService.loginSesionActual = this.credenciales; //Salvamos login actual
-            this._loginService.loginSesionActual.contrasena = ''; // Removemos la contraseña por seguridad
+            HelpersService.salvarItemEnSessionStorage('nombreUsuarioLogado', this.credenciales.nombreUsuario);
+            HelpersService.salvarItemEnSessionStorage('departamentoLogado', this.credenciales.departamento);
           })
         )
         .subscribe({

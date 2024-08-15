@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MatTable } from '@angular/material/table';
 import { map, Observable, startWith } from 'rxjs';
 import { AvisoHelpersService } from 'src/app/compartido/services/aviso-helpers.service';
@@ -9,6 +9,10 @@ import { ItemMovimiento } from '../../model/itemMovimiento';
 import { ModoEdicion } from '../../../../compartido/enums/modoEdicion.enum';
 import { HelpersService } from '../../../../compartido/services/helpers.service';
 import { MovimientosService } from '../../services/movimientos.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogoIngresarTextoComponent } from '../../../../compartido/componentes/dialogo-ingresar-texto/dialogo-ingresar-texto.component';
+import { Moneda } from 'src/app/modulos/monedas/models/moneda';
+import { MonedaHelpersService } from '../../../../compartido/services/moneda-helpers.service';
 
 @Component({
   selector: 'app-lista-items',
@@ -28,10 +32,12 @@ export class ListaItemsComponent implements OnInit {
   protected listaMercaderiasFiltrado$: Observable<Mercaderia[]> | undefined;
   protected columnasAMostrarItems: string[] = ['_id', 'descripcion', 'cantidad', 'valorUnitario', 'subtotal', 'acciones'];
 
+
   constructor(
     private _avisoHelpersService: AvisoHelpersService,
     private _mercaderiasService: MercaderiasService,
-    private _movimientosService: MovimientosService) {
+    private _movimientosService: MovimientosService,
+    private _dialogo: MatDialog) {
 
   }
 
@@ -55,6 +61,11 @@ export class ListaItemsComponent implements OnInit {
     }
   }
 
+  public isModoEditarOVisualizar() {
+    return HelpersService.isModoEditar(this.modoEdicion)
+      || HelpersService.isModoVisualizar(this.modoEdicion);
+  }
+
   private inhabilitarCampos() {
     this.formItemToAgregar.disable();
   }
@@ -69,10 +80,16 @@ export class ListaItemsComponent implements OnInit {
         // Se ejecuta cuando se escribe en autocomplete
         this.listaMercaderiasFiltrado$ = control?.valueChanges.pipe(
           startWith(''), // Se inicia con valor vacío para listar todos los registros
-          map(valorAFiltrar =>
-            this.listaMercaderias?.filter(mercaderia =>
-              mercaderia._id?.toString().includes(valorAFiltrar || '') ||
-              mercaderia.descripcion?.toLocaleLowerCase().includes(valorAFiltrar || ''))
+          map(valorAFiltrar => {
+            if (valorAFiltrar) {
+              return this.listaMercaderias?.filter(mercaderia =>
+                mercaderia._id?.toString().includes(valorAFiltrar || '') ||
+                mercaderia.descripcion?.toUpperCase().includes(HelpersService.convertirToMayus(valorAFiltrar) || '')
+              );
+            } else {
+              return this.listaMercaderias; // Devuelve la lista sin filtrar si valorAFiltrar es vacío
+            }
+          }
           )
         );
       },
@@ -91,23 +108,37 @@ export class ListaItemsComponent implements OnInit {
   }
 
   public agregarItem() {
+    let itemsArray: FormArray = this.movimientoFormGroup.get('items') as FormArray;
+
     let nuevoItem: ItemMovimiento = new ItemMovimiento();
     nuevoItem.mercaderia = this.formItemToAgregar.get('mercaderia')?.value;
     nuevoItem.cantidad = this.formItemToAgregar.get('cantidad')?.value;
     nuevoItem.valorUnitario = this.formItemToAgregar.get('valorUnitario')?.value;
+    nuevoItem.numItem = itemsArray.length + 1;
+
 
     if (this.verificarValidaciones() && this.validarItem(nuevoItem)) {
-      const itemsArray = this.movimientoFormGroup.get('items') as FormArray;
-      itemsArray.push(this._movimientosService.crearItemFormGroup(nuevoItem));
+      if (this.sumCantidadSiItemYaAgregado(nuevoItem, itemsArray)) {
+        this._avisoHelpersService.mostrarMensaje('Mercaderia ya fue agregada, se adicionó a la misma');
+      }
+      else {
+        itemsArray.push(this._movimientosService.crearItemFormGroup(nuevoItem));
+      }
 
       this.limpiarCamposItemAgregar();
       this.refrescarTablaItems();
     }
-
   }
 
   public removerItem(itemARemover: ItemMovimiento) {
-    const itemsArray = this.movimientoFormGroup.get('items') as FormArray;
+    const movCuentasContables = this.movimientoFormGroup.get('movimientoCuentasContables') as FormArray;
+
+    if (movCuentasContables.length > 0) {
+      this._avisoHelpersService.mostrarMensaje("Remueva primero el financiero!");
+      return;
+    }
+
+    let itemsArray = this.movimientoFormGroup.get('items') as FormArray;
 
     const indexItemARemover = itemsArray.controls.findIndex((control) => {
       const controlValue = JSON.stringify(control.value);
@@ -119,6 +150,8 @@ export class ListaItemsComponent implements OnInit {
     if (indexItemARemover !== -1) {
       itemsArray.removeAt(indexItemARemover);
     }
+
+    this.actualizarNumeroItem();
   }
 
   private refrescarTablaItems() {
@@ -141,18 +174,14 @@ export class ListaItemsComponent implements OnInit {
     return isValido;
   }
 
-  private isItemYaAgregado(itemAAgregar: ItemMovimiento): boolean {
-    const itemsArray = this.movimientoFormGroup.get('items') as FormArray;
-
-    for (const itemArray of itemsArray.controls) {
-      const controlValue = itemArray.value as ItemMovimiento;
-
-      if (
-        itemAAgregar.mercaderia === controlValue.mercaderia &&
-        itemAAgregar.cantidad === controlValue.cantidad &&
-        itemAAgregar.valorUnitario === controlValue.valorUnitario
-      ) {
-        return true;
+  private sumCantidadSiItemYaAgregado(itemAAgregar: ItemMovimiento, items: FormArray): boolean {
+    for (let item of items.controls) {
+      if (item instanceof FormGroup) {
+        if (itemAAgregar.mercaderia === item.controls['mercaderia'].value
+          && itemAAgregar.valorUnitario === item.controls['valorUnitario'].value) {
+          item.controls['cantidad'].setValue(item.controls['cantidad'].value + itemAAgregar.cantidad);
+          return true;
+        }
       }
     }
 
@@ -163,7 +192,9 @@ export class ListaItemsComponent implements OnInit {
     let isValido: boolean = true;
     let mensaje: string = '';
 
-    if (HelpersService.isNuloOrVacio(nuevoItem.mercaderia)) {
+    if (HelpersService.isNuloOrVacio(nuevoItem.mercaderia)
+      || HelpersService.isNuloOrVacioOrUndefined(nuevoItem.mercaderia._id)) {
+      this.formItemToAgregar.get('mercaderia')?.setValue("");
       mensaje = 'Seleccione una mercaderia!';
       isValido = false;
     }
@@ -176,10 +207,6 @@ export class ListaItemsComponent implements OnInit {
       mensaje = 'Ingrese un valor unitario!';
       isValido = false;
     }
-    else if (this.isItemYaAgregado(nuevoItem)) {
-      mensaje = 'La mercaderia seleccionada ya fue agregada con la misma cantidad y valor unitario!';
-      isValido = false;
-    }
 
     if (!isValido) {
       this._avisoHelpersService.mostrarMensaje(mensaje);
@@ -190,6 +217,54 @@ export class ListaItemsComponent implements OnInit {
 
   protected limpiarCamposItemAgregar() {
     this.formItemToAgregar.reset();
+  }
+
+  onChangeMercaderia() {
+    this.formItemToAgregar.get('cantidad')?.setValue(1);
+  }
+
+  abrirDialogoObsItem(itemSeleccionado: ItemMovimiento): void {
+    const dialogRef = this._dialogo.open(DialogoIngresarTextoComponent, {
+      data: {
+        titulo: 'Observación del item',
+        textoInicial: itemSeleccionado.observacion,
+        isModoLectura: HelpersService.isModoVisualizar(this.modoEdicion)
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(textoAlterado => { //Al cerrar dialogo
+
+      if (textoAlterado && !HelpersService.isModoVisualizar(this.modoEdicion)) {
+        itemSeleccionado.observacion = textoAlterado;
+
+        let itemsArray: FormArray = this.movimientoFormGroup.get('items') as FormArray;
+
+        for (let item of itemsArray.controls) {
+          if (item instanceof FormGroup) {
+            if (itemSeleccionado.numItem === item.controls['numItem'].value) {
+              item.controls['observacion'].setValue(textoAlterado);
+              break;
+            }
+          }
+        }
+      }
+    });
+  }
+
+  private actualizarNumeroItem() {
+    let itemsArray = this.movimientoFormGroup.get('items') as FormArray;
+    let contador: number = 0;
+
+    for (let item of itemsArray.controls) {
+      if (item instanceof FormGroup) {
+        item.controls['numItem'].setValue(contador + 1);
+        contador = contador + 1;
+      }
+    }
+  }
+
+  public formatearValorMoneda(valor: number, moneda: any): string {
+    return MonedaHelpersService.formatearValorMoneda(valor, moneda);
   }
 
 }

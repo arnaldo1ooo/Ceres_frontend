@@ -4,6 +4,8 @@ import { tap } from 'rxjs';
 import { DEFAULT_PAGE_TAMANHOS } from 'src/app/compartido/constantes/constantes';
 import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 import { AvisoHelpersService } from 'src/app/compartido/services/aviso-helpers.service';
+import { JasperService } from 'src/app/compartido/services/jasper-helpers.service';
+import { MonedaHelpersService } from 'src/app/compartido/services/moneda-helpers.service';
 
 import { MovimientosComponent } from '../../containers/movimientos/movimientos.component';
 import { MovimientoListaDTO, Page } from '../../model/dtos/movimientoListaDTO';
@@ -66,11 +68,8 @@ export class MovimientosListaComponent implements OnInit {
   onImprimirMovimientoA4Pdf(movimiento: MovimientoListaDTO) {
     return this._movimientosService.imprimirMovimientoA4Pdf(movimiento._id)
       .subscribe({
-        next: (respuesta: any) => {
-          const blob = new Blob([respuesta], { type: 'application/pdf' });
-          const url = window.URL.createObjectURL(blob);
-          window.open(url, '_blank');
-          window.URL.revokeObjectURL(url); // Liberar recursos después de abrir la ventana
+        next: (respuesta: Blob) => {
+          JasperService.mostrarPdf(respuesta);
         },
         error: (error) => {
           console.error('Error al imprimir Movimiento A4: ', error);
@@ -93,6 +92,10 @@ export class MovimientosListaComponent implements OnInit {
 
   private onError(error: string) {
     this._avisoHelpersService.mostrarMensaje(error, '', 4000);
+  }
+
+  public formatearValorMoneda(valor: number, moneda: any): string {
+    return MonedaHelpersService.formatearValorMoneda(valor, moneda);
   }
 
 }

@@ -19,6 +19,7 @@ import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { Departamento } from 'src/app/modulos/departamentos/model/departamento';
 import { DepartamentosService } from 'src/app/modulos/departamentos/services/departamentos.service';
+import { LoginService } from 'src/app/modulos/login/services/login.service';
 import { TiposMovimientoService } from 'src/app/modulos/tipos-movimiento/services/tipos-movimiento.service';
 
 import { Orden } from '../../../../compartido/enums/orden.enum';
@@ -63,7 +64,8 @@ export class MovimientosComponent implements OnInit {
     private _alertaSnackBar: MatSnackBar,
     private _movimientosService: MovimientosService,
     private _tiposMovimientoService: TiposMovimientoService,
-    private _departamentosService: DepartamentosService
+    private _departamentosService: DepartamentosService,
+    private _loginService: LoginService
   ) {
 
   }
@@ -100,15 +102,8 @@ export class MovimientosComponent implements OnInit {
     const idFiltro: Number = this.movimientoFiltro.id;  //Salva id ingresado
     this.limpiarFiltros();
     this.movimientoFiltro.id = idFiltro;  //Vuelve a agregar filtro ingresado
-
-    this.movimientoFiltro.fechaRangoInicialFinal = new FormGroup({
-      start: new FormControl(
-        null
-      ),
-      end: new FormControl(
-        null
-      )
-    });
+    this.movimientoFiltro.fechaInicial = null;
+    this.movimientoFiltro.fechaFinal = null;
   }
 
   private filtroInicial() {
@@ -117,15 +112,9 @@ export class MovimientosComponent implements OnInit {
       id: "",
       idTipo: ID_OPCION_TODOS,
       nombreApellidoEntidad: "",
-      fechaRangoInicialFinal: new FormGroup({
-        start: new FormControl(
-          FechaHelpersService.getPrimerDiaDelAnho()
-        ),
-        end: new FormControl(
-          FechaHelpersService.getUltimoDiaDelMesActual()
-        )
-      }),
-      idDepartamento: ID_OPCION_TODOS,
+      fechaInicial: FechaHelpersService.getPrimerDiaDelAnho(),
+      fechaFinal: new Date(),
+      idDepartamento: this._loginService.getDepartamentoLogado()._id,
       keySituacion: Situacion.ACTIVO
     };
   }

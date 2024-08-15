@@ -69,8 +69,11 @@ export class MovimientosService {
       + `id=${movimientoFiltro.id}`
       + `&idTipo=${movimientoFiltro.idTipo}`
       + `&nombreApellidoEntidad=${movimientoFiltro.nombreApellidoEntidad}`
-      + `&fechaInicial=${this.convertirToLDTasignarHorasInicial(movimientoFiltro.fechaRangoInicialFinal.value.start)}`
-      + `&fechaFinal=${this.convertirToLDTasignarHorasFinal(movimientoFiltro.fechaRangoInicialFinal.value.end)}`
+      + `&fechaInicial=${movimientoFiltro.fechaInicial != null
+        ? FechaHelpersService.formatearFecha(movimientoFiltro.fechaInicial) : ""}`
+      + `&fechaFinal=${movimientoFiltro.fechaFinal != null
+        ? FechaHelpersService.formatearFechaYasignarHoraAFechaDate(
+          movimientoFiltro.fechaFinal, HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL) : ""}`
       + `&idDepartamento=${HelpersService.idTodosReturnVacio(movimientoFiltro.idDepartamento)}`
       + `&keySituacion=${HelpersService.idTodosReturnVacio(movimientoFiltro.keySituacion)}`
       + `&page=${pageRequest.pagina}&size=${pageRequest.tamanho}&sort=${pageRequest.ordenarPor},${pageRequest.orden}`);
@@ -115,18 +118,11 @@ export class MovimientosService {
       fechaInicialLDT, HORA_INICIAL, MINUTO_INICIAL, SEGUNDO_INICIAL); //Asignamos hora 00:00:00
   }
 
-  private convertirToLDTasignarHorasFinal(fechaFinal: Date): LocalDateTime | null {
-    let fechaFinalLDT = FechaHelpersService.dateALocalDateTime(fechaFinal);
-
-    return FechaHelpersService.asignarHoraAFechaLDT(
-      fechaFinalLDT, HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL); //Asignamos hora 23:59:59
-  }
-
   public crearMovimientoFormGroup(): FormGroup {
     return this._formBuilder.group({
       _id: new FormControl<string>(''),
       tipo: new FormControl<TipoMovimientoEnum | null>(null, Validators.required),
-      moneda: new FormControl<Moneda | null>(null, Validators.required),
+      moneda: new FormControl<Moneda>(new Moneda(), Validators.required),
       entidad: new FormControl<Entidad | null>(null, [Validators.required, RequerirAutocomplete]),
       fechaEmision: new FormControl<LocalDateTime | null>(null, Validators.required),
       departamento: new FormControl<Departamento | null>(null, Validators.required),
@@ -146,7 +142,8 @@ export class MovimientosService {
       mercaderia: new FormControl<Mercaderia | null>(itemMovimiento.mercaderia),
       cantidad: new FormControl<number>(itemMovimiento.cantidad),
       valorUnitario: new FormControl<number>(itemMovimiento.valorUnitario),
-      observacion: new FormControl<string | null>(itemMovimiento.observacion)
+      observacion: new FormControl<string | null>(itemMovimiento.observacion),
+      numItem: new FormControl<number | null>(itemMovimiento.numItem)
     });
   }
 

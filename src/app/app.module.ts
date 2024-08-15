@@ -14,11 +14,21 @@ import { CompartidoModule } from './compartido/compartido.module';
 import { SpinnerCargandoInterceptor } from './compartido/componentes/spinner-cargando/interceptors/spinner-cargando.interceptor';
 import { FORMATO_REGIONAL_ES } from './compartido/constantes/constantes';
 import { MaterialModulosModule } from './compartido/material-modulos/material-modulos.module';
-import { SpinnerCargandoModule } from './compartido/componentes/spinner-cargando/spinner-cargando.module';
+import { NgxMatDateFormats, NGX_MAT_DATE_FORMATS } from '@angular-material-components/datetime-picker';
 
 registerLocaleData(localeEs, FORMATO_REGIONAL_ES);
 
-
+const FORMATO_FECHA_PERSONALIZADO: NgxMatDateFormats = {
+  parse: {
+    dateInput: 'DD/MM/YYYY HH:mm',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY HH:mm',
+    monthYearLabel: 'MMMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY'
+  }
+};
 @NgModule({
   declarations: [
     AppComponent
@@ -35,7 +45,8 @@ registerLocaleData(localeEs, FORMATO_REGIONAL_ES);
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, //Sirve para el interceptor de autenticacion helpers/autenticacion
     { provide: HTTP_INTERCEPTORS, useClass: SpinnerCargandoInterceptor, multi: true }, //Sirve para que muestre cargando durante una peticion http
-    { provide: LOCALE_ID, useValue: FORMATO_REGIONAL_ES } // Configura el LOCALE_ID a 'es' para usar el español como idioma
+    { provide: LOCALE_ID, useValue: FORMATO_REGIONAL_ES }, // Configura el LOCALE_ID a 'es' para usar el español como idioma
+    { provide: NGX_MAT_DATE_FORMATS, useValue: FORMATO_FECHA_PERSONALIZADO },
   ],
   bootstrap: [AppComponent]
 })

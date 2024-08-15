@@ -23,14 +23,14 @@ import { ClaseEntidad } from './../../../entidades/enums/clase-entidad.enum';
 import { Entidad } from './../../../entidades/models/entidad';
 import { ItemMovimiento } from '../../model/itemMovimiento';
 import { FormaPago } from '../../enums/formaPago.enum';
-import { MatTabGroup } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ListaItemsComponent } from '../../components/lista-items/lista-items.component';
 import { MovimientosService } from '../../services/movimientos.service';
 import { LoginService } from '../../../login/services/login.service';
 import { MatSelect } from '@angular/material/select';
-import { LocalDateTime } from '@js-joda/core';
 import { MovimientoCuentaContable } from '../../model/movimientoCuentaContable';
 import { ListaFinancieroComponent } from '../../components/lista-financiero/lista-financiero.component';
+import { MonedaHelpersService } from 'src/app/compartido/services/moneda-helpers.service';
 
 @Component({
   selector: 'app-movimiento-form',
@@ -99,11 +99,11 @@ export class MovimientoFormComponent implements OnInit {
       if (HelpersService.isNuloOrVacio(movimientoDetalleDTO._id)) {
         this.cargarDatosEnForm(
           '0',
-          await this._tiposMovimientoService.cargarPorId(HelpersService.obtenerItemDelStorage('idTipoMovimiento')), //Await sirve para esperar hasta que retorne el llamado para continuar la ejecucion);
+          await this._tiposMovimientoService.cargarPorId(HelpersService.obtenerItemDelLocalStorage('idTipoMovimiento')), //Await sirve para esperar hasta que retorne el llamado para continuar la ejecucion);
           await this._monedasService.cargarPorId(MonedaEnum.GUARANI),
           new Entidad(),
-          FechaHelpersService.getFechaHoraActualLDT(),
-          this._loginService.loginSesionActual.departamento,
+          FechaHelpersService.getFechaHoraActual(),
+          this._loginService.getDepartamentoLogado(),
           new Entidad(),
           '',
           Situacion.ACTIVO,
@@ -191,6 +191,11 @@ export class MovimientoFormComponent implements OnInit {
     }
     else if (this.formMovimientoDetalle.get('movimientoCuentasContables')?.value.length == 0) {
       mensaje = "Agregue al menos una cuenta contable en el Financiero!"
+      isValido = false;
+      this.moverseDeTab(this.INDEX_TAB_FINANCIERO);
+    }
+    else if (this.listaFinancieroComponent.saldoLanzar > 0) {
+      mensaje = "Existe saldo a lanzar en el financiero!"
       isValido = false;
       this.moverseDeTab(this.INDEX_TAB_FINANCIERO);
     }
@@ -319,7 +324,7 @@ export class MovimientoFormComponent implements OnInit {
   }
 
   private cargarDatosEnForm(id: string, tipo: TipoMovimiento, moneda: Moneda, entidad: Entidad,
-    fechaEmision: LocalDateTime | null, departamento: Departamento, compradorVendedor: Entidad,
+    fechaEmision: Date | null, departamento: Departamento, compradorVendedor: Entidad,
     observacion: string, situacion: Situacion | null, items: ItemMovimiento[], formaPago: FormaPago | null,
     movCuentasContables: MovimientoCuentaContable[]) {
 
@@ -361,7 +366,6 @@ export class MovimientoFormComponent implements OnInit {
   private itemsChange() {
     this.formMovimientoDetalle.get('items')?.valueChanges.subscribe(() => {
       this.actualizarTotalItems();
-      this.actualizarValorFinanciero();
     });
   }
 
@@ -378,8 +382,15 @@ export class MovimientoFormComponent implements OnInit {
     }
   }
 
-  private actualizarValorFinanciero() {
-    this.listaFinancieroComponent.formMovimientoCuentaToAgregar.get('valor')?.setValue(this.totalItems);
+  protected tabOnChange(tabChangeEvent: MatTabChangeEvent): void {
+    if(tabChangeEvent.index == this.INDEX_TAB_FINANCIERO) {
+      this.listaFinancieroComponent.formMovimientoCuentaToAgregar.get('valor')?.setValue(this.totalItems);
+      this.listaFinancieroComponent.actualizarSaldoLanzar();
+    }
+  }
+
+  public formatearValorMoneda(valor: number, moneda: any): string {
+    return MonedaHelpersService.formatearValorMoneda(valor, moneda);
   }
 
 }

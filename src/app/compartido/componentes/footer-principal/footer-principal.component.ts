@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { LoginService } from '../../../modulos/login/services/login.service';
+import { FechaHelpersService } from '../../services/fecha-helpers.service';
 
 @Component({
   selector: 'app-footer-principal',
@@ -9,8 +10,8 @@ import { LoginService } from '../../../modulos/login/services/login.service';
 export class FooterPrincipalComponent {
   nombreBaseDatos: string = 'NO DISPONIBLE';
   versionBackEnd: string = '0.0.0';
-  versionFrontEnd: string | undefined = '0.0.0';
-  fechaHoraActual: string = new Date().toLocaleString();
+  versionFrontEnd: string = '0.0.0';
+  fechaHoraActual: string = FechaHelpersService.formatearFechaCustom(new Date, 'DD/MM/yyyy HH:mm');
 
   constructor(private _loginService: LoginService) { }
 
@@ -18,13 +19,13 @@ export class FooterPrincipalComponent {
     this.obtenerBaseDatosActual();
     this.obtenerVersionBackEnd();
     this.obtenerVersionFrontEnd();
-    this.actualizarFechaHoraPorSegundo();
+    this.actualizarFechaHora();
   }
 
-  private actualizarFechaHoraPorSegundo() {
+  private actualizarFechaHora() {
     setInterval(() => {
-      this.fechaHoraActual = new Date().toLocaleString();
-    }, 1000);
+      this.fechaHoraActual = FechaHelpersService.formatearFechaCustom(new Date, 'DD/MM/yyyy HH:mm');
+    }, 30000);
   }
 
   private obtenerVersionBackEnd() {

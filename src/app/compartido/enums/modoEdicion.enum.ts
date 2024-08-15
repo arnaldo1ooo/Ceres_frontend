@@ -18,7 +18,7 @@ export class ModoEdicionUtils {
     }
   }
 
-  public static getModoOperacionPorDescripcion(descripcion: string): ModoEdicion | null {
+  public static getModoEdicionPorDescripcion(descripcion: string): ModoEdicion | null {
     const modosEdicion = Object.values(ModoEdicion);
 
     for (let i in modosEdicion) {

@@ -28,15 +28,20 @@
       <input matInput id="filtroNombreApellidoEntidad" type="text" [(ngModel)]="movimientoFiltro.nombreApellidoEntidad">
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="style-date-picker-filtro-fecha-inicial-final">
-      <mat-label>Fecha de emisión</mat-label>
-      <mat-date-range-input [formGroup]="movimientoFiltro.fechaRangoInicialFinal" [rangePicker]="picker">
-        <input matStartDate formControlName="start" placeholder="Start Date">
-        <input matEndDate formControlName="end" placeholder="End Date">
-      </mat-date-range-input>
-      <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
-      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-date-range-picker #picker></mat-date-range-picker>
+    <mat-form-field appearance="outline" class="style-date-picker-filtro">
+      <mat-label>Fecha inicial</mat-label>
+      <input matInput [matDatepicker]="pickerInicial" [(ngModel)]="movimientoFiltro.fechaInicial">
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="pickerInicial"></mat-datepicker-toggle>
+      <mat-datepicker #pickerInicial></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="style-date-picker-filtro">
+      <mat-label>Fecha final</mat-label>
+      <input matInput [matDatepicker]="pickerFinal" [(ngModel)]="movimientoFiltro.fechaFinal">
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="pickerFinal"></mat-datepicker-toggle>
+      <mat-datepicker #pickerFinal></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="style-select-filtro-departamento">
@@ -44,7 +49,7 @@
       <mat-select [(ngModel)]="movimientoFiltro.idDepartamento" [compareWith]="compararOpcionesSelect">
         <mat-option [value]="-1">TODOS</mat-option>
         <mat-option *ngFor="let departamento of listaDepartamentos" value={{departamento._id}}>
-          {{departamento.descripcion}}
+          {{ departamento.descripcion }}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -59,11 +64,15 @@
       </mat-select>
     </mat-form-field>
 
-    <button mat-raised-button class="style-button-filtro" (click)="limpiar()" color="accent">{{ ('botones.limpiar' | transloco) }}</button>
-    <button mat-raised-button class="style-button-filtro" (click)="filtrar()" [disabled]="isFiltrando"
-      color="primary">{{ ('botones.filtrar' | transloco) }}</button>
+    <button mat-raised-button class="style-button-filtro" (click)="limpiar()" color="accent"
+      matTooltip="Limpia o vacía los campos de filtro de búsqueda">
+      {{ ('botones.limpiar' | transloco) }}
+    </button>
+    <button mat-raised-button class="style-button-filtro" (click)="filtrar()" [disabled]="isFiltrando" color="primary"
+      matTooltip="Realiza una búsqueda de los movimientos de acuerdo a los filtros seleccionados">
+      {{ ('botones.filtrar' | transloco) }}
+    </button>
   </div>
-
 
   <div class="column flex mat-elevation-z8">
     <!--Pasamos las variables del componente principal al componente lista-->

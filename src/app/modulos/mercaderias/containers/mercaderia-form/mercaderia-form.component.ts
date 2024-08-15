@@ -46,7 +46,7 @@ export class MercaderiaFormComponent implements OnInit {
       _id: mercaderia._id,
       descripcion: mercaderia.descripcion,
       tipo: mercaderia.tipo,
-      departamento: mercaderia.departamento,
+      departamentos: mercaderia.departamentos,
       situacion: HelpersService.isNoNuloYNoVacio(mercaderia.situacion)
         ? mercaderia.situacion
         : Situacion.ACTIVO //Se pone por default Activo
@@ -122,7 +122,7 @@ export class MercaderiaFormComponent implements OnInit {
       tipo: new FormControl('', [
         Validators.required
       ]),
-      departamento: new FormControl('', [
+      departamentos: new FormControl('', [
         Validators.required
       ]),
       situacion: new FormControl('', [

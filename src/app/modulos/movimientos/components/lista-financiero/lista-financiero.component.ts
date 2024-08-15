@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { MovimientosService } from '../../services/movimientos.service';
 import { CuentaContableDTO } from '../../model/dtos/cuentaContableDTO';
 import { map, Observable, startWith } from 'rxjs';
@@ -9,7 +9,9 @@ import { AvisoHelpersService } from 'src/app/compartido/services/aviso-helpers.s
 import { ModoEdicion } from 'src/app/compartido/enums/modoEdicion.enum';
 import { MovimientoCuentaContable } from '../../model/movimientoCuentaContable';
 import { MatTable } from '@angular/material/table';
-import { MovimientoFormComponent } from '../../containers/movimiento-form/movimiento-form.component';
+import { ItemMovimiento } from '../../model/itemMovimiento';
+import { MonedaHelpersService } from 'src/app/compartido/services/moneda-helpers.service';
+import { Moneda } from 'src/app/modulos/monedas/models/moneda';
 
 @Component({
   selector: 'app-lista-financiero',
@@ -26,7 +28,9 @@ export class ListaFinancieroComponent {
   public formMovimientoCuentaToAgregar: FormGroup = this._movimientosService.crearMovimientoCuentaFormGroup();
   protected listaCuentasContables: CuentaContableDTO[] = [];
   protected listaCuentasContablesFiltrado$: Observable<CuentaContableDTO[]> | undefined;
-  protected columnasAMostrarItems: string[] = ['_id', 'valor'];
+  protected columnasAMostrarFinanciero: string[] = ['_id', 'valor', 'acciones'];
+
+  public saldoLanzar: number = 0;
 
   constructor(
     private _movimientosService: MovimientosService,
@@ -62,6 +66,7 @@ export class ListaFinancieroComponent {
 
       this.limpiarCamposMovCuentaContableAgregar();
       this.refrescarTablaMovCuentasContables();
+      this.actualizarSaldoLanzar();
     }
   }
 
@@ -128,6 +133,7 @@ export class ListaFinancieroComponent {
   private validarMovCuentaContable(nuevoMovCuentaContable: MovimientoCuentaContable): boolean {
     let isValido: boolean = true;
     let mensaje: string = '';
+    let moneda: Moneda = this.movimientoFormGroup.get('moneda')?.value;
 
     if (HelpersService.isNuloOrVacio(nuevoMovCuentaContable._id.cuentaContable._id)) {
       mensaje = 'Seleccione una cuenta contable!';
@@ -139,6 +145,11 @@ export class ListaFinancieroComponent {
     }
     else if (HelpersService.isMenorIgualACero(nuevoMovCuentaContable.valor)) {
       mensaje = 'Ingrese valor mayor a cero!';
+      isValido = false;
+    }
+    else if (HelpersService.isMayorQue(nuevoMovCuentaContable.valor, this.saldoLanzar)) {
+      mensaje = 'El valor de la cuenta ('+ this.formatearValorMoneda(nuevoMovCuentaContable.valor, moneda)
+                  + ') no puede ser mayor al saldo a lanzar (' + this.formatearValorMoneda(this.saldoLanzar, moneda) + ')';
       isValido = false;
     }
 
@@ -157,5 +168,48 @@ export class ListaFinancieroComponent {
     this.movCuentasContablesTable.renderRows();
   }
 
+  public removerCuentaContable(movCuentaARemover: MovimientoCuentaContable) {
+    let movCuentasContables = this.movimientoFormGroup.get('movimientoCuentasContables') as FormArray;
+
+    const indexMovCuentaARemover = movCuentasContables.controls.findIndex((control) => {
+      const controlValue = JSON.stringify(control.value);
+      const movCuentaARemoverValue = JSON.stringify(
+        this._movimientosService.crearMovimientoCuentaFormGroup(movCuentaARemover).value);
+
+      return controlValue === movCuentaARemoverValue;
+    });
+
+    if (indexMovCuentaARemover !== -1) {
+      movCuentasContables.removeAt(indexMovCuentaARemover);
+      this.actualizarSaldoLanzar();
+    }
+  }
+
+  public actualizarSaldoLanzar(): void {
+    const itemsArray: FormArray = this.movimientoFormGroup.get('items') as FormArray;
+    const movCuentasContables: FormArray = this.movimientoFormGroup.get('movimientoCuentasContables') as FormArray;
+    let cantidad;
+    let valorUnitario;
+    let totalItems = 0;
+    let totalCuentas = 0;
+    this.saldoLanzar = 0;
+
+    for (let i = 0; i < itemsArray.length; i++) {
+      cantidad = itemsArray.at(i).get('cantidad')?.value;
+      valorUnitario = itemsArray.at(i).get('valorUnitario')?.value;
+      totalItems = totalItems + (cantidad * valorUnitario);
+    }
+
+    for (let i = 0; i < movCuentasContables.length; i++) {
+      valorUnitario = movCuentasContables.at(i).get('valor')?.value;
+      totalCuentas = totalCuentas + valorUnitario;
+    }
+
+    this.saldoLanzar = totalItems - totalCuentas;
+  }
+
+  public formatearValorMoneda(valor: number, moneda: any): string {
+    return MonedaHelpersService.formatearValorMoneda(valor, moneda);
+  }
 
 }
