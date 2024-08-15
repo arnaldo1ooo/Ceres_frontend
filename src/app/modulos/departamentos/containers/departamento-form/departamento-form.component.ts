@@ -99,13 +99,13 @@ export class DepartamentoFormComponent implements OnInit {
   }
 
   public verificarModo() {
-    if(this.isModoVisualizar()) {
+    if(this.isPathModoVisualizar()) {
       this.formDepartamento.disable();
     }
   }
 
-  public isModoVisualizar(): boolean {
-    return HelpersService.isModoVisualizar(this._ruta.snapshot.routeConfig?.path);
+  public isPathModoVisualizar(): boolean {
+    return HelpersService.isPathModoVisualizar(this._ruta.snapshot.routeConfig?.path);
   }
 
 

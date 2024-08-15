@@ -31,9 +31,9 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="anchura-maxima">
-        <mat-label>{{ "titulos.departamento" | transloco }}</mat-label>
-        <mat-select formControlName="departamento" [compareWith]="compararOpcionesSelect">
-          <mat-option disabled selected value="">{{ "seleccion.seleccion-sucursal" | transloco }}</mat-option>
+        <mat-label>{{ "titulos.departamentos" | transloco }}</mat-label>
+        <mat-select formControlName="departamentos" [compareWith]="compararOpcionesSelect"
+                    matTooltip="Seleccione los departamentos en los cuales la mercadería se encontrará disponbile" multiple>
           <mat-option *ngFor="let departamento of listaDepartamentos" [value]="departamento">
             {{departamento._id}} - {{departamento.descripcion}}
           </mat-option>

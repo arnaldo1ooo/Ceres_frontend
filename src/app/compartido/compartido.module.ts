@@ -16,6 +16,7 @@ import { SituacionPipe } from './pipes/situacion.pipe';
 import { SpinnerCargandoModule } from './componentes/spinner-cargando/spinner-cargando.module';
 import { FooterPrincipalComponent } from './componentes/footer-principal/footer-principal.component';
 import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+import { DialogoIngresarTextoComponent } from './componentes/dialogo-ingresar-texto/dialogo-ingresar-texto.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerMod
     MiSidenavComponent,
     SelectorIdiomaComponent,
     DialogoQuillEditorComponent,
-    FooterPrincipalComponent
+    FooterPrincipalComponent,
+    DialogoIngresarTextoComponent
   ],
   imports: [
     CommonModule,

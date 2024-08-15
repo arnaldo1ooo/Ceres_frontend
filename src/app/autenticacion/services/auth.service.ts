@@ -41,16 +41,16 @@ export class AuthService {
 
   cerrarSesion() {
     this.sesionIniciada.next(false);
-    HelpersService.removerItemDelStorage('token');
+    HelpersService.removerItemDelLocalStorage('token');
     this._router.navigate(['login']);
   }
 
   getTokenAlmacenado() {
-    return HelpersService.obtenerItemDelStorage('token');
+    return HelpersService.obtenerItemDelLocalStorage('token');
   }
 
   salvarTokenEnLocalStorage(token: string) {
-    HelpersService.salvarItemEnStorage('token', token);
+    HelpersService.salvarItemEnLocalStorage('token', token);
   }
 
   public get isSesionIniciada() {

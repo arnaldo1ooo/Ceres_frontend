@@ -41,6 +41,7 @@
       "movimiento": "Tipo",
       "moneda": "Moeda",
       "departamento": "Departamento",
+      "departamentos": "Departamentos",
       "entidad": "Entidade",
       "fecha-emision": "Data de emissão",
       "comprador": "Comprador",

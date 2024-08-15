@@ -28,9 +28,9 @@ import { ListaItemsComponent } from '../../components/lista-items/lista-items.co
 import { MovimientosService } from '../../services/movimientos.service';
 import { LoginService } from '../../../login/services/login.service';
 import { MatSelect } from '@angular/material/select';
-import { LocalDateTime } from '@js-joda/core';
 import { MovimientoCuentaContable } from '../../model/movimientoCuentaContable';
 import { ListaFinancieroComponent } from '../../components/lista-financiero/lista-financiero.component';
+import { MonedaHelpersService } from 'src/app/compartido/services/moneda-helpers.service';
 
 @Component({
   selector: 'app-movimiento-form',
@@ -99,11 +99,11 @@ export class MovimientoFormComponent implements OnInit {
       if (HelpersService.isNuloOrVacio(movimientoDetalleDTO._id)) {
         this.cargarDatosEnForm(
           '0',
-          await this._tiposMovimientoService.cargarPorId(HelpersService.obtenerItemDelStorage('idTipoMovimiento')), //Await sirve para esperar hasta que retorne el llamado para continuar la ejecucion);
+          await this._tiposMovimientoService.cargarPorId(HelpersService.obtenerItemDelLocalStorage('idTipoMovimiento')), //Await sirve para esperar hasta que retorne el llamado para continuar la ejecucion);
           await this._monedasService.cargarPorId(MonedaEnum.GUARANI),
           new Entidad(),
           FechaHelpersService.getFechaHoraActual(),
-          this._loginService.loginSesionActual.departamento,
+          this._loginService.getDepartamentoLogado(),
           new Entidad(),
           '',
           Situacion.ACTIVO,
@@ -387,7 +387,10 @@ export class MovimientoFormComponent implements OnInit {
       this.listaFinancieroComponent.formMovimientoCuentaToAgregar.get('valor')?.setValue(this.totalItems);
       this.listaFinancieroComponent.actualizarSaldoLanzar();
     }
+  }
 
+  public formatearValorMoneda(valor: number, moneda: any): string {
+    return MonedaHelpersService.formatearValorMoneda(valor, moneda);
   }
 
 }

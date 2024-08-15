@@ -69,10 +69,11 @@ export class MovimientosService {
       + `id=${movimientoFiltro.id}`
       + `&idTipo=${movimientoFiltro.idTipo}`
       + `&nombreApellidoEntidad=${movimientoFiltro.nombreApellidoEntidad}`
-      + `&fechaInicial=${FechaHelpersService.formatearFecha(movimientoFiltro.fechaInicial)}`
-      + `&fechaFinal=${FechaHelpersService.formatearFecha(
-                  FechaHelpersService.asignarHoraAFechaDate(
-                    movimientoFiltro.fechaFinal!, HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL))}`
+      + `&fechaInicial=${movimientoFiltro.fechaInicial != null
+        ? FechaHelpersService.formatearFecha(movimientoFiltro.fechaInicial) : ""}`
+      + `&fechaFinal=${movimientoFiltro.fechaFinal != null
+        ? FechaHelpersService.formatearFechaYasignarHoraAFechaDate(
+          movimientoFiltro.fechaFinal, HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL) : ""}`
       + `&idDepartamento=${HelpersService.idTodosReturnVacio(movimientoFiltro.idDepartamento)}`
       + `&keySituacion=${HelpersService.idTodosReturnVacio(movimientoFiltro.keySituacion)}`
       + `&page=${pageRequest.pagina}&size=${pageRequest.tamanho}&sort=${pageRequest.ordenarPor},${pageRequest.orden}`);
@@ -121,7 +122,7 @@ export class MovimientosService {
     return this._formBuilder.group({
       _id: new FormControl<string>(''),
       tipo: new FormControl<TipoMovimientoEnum | null>(null, Validators.required),
-      moneda: new FormControl<Moneda | null>(null, Validators.required),
+      moneda: new FormControl<Moneda>(new Moneda(), Validators.required),
       entidad: new FormControl<Entidad | null>(null, [Validators.required, RequerirAutocomplete]),
       fechaEmision: new FormControl<LocalDateTime | null>(null, Validators.required),
       departamento: new FormControl<Departamento | null>(null, Validators.required),
@@ -141,7 +142,8 @@ export class MovimientosService {
       mercaderia: new FormControl<Mercaderia | null>(itemMovimiento.mercaderia),
       cantidad: new FormControl<number>(itemMovimiento.cantidad),
       valorUnitario: new FormControl<number>(itemMovimiento.valorUnitario),
-      observacion: new FormControl<string | null>(itemMovimiento.observacion)
+      observacion: new FormControl<string | null>(itemMovimiento.observacion),
+      numItem: new FormControl<number | null>(itemMovimiento.numItem)
     });
   }
 

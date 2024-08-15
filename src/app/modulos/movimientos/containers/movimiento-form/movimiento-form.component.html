@@ -186,9 +186,7 @@
   <!-----TOTALES---->
   <div [ngClass]="['ui-contenedor-totales']">
     <mat-label [ngClass]="['ui-total']">
-      <!-- ?? es si es nulo-->
-      Total: {{ totalItems | currency:(formMovimientoDetalle.get('moneda')?.value?.simbolo ?? 'Gs')
-        : 'symbol' : '1.0-' + (formMovimientoDetalle.get('moneda')?.value?.cantidadDecimales ?? '8') }}
+      Total: {{ formatearValorMoneda(totalItems, formMovimientoDetalle.get('moneda')?.value) }}
     </mat-label>
   </div>
 

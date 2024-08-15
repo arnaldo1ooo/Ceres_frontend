@@ -19,6 +19,7 @@ import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { Departamento } from 'src/app/modulos/departamentos/model/departamento';
 import { DepartamentosService } from 'src/app/modulos/departamentos/services/departamentos.service';
+import { LoginService } from 'src/app/modulos/login/services/login.service';
 import { TiposMovimientoService } from 'src/app/modulos/tipos-movimiento/services/tipos-movimiento.service';
 
 import { Orden } from '../../../../compartido/enums/orden.enum';
@@ -63,7 +64,8 @@ export class MovimientosComponent implements OnInit {
     private _alertaSnackBar: MatSnackBar,
     private _movimientosService: MovimientosService,
     private _tiposMovimientoService: TiposMovimientoService,
-    private _departamentosService: DepartamentosService
+    private _departamentosService: DepartamentosService,
+    private _loginService: LoginService
   ) {
 
   }
@@ -112,7 +114,7 @@ export class MovimientosComponent implements OnInit {
       nombreApellidoEntidad: "",
       fechaInicial: FechaHelpersService.getPrimerDiaDelAnho(),
       fechaFinal: new Date(),
-      idDepartamento: ID_OPCION_TODOS,
+      idDepartamento: this._loginService.getDepartamentoLogado()._id,
       keySituacion: Situacion.ACTIVO
     };
   }

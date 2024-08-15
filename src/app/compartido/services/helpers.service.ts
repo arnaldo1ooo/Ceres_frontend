@@ -1,16 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-
-
-
+import { ModoEdicion } from '../enums/modoEdicion.enum';
 @Injectable({
   providedIn: 'root'
 })
 export class HelpersService {
 
-  constructor(
-
-  ) { }
+  constructor() { }
 
   public static isTokenExpirado(token: any): boolean {
     if (this.isNoNuloYNoVacio(token)) {
@@ -25,17 +21,41 @@ export class HelpersService {
     localStorage.clear;
   }
 
-  public static removerItemDelStorage(key: string) {
+  public static removerItemDelLocalStorage(key: string) {
     localStorage.removeItem(key);
   }
 
-  public static salvarItemEnStorage(key: string, valor: string) {
+  public static salvarItemEnLocalStorage(key: string, valor: string) {
     localStorage.setItem(key, valor);
   }
 
-  public static obtenerItemDelStorage(key: string): string {
+  public static obtenerItemDelLocalStorage(key: string): string {
     const resultado = localStorage.getItem(key);
     return resultado != null ? resultado : '';
+  }
+
+  public static removerItemDelSessionStorage(key: string) {
+    sessionStorage.removeItem(key);
+  }
+
+  public static salvarItemEnSessionStorage(key: string, valor: any) {
+    if (typeof valor === 'object') {
+      valor = JSON.stringify(valor);
+    }
+
+    sessionStorage.setItem(key, valor);
+  }
+
+  public static obtenerItemDelSessionStorage(key: string) {
+
+    const valor = sessionStorage.getItem(key);
+
+    try {
+      return JSON.parse(valor!);
+    }
+    catch (e) {
+      return valor;
+    }
   }
 
   public static isNulo(valor: any): boolean {
@@ -47,11 +67,11 @@ export class HelpersService {
   }
 
   public static isVacio(valor: any): boolean {
-    return valor == '';
+    return valor === '';
   }
 
-  public static isNoVacio(valor: any): boolean {
-    return valor != '';
+  public static isNoVacio(valor: string): boolean {
+    return valor !== '';
   }
 
   public static isNuloOrVacio(valor: any): boolean {
@@ -67,31 +87,35 @@ export class HelpersService {
   }
 
   public static isNoNuloYNoVacio(valor: any): boolean {
-    return HelpersService.isNoNulo(valor) && this.isNoVacio(valor);
+    return this.isNoNulo(valor) && this.isNoVacio(valor);
   }
 
   public static isNoNuloYNoVacioYNoUndefined(valor: any): boolean {
     return this.isNoNuloYNoVacio(valor) && this.isNoUndefined(valor);
   }
 
+  public static isNuloOrVacioOrUndefined(valor: any): boolean {
+    return this.isNuloOrVacio(valor) || this.isUndefined(valor);
+  }
+
   public static isNuloRetornaVacio(valor: any): boolean {
     return this.isNulo(valor) ? '' : valor;
   }
 
-  public static isModoVisualizar(path: any): boolean {
+  public static isPathModoVisualizar(path: any): boolean {
     return path.includes('visualizar');
   }
 
-  public static isModoEditar(path: any): boolean {
+  public static isPathModoEditar(path: any): boolean {
     return path.includes('editar');
   }
 
-  public static isModoNuevo(path: any): boolean {
+  public static isPathModoNuevo(path: any): boolean {
     return path.includes('nuevo');
   }
 
   public static isMayorACero(valor: number): boolean {
-    return valor > 0;
+    return this.isNoNuloYNoVacioYNoUndefined(valor) && valor > 0;
   }
 
   public static isMayorIgualACero(valor: number): boolean {
@@ -104,6 +128,46 @@ export class HelpersService {
 
   public static isMenorIgualACero(valor: number): boolean {
     return valor < 0 || valor == 0;
+  }
+
+  public static isMayorQue(valor1: number, valor2: number): boolean {
+    return valor1 != null && valor2 != null && valor1 > valor2;
+  }
+
+  public static isMenorQue(valor1: number, valor2: number): boolean {
+    return valor1 != null && valor2 != null && valor1 < valor2;
+  }
+
+  public static isIgualOMayorQue(valor1: number, valor2: number): boolean {
+    return valor1 != null && valor2 != null && valor1 >= valor2;
+  }
+
+  public static isIgualOMenorQue(valor1: number, valor2: number): boolean {
+    return valor1 != null && valor2 != null && valor1 <= valor2;
+  }
+
+  public static isCadenaTexto(cadena: string): boolean {
+    if (cadena === null || cadena === undefined) {
+      return false;
+    }
+    try {
+      cadena.toUpperCase();
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  public static convertirToMayus(cadena: string): string {
+    try {
+      if (cadena === null || cadena === undefined) {
+        return cadena;
+      }
+
+      return cadena.toUpperCase();
+    } catch (error) {
+      return cadena;
+    }
   }
 
   public static urlDistintoALogin(url: any): boolean {
@@ -124,7 +188,7 @@ export class HelpersService {
       }
     }
 
-    return opcion === opcionSeleccionada;
+    return opcion == opcionSeleccionada;
   }
 
   public static removerAcentos(cadena: string): string {
@@ -138,6 +202,22 @@ export class HelpersService {
     catch {
       return cadena;
     }
+  }
+
+  public static isModoNuevo(modoEdicion: string): boolean {
+    return modoEdicion != null && modoEdicion == ModoEdicion.MODO_NUEVO;
+  }
+
+  public static isModoEditar(modoEdicion: string): boolean {
+    return modoEdicion != null && modoEdicion == ModoEdicion.MODO_EDITAR;
+  }
+
+  public static isModoVisualizar(modoEdicion: string): boolean {
+    return modoEdicion != null && modoEdicion == ModoEdicion.MODO_VISUALIZAR;
+  }
+
+  public static stringToNumber(cadena: string) {
+    return Number(cadena);
   }
 
 }

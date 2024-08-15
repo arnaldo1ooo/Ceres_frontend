@@ -20,7 +20,7 @@ export class TiposMovimientoSeleccionComponent implements OnInit {
   }
 
   generarNuevoMovimiento(idTipoMovimiento: string) {
-    HelpersService.salvarItemEnStorage('idTipoMovimiento', idTipoMovimiento);
+    HelpersService.salvarItemEnLocalStorage('idTipoMovimiento', idTipoMovimiento);
     this.eventTipoMovSeleccionado.emit();
   }
 

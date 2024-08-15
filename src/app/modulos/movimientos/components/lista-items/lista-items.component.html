@@ -3,8 +3,8 @@
 
     <mat-form-field appearance="outline" [ngClass]="['style-campo-global', 'ui-campo-mercaderia']">
       <mat-label>{{ "titulos.mercaderia" | transloco }}</mat-label>
-      <input #mercaderiaInputAC formControlName="mercaderia" type="text" matInput
-        [matAutocomplete]="mercaderiaAutocomplete">
+      <input #mercaderiaInputAC formControlName="mercaderia"
+             type="text" matInput [matAutocomplete]="mercaderiaAutocomplete">
       <mat-icon matSuffix>search</mat-icon>
       <mat-autocomplete #mercaderiaAutocomplete="matAutocomplete" [displayWith]="displayMercaderia"
         (optionSelected)="onChangeMercaderia()">
@@ -64,9 +64,7 @@
         <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Valor unitario
         </mat-header-cell>
         <mat-cell *matCellDef="let item" [ngClass]="'centrar-texto-global'">
-          {{ item.valorUnitario | currency:movimientoFormGroup.get('moneda')?.value.simbolo != null
-                                    ? movimientoFormGroup.get('moneda')?.value.simbolo : 'Gs' : 'symbol'
-                                    : '1.0' + '-' + movimientoFormGroup.get('moneda')?.value.cantidadDecimales }}
+          {{ formatearValorMoneda(item.valorUnitario, movimientoFormGroup.get('moneda')?.value) }}
         </mat-cell>
       </ng-container>
 
@@ -75,9 +73,7 @@
         <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Subtotal
         </mat-header-cell>
         <mat-cell *matCellDef="let item" [ngClass]="'centrar-texto-global'">
-          {{ item.cantidad * item.valorUnitario | currency:movimientoFormGroup.get('moneda')?.value.simbolo != null
-                                          ? movimientoFormGroup.get('moneda')?.value.simbolo : 'Gs' : 'symbol'
-                                          : '1.0' + '-' + movimientoFormGroup.get('moneda')?.value.cantidadDecimales }}
+          {{ formatearValorMoneda(item.cantidad * item.valorUnitario, movimientoFormGroup.get('moneda')?.value) }}
         </mat-cell>
       </ng-container>
 
@@ -87,10 +83,17 @@
         </mat-header-cell>
 
         <mat-cell *matCellDef="let item" class="style-columna-acciones">
-          <button mat-icon-button color="warn" matTooltip="Remover item" (click)="removerItem(item)"
-            [disabled]="formItemToAgregar.disabled">
-            <mat-icon>delete</mat-icon>
-          </button>
+          <button mat-raised-button color="primary" [matMenuTriggerFor]="menuOpciones">Opciones</button>
+          <mat-menu #menuOpciones="matMenu">
+            <button #btnRemoverItem mat-menu-item matTooltip="Remover item" matTooltipPosition="right"
+              (click)="removerItem(item)" [disabled]="isModoEditarOVisualizar()">Remover
+            </button>
+
+            <button #btnObsItem mat-menu-item (click)="abrirDialogoObsItem(item)"
+              matTooltip="Agregar una observación al item" matTooltipPosition="right">
+              Observación
+            </button>
+          </mat-menu>
         </mat-cell>
       </ng-container>
 
