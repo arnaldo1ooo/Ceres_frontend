@@ -15,8 +15,8 @@ import { DepartamentoPolitico } from '../../models/departamentoPolitico.model';
 import { LoginService } from 'src/app/modulos/login/services/login.service';
 import { EntidadDetalleDTO } from '../../models/dtos/entidadDetalleDTO';
 import { FormGroup } from '@angular/forms';
-import { Observable, of } from 'rxjs';
-import { DepartamentosPoliticoService } from '../../services/departamentosPolitico.service';
+import { Observable } from 'rxjs/internal/Observable';
+import { map, of, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-entidad-form',
@@ -25,7 +25,10 @@ import { DepartamentosPoliticoService } from '../../services/departamentosPoliti
 })
 export class EntidadFormComponent implements OnInit {
   public listaSucursales: Sucursal[] = [];
-  public listaMunicipios!: Municipio[];
+
+  public listaMunicipios: Municipio[] = [];
+  public listaMunicipiosFiltrado$: Observable<Municipio[]> | undefined;
+
   public listaSituaciones = Object.values(Situacion);
   public formEntidadDetalle = this._entidadService.formEntidadInicial();
 
@@ -34,7 +37,6 @@ export class EntidadFormComponent implements OnInit {
     private _location: Location,
     private _ruta: ActivatedRoute,
     private _sucursalService: SucursalesService,
-    private _departamentosPoliticoService: DepartamentosPoliticoService,
     private _municipiosService: MunicipiosService,
     private _avisoHelpersService: AvisoHelpersService,
     private _loginService: LoginService) {
@@ -43,7 +45,7 @@ export class EntidadFormComponent implements OnInit {
 
   ngOnInit(): void {  //Se ejecuta al iniciar componente
     this.cargarSelectSucursal();
-    this.cargarSelectMunicipio();
+    this.listarFiltrarMunicipios();
     this.verificarModo();
     this.setFormValoresEntidad(this._ruta.snapshot.data['entidad'], this.formEntidadDetalle);
   }
@@ -77,16 +79,6 @@ export class EntidadFormComponent implements OnInit {
       this.listaSucursales = lista;
 
     })
-  }
-
-  public cargarSelectMunicipio() {
-    this._municipiosService.listarTodosMunicipios().subscribe((lista: Municipio[]) => {
-      this.listaMunicipios = lista;
-
-      if (lista.length > 0) {
-        this.formEntidadDetalle.get('municipio')?.setValue(lista[0]); //Autoseleccionar primer registro
-      }
-    });
   }
 
   protected compararOpcionesSelect(opcion: any, opcionRecibida: any): boolean {
@@ -149,6 +141,27 @@ export class EntidadFormComponent implements OnInit {
     }
 
     return '';
+  }
+
+  private listarFiltrarMunicipios() {
+    this._municipiosService.listarTodosMunicipios().subscribe({
+      next: (respuesta: Municipio[]) => {
+        this.listaMunicipios = respuesta;
+
+        if(respuesta.length > 0)
+          this.formEntidadDetalle.get('municipio')?.setValue(this.listaMunicipios[140]); //Autoseleccionamos el municipio Minga Guazu
+
+        // Se ejecuta cuando se escribe en autocomplete
+        this.listaMunicipiosFiltrado$ = this.formEntidadDetalle.get('municipio')?.valueChanges.pipe(
+          startWith(''), // Se inicia con valor vacío para listar todos los registros
+          map(valorAFiltrar =>
+            this.listaMunicipios?.filter(municipio =>
+              municipio.descripcion?.toLocaleLowerCase().includes(valorAFiltrar || ''))
+          )
+        );
+      },
+      error: () => this._avisoHelpersService.mostrarMensaje('Error al listar Municipios', '', 4000)
+    });
   }
 
 }
