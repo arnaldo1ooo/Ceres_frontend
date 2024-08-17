@@ -61,7 +61,8 @@
     "cuenta-contable": "Cuenta contable",
     "valor": "Valor",
     "nombre": "Nombre",
-    "apellido": "Apellido"
+    "apellido": "Apellido",
+    "direccion": "Dirección"
   },
 
   "botones": {

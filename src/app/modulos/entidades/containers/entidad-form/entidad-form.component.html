@@ -51,6 +51,27 @@
         </mat-form-field>
       </div>
 
+      <!--FILA 3-->
+      <div class="ui-fila-global">
+        <!--Direccion-->
+        <mat-form-field appearance="outline" class="anchura-maxima">
+          <mat-label>{{ "titulos.direccion" | transloco }}</mat-label>
+          <input #direccionEntidad matInput formControlName="direccion">
+          <mat-hint align="end">{{ direccionEntidad.value.length || 0 }} / 255</mat-hint>
+          <mat-error *ngIf="formEntidadDetalle.get('direccion')?.invalid">{{getMensajeError('direccion')}}</mat-error>
+        </mat-form-field>
+
+        <!--Tipo Entidad-->
+        <mat-form-field appearance="outline" class="anchura-maxima">
+          <mat-label>Tipo</mat-label>
+          <mat-select formControlName="tipoEntidad">
+            <mat-option *ngFor="let tipoEntidad of listaTiposEntidad" [value]="tipoEntidad">
+              {{tipoEntidad | tipoEntidadPipe}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="formEntidadDetalle.get('tipo')?.invalid">{{getMensajeError('tipo')}}</mat-error>
+        </mat-form-field>
+      </div>
 
       <!--Situacion-->
       <mat-form-field appearance="outline" class="anchura-maxima">

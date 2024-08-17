@@ -76,6 +76,7 @@ export class EntidadesService {
       apellido: new FormControl<string>('', Validators.maxLength(50)),
       sucursal: new FormControl<Sucursal | null>(null, Validators.required),
       municipio: new FormControl<Municipio | null>(null, Validators.required),
+      direccion: new FormControl<string>('', Validators.maxLength(255)),
       tipoEntidad: new FormControl<TipoEntidad | null>(null, Validators.required),
       ci: new FormControl<string>('', [Validators.required, Validators.maxLength(9)]),
       ruc: new FormControl<string>('', [Validators.required, Validators.maxLength(12)]),

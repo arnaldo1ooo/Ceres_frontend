@@ -16,7 +16,8 @@ import { LoginService } from 'src/app/modulos/login/services/login.service';
 import { EntidadDetalleDTO } from '../../models/dtos/entidadDetalleDTO';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
-import { map, of, startWith } from 'rxjs';
+import { map, startWith } from 'rxjs';
+import { TipoEntidad } from '../../enums/tipo-entidad.enum';
 
 @Component({
   selector: 'app-entidad-form',
@@ -30,6 +31,7 @@ export class EntidadFormComponent implements OnInit {
   public listaMunicipiosFiltrado$: Observable<Municipio[]> | undefined;
 
   public listaSituaciones = Object.values(Situacion);
+  public listaTiposEntidad = Object.values(TipoEntidad);
   public formEntidadDetalle = this._entidadService.formEntidadInicial();
 
   constructor(
@@ -109,7 +111,7 @@ export class EntidadFormComponent implements OnInit {
         sucursal: entidadDetalleDTO.sucursal,
         municipio: entidadDetalleDTO.municipio,
         direccion: entidadDetalleDTO.direccion,
-        tipo: entidadDetalleDTO.tipo,
+        tipoEntidad: entidadDetalleDTO.tipo,
         ci: entidadDetalleDTO.ci,
         ruc: entidadDetalleDTO.ruc,
         email: entidadDetalleDTO.email,
@@ -121,6 +123,7 @@ export class EntidadFormComponent implements OnInit {
     else {  //Valores por default
       formEntidadDetalle.patchValue({
         sucursal: this._loginService.getSucursalLogado(),
+        tipoEntidad: TipoEntidad.FISICA,
         situacion: Situacion.ACTIVO
       });
     }

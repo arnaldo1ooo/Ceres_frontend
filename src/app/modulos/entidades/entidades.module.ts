@@ -7,13 +7,15 @@ import { EntidadesListaComponent } from './components/entidades-lista/entidades-
 import { EntidadFormComponent } from './containers/entidad-form/entidad-form.component';
 import { EntidadesComponent } from './containers/entidades/entidades.component';
 import { EntidadesRoutingModule } from './entidades-routing.module';
+import { TipoEntidadPipe } from './pipes/tipoEntidad.pipe';
 
 
 @NgModule({
   declarations: [
     EntidadesComponent,
     EntidadesListaComponent,
-    EntidadFormComponent
+    EntidadFormComponent,
+    TipoEntidadPipe
   ],
   imports: [
     CommonModule,
