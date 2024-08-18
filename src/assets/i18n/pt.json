@@ -60,7 +60,10 @@
       "valor": "Valor",
       "nombre": "Nome",
       "apellido": "Sobrenome",
-      "direccion": "Endereço"
+      "direccion": "Endereço",
+      "ci": "CI",
+      "ruc": "RUC",
+      "email": "Email"
     },
 
     "botones": {

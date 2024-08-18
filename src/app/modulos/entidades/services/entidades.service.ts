@@ -80,8 +80,8 @@ export class EntidadesService {
       tipoEntidad: new FormControl<TipoEntidad | null>(null, Validators.required),
       ci: new FormControl<string>('', [Validators.required, Validators.maxLength(9)]),
       ruc: new FormControl<string>('', [Validators.required, Validators.maxLength(12)]),
-      email: new FormControl<string>(''),
-      observacion: new FormControl<string>('', [Validators.required, Validators.maxLength(500)]),
+      email: new FormControl<string>('', Validators.email),
+      observacion: new FormControl<string>('', [Validators.maxLength(500)]),
       situacion: new FormControl<Situacion | null>(null, Validators.required),
       clases: this._formBuilder.array([], Validators.required),
     })

@@ -102,8 +102,8 @@ export class EntidadFormComponent implements OnInit {
     return HelpersService.isPathModoVisualizar(this._ruta.snapshot.routeConfig?.path);
   }
 
-  public setFormValoresEntidad(entidadDetalleDTO: EntidadDetalleDTO,  formEntidadDetalle: FormGroup): void {
-    if(HelpersService.isNoNuloYNoVacioYNoUndefined(entidadDetalleDTO)) {
+  public setFormValoresEntidad(entidadDetalleDTO: EntidadDetalleDTO, formEntidadDetalle: FormGroup): void {
+    if (HelpersService.isNoNuloYNoVacioYNoUndefined(entidadDetalleDTO)) {
       formEntidadDetalle.patchValue({
         _id: entidadDetalleDTO._id,
         nombre: entidadDetalleDTO.nombre,
@@ -151,7 +151,7 @@ export class EntidadFormComponent implements OnInit {
       next: (respuesta: Municipio[]) => {
         this.listaMunicipios = respuesta;
 
-        if(respuesta.length > 0)
+        if (respuesta.length > 0)
           this.formEntidadDetalle.get('municipio')?.setValue(this.listaMunicipios[140]); //Autoseleccionamos el municipio Minga Guazu
 
         // Se ejecuta cuando se escribe en autocomplete
