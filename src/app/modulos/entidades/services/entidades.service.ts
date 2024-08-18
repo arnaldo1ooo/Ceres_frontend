@@ -79,7 +79,7 @@ export class EntidadesService {
       direccion: new FormControl<string>('', Validators.maxLength(255)),
       tipoEntidad: new FormControl<TipoEntidad | null>(null, Validators.required),
       ci: new FormControl<string>('', [Validators.required, Validators.maxLength(9)]),
-      ruc: new FormControl<string>('', [Validators.required, Validators.maxLength(12)]),
+      ruc: new FormControl<string>('', [Validators.maxLength(12)]),
       email: new FormControl<string>('', Validators.email),
       observacion: new FormControl<string>('', [Validators.maxLength(500)]),
       situacion: new FormControl<Situacion | null>(null, Validators.required),

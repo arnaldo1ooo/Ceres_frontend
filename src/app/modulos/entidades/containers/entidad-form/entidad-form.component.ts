@@ -18,6 +18,7 @@ import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, startWith } from 'rxjs';
 import { TipoEntidad } from '../../enums/tipo-entidad.enum';
+import { ClaseEntidad } from '../../enums/clase-entidad.enum';
 
 @Component({
   selector: 'app-entidad-form',
@@ -26,6 +27,7 @@ import { TipoEntidad } from '../../enums/tipo-entidad.enum';
 })
 export class EntidadFormComponent implements OnInit {
   public listaSucursales: Sucursal[] = [];
+  protected listClasesEntidad = Object.values(ClaseEntidad);
 
   public listaMunicipios: Municipio[] = [];
   public listaMunicipiosFiltrado$: Observable<Municipio[]> | undefined;

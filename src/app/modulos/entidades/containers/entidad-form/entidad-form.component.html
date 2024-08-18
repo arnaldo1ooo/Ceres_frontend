@@ -32,6 +32,16 @@
 
       <!--FILA 2-->
       <div class="ui-fila-global">
+         <!--Clases entidad-->
+        <mat-form-field appearance="outline" class="anchura-maxima">
+          <mat-label>Clase de entidad</mat-label>
+          <mat-select formControlName="clases" multiple>
+            <mat-option *ngFor="let claseEntidad of listClasesEntidad" [value]="claseEntidad">
+              {{claseEntidad | claseEntidadPipe}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
         <!--Sucursal-->
         <mat-form-field appearance="outline" appearance="outline" class="anchura-maxima">
           <mat-label>Sucursal</mat-label>

@@ -7,6 +7,7 @@ import { EntidadesListaComponent } from './components/entidades-lista/entidades-
 import { EntidadFormComponent } from './containers/entidad-form/entidad-form.component';
 import { EntidadesComponent } from './containers/entidades/entidades.component';
 import { EntidadesRoutingModule } from './entidades-routing.module';
+import { ClaseEntidadPipe } from './pipes/claseEntidad.pipe';
 import { TipoEntidadPipe } from './pipes/tipoEntidad.pipe';
 
 
@@ -15,7 +16,8 @@ import { TipoEntidadPipe } from './pipes/tipoEntidad.pipe';
     EntidadesComponent,
     EntidadesListaComponent,
     EntidadFormComponent,
-    TipoEntidadPipe
+    TipoEntidadPipe,
+    ClaseEntidadPipe
   ],
   imports: [
     CommonModule,
