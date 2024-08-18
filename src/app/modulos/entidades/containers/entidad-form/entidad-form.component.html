@@ -32,12 +32,13 @@
 
       <!--FILA 2-->
       <div class="ui-fila-global">
-         <!--Clases entidad-->
+        <!--Clases entidad-->
         <mat-form-field appearance="outline" class="anchura-maxima">
           <mat-label>Clase de entidad</mat-label>
-          <mat-select formControlName="clases" multiple>
-            <mat-option *ngFor="let claseEntidad of listClasesEntidad" [value]="claseEntidad">
-              {{claseEntidad | claseEntidadPipe}}
+          <mat-select formControlName="clasesEntidad"
+            matTooltip="Seleccione la clase de Entidad, puede seleccionarse más de uno" multiple>
+            <mat-option *ngFor="let claseEntidad of listaClasesEntidad" [value]="claseEntidad">
+              {{claseEntidad.descripcion}}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -138,9 +139,6 @@
         <mat-hint align="end">{{ observacionTextArea.value.length }} / 500</mat-hint>
         <mat-error *ngIf="formEntidadDetalle.get('observacion')?.invalid">{{getMensajeError('observacion')}}</mat-error>
       </mat-form-field>
-
-
-
 
     </form>
   </mat-card-content>

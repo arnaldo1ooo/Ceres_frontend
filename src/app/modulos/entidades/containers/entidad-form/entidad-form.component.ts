@@ -18,7 +18,7 @@ import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, startWith } from 'rxjs';
 import { TipoEntidad } from '../../enums/tipo-entidad.enum';
-import { ClaseEntidad } from '../../enums/clase-entidad.enum';
+import { ClaseEntidad } from '../../models/claseEntidad.model';
 
 @Component({
   selector: 'app-entidad-form',
@@ -26,15 +26,15 @@ import { ClaseEntidad } from '../../enums/clase-entidad.enum';
   styleUrls: ['./entidad-form.component.scss']
 })
 export class EntidadFormComponent implements OnInit {
-  public listaSucursales: Sucursal[] = [];
-  protected listClasesEntidad = Object.values(ClaseEntidad);
+  protected listaSucursales: Sucursal[] = [];
 
-  public listaMunicipios: Municipio[] = [];
-  public listaMunicipiosFiltrado$: Observable<Municipio[]> | undefined;
+  protected listaMunicipios: Municipio[] = [];
+  protected listaMunicipiosFiltrado$: Observable<Municipio[]> | undefined;
 
-  public listaSituaciones = Object.values(Situacion);
-  public listaTiposEntidad = Object.values(TipoEntidad);
-  public formEntidadDetalle = this._entidadService.formEntidadInicial();
+  protected listaSituaciones = Object.values(Situacion);
+  protected listaClasesEntidad: ClaseEntidad[] = [];
+  protected listaTiposEntidad = Object.values(TipoEntidad);
+  protected formEntidadDetalle = this._entidadService.crearEntidadFormGroup();
 
   constructor(
     private _entidadService: EntidadesService,
@@ -49,15 +49,21 @@ export class EntidadFormComponent implements OnInit {
 
   ngOnInit(): void {  //Se ejecuta al iniciar componente
     this.cargarSelectSucursal();
+    this.cargarSelectClasesEntidad();
     this.listarFiltrarMunicipios();
     this.verificarModo();
     this.setFormValoresEntidad(this._ruta.snapshot.data['entidad'], this.formEntidadDetalle);
   }
 
   public onGuardar() {
-    if (this.formEntidadDetalle.valid) { //Verifica los validators de cada campo del form
-      /*this._departamentoService.guardar(this.formEntidad.getRawValue())
-        .subscribe(resultado => this.onExito(), error => this.onError());*/
+    if (this.formEntidadDetalle.valid) {
+      this._entidadService.guardar(this.formEntidadDetalle.getRawValue())
+        .subscribe({
+          next: (resultado) => this.onExito(),
+          error: (error) => {
+            this.onError(error);
+          }
+        });
     }
     else {
       this.formEntidadDetalle.markAllAsTouched(); //Marca todos los campos invalidos
@@ -70,17 +76,24 @@ export class EntidadFormComponent implements OnInit {
   }
 
   private onExito() {
-    this._avisoHelpersService.mostrarMensaje('Entidad guardado con exito!', '', 4000)
-    this.onRetroceder(); //Para que vuelva atras
+    this._avisoHelpersService.mostrarMensaje('Entidad guardado con exito!', '')
+    this.onRetroceder();
   }
 
-  private onError() {
-    this._avisoHelpersService.mostrarMensaje('Error al guardar entidad', '', 4000);
+  private onError(error:any) {
+    this._avisoHelpersService.mostrarMensaje('Error al guardar entidad: ' + error, '');
   }
 
   private cargarSelectSucursal() {
     this._sucursalService.listarTodosSucursales().subscribe((lista: Sucursal[]) => {
       this.listaSucursales = lista;
+
+    })
+  }
+
+  private cargarSelectClasesEntidad() {
+    this._entidadService.listarClasesEntidades().subscribe((lista: ClaseEntidad[]) => {
+      this.listaClasesEntidad = lista;
 
     })
   }
@@ -125,6 +138,7 @@ export class EntidadFormComponent implements OnInit {
     else {  //Valores por default
       formEntidadDetalle.patchValue({
         sucursal: this._loginService.getSucursalLogado(),
+        municipio: this.listaMunicipios[140],
         tipoEntidad: TipoEntidad.FISICA,
         situacion: Situacion.ACTIVO
       });
@@ -148,13 +162,20 @@ export class EntidadFormComponent implements OnInit {
     return '';
   }
 
+  private cargarSelectMunicipios() {
+    this._sucursalService.listarTodosSucursales().subscribe((lista: Sucursal[]) => {
+      this.listaSucursales = lista;
+
+    })
+  }
+
   private listarFiltrarMunicipios() {
     this._municipiosService.listarTodosMunicipios().subscribe({
       next: (respuesta: Municipio[]) => {
         this.listaMunicipios = respuesta;
 
         if (respuesta.length > 0)
-          this.formEntidadDetalle.get('municipio')?.setValue(this.listaMunicipios[140]); //Autoseleccionamos el municipio Minga Guazu
+          //this.formEntidadDetalle.get('municipio')?.setValue(this.listaMunicipios[140]); //Autoseleccionamos el municipio Minga Guazu
 
         // Se ejecuta cuando se escribe en autocomplete
         this.listaMunicipiosFiltrado$ = this.formEntidadDetalle.get('municipio')?.valueChanges.pipe(
@@ -165,7 +186,7 @@ export class EntidadFormComponent implements OnInit {
           )
         );
       },
-      error: () => this._avisoHelpersService.mostrarMensaje('Error al listar Municipios', '', 4000)
+      error: () => this._avisoHelpersService.mostrarMensaje('Error al listar Municipios', '')
     });
   }
 
