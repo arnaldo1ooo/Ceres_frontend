@@ -14,7 +14,7 @@ import { MunicipiosService } from '../../services/municipios.service';
 import { DepartamentoPolitico } from '../../models/departamentoPolitico.model';
 import { LoginService } from 'src/app/modulos/login/services/login.service';
 import { EntidadDetalleDTO } from '../../models/dtos/entidadDetalleDTO';
-import { FormGroup } from '@angular/forms';
+import { FormArray, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, of, startWith } from 'rxjs';
 import { TipoEntidad } from '../../enums/tipo-entidad.enum';
@@ -48,9 +48,10 @@ export class EntidadFormComponent implements OnInit {
   }
 
   ngOnInit(): void {  //Se ejecuta al iniciar componente
-    this.cargarSelectSucursal();
-    this.cargarSelectClasesEntidad();
+    this.listarSucursal();
+    this.listarClasesEntidad();
     this.listarFiltrarMunicipios();
+
     this.verificarModo();
     this.setFormValoresEntidad(this._ruta.snapshot.data['entidad'], this.formEntidadDetalle);
   }
@@ -84,14 +85,14 @@ export class EntidadFormComponent implements OnInit {
     this._avisoHelpersService.mostrarMensaje('Error al guardar entidad: ' + error, '');
   }
 
-  private cargarSelectSucursal() {
+  private listarSucursal() {
     this._sucursalService.listarTodosSucursales().subscribe((lista: Sucursal[]) => {
       this.listaSucursales = lista;
 
     })
   }
 
-  private cargarSelectClasesEntidad() {
+  private listarClasesEntidad() {
     this._entidadService.listarClasesEntidades().subscribe((lista: ClaseEntidad[]) => {
       this.listaClasesEntidad = lista;
 
@@ -162,17 +163,19 @@ export class EntidadFormComponent implements OnInit {
     return '';
   }
 
-  private async listarFiltrarMunicipios() {
-    this.listaMunicipios = await this._municipiosService.listarTodosMunicipiosSync();
+  private listarFiltrarMunicipios(): void {
+    this._municipiosService.listarTodosMunicipios().subscribe((lista: Municipio[]) => {
+      this.listaMunicipios = lista;
 
-    // Se ejecuta cuando se escribe en autocomplete
-    this.listaMunicipiosFiltrado$ = this.formEntidadDetalle.get('municipio')!.valueChanges.pipe(
-      startWith(''), // Se inicia con valor vacío para listar todos los registros
-      map(valorAFiltrar =>
-        this.listaMunicipios?.filter(municipio =>
-          municipio.descripcion?.toLocaleLowerCase().includes(valorAFiltrar || ''))
-      )
-    );
+      // Se ejecuta cuando se escribe en autocomplete
+      this.listaMunicipiosFiltrado$ = this.formEntidadDetalle.get('municipio')!.valueChanges.pipe(
+        startWith(''), // Se inicia con valor vacío para listar todos los registros
+        map(valorAFiltrar =>
+          this.listaMunicipios?.filter(municipio =>
+            municipio.descripcion?.toLocaleLowerCase().includes(valorAFiltrar || ''))
+        )
+      );
+    });
   }
 
 }

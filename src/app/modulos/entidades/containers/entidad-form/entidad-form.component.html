@@ -35,12 +35,13 @@
         <!--Clases entidad-->
         <mat-form-field appearance="outline" class="anchura-maxima">
           <mat-label>Clase de entidad</mat-label>
-          <mat-select formControlName="clasesEntidad"
+          <mat-select formArrayName="clasesEntidad"
             matTooltip="Seleccione la clase de Entidad, puede seleccionarse más de uno" multiple>
             <mat-option *ngFor="let claseEntidad of listaClasesEntidad" [value]="claseEntidad">
               {{claseEntidad.descripcion}}
             </mat-option>
           </mat-select>
+          <mat-error *ngIf="formEntidadDetalle.get('clasesEntidad')?.invalid">{{getMensajeError('clasesEntidad')}}</mat-error>
         </mat-form-field>
 
         <!--Sucursal-->
@@ -51,7 +52,7 @@
             <mat-option *ngFor="let sucursal of listaSucursales" [value]="sucursal">{{ sucursal.descripcion }}
             </mat-option>
           </mat-select>
-          <mat-error *ngIf="formEntidadDetalle.get('sucursal')?.invalid">{{getMensajeError('sucursal')}}</mat-error>
+          <mat-error *ngIf="formEntidadDetalle.get('sucursal')?.valid">{{getMensajeError('sucursal')}}</mat-error>
         </mat-form-field>
 
         <!--Municipio-->

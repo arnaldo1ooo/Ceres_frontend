@@ -14,6 +14,7 @@ import { Entidad, Page } from '../models/entidad.model';
 import { Municipio } from '../models/municipio.model';
 import { API_URL_ENTIDADES } from './../../../compartido/constantes/constantes';
 import { ClaseEntidad } from '../models/claseEntidad.model';
+import { ValidatorsCustom } from 'src/app/compartido/validators/validators-custom';
 
 @Injectable({
   providedIn: 'root'
@@ -89,7 +90,7 @@ export class EntidadesService {
       email: new FormControl<string>('', Validators.email),
       observacion: new FormControl<string>('', [Validators.maxLength(500)]),
       situacion: new FormControl<Situacion | null>(null, Validators.required),
-      clasesEntidad: this._formBuilder.array([], Validators.required),
+      clasesEntidad: this._formBuilder.array([], [Validators.required, ValidatorsCustom.arrayNoVacio]),
     })
   }
 

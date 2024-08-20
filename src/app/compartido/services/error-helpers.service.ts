@@ -23,23 +23,34 @@ export class ErrorHelpersService {
     return valor?.hasError('email')
   }
 
+  public static isErrorArrayVacio(valor: any) {
+    return valor?.hasError('arrayVacio')
+  }
+
+  public static isErrorDebenSerIguales(valor: any) {
+    return valor?.hasError('noSonIguales')
+  }
+
   public static verificarMensajeError(valor: any): string {
     if (this.isErrorRequerido(valor)) {
       return 'Campo obligatorio';
     }
-
-    if (this.isErrorTamanhoMin(valor)) {
+    else if (this.isErrorTamanhoMin(valor)) {
       const minCaracteres = valor.errors ? valor.errors['minlength']['requiredLength'] : null; //Se obtiene el minimo requerido
       return `Tamaño mínimo es de ${minCaracteres} caracteres`;
     }
-
-    if (this.isErrorTamanhoMax(valor)) {
+    else if (this.isErrorTamanhoMax(valor)) {
       const maxCaracteres = valor.errors ? valor.errors['maxlength']['requiredLength'] : null; //Se obtiene el maximo requerido
       return `Tamaño máximo es de ${maxCaracteres} caracteres`;
     }
-
-    if (this.isErrorEmail(valor)) {
+    else if (this.isErrorEmail(valor)) {
       return 'El email debe poseer un formato válido!';
+    }
+    else if (this.isErrorArrayVacio(valor)) {
+      return 'Selecione al menos un elemento!';
+    }
+    else if (this.isErrorDebenSerIguales(valor)) {
+      return 'Los valores no coinciden!';
     }
 
     return 'Campo inválido';
