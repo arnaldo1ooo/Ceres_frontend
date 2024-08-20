@@ -16,7 +16,7 @@ import { LoginService } from 'src/app/modulos/login/services/login.service';
 import { EntidadDetalleDTO } from '../../models/dtos/entidadDetalleDTO';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
-import { map, startWith } from 'rxjs';
+import { map, of, startWith } from 'rxjs';
 import { TipoEntidad } from '../../enums/tipo-entidad.enum';
 import { ClaseEntidad } from '../../models/claseEntidad.model';
 
@@ -29,7 +29,7 @@ export class EntidadFormComponent implements OnInit {
   protected listaSucursales: Sucursal[] = [];
 
   protected listaMunicipios: Municipio[] = [];
-  protected listaMunicipiosFiltrado$: Observable<Municipio[]> | undefined;
+  protected listaMunicipiosFiltrado$: Observable<Municipio[]> = of([]);
 
   protected listaSituaciones = Object.values(Situacion);
   protected listaClasesEntidad: ClaseEntidad[] = [];
@@ -80,7 +80,7 @@ export class EntidadFormComponent implements OnInit {
     this.onRetroceder();
   }
 
-  private onError(error:any) {
+  private onError(error: any) {
     this._avisoHelpersService.mostrarMensaje('Error al guardar entidad: ' + error, '');
   }
 
@@ -138,7 +138,7 @@ export class EntidadFormComponent implements OnInit {
     else {  //Valores por default
       formEntidadDetalle.patchValue({
         sucursal: this._loginService.getSucursalLogado(),
-        municipio: this.listaMunicipios[140],
+        municipio: this.listaMunicipios[140], //Minga Guazu
         tipoEntidad: TipoEntidad.FISICA,
         situacion: Situacion.ACTIVO
       });
@@ -162,32 +162,17 @@ export class EntidadFormComponent implements OnInit {
     return '';
   }
 
-  private cargarSelectMunicipios() {
-    this._sucursalService.listarTodosSucursales().subscribe((lista: Sucursal[]) => {
-      this.listaSucursales = lista;
+  private async listarFiltrarMunicipios() {
+    this.listaMunicipios = await this._municipiosService.listarTodosMunicipiosSync();
 
-    })
-  }
-
-  private listarFiltrarMunicipios() {
-    this._municipiosService.listarTodosMunicipios().subscribe({
-      next: (respuesta: Municipio[]) => {
-        this.listaMunicipios = respuesta;
-
-        if (respuesta.length > 0)
-          //this.formEntidadDetalle.get('municipio')?.setValue(this.listaMunicipios[140]); //Autoseleccionamos el municipio Minga Guazu
-
-        // Se ejecuta cuando se escribe en autocomplete
-        this.listaMunicipiosFiltrado$ = this.formEntidadDetalle.get('municipio')?.valueChanges.pipe(
-          startWith(''), // Se inicia con valor vacío para listar todos los registros
-          map(valorAFiltrar =>
-            this.listaMunicipios?.filter(municipio =>
-              municipio.descripcion?.toLocaleLowerCase().includes(valorAFiltrar || ''))
-          )
-        );
-      },
-      error: () => this._avisoHelpersService.mostrarMensaje('Error al listar Municipios', '')
-    });
+    // Se ejecuta cuando se escribe en autocomplete
+    this.listaMunicipiosFiltrado$ = this.formEntidadDetalle.get('municipio')!.valueChanges.pipe(
+      startWith(''), // Se inicia con valor vacío para listar todos los registros
+      map(valorAFiltrar =>
+        this.listaMunicipios?.filter(municipio =>
+          municipio.descripcion?.toLocaleLowerCase().includes(valorAFiltrar || ''))
+      )
+    );
   }
 
 }

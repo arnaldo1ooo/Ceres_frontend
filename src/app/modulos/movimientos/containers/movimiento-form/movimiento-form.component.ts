@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { map, Observable, startWith } from 'rxjs';
+import { map, Observable, of, startWith } from 'rxjs';
 import { Situacion } from 'src/app/compartido/enums/situacion.enum';
 import { ErrorHelpersService } from 'src/app/compartido/services/error-helpers.service';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
@@ -40,11 +40,15 @@ import { MonedaHelpersService } from 'src/app/compartido/services/moneda-helpers
 
 export class MovimientoFormComponent implements OnInit {
   public listaMonedas: Moneda[] = [];
+
   public listaEntidades: Entidad[] = [];
-  public listaEntidadesFiltrado$: Observable<Entidad[]> | undefined;
+  public listaEntidadesFiltrado$: Observable<Entidad[]> = of([]);
+
   public listaDepartamentos: Departamento[] = [];
+
   public listaCompradoresVendedores: Entidad[] = [];
-  public listaCompradoresVendedoresFiltrado$: Observable<Entidad[]> | undefined;
+  public listaCompradoresVendedoresFiltrado$: Observable<Entidad[]> = of([]);
+
   public listaSituaciones = Object.values(Situacion);
   public listaFormasPago = Object.values(FormaPago);
   public modoEdicion: string = this._ruta.snapshot.data['modoEdicion']; //Proviene del routing
@@ -268,7 +272,7 @@ export class MovimientoFormComponent implements OnInit {
         this.listaEntidades = respuesta;
 
         // Se ejecuta cuando se escribe en autocomplete
-        this.listaEntidadesFiltrado$ = this.formMovimientoDetalle.get('entidad')?.valueChanges.pipe(
+        this.listaEntidadesFiltrado$ = this.formMovimientoDetalle.get('entidad')!.valueChanges.pipe(
           startWith(''), // Se inicia con valor vacío para listar todos los registros
           map(valorAFiltrar =>
             this.listaEntidades?.filter(entidad =>
@@ -309,7 +313,7 @@ export class MovimientoFormComponent implements OnInit {
         this.listaCompradoresVendedores = respuesta;
 
         //Se ejecuta cuando se escribe en autocomplete
-        this.listaCompradoresVendedoresFiltrado$ = this.formMovimientoDetalle.get('compradorVendedor')?.valueChanges.pipe(
+        this.listaCompradoresVendedoresFiltrado$ = this.formMovimientoDetalle.get('compradorVendedor')!.valueChanges.pipe(
           startWith(''),
           map(valorAFiltrar =>
             this.listaCompradoresVendedores?.filter(entidad =>
