@@ -35,7 +35,7 @@
         <!--Clases entidad-->
         <mat-form-field appearance="outline" class="anchura-maxima">
           <mat-label>Clase de entidad</mat-label>
-          <mat-select formControlName="clasesEntidad"
+          <mat-select formControlName="clases"
             matTooltip="Seleccione la clase de Entidad, puede seleccionarse más de uno" multiple>
             <mat-option *ngFor="let claseEntidad of listaClasesEntidad" [value]="claseEntidad">
               {{claseEntidad.descripcion}}
