@@ -60,7 +60,9 @@ export class EntidadFormComponent implements OnInit {
     if (this.formEntidadDetalle.valid) {
       this._entidadService.guardar(this.formEntidadDetalle.getRawValue())
         .subscribe({
-          next: (resultado) => this.onExito(),
+          next: (resultado) => {
+            this.onExito();
+          },
           error: (error) => {
             this.onError(error);
           }
