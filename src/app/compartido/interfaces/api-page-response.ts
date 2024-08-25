@@ -1,5 +1,5 @@
 //Es el cuerpo de page para recibir la respuesta
-export interface PageResponse {
+export interface ApiPageResponse {
   codigo: number,
   mensaje: string,
   data: {

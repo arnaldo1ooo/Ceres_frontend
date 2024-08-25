@@ -54,7 +54,7 @@
     <!--Pasamos las variables del componente principal al componente lista-->
     <app-mercaderias-lista *ngIf="listMercaderias$ | async as mercaderias; else cargando"
       [listMercaderias]="mercaderias"
-      [pageResponse]="this.pageRes"
+      [apiPageResponse]="this.apiPageResponse"
       [pageRequest]="this.pageRequestDefault"
       (nuevo)="onNuevo()" (visualizar)="onVisualizar($event)" (editar)="onEditar($event)"
       (eliminar)="onEliminar($event)" (inactivar)="onInactivar($event)">

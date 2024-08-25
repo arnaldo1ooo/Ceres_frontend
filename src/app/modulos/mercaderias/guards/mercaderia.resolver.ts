@@ -12,12 +12,12 @@ import { MercaderiasService } from '../services/mercaderias.service';
 })
 export class MercaderiaResolver implements Resolve<Mercaderia> {
 
-  constructor(private mercaderiasService: MercaderiasService){
+  constructor(private mercaderiasService: MercaderiasService) {
 
   }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Mercaderia>  {
-    if(route.params && route.params['id']){  //Si ruta tiene parametros y existe parametro id
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Mercaderia> {
+    if(route.params && route.params['id']) {  //Si ruta tiene parametros y existe parametro id
       return this.mercaderiasService.cargarPorId(route.params['id']);
     }
 

@@ -4,8 +4,8 @@ import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 
 import { Mercaderia } from '../../model/mercaderia.model';
 import { MercaderiasComponent } from './../../containers/mercaderias/mercaderias.component';
-import { Page } from '../../model/mercaderia.model';
 import { DEFAULT_PAGE_TAMANHOS } from 'src/app/compartido/constantes/constantes';
+import { ApiPageResponse } from 'src/app/compartido/interfaces/api-page-response';
 
 
 @Component({
@@ -16,7 +16,7 @@ import { DEFAULT_PAGE_TAMANHOS } from 'src/app/compartido/constantes/constantes'
 export class MercaderiasListaComponent implements OnInit {
 
   @Input() listMercaderias: Mercaderia[] = [];
-  @Input() pageResponse: Page | undefined;
+  @Input() apiPageResponse!: ApiPageResponse;
   @Input() pageRequest!: PageRequest; //Recibe el request default
   @Output() nuevo = new EventEmitter(false);
   @Output() visualizar = new EventEmitter(false);

@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { delay, first, Observable } from 'rxjs';
+import { delay, first, map, Observable } from 'rxjs';
 import { API_URL_MERCADERIAS } from 'src/app/compartido/constantes/constantes';
 import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 
 import { MercaderiaFiltroDTO } from '../model/dtos/mercaderiaFiltroDTO';
 import { Mercaderia } from '../model/mercaderia.model';
-import { Page } from '../model/mercaderia.model';
+import { ApiPageResponse } from '../../../compartido/interfaces/api-page-response';
+import { ApiResponse } from 'src/app/compartido/interfaces/api-response';
 
 @Injectable({
   providedIn: 'root'
@@ -40,8 +41,8 @@ export class MercaderiasService {
       );
   }
 
-  listarTodosMercaderiasFiltroPage(mercaderiaFiltro: MercaderiaFiltroDTO, pageRequest: PageRequest): Observable<Page> {
-    return this._httpClient.get<Page>(API_URL_MERCADERIAS
+  listarTodosMercaderiasFiltroPage(mercaderiaFiltro: MercaderiaFiltroDTO, pageRequest: PageRequest): Observable<ApiPageResponse> {
+    return this._httpClient.get<ApiPageResponse>(API_URL_MERCADERIAS
       + '/filtroPage?' + `id=${mercaderiaFiltro.id}`
       + `&descripcion=${mercaderiaFiltro.descripcion}`
       + `&idTipo=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idTipo)}`
@@ -74,8 +75,11 @@ export class MercaderiasService {
     return this._httpClient.put<Mercaderia>(`${API_URL_MERCADERIAS}/inactivar/${id}`, null).pipe(first());
   }
 
-  cargarPorId(id: string) {
-    return this._httpClient.get<Mercaderia>(`${API_URL_MERCADERIAS}/${id}`);
+  cargarPorId(id: string): Observable<Mercaderia> {
+    return this._httpClient.get<ApiResponse<Mercaderia>>(`${API_URL_MERCADERIAS}/${id}`)
+      .pipe(
+        map(response => response.data)  // Extraer la mercadería desde `response.data`
+      );
   }
 
 }

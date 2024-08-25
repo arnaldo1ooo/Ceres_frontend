@@ -18,7 +18,7 @@ import { ClaseEntidad, ClaseEntidadUtils } from '../../enums/clase-entidad.enum'
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { SucursalesService } from 'src/app/modulos/sucursales/services/sucursales.service';
 import { Sucursal } from 'src/app/modulos/sucursales/model/sucursal.model';
-import { PageResponse } from 'src/app/compartido/interfaces/page-response';
+import { ApiPageResponse } from 'src/app/compartido/interfaces/api-page-response';
 
 @Component({
   selector: 'app-entidades',
@@ -35,7 +35,7 @@ export class EntidadesComponent implements OnInit {
   protected listSucursales: any;
   protected entidadFiltro: EntidadFiltroDTO = this.filtroInicial();
   protected isFiltrando: boolean = false;
-  protected pageRes!: PageResponse;
+  protected apiPageResponse!: ApiPageResponse;
 
   protected pageRequestDefault: PageRequest = {
     pagina: PAGE_INICIAL,
@@ -130,7 +130,7 @@ export class EntidadesComponent implements OnInit {
       }))
       .subscribe({
         next: response => {
-          this.pageRes = response;
+          this.apiPageResponse = response;
           this.listEntidades$ = of(response.data.content || []);  //of convierte a Observables
         },
         error: err => {

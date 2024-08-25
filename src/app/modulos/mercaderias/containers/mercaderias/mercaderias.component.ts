@@ -10,6 +10,7 @@ import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-er
 import { DEFAULT_ORDENAR_POR, DEFAULT_PAGE_TAMANHO, ID_OPCION_TODOS, PAGE_INICIAL } from 'src/app/compartido/constantes/constantes';
 import { Situacion, SituacionUtils } from 'src/app/compartido/enums/situacion.enum';
 import { PageRequest } from 'src/app/compartido/interfaces/page-request';
+import { ApiPageResponse } from 'src/app/compartido/interfaces/api-page-response';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { DepartamentosService } from 'src/app/modulos/departamentos/services/departamentos.service';
 
@@ -18,7 +19,6 @@ import { MercaderiaFiltroDTO } from '../../model/dtos/mercaderiaFiltroDTO';
 import { Mercaderia } from '../../model/mercaderia.model';
 import { MercaderiasService } from '../../services/mercaderias.service';
 import { Orden } from './../../../../compartido/enums/orden.enum';
-import { Page } from '../../model/mercaderia.model';
 
 @Component({
   selector: 'app-mercaderias',
@@ -35,7 +35,7 @@ export class MercaderiasComponent implements OnInit {
   protected situacionUtils = SituacionUtils;
   protected mercaderiaFiltro: MercaderiaFiltroDTO = this.filtroInicial();
   protected isFiltrando: boolean = false;
-  protected pageRes: Page | undefined;
+  protected apiPageResponse!: ApiPageResponse;
 
   //Inicializamos el pageRequest default, seria la paginacion inicial
   protected pageRequestDefault: PageRequest = {
@@ -169,8 +169,8 @@ export class MercaderiasComponent implements OnInit {
       }))
       .subscribe({
         next: respuesta => {
-          this.pageRes = respuesta;
-          this.listMercaderias$ = of(this.pageRes!.content);  //of convierte a Observables
+          this.apiPageResponse = respuesta;
+          this.listMercaderias$ = of(this.apiPageResponse!.data.content);  //of convierte a Observables
         },
         error: err => {
           this.listMercaderias$ = of([]); //Se asigna una lista vacia, para que el componente cargando se detenga

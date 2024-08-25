@@ -3,7 +3,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DEFAULT_PAGE_TAMANHOS } from 'src/app/compartido/constantes/constantes';
 import { PageRequest } from 'src/app/compartido/interfaces/page-request';
-import { PageResponse } from 'src/app/compartido/interfaces/page-response';
+import { ApiPageResponse } from 'src/app/compartido/interfaces/api-page-response';
 import { EntidadesComponent } from '../../containers/entidades/entidades.component';
 import { EntidadListaDTO } from '../../models/dtos/entidadListaDTO';
 import { Entidad } from '../../models/entidad.model';
@@ -15,7 +15,7 @@ import { Entidad } from '../../models/entidad.model';
 })
 export class EntidadesListaComponent implements OnInit {
   @Input() listEntidades: Entidad[] = [];
-  @Input() pageResponse!: PageResponse;
+  @Input() apiPageResponse!: ApiPageResponse;
   @Input() pageRequest!: PageRequest; //Recibe el request default
   @Output() nuevo = new EventEmitter(false);
   @Output() visualizar = new EventEmitter(false);
