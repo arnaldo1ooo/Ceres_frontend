@@ -9,7 +9,7 @@ import {
 import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-error/dialogo-error.component';
 import { EntidadesService } from '../../services/entidades.service';
 import { Entidad } from '../../models/entidad.model';
-import { PageRequest } from 'src/app/compartido/interfaces/page-request';
+import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
 import { DEFAULT_ORDENAR_POR, DEFAULT_PAGE_TAMANHO, ID_OPCION_TODOS, PAGE_INICIAL } from 'src/app/compartido/constantes/constantes';
 import { Orden } from 'src/app/compartido/enums/orden.enum';
 import { EntidadFiltroDTO } from '../../models/dtos/entidadFiltroDTO';
@@ -37,7 +37,7 @@ export class EntidadesComponent implements OnInit {
   protected isFiltrando: boolean = false;
   protected apiPageResponse!: ApiPageResponse;
 
-  protected pageRequestDefault: PageRequest = {
+  protected apiPageRequestDefault: ApiPageRequest = {
     pagina: PAGE_INICIAL,
     tamanho: DEFAULT_PAGE_TAMANHO,
     ordenarPor: DEFAULT_ORDENAR_POR,
@@ -63,7 +63,7 @@ export class EntidadesComponent implements OnInit {
     this.filtrar();
   }
 
-  refrescar(page: PageRequest) {
+  refrescar(page: ApiPageRequest) {
     this.listarEntidadesPage(this.entidadFiltro, page);
   }
 
@@ -95,7 +95,7 @@ export class EntidadesComponent implements OnInit {
         if (respuesta) {
           this._entidadesService.inactivar(entidad._id!).subscribe({
             next: () => {
-              this.refrescar(this.pageRequestDefault);
+              this.refrescar(this.apiPageRequestDefault);
               this.alertaSnackBar.open('Entidad inactivada con exito!', 'X', {
                 duration: 5000,
                 verticalPosition: 'top',
@@ -120,7 +120,7 @@ export class EntidadesComponent implements OnInit {
       );
   }
 
-  protected listarEntidadesPage(entidadFiltro: EntidadFiltroDTO, pageRequest: PageRequest) {
+  protected listarEntidadesPage(entidadFiltro: EntidadFiltroDTO, pageRequest: ApiPageRequest) {
     this.isFiltrando = true;
     this.listEntidades$ = null;
 
@@ -141,7 +141,7 @@ export class EntidadesComponent implements OnInit {
   }
 
   public filtrar() {
-    this.refrescar(this.pageRequestDefault);
+    this.refrescar(this.apiPageRequestDefault);
   }
 
   protected limpiar() {

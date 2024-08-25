@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { PageRequest } from 'src/app/compartido/interfaces/page-request';
+import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
 
 import { Mercaderia } from '../../model/mercaderia.model';
 import { MercaderiasComponent } from './../../containers/mercaderias/mercaderias.component';
@@ -17,7 +17,7 @@ export class MercaderiasListaComponent implements OnInit {
 
   @Input() listMercaderias: Mercaderia[] = [];
   @Input() apiPageResponse!: ApiPageResponse;
-  @Input() pageRequest!: PageRequest; //Recibe el request default
+  @Input() apiPageRequest!: ApiPageRequest; //Recibe el request default
   @Output() nuevo = new EventEmitter(false);
   @Output() visualizar = new EventEmitter(false);
   @Output() editar = new EventEmitter(false);
@@ -58,10 +58,10 @@ export class MercaderiasListaComponent implements OnInit {
 
   onCambiarPage(event: PageEvent) {
     if(this.listMercaderias.length > 0) {
-      this.pageRequest.pagina = event.pageIndex; //Asignamos el numero de pagina
-      this.pageRequest.tamanho = event.pageSize;  //Asignamos el tamaño de las pagina
+      this.apiPageRequest.pagina = event.pageIndex; //Asignamos el numero de pagina
+      this.apiPageRequest.tamanho = event.pageSize;  //Asignamos el tamaño de las pagina
 
-      this._mercaderiasComponent.refrescar(this.pageRequest);
+      this._mercaderiasComponent.refrescar(this.apiPageRequest);
     }
   }
 

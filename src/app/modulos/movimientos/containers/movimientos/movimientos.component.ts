@@ -15,7 +15,7 @@ import {
   PAGE_INICIAL,
 } from 'src/app/compartido/constantes/constantes';
 import { Situacion, SituacionUtils } from 'src/app/compartido/enums/situacion.enum';
-import { PageRequest } from 'src/app/compartido/interfaces/page-request';
+import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { Departamento } from 'src/app/modulos/departamentos/model/departamento.model';
 import { DepartamentosService } from 'src/app/modulos/departamentos/services/departamentos.service';
@@ -50,7 +50,7 @@ export class MovimientosComponent implements OnInit {
 
 
   //Inicializamos el pageRequest default, seria la paginacion inicial
-  protected pageRequestDefault: PageRequest = {
+  protected apiPageRequestDefault: ApiPageRequest = {
     pagina: PAGE_INICIAL,
     tamanho: DEFAULT_PAGE_TAMANHO,
     ordenarPor: DEFAULT_ORDENAR_POR,
@@ -81,12 +81,12 @@ export class MovimientosComponent implements OnInit {
     this.dialog.open(DialogoErrorComponent, { data: msgError });
   }
 
-  public refrescar(page: PageRequest) {
+  public refrescar(page: ApiPageRequest) {
     this.listarMovimientosListaPage(this.movimientoFiltro, page);
   }
 
   public filtrar() {
-    this.refrescar(this.pageRequestDefault);
+    this.refrescar(this.apiPageRequestDefault);
   }
 
   protected limpiar() {
@@ -150,7 +150,7 @@ export class MovimientosComponent implements OnInit {
       if (respuesta) {
         this._movimientosService.eliminar(movimientoListaDTO._id).subscribe(
           () => {
-            this.refrescar(this.pageRequestDefault);
+            this.refrescar(this.apiPageRequestDefault);
             this._alertaSnackBar.open('Movimiento eliminado con suceso!', 'X', {
               duration: 5000,
               verticalPosition: 'top',
@@ -172,7 +172,7 @@ export class MovimientosComponent implements OnInit {
       if (respuesta) {
         this._movimientosService.inactivar(movimientoListaDTO._id).subscribe(
           () => {
-            this.refrescar(this.pageRequestDefault);
+            this.refrescar(this.apiPageRequestDefault);
             this._alertaSnackBar.open('Movimiento inactivado con suceso!', 'X', {
               duration: 5000,
               verticalPosition: 'top',
@@ -185,11 +185,11 @@ export class MovimientosComponent implements OnInit {
     });
   }
 
-  protected listarMovimientosListaPage(movimientoFiltro: MovimientoFiltroDTO, pageRequest: PageRequest) {
+  protected listarMovimientosListaPage(movimientoFiltro: MovimientoFiltroDTO, apiPageRequest: ApiPageRequest) {
     this.isFiltrando = true;
     this.listMovimientosListaDTO$ = null; //Dejar la lista en null, para que muestre el componente cargando
 
-    this._movimientosService.listarTodosMovimientosListaFiltroPage(movimientoFiltro, pageRequest)
+    this._movimientosService.listarTodosMovimientosListaFiltroPage(movimientoFiltro, apiPageRequest)
       .pipe(finalize(() => {  //Se ejecuta al finalizar el subscribe
         this.isFiltrando = false;
       }))

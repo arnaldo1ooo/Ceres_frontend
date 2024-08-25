@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { catchError, delay, first, Observable } from 'rxjs';
 import { Situacion } from 'src/app/compartido/enums/situacion.enum';
-import { PageRequest } from 'src/app/compartido/interfaces/page-request';
+import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { Sucursal } from '../../sucursales/model/sucursal.model';
 import { TipoEntidad } from '../enums/tipo-entidad.enum';
@@ -41,7 +41,7 @@ export class EntidadesService {
       );
   }
 
-  listarTodosEntidadesFiltroPage(entidadFiltro: EntidadFiltroDTO, pageRequest: PageRequest): Observable<ApiPageResponse> {
+  listarTodosEntidadesFiltroPage(entidadFiltro: EntidadFiltroDTO, apiPageRequest: ApiPageRequest): Observable<ApiPageResponse> {
     return this._httpClient.get<ApiPageResponse>(API_URL_ENTIDADES
       + '/filtroPage?'
       + `id=${HelpersService.isNuloRetornaVacio(entidadFiltro.id)}`
@@ -50,7 +50,7 @@ export class EntidadesService {
       + `&idSucursal=${HelpersService.idTodosReturnVacio(entidadFiltro.idSucursal)}`
       + `&ciRuc=${HelpersService.isNuloRetornaVacio(entidadFiltro.ciRuc)}`
       + `&idSituacion=${HelpersService.idTodosReturnVacio(entidadFiltro.idSituacion)}`
-      + `&page=${pageRequest.pagina}&size=${pageRequest.tamanho}&sort=${pageRequest.ordenarPor},${pageRequest.orden}`);
+      + `&page=${apiPageRequest.pagina}&size=${apiPageRequest.tamanho}&sort=${apiPageRequest.ordenarPor},${apiPageRequest.orden}`);
   }
 
   public listarEntidadesPorClases(idsClaseEntidad: string) {

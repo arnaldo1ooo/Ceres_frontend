@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { ActivatedRoute, Router } from '@angular/router';
 import { DEFAULT_PAGE_TAMANHOS } from 'src/app/compartido/constantes/constantes';
-import { PageRequest } from 'src/app/compartido/interfaces/page-request';
+import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
 import { ApiPageResponse } from 'src/app/compartido/interfaces/api-page-response';
 import { EntidadesComponent } from '../../containers/entidades/entidades.component';
 import { EntidadListaDTO } from '../../models/dtos/entidadListaDTO';
@@ -16,7 +15,7 @@ import { Entidad } from '../../models/entidad.model';
 export class EntidadesListaComponent implements OnInit {
   @Input() listEntidades: Entidad[] = [];
   @Input() apiPageResponse!: ApiPageResponse;
-  @Input() pageRequest!: PageRequest; //Recibe el request default
+  @Input() apiPageRequest!: ApiPageRequest; //Recibe el request default
   @Output() nuevo = new EventEmitter(false);
   @Output() visualizar = new EventEmitter(false);
   @Output() editar = new EventEmitter(false);
@@ -51,10 +50,10 @@ export class EntidadesListaComponent implements OnInit {
 
   onCambiarPage(event: PageEvent) {
     if(this.listEntidades.length > 0) {
-      this.pageRequest.pagina = event.pageIndex; //Asignamos el numero de pagina
-      this.pageRequest.tamanho = event.pageSize;  //Asignamos el tamaño de las pagina
+      this.apiPageRequest.pagina = event.pageIndex; //Asignamos el numero de pagina
+      this.apiPageRequest.tamanho = event.pageSize;  //Asignamos el tamaño de las pagina
 
-      this._entidadesComponent.refrescar(this.pageRequest);
+      this._entidadesComponent.refrescar(this.apiPageRequest);
     }
   }
 

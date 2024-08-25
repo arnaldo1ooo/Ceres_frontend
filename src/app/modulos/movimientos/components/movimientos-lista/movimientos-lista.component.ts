@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { tap } from 'rxjs';
 import { DEFAULT_PAGE_TAMANHOS } from 'src/app/compartido/constantes/constantes';
-import { PageRequest } from 'src/app/compartido/interfaces/page-request';
+import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
 import { AvisoHelpersService } from 'src/app/compartido/services/aviso-helpers.service';
 import { JasperService } from 'src/app/compartido/services/jasper-helpers.service';
 import { MonedaHelpersService } from 'src/app/compartido/services/moneda-helpers.service';
@@ -23,7 +22,7 @@ export class MovimientosListaComponent implements OnInit {
   //Input entra en el componente, Output sale del componente hacia otro componente
   @Input() listMovimientosListaDTO: MovimientoListaDTO[] = [];
   @Input() pageResponse: Page | undefined;
-  @Input() pageRequest!: PageRequest; //Recibe el request default
+  @Input() apiPageRequest!: ApiPageRequest; //Recibe el request default
 
   @Output() mostrarTiposMovimientoSeleccion = new EventEmitter(false);
   @Output() visualizar = new EventEmitter(false);
@@ -83,10 +82,10 @@ export class MovimientosListaComponent implements OnInit {
 
   onCambiarPage(event: PageEvent) {
     if (this.listMovimientosListaDTO.length > 0) {
-      this.pageRequest.pagina = event.pageIndex; //Asignamos el numero de pagina
-      this.pageRequest.tamanho = event.pageSize;  //Asignamos el tamaño de las pagina
+      this.apiPageRequest.pagina = event.pageIndex; //Asignamos el numero de pagina
+      this.apiPageRequest.tamanho = event.pageSize;  //Asignamos el tamaño de las pagina
 
-      this._movimientosComponent.refrescar(this.pageRequest);
+      this._movimientosComponent.refrescar(this.apiPageRequest);
     }
   }
 

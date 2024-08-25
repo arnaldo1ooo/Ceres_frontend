@@ -58,7 +58,7 @@
   <div class="column flex mat-elevation-z8">
 
     <app-entidades-lista *ngIf="listEntidades$ | async as entidades; else cargando" [listEntidades]="entidades"
-      [apiPageResponse]="this.apiPageResponse" [pageRequest]="this.pageRequestDefault" (nuevo)="onNuevo()"
+      [apiPageResponse]="this.apiPageResponse" [apiPageRequest]="this.apiPageRequestDefault" (nuevo)="onNuevo()"
       (visualizar)="onVisualizar($event)" (editar)="onEditar($event)" (inactivar)="onInactivar($event)">
     </app-entidades-lista>
 

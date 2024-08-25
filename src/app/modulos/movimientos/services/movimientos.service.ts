@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LocalDateTime } from '@js-joda/core';
 import { catchError, delay, first, Observable, throwError } from 'rxjs';
-import { PageRequest } from 'src/app/compartido/interfaces/page-request';
+import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
 import { HelpersService, RequerirAutocomplete } from 'src/app/compartido/services/helpers.service';
 
 import { MovimientoFiltroDTO } from '../model/dtos/movimientoFiltroDTO';
@@ -62,7 +62,7 @@ export class MovimientosService {
       );
   }
 
-  public listarTodosMovimientosListaFiltroPage(movimientoFiltro: MovimientoFiltroDTO, pageRequest: PageRequest): Observable<Page> {
+  public listarTodosMovimientosListaFiltroPage(movimientoFiltro: MovimientoFiltroDTO, apiPageRequest: ApiPageRequest): Observable<Page> {
 
     return this._httpClient.get<Page>(API_URL_MOVIMIENTOS
       + '/filtroPage?'
@@ -76,7 +76,7 @@ export class MovimientosService {
           movimientoFiltro.fechaFinal, HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL) : ""}`
       + `&idDepartamento=${HelpersService.idTodosReturnVacio(movimientoFiltro.idDepartamento)}`
       + `&keySituacion=${HelpersService.idTodosReturnVacio(movimientoFiltro.keySituacion)}`
-      + `&page=${pageRequest.pagina}&size=${pageRequest.tamanho}&sort=${pageRequest.ordenarPor},${pageRequest.orden}`);
+      + `&page=${apiPageRequest.pagina}&size=${apiPageRequest.tamanho}&sort=${apiPageRequest.ordenarPor},${apiPageRequest.orden}`);
   }
 
   guardar(movimiento: Partial<Movimiento>) { //Se usa Partial cuando se espera que no reciba todos los datos de la entidad

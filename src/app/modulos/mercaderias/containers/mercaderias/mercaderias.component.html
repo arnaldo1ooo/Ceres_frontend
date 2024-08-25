@@ -55,7 +55,7 @@
     <app-mercaderias-lista *ngIf="listMercaderias$ | async as mercaderias; else cargando"
       [listMercaderias]="mercaderias"
       [apiPageResponse]="this.apiPageResponse"
-      [pageRequest]="this.pageRequestDefault"
+      [apiPageRequest]="this.apiPageRequestDefault"
       (nuevo)="onNuevo()" (visualizar)="onVisualizar($event)" (editar)="onEditar($event)"
       (eliminar)="onEliminar($event)" (inactivar)="onInactivar($event)">
     </app-mercaderias-lista>

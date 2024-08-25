@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { delay, first, map, Observable } from 'rxjs';
 import { API_URL_MERCADERIAS } from 'src/app/compartido/constantes/constantes';
-import { PageRequest } from 'src/app/compartido/interfaces/page-request';
+import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 
 import { MercaderiaFiltroDTO } from '../model/dtos/mercaderiaFiltroDTO';
@@ -41,14 +41,14 @@ export class MercaderiasService {
       );
   }
 
-  listarTodosMercaderiasFiltroPage(mercaderiaFiltro: MercaderiaFiltroDTO, pageRequest: PageRequest): Observable<ApiPageResponse> {
+  listarTodosMercaderiasFiltroPage(mercaderiaFiltro: MercaderiaFiltroDTO, apiPageRequest: ApiPageRequest): Observable<ApiPageResponse> {
     return this._httpClient.get<ApiPageResponse>(API_URL_MERCADERIAS
       + '/filtroPage?' + `id=${mercaderiaFiltro.id}`
       + `&descripcion=${mercaderiaFiltro.descripcion}`
       + `&idTipo=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idTipo)}`
       + `&idDepartamento=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idDepartamento)}`
       + `&idSituacion=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idSituacion)}`
-      + `&page=${pageRequest.pagina}&size=${pageRequest.tamanho}&sort=${pageRequest.ordenarPor},${pageRequest.orden}`);
+      + `&page=${apiPageRequest.pagina}&size=${apiPageRequest.tamanho}&sort=${apiPageRequest.ordenarPor},${apiPageRequest.orden}`);
   }
 
   guardar(mercaderia: Partial<Mercaderia>) { //Se usa Partial cuando se espera que no reciba todos los datos de la entidad
