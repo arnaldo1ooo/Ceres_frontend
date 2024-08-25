@@ -8,7 +8,7 @@ import {
 } from 'src/app/compartido/componentes/dialogo-confirmacion/dialogo-confirmacion/dialogo-confirmacion.component';
 import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-error/dialogo-error.component';
 import { EntidadesService } from '../../services/entidades.service';
-import { Entidad, Page } from '../../models/entidad.model';
+import { Entidad } from '../../models/entidad.model';
 import { PageRequest } from 'src/app/compartido/interfaces/page-request';
 import { DEFAULT_ORDENAR_POR, DEFAULT_PAGE_TAMANHO, ID_OPCION_TODOS, PAGE_INICIAL } from 'src/app/compartido/constantes/constantes';
 import { Orden } from 'src/app/compartido/enums/orden.enum';
@@ -18,6 +18,7 @@ import { ClaseEntidad, ClaseEntidadUtils } from '../../enums/clase-entidad.enum'
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { SucursalesService } from 'src/app/modulos/sucursales/services/sucursales.service';
 import { Sucursal } from 'src/app/modulos/sucursales/model/sucursal.model';
+import { PageResponse } from 'src/app/compartido/interfaces/page-response';
 
 @Component({
   selector: 'app-entidades',
@@ -34,7 +35,7 @@ export class EntidadesComponent implements OnInit {
   protected listSucursales: any;
   protected entidadFiltro: EntidadFiltroDTO = this.filtroInicial();
   protected isFiltrando: boolean = false;
-  protected pageRes: Page | undefined;
+  protected pageRes!: PageResponse;
 
   protected pageRequestDefault: PageRequest = {
     pagina: PAGE_INICIAL,
@@ -128,9 +129,9 @@ export class EntidadesComponent implements OnInit {
         this.isFiltrando = false;
       }))
       .subscribe({
-        next: respuesta => {
-          this.pageRes = respuesta;
-          this.listEntidades$ = of(this.pageRes!.content);  //of convierte a Observables
+        next: response => {
+          this.pageRes = response;
+          this.listEntidades$ = of(response.data.content || []);  //of convierte a Observables
         },
         error: err => {
           this.listEntidades$ = of([]);

@@ -10,11 +10,12 @@ import { TipoEntidad } from '../enums/tipo-entidad.enum';
 import { EntidadFiltroDTO } from '../models/dtos/entidadFiltroDTO';
 import { EntidadListaDTO } from '../models/dtos/entidadListaDTO';
 
-import { Entidad, Page } from '../models/entidad.model';
+import { Entidad } from '../models/entidad.model';
 import { Municipio } from '../models/municipio.model';
 import { API_URL_ENTIDADES } from './../../../compartido/constantes/constantes';
 import { ClaseEntidad } from '../models/claseEntidad.model';
 import { ValidatorsCustom } from 'src/app/compartido/validators/validators-custom';
+import { PageResponse } from '../../../compartido/interfaces/page-response';
 
 @Injectable({
   providedIn: 'root'
@@ -41,8 +42,8 @@ export class EntidadesService {
       );
   }
 
-  listarTodosEntidadesFiltroPage(entidadFiltro: EntidadFiltroDTO, pageRequest: PageRequest): Observable<Page> {
-    return this._httpClient.get<Page>(API_URL_ENTIDADES
+  listarTodosEntidadesFiltroPage(entidadFiltro: EntidadFiltroDTO, pageRequest: PageRequest): Observable<PageResponse> {
+    return this._httpClient.get<PageResponse>(API_URL_ENTIDADES
       + '/filtroPage?'
       + `id=${HelpersService.isNuloRetornaVacio(entidadFiltro.id)}`
       + `&nombreApellido=${HelpersService.isNuloRetornaVacio(entidadFiltro.nombreApellido)}`

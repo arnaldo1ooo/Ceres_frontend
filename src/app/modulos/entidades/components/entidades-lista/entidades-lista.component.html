@@ -4,25 +4,25 @@
     <!-- Columna id -->
     <ng-container matColumnDef="_id">
       <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
-      <mat-cell *matCellDef="let entidad"> {{ entidad._id }} </mat-cell>
+      <mat-cell *matCellDef="let entidad">{{entidad._id}}</mat-cell>
     </ng-container>
 
     <!-- Columna nombreApellido -->
     <ng-container matColumnDef="nombreApellido">
       <mat-header-cell *matHeaderCellDef>Nombre y Apellido</mat-header-cell>
-      <mat-cell *matCellDef="let entidad"> {{ entidad.nombreApellido }} </mat-cell>
+      <mat-cell *matCellDef="let entidad"> {{entidad.nombre}} {{entidad.apellido}} </mat-cell>
     </ng-container>
 
     <!-- Columna sucursal -->
     <ng-container matColumnDef="sucursal">
       <mat-header-cell *matHeaderCellDef>Sucursal</mat-header-cell>
-      <mat-cell *matCellDef="let entidad"> {{entidad.sucursal.descripcion}} </mat-cell>
+      <mat-cell *matCellDef="let entidad">{{entidad.sucursal.descripcion}}</mat-cell>
     </ng-container>
 
     <!-- Columna situacion -->
     <ng-container matColumnDef="situacion">
       <mat-header-cell *matHeaderCellDef> Situación </mat-header-cell>
-      <mat-cell *matCellDef="let entidad"> {{ entidad.situacion | situacionPipe }} </mat-cell>
+      <mat-cell *matCellDef="let entidad">{{entidad.situacion | situacionPipe}}</mat-cell>
     </ng-container>
 
     <!-- Columna Acciones -->
@@ -57,7 +57,7 @@
 
   <!--Paginador-->
   <mat-paginator
-    [length]="this.pageResponse?.totalElements"
+    [length]="this.pageResponse.data.totalElements"
     [pageSizeOptions]="tamanhosPage"
     [pageIndex]="this.pageRequest.pagina"
     [pageSize]="this.pageRequest.tamanho"
