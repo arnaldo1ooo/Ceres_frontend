@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
-import { catchError, delay, first, Observable } from 'rxjs';
+import { catchError, delay, first, map, Observable } from 'rxjs';
 import { Situacion } from 'src/app/compartido/enums/situacion.enum';
 import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
@@ -15,6 +15,7 @@ import { Municipio } from '../models/municipio.model';
 import { API_URL_ENTIDADES } from './../../../compartido/constantes/constantes';
 import { ClaseEntidad } from '../models/claseEntidad.model';
 import { ApiPageResponse } from '../../../compartido/interfaces/api-page-response';
+import { ApiResponse } from 'src/app/compartido/interfaces/api-response';
 
 @Injectable({
   providedIn: 'root'
@@ -34,10 +35,11 @@ export class EntidadesService {
   }
 
   listarClasesEntidades() {
-    return this._httpClient.get<ClaseEntidad[]>(`${API_URL_ENTIDADES}/listarClasesEntidad`)
+    return this._httpClient.get<ApiResponse<ClaseEntidad[]>>(`${API_URL_ENTIDADES}/listarClasesEntidad`)
       .pipe(
         first(),
-        delay(100)
+        delay(100),
+        map(response => response.data)
       );
   }
 
@@ -68,8 +70,11 @@ export class EntidadesService {
       );
   }
 
-  cargarPorId(id: string) {
-    return this._httpClient.get<Entidad>(`${API_URL_ENTIDADES}/${id}`);
+  cargarPorId(id: string): Observable<Entidad> {
+    return this._httpClient.get<ApiResponse<Entidad>>(`${API_URL_ENTIDADES}/${id}`)
+      .pipe(
+        map(response => response.data)
+      );
   }
 
   inactivar(id: string) {
