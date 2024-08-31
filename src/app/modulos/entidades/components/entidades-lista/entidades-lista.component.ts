@@ -15,7 +15,7 @@ import { Entidad } from '../../models/entidad.model';
 export class EntidadesListaComponent implements OnInit {
   @Input() listEntidades: Entidad[] = [];
   @Input() apiPageResponse!: ApiPageResponse;
-  @Input() apiPageRequest!: ApiPageRequest; //Recibe el request default
+  @Input() apiPageRequest!: ApiPageRequest;
   @Output() nuevo = new EventEmitter(false);
   @Output() visualizar = new EventEmitter(false);
   @Output() editar = new EventEmitter(false);
@@ -28,9 +28,9 @@ export class EntidadesListaComponent implements OnInit {
 
   constructor(private _entidadesComponent: EntidadesComponent) { }
 
-    ngOnInit(): void {
+  ngOnInit(): void {
 
-    }
+  }
 
   onNuevo() {
     this.nuevo.emit(true);
@@ -49,7 +49,7 @@ export class EntidadesListaComponent implements OnInit {
   }
 
   onCambiarPage(event: PageEvent) {
-    if(this.listEntidades.length > 0) {
+    if (this.listEntidades.length > 0) {
       this.apiPageRequest.pagina = event.pageIndex; //Asignamos el numero de pagina
       this.apiPageRequest.tamanho = event.pageSize;  //Asignamos el tamaño de las pagina
 

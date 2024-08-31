@@ -6,9 +6,9 @@ import { EntidadResolver } from './guards/entidad.resolver';
 
 const routes: Routes = [
   { path: '', component: EntidadesComponent }, //Entidades
-  { path: 'nuevo', component: EntidadFormComponent, resolve: { departamento: EntidadResolver } }, //Seria entidades/nuevo
-  { path: 'visualizar/:id', component: EntidadFormComponent, resolve: { departamento: EntidadResolver } },
-  { path: 'editar/:id', component: EntidadFormComponent, resolve: { departamento: EntidadResolver } } //Seria entidades/editar/id
+  { path: 'nuevo', component: EntidadFormComponent, resolve: { entidad: EntidadResolver } }, //Seria entidades/nuevo
+  { path: 'visualizar/:id', component: EntidadFormComponent, resolve: { entidad: EntidadResolver } },
+  { path: 'editar/:id', component: EntidadFormComponent, resolve: { entidad: EntidadResolver } } //Seria entidades/editar/id
 ];
 
 @NgModule({

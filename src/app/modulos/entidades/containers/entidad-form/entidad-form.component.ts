@@ -90,14 +90,12 @@ export class EntidadFormComponent implements OnInit {
   private listarSucursal() {
     this._sucursalService.listarTodosSucursales().subscribe((lista: Sucursal[]) => {
       this.listaSucursales = lista;
-
     })
   }
 
   private listarClasesEntidad() {
     this._entidadService.listarClasesEntidades().subscribe((lista: ClaseEntidad[]) => {
       this.listaClasesEntidad = lista;
-
     })
   }
 
