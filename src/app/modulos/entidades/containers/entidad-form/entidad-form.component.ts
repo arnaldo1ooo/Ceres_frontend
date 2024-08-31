@@ -19,6 +19,9 @@ import { Observable } from 'rxjs/internal/Observable';
 import { map, of, startWith } from 'rxjs';
 import { TipoEntidad } from '../../enums/tipo-entidad.enum';
 import { ClaseEntidad } from '../../models/claseEntidad.model';
+import { ApiResponse } from '../../../../compartido/interfaces/api-response';
+import { Entidad } from '../../models/entidad.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-entidad-form',
@@ -63,8 +66,8 @@ export class EntidadFormComponent implements OnInit {
           next: (resultado) => {
             this.onExito();
           },
-          error: (error) => {
-            this.onError(error);
+          error: (err: HttpErrorResponse) => {
+            this.onError(err);
           }
         });
     }
@@ -83,8 +86,8 @@ export class EntidadFormComponent implements OnInit {
     this.onRetroceder();
   }
 
-  private onError(error: any) {
-    this._avisoHelpersService.mostrarMensaje('Error al guardar entidad: ' + error, '');
+  private onError(err: HttpErrorResponse) {
+    this._avisoHelpersService.mostrarMensaje('Error al guardar entidad: ' + err.error.mensajes, '', 6000);
   }
 
   private listarSucursal() {
@@ -119,7 +122,7 @@ export class EntidadFormComponent implements OnInit {
   }
 
   public setFormValoresEntidad(entidadDetalleDTO: EntidadDetalleDTO, formEntidadDetalle: FormGroup): void {
-    if (HelpersService.isNoNuloYNoVacioYNoUndefined(entidadDetalleDTO)) {
+    if (entidadDetalleDTO._id) { // Si tiene ID
       formEntidadDetalle.patchValue({
         _id: entidadDetalleDTO._id,
         nombre: entidadDetalleDTO.nombre,

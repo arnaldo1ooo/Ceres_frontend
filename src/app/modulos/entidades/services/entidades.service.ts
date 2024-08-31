@@ -95,7 +95,7 @@ export class EntidadesService {
       email: new FormControl<string>('', Validators.email),
       observacion: new FormControl<string>('', [Validators.maxLength(500)]),
       situacion: new FormControl<Situacion | null>(null, Validators.required),
-      clases:  new FormControl('', [Validators.required]),
+      clases: new FormControl<ClaseEntidad[]>([], [Validators.required]),
     })
   }
 
