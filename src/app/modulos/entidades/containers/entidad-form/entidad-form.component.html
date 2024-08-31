@@ -84,7 +84,7 @@
         <!--Tipo Entidad-->
         <mat-form-field appearance="outline" class="anchura-maxima">
           <mat-label>Tipo</mat-label>
-          <mat-select formControlName="tipoEntidad"
+          <mat-select formControlName="tipo"
             matTooltip="FISICA: Persona o individuo; JURIDICA: Empresa o sociedad">
             <mat-option *ngFor="let tipoEntidad of listaTiposEntidad" [value]="tipoEntidad">
               {{tipoEntidad | tipoEntidadPipe}}

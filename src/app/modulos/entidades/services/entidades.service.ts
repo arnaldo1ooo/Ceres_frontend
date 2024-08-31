@@ -16,6 +16,7 @@ import { API_URL_ENTIDADES } from './../../../compartido/constantes/constantes';
 import { ClaseEntidad } from '../models/claseEntidad.model';
 import { ApiPageResponse } from '../../../compartido/interfaces/api-page-response';
 import { ApiResponse } from 'src/app/compartido/interfaces/api-response';
+import { EntidadDetalleForm } from '../models/dtos/entidadDetalleForm';
 
 @Injectable({
   providedIn: 'root'
@@ -89,21 +90,15 @@ export class EntidadesService {
       sucursal: new FormControl<Sucursal | null>(null, Validators.required),
       municipio: new FormControl<Municipio | null>(null, Validators.required),
       direccion: new FormControl<string>('', Validators.maxLength(255)),
-      tipoEntidad: new FormControl<TipoEntidad | null>(null, Validators.required),
+      tipo: new FormControl<TipoEntidad | null>(null, Validators.required),
       ci: new FormControl<string>('', [Validators.required, Validators.maxLength(9)]),
       ruc: new FormControl<string>('', [Validators.maxLength(12)]),
       email: new FormControl<string>('', Validators.email),
+      fechaCreacion: new FormControl<string>(''),
       observacion: new FormControl<string>('', [Validators.maxLength(500)]),
       situacion: new FormControl<Situacion | null>(null, Validators.required),
       clases: new FormControl<ClaseEntidad[]>([], [Validators.required]),
     })
-  }
-
-  public crearClaseEntidadFormGroup(claseEntidad: ClaseEntidad = new ClaseEntidad()): FormGroup {
-    return this._formBuilder.group({
-      _id: new FormControl<string | null>(claseEntidad._id),
-      descripcion: new FormControl<string | null>(claseEntidad.descripcion)
-    });
   }
 
   guardar(entidad: Partial<Entidad>) { //Se usa Partial cuando se espera que no reciba todos los datos de la entidad

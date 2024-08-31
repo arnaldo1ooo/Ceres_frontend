@@ -14,14 +14,13 @@ import { MunicipiosService } from '../../services/municipios.service';
 import { DepartamentoPolitico } from '../../models/departamentoPolitico.model';
 import { LoginService } from 'src/app/modulos/login/services/login.service';
 import { EntidadDetalleDTO } from '../../models/dtos/entidadDetalleDTO';
-import { FormArray, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, of, startWith } from 'rxjs';
 import { TipoEntidad } from '../../enums/tipo-entidad.enum';
 import { ClaseEntidad } from '../../models/claseEntidad.model';
-import { ApiResponse } from '../../../../compartido/interfaces/api-response';
-import { Entidad } from '../../models/entidad.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { EntidadDetalleForm } from '../../models/dtos/entidadDetalleForm';
 
 @Component({
   selector: 'app-entidad-form',
@@ -87,7 +86,7 @@ export class EntidadFormComponent implements OnInit {
   }
 
   private onError(err: HttpErrorResponse) {
-    this._avisoHelpersService.mostrarMensaje('Error al guardar entidad: ' + err.error.mensajes, '', 6000);
+    this._avisoHelpersService.mostrarMensajeError('Error al guardar entidad: ', err);
   }
 
   private listarSucursal() {
@@ -121,7 +120,7 @@ export class EntidadFormComponent implements OnInit {
     return HelpersService.isPathModoVisualizar(this._ruta.snapshot.routeConfig?.path);
   }
 
-  public setFormValoresEntidad(entidadDetalleDTO: EntidadDetalleDTO, formEntidadDetalle: FormGroup): void {
+  public setFormValoresEntidad(entidadDetalleDTO: EntidadDetalleDTO, formEntidadDetalle: FormGroup<EntidadDetalleForm>): void {
     if (entidadDetalleDTO._id) { // Si tiene ID
       formEntidadDetalle.patchValue({
         _id: entidadDetalleDTO._id,
@@ -130,10 +129,11 @@ export class EntidadFormComponent implements OnInit {
         sucursal: entidadDetalleDTO.sucursal,
         municipio: entidadDetalleDTO.municipio,
         direccion: entidadDetalleDTO.direccion,
-        tipoEntidad: entidadDetalleDTO.tipo,
+        tipo: entidadDetalleDTO.tipo,
         ci: entidadDetalleDTO.ci,
         ruc: entidadDetalleDTO.ruc,
         email: entidadDetalleDTO.email,
+        fechaCreacion: entidadDetalleDTO.fechaCreacion,
         observacion: entidadDetalleDTO.observacion,
         situacion: entidadDetalleDTO.situacion,
         clases: entidadDetalleDTO.clases
@@ -143,7 +143,7 @@ export class EntidadFormComponent implements OnInit {
       formEntidadDetalle.patchValue({
         sucursal: this._loginService.getSucursalLogado(),
         municipio: this.listaMunicipios[140], //Minga Guazu
-        tipoEntidad: TipoEntidad.FISICA,
+        tipo: TipoEntidad.FISICA,
         situacion: Situacion.ACTIVO
       });
     }
