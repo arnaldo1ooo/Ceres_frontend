@@ -21,6 +21,7 @@ import { TipoEntidad } from '../../enums/tipo-entidad.enum';
 import { ClaseEntidad } from '../../models/claseEntidad.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { EntidadDetalleForm } from '../../models/dtos/entidadDetalleForm';
+import { ModoEdicion } from 'src/app/compartido/enums/modoEdicion.enum';
 
 @Component({
   selector: 'app-entidad-form',
@@ -28,6 +29,8 @@ import { EntidadDetalleForm } from '../../models/dtos/entidadDetalleForm';
   styleUrls: ['./entidad-form.component.scss']
 })
 export class EntidadFormComponent implements OnInit {
+  public modoEdicion: string = this._ruta.snapshot.data['modoEdicion']; //Proviene del routing
+
   protected listaSucursales: Sucursal[] = [];
 
   protected listaMunicipios: Municipio[] = [];
@@ -36,7 +39,7 @@ export class EntidadFormComponent implements OnInit {
   protected listaSituaciones = Object.values(Situacion);
   protected listaClasesEntidad: ClaseEntidad[] = [];
   protected listaTiposEntidad = Object.values(TipoEntidad);
-  protected formEntidadDetalle = this._entidadService.crearEntidadFormGroup();
+  protected entidadDetalleForm = this._entidadService.crearEntidadFormGroup();
 
   constructor(
     private _entidadService: EntidadesService,
@@ -54,13 +57,13 @@ export class EntidadFormComponent implements OnInit {
     this.listarClasesEntidad();
     this.listarFiltrarMunicipios();
 
-    this.verificarModo();
-    this.setFormValoresEntidad(this._ruta.snapshot.data['entidad'], this.formEntidadDetalle);
+    this.verificarModoEdicion();
+    this.setFormValoresEntidad(this._ruta.snapshot.data['entidad'], this.entidadDetalleForm);
   }
 
   public onGuardar() {
-    if (this.formEntidadDetalle.valid) {
-      this._entidadService.guardar(this.formEntidadDetalle.getRawValue())
+    if (this.entidadDetalleForm.valid) {
+      this._entidadService.guardar(this.entidadDetalleForm.getRawValue())
         .subscribe({
           next: (resultado) => {
             this.onExito();
@@ -71,7 +74,7 @@ export class EntidadFormComponent implements OnInit {
         });
     }
     else {
-      this.formEntidadDetalle.markAllAsTouched(); //Marca todos los campos invalidos
+      this.entidadDetalleForm.markAllAsTouched(); //Marca todos los campos invalidos
       this._avisoHelpersService.mostrarMensajeDatosInvalidosForm();
     }
   }
@@ -106,18 +109,24 @@ export class EntidadFormComponent implements OnInit {
   }
 
   public getMensajeError(nombreCampo: string) {
-    const campo = this.formEntidadDetalle.get(nombreCampo);
+    const campo = this.entidadDetalleForm.get(nombreCampo);
     return ErrorHelpersService.verificarMensajeError(campo);
   }
 
-  public verificarModo() {
-    if (this.isPathModoVisualizar()) {
-      this.formEntidadDetalle.disable();
-    }
-  }
+  private verificarModoEdicion() {
+    switch (this.modoEdicion) {
+      case ModoEdicion.MODO_NUEVO:
+        this.entidadDetalleForm.get('situacion')?.disable();
+        break;
 
-  public isPathModoVisualizar(): boolean {
-    return HelpersService.isPathModoVisualizar(this._ruta.snapshot.routeConfig?.path);
+      case ModoEdicion.MODO_EDITAR:
+        this.entidadDetalleForm.get('situacion')?.disable();
+        break;
+
+      case ModoEdicion.MODO_VISUALIZAR:
+        this.entidadDetalleForm.disable();
+        break;
+    }
   }
 
   public setFormValoresEntidad(entidadDetalleDTO: EntidadDetalleDTO, formEntidadDetalle: FormGroup<EntidadDetalleForm>): void {
@@ -172,7 +181,7 @@ export class EntidadFormComponent implements OnInit {
       this.listaMunicipios = lista;
 
       // Se ejecuta cuando se escribe en autocomplete
-      this.listaMunicipiosFiltrado$ = this.formEntidadDetalle.get('municipio')!.valueChanges.pipe(
+      this.listaMunicipiosFiltrado$ = this.entidadDetalleForm.get('municipio')!.valueChanges.pipe(
         startWith(''), // Se inicia con valor vacío para listar todos los registros
         map(valorAFiltrar =>
           this.listaMunicipios?.filter(municipio =>
