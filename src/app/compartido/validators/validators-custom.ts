@@ -46,7 +46,7 @@ export class ValidatorsCustom extends Validators {
   public static autocompleteSeleccionValida(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (typeof control.value === 'string') {
-        return { 'autocompleteSeleccionInvalida': { value: control.value } }
+        return { 'autocompleteSeleccionInvalida': true }
       }
 
       return null  //opcion seleccionada valida
