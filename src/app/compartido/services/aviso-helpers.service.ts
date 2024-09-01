@@ -22,8 +22,8 @@ export class AvisoHelpersService {
   }
 
   public mostrarMensajeError(mensaje: string, err: HttpErrorResponse) {
-    let mensajesError: string = err != null && err.error != null
-                                      ? err.error.mensajes.join(', ') : '';
+    let mensajesError: string = err != null && err.error != null && err.error.mensajes != null
+                                      ? err.error.mensajes.join(', ') : err.error.detail;
     mensajesError = mensaje + mensajesError;
     console.log(mensajesError);
     this.mostrarMensaje(mensajesError, 'OK', 0);

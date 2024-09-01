@@ -2,13 +2,13 @@ import { AbstractControl, FormArray, ValidationErrors, ValidatorFn, Validators }
 
 export class ValidatorsCustom extends Validators {
 
-  static arrayNoVacio(control: AbstractControl): ValidationErrors | null {
+  public static arrayNoVacio(control: AbstractControl): ValidationErrors | null {
     const array = control as FormArray;
     return array.length > 0
       ? null : { arrayVacio: true };
   }
 
-  static debenSerIguales(nombrePrimerControl: string, nombreSegundoControl: string): ValidatorFn {
+  public static debenSerIguales(nombrePrimerControl: string, nombreSegundoControl: string): ValidatorFn {
     return (grupo: AbstractControl): ValidationErrors | null => {
       const primerControl = grupo.get(nombrePrimerControl);
       const segundoControl = grupo.get(nombreSegundoControl);
@@ -18,22 +18,22 @@ export class ValidatorsCustom extends Validators {
     };
   }
 
-  static alMenosUnNumero(control: AbstractControl): ValidationErrors | null {
+  public static alMenosUnNumero(control: AbstractControl): ValidationErrors | null {
     return /\d+/.test(control.value)
       ? null : { alMenosUnNumero: true };
   }
 
-  static alMenosUnaMayuscula(control: AbstractControl): ValidationErrors | null {
+  public static alMenosUnaMayuscula(control: AbstractControl): ValidationErrors | null {
     return /[A-Z]+/.test(control.value)
       ? null : { alMenosUnaMayuscula: true };
   }
 
-  static alMenosUnaMinuscula(control: AbstractControl): ValidationErrors | null {
+  public static alMenosUnaMinuscula(control: AbstractControl): ValidationErrors | null {
     return /[a-z]+/.test(control.value)
       ? null : { alMenosUnaMinuscula: true };
   }
 
-  static debenSerDiferentes(nombrePrimerControl: string, nombreSegundoControl: string): ValidatorFn {
+  public static debenSerDiferentes(nombrePrimerControl: string, nombreSegundoControl: string): ValidatorFn {
     return (grupo: AbstractControl): ValidationErrors | null => {
       const primerControl = grupo.get(nombrePrimerControl);
       const segundoControl = grupo.get(nombreSegundoControl);
@@ -42,6 +42,17 @@ export class ValidatorsCustom extends Validators {
         ? null : { debenSerDiferentes: true };
     };
   }
+
+  public static autocompleteSeleccionValida(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      if (typeof control.value === 'string') {
+        return { 'autocompleteSeleccionInvalida': { value: control.value } }
+      }
+
+      return null  //opcion seleccionada valida
+    }
+  }
+
 }
 
 

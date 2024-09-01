@@ -16,7 +16,7 @@ import { API_URL_ENTIDADES } from './../../../compartido/constantes/constantes';
 import { ClaseEntidad } from '../models/claseEntidad.model';
 import { ApiPageResponse } from '../../../compartido/interfaces/api-page-response';
 import { ApiResponse } from 'src/app/compartido/interfaces/api-response';
-import { EntidadDetalleForm } from '../models/dtos/entidadDetalleForm';
+import { ValidatorsCustom } from '../../../compartido/validators/validators-custom';
 
 @Injectable({
   providedIn: 'root'
@@ -88,7 +88,7 @@ export class EntidadesService {
       nombre: new FormControl<string>('', [Validators.required, Validators.maxLength(100)]),
       apellido: new FormControl<string>('', Validators.maxLength(50)),
       sucursal: new FormControl<Sucursal | null>(null, Validators.required),
-      municipio: new FormControl<Municipio | null>(null, Validators.required),
+      municipio: new FormControl<Municipio | null>(null, [Validators.required, ValidatorsCustom.autocompleteSeleccionValida()]),
       direccion: new FormControl<string>('', Validators.maxLength(255)),
       tipo: new FormControl<TipoEntidad | null>(null, Validators.required),
       ci: new FormControl<string>('', [Validators.required, Validators.maxLength(9)]),

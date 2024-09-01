@@ -31,6 +31,10 @@ export class ErrorHelpersService {
     return valor?.hasError('noSonIguales')
   }
 
+  public static isErrorAutocompleteSeleccionInvalida(valor: any) {
+    return valor?.hasError('autocompleteSeleccionInvalida')
+  }
+
   public static verificarMensajeError(valor: any): string {
     if (this.isErrorRequerido(valor)) {
       return 'Campo obligatorio';
@@ -51,6 +55,9 @@ export class ErrorHelpersService {
     }
     else if (this.isErrorDebenSerIguales(valor)) {
       return 'Los valores no coinciden!';
+    }
+    else if (this.isErrorAutocompleteSeleccionInvalida(valor)) {
+      return 'Seleccione una opción válida!';
     }
 
     return 'Campo inválido';
