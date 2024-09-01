@@ -63,7 +63,8 @@
       "direccion": "Endereço",
       "ci": "CI",
       "ruc": "RUC",
-      "email": "Email"
+      "email": "Email",
+      "celular": "Celular"
     },
 
     "botones": {

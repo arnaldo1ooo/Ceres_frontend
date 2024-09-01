@@ -19,6 +19,7 @@ import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { SucursalesService } from 'src/app/modulos/sucursales/services/sucursales.service';
 import { Sucursal } from 'src/app/modulos/sucursales/model/sucursal.model';
 import { ApiPageResponse } from 'src/app/compartido/interfaces/api-page-response';
+import { LoginService } from '../../../login/services/login.service';
 
 @Component({
   selector: 'app-entidades',
@@ -50,7 +51,8 @@ export class EntidadesComponent implements OnInit {
     private ruta: Router,
     private rutaActual: ActivatedRoute,
     private alertaSnackBar: MatSnackBar,
-    private _sucursalService: SucursalesService,) {
+    private _sucursalService: SucursalesService,
+    private _loginService: LoginService) {
 
   }
 
@@ -157,6 +159,7 @@ export class EntidadesComponent implements OnInit {
     const idFiltro: Number = this.entidadFiltro.id;  //Salva id ingresado
     this.limpiarFiltros();
     this.entidadFiltro.id = idFiltro;  //Vuelve a agregar filtro ingresado
+    this.entidadFiltro.idSituacion = ID_OPCION_TODOS;
   }
 
   private filtroInicial() {
@@ -164,7 +167,7 @@ export class EntidadesComponent implements OnInit {
       id: null,
       nombreApellido: null,
       idsClase: [],
-      idSucursal: ID_OPCION_TODOS,
+      idSucursal: this._loginService.getSucursalLogado()._id,
       ciRuc: null,
       idSituacion: Situacion.ACTIVO
     };

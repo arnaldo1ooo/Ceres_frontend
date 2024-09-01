@@ -84,8 +84,7 @@
         <!--Tipo Entidad-->
         <mat-form-field appearance="outline" class="anchura-maxima">
           <mat-label>Tipo</mat-label>
-          <mat-select formControlName="tipo"
-            matTooltip="FISICA: Persona o individuo; JURIDICA: Empresa o sociedad">
+          <mat-select formControlName="tipo" matTooltip="FISICA: Persona o individuo; JURIDICA: Empresa o sociedad">
             <mat-option *ngFor="let tipoEntidad of listaTiposEntidad" [value]="tipoEntidad">
               {{tipoEntidad | tipoEntidadPipe}}
             </mat-option>
@@ -116,10 +115,17 @@
       <div class="ui-fila-global">
         <!--Email-->
         <mat-form-field appearance="outline" class="anchura-maxima">
-          <mat-label>{{ "titulos.email" | transloco }}</mat-label>
+          <mat-label>{{"titulos.email" | transloco}}</mat-label>
           <input #emailEntidad matInput formControlName="email">
-          <mat-error *ngIf="formEntidadDetalle.get('email')?.invalid">{{getMensajeError('email')}}
-          </mat-error>
+          <mat-error *ngIf="formEntidadDetalle.get('email')?.invalid">{{getMensajeError('email')}}</mat-error>
+        </mat-form-field>
+
+        <!--Celular-->
+        <mat-form-field appearance="outline" class="anchura-maxima">
+          <mat-label>{{"titulos.celular" | transloco}}</mat-label>
+          <input #celularEntidad matInput formControlName="celular">
+          <mat-hint align="end">{{celularEntidad.value.length || 0}} / 20</mat-hint>
+          <mat-error *ngIf="formEntidadDetalle.get('celular')?.invalid">{{getMensajeError('celular')}}</mat-error>
         </mat-form-field>
 
         <!--Situacion-->
@@ -134,6 +140,7 @@
         </mat-form-field>
       </div>
 
+      <!--Observacion-->
       <mat-form-field appearance="outline" class="anchura-maxima">
         <mat-label>{{ "titulos.observacion" | transloco }}</mat-label>
         <textarea #observacionTextArea matInput cdkTextareaAutosize formControlName="observacion"

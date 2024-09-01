@@ -98,6 +98,7 @@ export class EntidadesService {
       observacion: new FormControl<string>('', [Validators.maxLength(500)]),
       situacion: new FormControl<Situacion | null>(null, Validators.required),
       clases: new FormControl<ClaseEntidad[]>([], [Validators.required]),
+      celular: new FormControl<string>('', [Validators.maxLength(20)])
     })
   }
 

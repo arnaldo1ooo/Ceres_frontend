@@ -19,5 +19,6 @@ export interface EntidadDetalleForm {
   fechaCreacion: FormControl<string>;
   observacion: FormControl<string>;
   situacion: FormControl<Situacion | null>;
-  clases: FormControl<ClaseEntidad[]>;
+  clases: FormControl<ClaseEntidad[]>
+  celular: FormControl<string>;
 }

@@ -19,4 +19,5 @@ export interface EntidadDetalleDTO {
   observacion: string;
   situacion: Situacion;
   clases: ClaseEntidad[];
+  celular: string;
 }

@@ -104,6 +104,7 @@ export class MovimientosComponent implements OnInit {
     this.movimientoFiltro.id = idFiltro;  //Vuelve a agregar filtro ingresado
     this.movimientoFiltro.fechaInicial = null;
     this.movimientoFiltro.fechaFinal = null;
+    this.movimientoFiltro.keySituacion = ID_OPCION_TODOS;
   }
 
   private filtroInicial() {

@@ -136,7 +136,8 @@ export class EntidadFormComponent implements OnInit {
         fechaCreacion: entidadDetalleDTO.fechaCreacion,
         observacion: entidadDetalleDTO.observacion,
         situacion: entidadDetalleDTO.situacion,
-        clases: entidadDetalleDTO.clases
+        clases: entidadDetalleDTO.clases,
+        celular: entidadDetalleDTO.celular
       });
     }
     else {  //Valores por default
