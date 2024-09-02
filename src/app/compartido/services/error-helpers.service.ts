@@ -35,6 +35,10 @@ export class ErrorHelpersService {
     return valor?.hasError('autocompleteSeleccionInvalida')
   }
 
+  public static isErrorMaxLengthNumber(valor: any) {
+    return valor?.hasError('maxLengthNumber')
+  }
+
   public static verificarMensajeError(valor: any): string {
     if (this.isErrorRequerido(valor)) {
       return 'Campo obligatorio';
@@ -58,6 +62,9 @@ export class ErrorHelpersService {
     }
     else if (this.isErrorAutocompleteSeleccionInvalida(valor)) {
       return 'Seleccione una opción válida!';
+    }
+    else if (this.isErrorMaxLengthNumber(valor)) {
+      return 'Tamaño máximo es de ' + valor.errors.maxLengthNumber.maxLength + ' caracteres';
     }
 
     return 'Campo inválido';

@@ -53,6 +53,19 @@ export class ValidatorsCustom extends Validators {
     }
   }
 
+  public static maxLengthNumber(maxLength: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (control.value != null) {
+        const valueString = control.value.toString();
+        return valueString.length > maxLength
+                ? { 'maxLengthNumber': { value: control.value, maxLength: maxLength } }
+                : null;
+      }
+
+      return null;
+    };
+  }
+
 }
 
 

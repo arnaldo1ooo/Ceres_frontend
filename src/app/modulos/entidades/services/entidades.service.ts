@@ -91,7 +91,7 @@ export class EntidadesService {
       municipio: new FormControl<Municipio | null>(null, [Validators.required, ValidatorsCustom.autocompleteSeleccionValida()]),
       direccion: new FormControl<string>('', Validators.maxLength(255)),
       tipo: new FormControl<TipoEntidad | null>(null, Validators.required),
-      ci: new FormControl<string>('', [Validators.required, Validators.maxLength(9)]),
+      ci: new FormControl<string>('', [Validators.required, ValidatorsCustom.maxLengthNumber(9)]),
       ruc: new FormControl<string>('', [Validators.maxLength(12)]),
       email: new FormControl<string>('', Validators.email),
       fechaCreacion: new FormControl<string>(''),
