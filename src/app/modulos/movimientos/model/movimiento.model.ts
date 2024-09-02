@@ -1,6 +1,6 @@
-import { Entidad } from './../../entidades/models/entidad';
+import { Entidad } from '../../entidades/models/entidad.model';
 import { Situacion } from '../../../compartido/enums/situacion.enum';
-import { Departamento } from '../../departamentos/model/departamento';
+import { Departamento } from '../../departamentos/model/departamento.model';
 import { Moneda } from '../../monedas/models/moneda';
 import { TipoMovimiento } from '../../tipos-movimiento/models/tipo-movimiento';
 import { ItemMovimiento } from './itemMovimiento';

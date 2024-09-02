@@ -5,7 +5,7 @@ import {
   ActivatedRouteSnapshot
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { Departamento } from '../model/departamento';
+import { Departamento } from '../model/departamento.model';
 import { DepartamentosService } from '../services/departamentos.service';
 
 //Un resolver se ejecuta al clickar en un boton y antes de que cargue el enlace de la misma
@@ -15,13 +15,13 @@ import { DepartamentosService } from '../services/departamentos.service';
 })
 export class DepartamentoResolver implements Resolve<Departamento> {
 
-  constructor(private service: DepartamentosService){
+  constructor(private departamentoService: DepartamentosService){
 
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Departamento>  {
     if(route.params && route.params['id']){  //Si ruta tiene parametros y existe parametro id
-      return this.service.cargarPorId(route.params['id']);  //Devuelve el departamento
+      return this.departamentoService.cargarPorId(route.params['id']);  //Devuelve el departamento
     }
 
     return of({ _id: '', descripcion: '', sucursal: '', situacion: '' }); //Devuelve un departamento vacio

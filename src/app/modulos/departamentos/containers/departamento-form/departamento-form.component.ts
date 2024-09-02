@@ -95,7 +95,7 @@ export class DepartamentoFormComponent implements OnInit {
 
   public getMensajeError(nombreCampo: string) {
     const campo = this.formDepartamento.get(nombreCampo); //Obtenemos el elemento
-    ErrorHelpersService.verificarMensajeError(campo);
+    return ErrorHelpersService.verificarMensajeError(campo);
   }
 
   public verificarModo() {

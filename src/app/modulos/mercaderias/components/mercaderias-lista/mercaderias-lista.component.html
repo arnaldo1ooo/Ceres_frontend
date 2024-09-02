@@ -58,10 +58,10 @@
   </div>
 
   <!--Paginador-->
-  <mat-paginator [length]="this.pageResponse?.totalElements"
+  <mat-paginator [length]="this.apiPageResponse.data.totalElements"
                  [pageSizeOptions]="tamanhosPage"
-                 [pageIndex]="this.pageRequest.pagina"
-                 [pageSize]="this.pageRequest.tamanho"
+                 [pageIndex]="this.apiPageRequest.pagina"
+                 [pageSize]="this.apiPageRequest.tamanho"
                  (page)="onCambiarPage($event)"
                  [showFirstLastButtons]="true" #paginador>
   </mat-paginator>

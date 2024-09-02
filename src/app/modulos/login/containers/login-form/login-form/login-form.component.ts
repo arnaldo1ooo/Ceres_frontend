@@ -9,9 +9,9 @@ import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { DepartamentosService } from 'src/app/modulos/departamentos/services/departamentos.service';
 import { Login } from 'src/app/modulos/login/model/login';
 import { LoginService } from 'src/app/modulos/login/services/login.service';
-import { Sucursal } from 'src/app/modulos/sucursales/model/sucursal';
+import { Sucursal } from 'src/app/modulos/sucursales/model/sucursal.model';
 import { SucursalesService } from 'src/app/modulos/sucursales/services/sucursales.service';
-import { Departamento } from '../../../../departamentos/model/departamento';
+import { Departamento } from '../../../../departamentos/model/departamento.model';
 import { AvisoHelpersService } from '../../../../../compartido/services/aviso-helpers.service';
 import { finalize } from 'rxjs';
 
@@ -47,6 +47,7 @@ export class LoginFormComponent implements OnInit {
         .pipe(
           finalize(() => {
             HelpersService.salvarItemEnSessionStorage('nombreUsuarioLogado', this.credenciales.nombreUsuario);
+            HelpersService.salvarItemEnSessionStorage('sucursalLogado', this.credenciales.sucursal);
             HelpersService.salvarItemEnSessionStorage('departamentoLogado', this.credenciales.departamento);
           })
         )

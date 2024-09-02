@@ -8,7 +8,7 @@ import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { DepartamentosService } from 'src/app/modulos/departamentos/services/departamentos.service';
 
 import { TipoMercaderia } from '../../enums/tipoMercaderia.enum';
-import { Mercaderia } from '../../model/mercaderia';
+import { Mercaderia } from '../../model/mercaderia.model';
 import { MercaderiasService } from '../../services/mercaderias.service';
 import { AvisoHelpersService } from './../../../../compartido/services/aviso-helpers.service';
 import { ErrorHelpersService } from './../../../../compartido/services/error-helpers.service';
