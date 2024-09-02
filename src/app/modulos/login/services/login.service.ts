@@ -7,6 +7,8 @@ import { AuthService } from './../../../autenticacion/services/auth.service';
 import { API_URL_VERSION_ACTUAL } from '../../../compartido/constantes/constantes';
 import { HttpClient } from '@angular/common/http';
 import { HelpersService } from '../../../compartido/services/helpers.service';
+import { Sucursal } from '../../sucursales/model/sucursal.model';
+import { Departamento } from '../../departamentos/model/departamento.model';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +37,11 @@ export class LoginService {
     return this._httpClient.get(API_URL_BD_ACTUAL, { responseType: 'text' });  //Para recibir string
   }
 
-  public getDepartamentoLogado() {
+  public getSucursalLogado(): Sucursal {
+    return HelpersService.obtenerItemDelSessionStorage('sucursalLogado');
+  }
+
+  public getDepartamentoLogado(): Departamento {
     return HelpersService.obtenerItemDelSessionStorage('departamentoLogado');
   }
 

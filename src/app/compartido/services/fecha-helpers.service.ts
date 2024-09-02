@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LocalDateTime } from '@js-joda/core';
 import * as moment from 'moment';
-import { HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL } from '../constantes/constantes';
+import { FORMATO_FECHA_HORA_COMUN, FORMATO_FECHA_HORA_ISO8601, FORMATO_REGIONAL_ES } from '../constantes/constantes';
 
 @Injectable({
   providedIn: 'root'
@@ -64,7 +64,11 @@ export class FechaHelpersService {
   }
 
   public static formatearFecha(fecha: Date): string {
-    return this.formatearFechaCustom(fecha, 'DD/MM/yyyy HH:mm:ss');
+    return this.formatearFechaCustom(fecha, FORMATO_FECHA_HORA_COMUN);
+  }
+
+  public static formatearFechaISO8601(fecha: Date): string {
+    return this.formatearFechaCustom(fecha, FORMATO_FECHA_HORA_ISO8601);
   }
 
   public static formatearFechaCustom(fecha: Date, formatoFecha: string): string {
@@ -73,6 +77,11 @@ export class FechaHelpersService {
 
   public static formatearFechaYasignarHoraAFechaDate(fecha: Date, hora: number, minuto: number, segundo: number): string {
     return this.formatearFecha(
+          this.asignarHoraAFechaDate(fecha, hora, minuto, segundo));
+  }
+
+  public static formatearFechaISO8601YasignarHoraAFechaDate(fecha: Date, hora: number, minuto: number, segundo: number): string {
+    return this.formatearFechaISO8601(
           this.asignarHoraAFechaDate(fecha, hora, minuto, segundo));
   }
 

@@ -4,8 +4,8 @@ import { Moneda } from 'src/app/modulos/monedas/models/moneda';
 
 import { Situacion } from '../../../../compartido/enums/situacion.enum';
 import { TipoMovimiento } from '../../../tipos-movimiento/models/tipo-movimiento';
-import { Departamento } from './../../../departamentos/model/departamento';
-import { Entidad } from './../../../entidades/models/entidad';
+import { Departamento } from '../../../departamentos/model/departamento.model';
+import { Entidad } from '../../../entidades/models/entidad.model';
 import { ItemMovimiento } from '../itemMovimiento';
 import { FormaPago } from '../../enums/formaPago.enum';
 

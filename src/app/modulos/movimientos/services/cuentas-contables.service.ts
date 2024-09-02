@@ -5,7 +5,7 @@ import { API_URL_CUENTAS_CONTABLES } from 'src/app/compartido/constantes/constan
 import { delay, first } from 'rxjs';
 import { FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { MovimientoCuentaContable } from '../model/movimientoCuentaContable';
-import { Movimiento } from '../model/movimiento';
+import { Movimiento } from '../model/movimiento.model';
 
 @Injectable({
   providedIn: 'root'

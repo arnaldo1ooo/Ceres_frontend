@@ -10,7 +10,7 @@
 
     <!-- Columna tipo -->
     <ng-container matColumnDef="tipo">
-      <mat-header-cell *matHeaderCellDef [ngClass]="['izquierda-texto-global', 'titulo-tabla-global']">Tipo
+      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Tipo
       </mat-header-cell>
       <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'izquierda-texto-global'">
         {{ movimientoListaDTO.tipo.descripcion }}
@@ -118,7 +118,7 @@
 
   <!--Paginador-->
   <mat-paginator [length]="this.pageResponse?.totalElements" [pageSizeOptions]="tamanhosPage"
-    [pageIndex]="this.pageRequest.pagina" [pageSize]="this.pageRequest.tamanho" (page)="onCambiarPage($event)"
+    [pageIndex]="this.apiPageRequest.pagina" [pageSize]="this.apiPageRequest.tamanho" (page)="onCambiarPage($event)"
     [showFirstLastButtons]="true" #paginador>
   </mat-paginator>
 </div>

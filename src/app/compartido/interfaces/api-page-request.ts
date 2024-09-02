@@ -1,7 +1,7 @@
 import { Orden } from "../enums/orden.enum";
 
 //Es el cuerpo de page para realizar la requisicion a un endpoint pageable
-export interface PageRequest {
+export interface ApiPageRequest {
 
   pagina: number;
   tamanho: number;

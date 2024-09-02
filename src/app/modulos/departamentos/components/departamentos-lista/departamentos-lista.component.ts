@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Departamento } from '../../model/departamento';
+import { Departamento } from '../../model/departamento.model';
 import { DepartamentoListaDTO } from '../../model/dtos/departamentoListaDTO';
 
 @Component({

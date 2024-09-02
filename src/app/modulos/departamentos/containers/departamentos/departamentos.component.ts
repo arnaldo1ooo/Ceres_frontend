@@ -9,7 +9,7 @@ import {
 } from 'src/app/compartido/componentes/dialogo-confirmacion/dialogo-confirmacion/dialogo-confirmacion.component';
 import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-error/dialogo-error.component';
 
-import { Departamento } from '../../model/departamento';
+import { Departamento } from '../../model/departamento.model';
 import { DepartamentosService } from '../../services/departamentos.service';
 
 @Component({

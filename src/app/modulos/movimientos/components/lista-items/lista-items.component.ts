@@ -3,7 +3,7 @@ import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/for
 import { MatTable } from '@angular/material/table';
 import { map, Observable, startWith } from 'rxjs';
 import { AvisoHelpersService } from 'src/app/compartido/services/aviso-helpers.service';
-import { Mercaderia } from 'src/app/modulos/mercaderias/model/mercaderia';
+import { Mercaderia } from 'src/app/modulos/mercaderias/model/mercaderia.model';
 import { MercaderiasService } from 'src/app/modulos/mercaderias/services/mercaderias.service';
 import { ItemMovimiento } from '../../model/itemMovimiento';
 import { ModoEdicion } from '../../../../compartido/enums/modoEdicion.enum';

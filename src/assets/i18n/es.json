@@ -59,7 +59,14 @@
     "id": "Id",
     "al-contado": "Al contado",
     "cuenta-contable": "Cuenta contable",
-    "valor": "Valor"
+    "valor": "Valor",
+    "nombre": "Nombre",
+    "apellido": "Apellido",
+    "direccion": "Dirección",
+    "ci": "CI",
+    "ruc": "RUC",
+    "email": "Email",
+    "celular": "Celular"
   },
 
   "botones": {

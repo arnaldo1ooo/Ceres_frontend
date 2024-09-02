@@ -3,11 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LocalDateTime } from '@js-joda/core';
 import { catchError, delay, first, Observable, throwError } from 'rxjs';
-import { PageRequest } from 'src/app/compartido/interfaces/page-request';
+import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
 import { HelpersService, RequerirAutocomplete } from 'src/app/compartido/services/helpers.service';
 
 import { MovimientoFiltroDTO } from '../model/dtos/movimientoFiltroDTO';
-import { Movimiento } from '../model/movimiento';
+import { Movimiento } from '../model/movimiento.model';
 import {
   API_URL_MOVIMIENTOS,
   HORA_FINAL,
@@ -23,11 +23,11 @@ import { FormGroup, NonNullableFormBuilder, Validators, FormControl } from '@ang
 import { ItemMovimiento } from '../model/itemMovimiento';
 import { TipoMovimientoEnum } from '../../tipos-movimiento/enums/tipo-movimiento-enum.enum';
 import { Moneda } from '../../monedas/models/moneda';
-import { Entidad } from '../../entidades/models/entidad';
-import { Departamento } from '../../departamentos/model/departamento';
+import { Entidad } from '../../entidades/models/entidad.model';
+import { Departamento } from '../../departamentos/model/departamento.model';
 import { Situacion } from '../../../compartido/enums/situacion.enum';
 import { FormaPago } from '../enums/formaPago.enum';
-import { Mercaderia } from '../../mercaderias/model/mercaderia';
+import { Mercaderia } from '../../mercaderias/model/mercaderia.model';
 import { MovimientoCuentaContable } from '../model/movimientoCuentaContable';
 import { CuentaContableDTO } from '../model/dtos/cuentaContableDTO';
 
@@ -62,7 +62,7 @@ export class MovimientosService {
       );
   }
 
-  public listarTodosMovimientosListaFiltroPage(movimientoFiltro: MovimientoFiltroDTO, pageRequest: PageRequest): Observable<Page> {
+  public listarTodosMovimientosListaFiltroPage(movimientoFiltro: MovimientoFiltroDTO, apiPageRequest: ApiPageRequest): Observable<Page> {
 
     return this._httpClient.get<Page>(API_URL_MOVIMIENTOS
       + '/filtroPage?'
@@ -76,7 +76,7 @@ export class MovimientosService {
           movimientoFiltro.fechaFinal, HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL) : ""}`
       + `&idDepartamento=${HelpersService.idTodosReturnVacio(movimientoFiltro.idDepartamento)}`
       + `&keySituacion=${HelpersService.idTodosReturnVacio(movimientoFiltro.keySituacion)}`
-      + `&page=${pageRequest.pagina}&size=${pageRequest.tamanho}&sort=${pageRequest.ordenarPor},${pageRequest.orden}`);
+      + `&page=${apiPageRequest.pagina}&size=${apiPageRequest.tamanho}&sort=${apiPageRequest.ordenarPor},${apiPageRequest.orden}`);
   }
 
   guardar(movimiento: Partial<Movimiento>) { //Se usa Partial cuando se espera que no reciba todos los datos de la entidad

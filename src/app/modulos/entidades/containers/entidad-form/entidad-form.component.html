@@ -1,0 +1,162 @@
+<mat-card>
+
+  <mat-toolbar color="primary">Detalles de la Entidad</mat-toolbar>
+
+  <mat-card-content>
+    <form [formGroup]="entidadDetalleForm" class="anchura-minima">
+
+      <!--FILA 1-->
+      <div class="ui-fila-global">
+        <!--ID-->
+        <mat-form-field appearance="outline" class="anchura-maxima">
+          <mat-label>{{ "titulos.id" | transloco }}</mat-label>
+          <input matInput formControlName="_id" readonly="true">
+        </mat-form-field>
+
+        <!--Nombre-->
+        <mat-form-field appearance="outline" class="anchura-maxima">
+          <mat-label>{{ "titulos.nombre" | transloco }}</mat-label>
+          <input #nombreEntidad matInput formControlName="nombre" oninput="this.value = this.value.toUpperCase()">
+          <mat-hint align="end">{{ nombreEntidad.value.length || 0 }} / 100</mat-hint>
+          <mat-error *ngIf="entidadDetalleForm.get('nombre')?.invalid">{{getMensajeError('nombre')}}</mat-error>
+        </mat-form-field>
+
+        <!--Apellido-->
+        <mat-form-field appearance="outline" class="anchura-maxima">
+          <mat-label>{{ "titulos.apellido" | transloco }}</mat-label>
+          <input #apellidoEntidad matInput formControlName="apellido" oninput="this.value = this.value.toUpperCase()">
+          <mat-hint align="end">{{ apellidoEntidad.value.length || 0 }} / 50</mat-hint>
+          <mat-error *ngIf="entidadDetalleForm.get('apellido')?.invalid">{{getMensajeError('apellido')}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <!--FILA 2-->
+      <div class="ui-fila-global">
+        <!--Clases entidad-->
+        <mat-form-field appearance="outline" class="anchura-maxima">
+          <mat-label>Clase de entidad</mat-label>
+          <mat-select formControlName="clases" [compareWith]="compararOpcionesSelect"
+            matTooltip="Seleccione la clase de Entidad, puede seleccionarse más de uno" multiple>
+
+            <mat-option *ngFor="let claseEntidad of listaClasesEntidad" [value]="claseEntidad">
+              {{claseEntidad.descripcion}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="entidadDetalleForm.get('clasesEntidad')?.invalid">{{getMensajeError('clasesEntidad')}}
+          </mat-error>
+        </mat-form-field>
+
+        <!--Sucursal-->
+        <mat-form-field appearance="outline" appearance="outline" class="anchura-maxima">
+          <mat-label>Sucursal</mat-label>
+          <mat-select formControlName="sucursal" [compareWith]="compararOpcionesSelect">
+            <mat-option disabled selected value="">Seleccione una sucursal</mat-option>
+            <mat-option *ngFor="let sucursal of listaSucursales" [value]="sucursal">{{ sucursal.descripcion }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="entidadDetalleForm.get('sucursal')?.invalid">{{getMensajeError('sucursal')}}</mat-error>
+        </mat-form-field>
+
+        <!--Municipio-->
+        <mat-form-field appearance="outline" class="anchura-maxima">
+          <mat-label>Municipio</mat-label>
+          <input #municipioInputAC type="text" formControlName="municipio" matInput
+            [matAutocomplete]="municipioAutocomplete">
+          <mat-autocomplete #municipioAutocomplete="matAutocomplete" [displayWith]="displayMunicipio">
+            <mat-option *ngFor="let municipio of listaMunicipiosFiltrado$ | async" [value]="municipio">
+              {{ municipio.descripcion }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="entidadDetalleForm.get('municipio')?.invalid">{{ getMensajeError('municipio') }}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <!--FILA 3-->
+      <div class="ui-fila-global">
+        <!--Direccion-->
+        <mat-form-field appearance="outline" class="anchura-maxima">
+          <mat-label>{{ "titulos.direccion" | transloco }}</mat-label>
+          <input #direccionEntidad matInput formControlName="direccion">
+          <mat-hint align="end">{{ direccionEntidad.value.length || 0 }} / 255</mat-hint>
+          <mat-error *ngIf="entidadDetalleForm.get('direccion')?.invalid">{{getMensajeError('direccion')}}</mat-error>
+        </mat-form-field>
+
+        <!--Tipo Entidad-->
+        <mat-form-field appearance="outline" class="anchura-maxima">
+          <mat-label>Tipo</mat-label>
+          <mat-select formControlName="tipo" matTooltip="FISICA: Persona o individuo; JURIDICA: Empresa o sociedad">
+            <mat-option *ngFor="let tipoEntidad of listaTiposEntidad" [value]="tipoEntidad">
+              {{tipoEntidad | tipoEntidadPipe}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="entidadDetalleForm.get('tipoEntidad')?.invalid">{{getMensajeError('tipoEntidad')}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!--FILA 4-->
+      <div class="ui-fila-global">
+        <!--CI-->
+        <mat-form-field appearance="outline" class="anchura-maxima">
+          <mat-label>{{ "titulos.ci" | transloco }}</mat-label>
+          <input #ciEntidad matInput formControlName="ci" type="number">
+          <mat-error *ngIf="entidadDetalleForm.get('ci')?.invalid">{{getMensajeError('ci')}}</mat-error>
+        </mat-form-field>
+
+        <!--RUC-->
+        <mat-form-field appearance="outline" class="anchura-maxima">
+          <mat-label>{{ "titulos.ruc" | transloco }}</mat-label>
+          <input #rucEntidad matInput formControlName="ruc" type="text">
+          <mat-error *ngIf="entidadDetalleForm.get('ruc')?.invalid">{{getMensajeError('ruc')}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <!--FILA 5-->
+      <div class="ui-fila-global">
+        <!--Email-->
+        <mat-form-field appearance="outline" class="anchura-maxima">
+          <mat-label>{{"titulos.email" | transloco}}</mat-label>
+          <input #emailEntidad matInput formControlName="email">
+          <mat-error *ngIf="entidadDetalleForm.get('email')?.invalid">{{getMensajeError('email')}}</mat-error>
+        </mat-form-field>
+
+        <!--Celular-->
+        <mat-form-field appearance="outline" class="anchura-maxima">
+          <mat-label>{{"titulos.celular" | transloco}}</mat-label>
+          <input #celularEntidad matInput formControlName="celular">
+          <mat-hint align="end">{{celularEntidad.value.length || 0}} / 20</mat-hint>
+          <mat-error *ngIf="entidadDetalleForm.get('celular')?.invalid">{{getMensajeError('celular')}}</mat-error>
+        </mat-form-field>
+
+        <!--Situacion-->
+        <mat-form-field appearance="outline" class="anchura-maxima">
+          <mat-label>Situación</mat-label>
+          <mat-select formControlName="situacion">
+            <mat-option *ngFor="let situacion of listaSituaciones" [value]="situacion">
+              {{situacion | situacionPipe}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="entidadDetalleForm.get('situacion')?.invalid">{{getMensajeError('situacion')}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <!--Observacion-->
+      <mat-form-field appearance="outline" class="anchura-maxima">
+        <mat-label>{{ "titulos.observacion" | transloco }}</mat-label>
+        <textarea #observacionTextArea matInput cdkTextareaAutosize formControlName="observacion"
+          placeholder="Observación" #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5" cdkAutosizeMaxRows="5">
+        </textarea>
+        <mat-hint align="end">{{ observacionTextArea.value.length }} / 500</mat-hint>
+        <mat-error *ngIf="entidadDetalleForm.get('observacion')?.invalid">{{getMensajeError('observacion')}}</mat-error>
+      </mat-form-field>
+
+    </form>
+  </mat-card-content>
+
+  <mat-card-actions class="style-barra-acciones">
+    <button mat-raised-button color="primary" (click)="onGuardar()"
+    [disabled]="entidadDetalleForm.disabled">{{ "botones.guardar" | transloco }}</button>
+    <button mat-raised-button color="warn" (click)="onRetroceder()"
+      class="style-espacio-boton">{{ "botones.cancelar" | transloco }}</button>
+  </mat-card-actions>
+</mat-card>
