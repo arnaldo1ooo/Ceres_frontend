@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { LoginService } from '../../../modulos/login/services/login.service';
+import { FORMATO_FECHA_HORA_SIN_SEG_COMUN } from '../../constantes/constantes';
 import { FechaHelpersService } from '../../services/fecha-helpers.service';
 
 @Component({
@@ -11,7 +12,7 @@ export class FooterPrincipalComponent {
   nombreBaseDatos: string = 'NO DISPONIBLE';
   versionBackEnd: string = '0.0.0';
   versionFrontEnd: string = '0.0.0';
-  fechaHoraActual: string = FechaHelpersService.formatearFechaCustom(new Date, 'DD/MM/yyyy HH:mm');
+  fechaHoraActual: string = FechaHelpersService.formatearFechaCustom(new Date, FORMATO_FECHA_HORA_SIN_SEG_COMUN);
 
   constructor(private _loginService: LoginService) { }
 

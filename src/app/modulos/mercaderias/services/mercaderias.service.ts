@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { delay, first, Observable } from 'rxjs';
+import { delay, first, map, Observable } from 'rxjs';
 import { API_URL_MERCADERIAS } from 'src/app/compartido/constantes/constantes';
-import { PageRequest } from 'src/app/compartido/interfaces/page-request';
+import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 
 import { MercaderiaFiltroDTO } from '../model/dtos/mercaderiaFiltroDTO';
-import { Mercaderia } from '../model/mercaderia';
-import { Page } from './../model/mercaderia';
+import { Mercaderia } from '../model/mercaderia.model';
+import { ApiPageResponse } from '../../../compartido/interfaces/api-page-response';
+import { ApiResponse } from 'src/app/compartido/interfaces/api-response';
 
 @Injectable({
   providedIn: 'root'
@@ -40,14 +41,14 @@ export class MercaderiasService {
       );
   }
 
-  listarTodosMercaderiasFiltroPage(mercaderiaFiltro: MercaderiaFiltroDTO, pageRequest: PageRequest): Observable<Page> {
-    return this._httpClient.get<Page>(API_URL_MERCADERIAS
+  listarTodosMercaderiasFiltroPage(mercaderiaFiltro: MercaderiaFiltroDTO, apiPageRequest: ApiPageRequest): Observable<ApiPageResponse> {
+    return this._httpClient.get<ApiPageResponse>(API_URL_MERCADERIAS
       + '/filtroPage?' + `id=${mercaderiaFiltro.id}`
       + `&descripcion=${mercaderiaFiltro.descripcion}`
       + `&idTipo=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idTipo)}`
       + `&idDepartamento=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idDepartamento)}`
       + `&idSituacion=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idSituacion)}`
-      + `&page=${pageRequest.pagina}&size=${pageRequest.tamanho}&sort=${pageRequest.ordenarPor},${pageRequest.orden}`);
+      + `&page=${apiPageRequest.pagina}&size=${apiPageRequest.tamanho}&sort=${apiPageRequest.ordenarPor},${apiPageRequest.orden}`);
   }
 
   guardar(mercaderia: Partial<Mercaderia>) { //Se usa Partial cuando se espera que no reciba todos los datos de la entidad
@@ -74,8 +75,11 @@ export class MercaderiasService {
     return this._httpClient.put<Mercaderia>(`${API_URL_MERCADERIAS}/inactivar/${id}`, null).pipe(first());
   }
 
-  cargarPorId(id: string) {
-    return this._httpClient.get<Mercaderia>(`${API_URL_MERCADERIAS}/${id}`);
+  cargarPorId(id: string): Observable<Mercaderia> {
+    return this._httpClient.get<ApiResponse<Mercaderia>>(`${API_URL_MERCADERIAS}/${id}`)
+      .pipe(
+        map(response => response.data)  // Extraer la mercadería desde `response.data`
+      );
   }
 
 }

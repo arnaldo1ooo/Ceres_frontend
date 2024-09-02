@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { delay, first, tap } from 'rxjs';
 import { API_URL_SUCURSALES } from 'src/app/compartido/constantes/constantes';
 
-import { Sucursal } from '../model/sucursal';
+import { Sucursal } from '../model/sucursal.model';
 
 @Injectable({
   providedIn: 'root'

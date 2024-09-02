@@ -8,15 +8,18 @@ import { MovimientoDetalleResolver } from './guards/movimientoDetalle.resolver';
 
 const routes: Routes = [
   { path: '', component: MovimientosComponent },
-  { path: 'nuevo', component: MovimientoFormComponent,
+  {
+    path: 'nuevo', component: MovimientoFormComponent,
     resolve: { movimiento: MovimientoDetalleResolver },
     data: { modoEdicion: ModoEdicion.MODO_NUEVO }
   },
-  { path: 'editar/:id', component: MovimientoFormComponent,
+  {
+    path: 'editar/:id', component: MovimientoFormComponent,
     resolve: { movimiento: MovimientoDetalleResolver },
     data: { modoEdicion: ModoEdicion.MODO_EDITAR }
   },
-  { path: 'visualizar/:id', component: MovimientoFormComponent,
+  {
+    path: 'visualizar/:id', component: MovimientoFormComponent,
     resolve: { movimiento: MovimientoDetalleResolver },
     data: { modoEdicion: ModoEdicion.MODO_VISUALIZAR }
   }

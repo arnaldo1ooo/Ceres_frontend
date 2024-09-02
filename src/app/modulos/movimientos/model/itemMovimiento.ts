@@ -1,5 +1,5 @@
-import { Mercaderia } from '../../mercaderias/model/mercaderia';
-import { Movimiento } from './movimiento';
+import { Mercaderia } from '../../mercaderias/model/mercaderia.model';
+import { Movimiento } from './movimiento.model';
 
 export class ItemMovimiento {
   _id: string = '';

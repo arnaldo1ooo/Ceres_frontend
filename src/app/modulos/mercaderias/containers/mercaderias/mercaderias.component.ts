@@ -9,16 +9,16 @@ import {
 import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-error/dialogo-error.component';
 import { DEFAULT_ORDENAR_POR, DEFAULT_PAGE_TAMANHO, ID_OPCION_TODOS, PAGE_INICIAL } from 'src/app/compartido/constantes/constantes';
 import { Situacion, SituacionUtils } from 'src/app/compartido/enums/situacion.enum';
-import { PageRequest } from 'src/app/compartido/interfaces/page-request';
+import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
+import { ApiPageResponse } from 'src/app/compartido/interfaces/api-page-response';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { DepartamentosService } from 'src/app/modulos/departamentos/services/departamentos.service';
 
 import { TipoMercaderia, TipoMercaderiaUtils } from '../../enums/tipoMercaderia.enum';
 import { MercaderiaFiltroDTO } from '../../model/dtos/mercaderiaFiltroDTO';
-import { Mercaderia } from '../../model/mercaderia';
+import { Mercaderia } from '../../model/mercaderia.model';
 import { MercaderiasService } from '../../services/mercaderias.service';
 import { Orden } from './../../../../compartido/enums/orden.enum';
-import { Page } from './../../model/mercaderia';
 
 @Component({
   selector: 'app-mercaderias',
@@ -35,10 +35,10 @@ export class MercaderiasComponent implements OnInit {
   protected situacionUtils = SituacionUtils;
   protected mercaderiaFiltro: MercaderiaFiltroDTO = this.filtroInicial();
   protected isFiltrando: boolean = false;
-  protected pageRes: Page | undefined;
+  protected apiPageResponse!: ApiPageResponse;
 
   //Inicializamos el pageRequest default, seria la paginacion inicial
-  protected pageRequestDefault: PageRequest = {
+  protected apiPageRequestDefault: ApiPageRequest = {
     pagina: PAGE_INICIAL,
     tamanho: DEFAULT_PAGE_TAMANHO,
     ordenarPor: DEFAULT_ORDENAR_POR,
@@ -64,12 +64,12 @@ export class MercaderiasComponent implements OnInit {
     this.dialog.open(DialogoErrorComponent, { data: msgError });
   }
 
-  public refrescar(page: PageRequest) {
+  public refrescar(page: ApiPageRequest) {
     this.listarMercaderiasPage(this.mercaderiaFiltro, page);
   }
 
   public filtrar() {
-    this.refrescar(this.pageRequestDefault);
+    this.refrescar(this.apiPageRequestDefault);
   }
 
   protected limpiar() {
@@ -124,7 +124,7 @@ export class MercaderiasComponent implements OnInit {
       if (respuesta) {
         this._mercaderiasService.eliminar(mercaderia._id).subscribe(
           () => {
-            this.refrescar(this.pageRequestDefault);
+            this.refrescar(this.apiPageRequestDefault);
             this._alertaSnackBar.open('Mercaderia eliminado con suceso!', 'X', {
               duration: 5000,
               verticalPosition: 'top',
@@ -146,7 +146,7 @@ export class MercaderiasComponent implements OnInit {
       if (respuesta) {
         this._mercaderiasService.inactivar(mercaderia._id).subscribe(
           () => {
-            this.refrescar(this.pageRequestDefault);
+            this.refrescar(this.apiPageRequestDefault);
             this._alertaSnackBar.open('Mercaderia inactivado con suceso!', 'X', {
               duration: 5000,
               verticalPosition: 'top',
@@ -159,18 +159,18 @@ export class MercaderiasComponent implements OnInit {
     });
   }
 
-  protected listarMercaderiasPage(mercaderiaFiltro: MercaderiaFiltroDTO, pageRequest: PageRequest) {
+  protected listarMercaderiasPage(mercaderiaFiltro: MercaderiaFiltroDTO, apiPageRequest: ApiPageRequest) {
     this.isFiltrando = true;
     this.listMercaderias$ = null; //Dejar la lista en null, para que muestre el componente cargando
 
-    this._mercaderiasService.listarTodosMercaderiasFiltroPage(mercaderiaFiltro, pageRequest)
+    this._mercaderiasService.listarTodosMercaderiasFiltroPage(mercaderiaFiltro, apiPageRequest)
       .pipe(finalize(() => {  //Se ejecuta al finalizar el subscribe
         this.isFiltrando = false;
       }))
       .subscribe({
         next: respuesta => {
-          this.pageRes = respuesta;
-          this.listMercaderias$ = of(this.pageRes!.content);  //of convierte a Observables
+          this.apiPageResponse = respuesta;
+          this.listMercaderias$ = of(this.apiPageResponse!.data.content);  //of convierte a Observables
         },
         error: err => {
           this.listMercaderias$ = of([]); //Se asigna una lista vacia, para que el componente cargando se detenga

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { delay, first } from 'rxjs';
 import { API_URL_DEPARTAMENTOS } from 'src/app/compartido/constantes/constantes';
 
-import { Departamento } from '../model/departamento';
+import { Departamento } from '../model/departamento.model';
 import { DepartamentoListaDTO } from './../model/dtos/departamentoListaDTO';
 
 @Injectable({

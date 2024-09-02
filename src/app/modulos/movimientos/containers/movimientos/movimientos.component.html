@@ -77,7 +77,7 @@
   <div class="column flex mat-elevation-z8">
     <!--Pasamos las variables del componente principal al componente lista-->
     <app-movimientos-lista *ngIf="listMovimientosListaDTO$ | async as movimientos; else cargando"
-      [listMovimientosListaDTO]="movimientos" [pageResponse]="this.pageRes" [pageRequest]="this.pageRequestDefault"
+      [listMovimientosListaDTO]="movimientos" [pageResponse]="this.pageRes" [apiPageRequest]="this.apiPageRequestDefault"
       (mostrarTiposMovimientoSeleccion)="onMostrarTiposMovimientoSeleccion()" (visualizar)="onVisualizar($event)"
       (editar)="onEditar($event)" (eliminar)="onEliminar($event)" (inactivar)="onInactivar($event)">
     </app-movimientos-lista>

@@ -12,7 +12,7 @@ import { AuthInterceptor } from './autenticacion/interceptors/auth.interceptor';
 
 import { CompartidoModule } from './compartido/compartido.module';
 import { SpinnerCargandoInterceptor } from './compartido/componentes/spinner-cargando/interceptors/spinner-cargando.interceptor';
-import { FORMATO_REGIONAL_ES } from './compartido/constantes/constantes';
+import { FORMATO_FECHA_HORA_SIN_SEG_COMUN, FORMATO_REGIONAL_ES } from './compartido/constantes/constantes';
 import { MaterialModulosModule } from './compartido/material-modulos/material-modulos.module';
 import { NgxMatDateFormats, NGX_MAT_DATE_FORMATS } from '@angular-material-components/datetime-picker';
 
@@ -20,10 +20,10 @@ registerLocaleData(localeEs, FORMATO_REGIONAL_ES);
 
 const FORMATO_FECHA_PERSONALIZADO: NgxMatDateFormats = {
   parse: {
-    dateInput: 'DD/MM/YYYY HH:mm',
+    dateInput: FORMATO_FECHA_HORA_SIN_SEG_COMUN,
   },
   display: {
-    dateInput: 'DD/MM/YYYY HH:mm',
+    dateInput: FORMATO_FECHA_HORA_SIN_SEG_COMUN,
     monthYearLabel: 'MMMM YYYY',
     dateA11yLabel: 'LL',
     monthYearA11yLabel: 'MMMM YYYY'

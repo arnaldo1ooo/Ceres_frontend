@@ -23,23 +23,48 @@ export class ErrorHelpersService {
     return valor?.hasError('email')
   }
 
+  public static isErrorArrayVacio(valor: any) {
+    return valor?.hasError('arrayVacio')
+  }
+
+  public static isErrorDebenSerIguales(valor: any) {
+    return valor?.hasError('noSonIguales')
+  }
+
+  public static isErrorAutocompleteSeleccionInvalida(valor: any) {
+    return valor?.hasError('autocompleteSeleccionInvalida')
+  }
+
+  public static isErrorMaxLengthNumber(valor: any) {
+    return valor?.hasError('maxLengthNumber')
+  }
+
   public static verificarMensajeError(valor: any): string {
     if (this.isErrorRequerido(valor)) {
       return 'Campo obligatorio';
     }
-
-    if (this.isErrorTamanhoMin(valor)) {
+    else if (this.isErrorTamanhoMin(valor)) {
       const minCaracteres = valor.errors ? valor.errors['minlength']['requiredLength'] : null; //Se obtiene el minimo requerido
-      return `Tamaño mínimo es de ${minCaracteres} carácteres`;
+      return `Tamaño mínimo es de ${minCaracteres} caracteres`;
     }
-
-    if (this.isErrorTamanhoMax(valor)) {
-      const maxCaracteres = valor.errors ? valor.errors['maxlength']['requiredLength'] : null; //Se obtiene el minimo requerido
-      return `Tamaño máximo es de ${maxCaracteres} carácteres`;
+    else if (this.isErrorTamanhoMax(valor)) {
+      const maxCaracteres = valor.errors ? valor.errors['maxlength']['requiredLength'] : null; //Se obtiene el maximo requerido
+      return `Tamaño máximo es de ${maxCaracteres} caracteres`;
     }
-
-    if (this.isErrorEmail(valor)) {
+    else if (this.isErrorEmail(valor)) {
       return 'El email debe poseer un formato válido!';
+    }
+    else if (this.isErrorArrayVacio(valor)) {
+      return 'Selecione al menos un elemento!';
+    }
+    else if (this.isErrorDebenSerIguales(valor)) {
+      return 'Los valores no coinciden!';
+    }
+    else if (this.isErrorAutocompleteSeleccionInvalida(valor)) {
+      return 'Seleccione una opción válida!';
+    }
+    else if (this.isErrorMaxLengthNumber(valor)) {
+      return 'Tamaño máximo es de ' + valor.errors.maxLengthNumber.maxLength + ' caracteres';
     }
 
     return 'Campo inválido';

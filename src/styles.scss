@@ -307,6 +307,11 @@ input[disabled] {
   justify-content: center;
 }
 
+.ui-fila-global {
+  display: flex;
+  gap: 16px;
+}
+
 
 //Inicio - Styles para solucionar problema con mat-datetimepicker
 .mat-datepicker-content, .time-container {
