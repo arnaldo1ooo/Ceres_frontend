@@ -107,7 +107,7 @@ export class MovimientoFormComponent implements OnInit {
           await this._monedasService.cargarPorId(MonedaEnum.GUARANI),
           new Entidad(),
           FechaHelpersService.getFechaHoraActual(),
-          this._loginService.getDepartamentoLogado(),
+          this._loginService.getDepartamentoLogado()!,
           new Entidad(),
           '',
           Situacion.ACTIVO,

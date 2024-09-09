@@ -156,9 +156,10 @@ export class EntidadesComponent implements OnInit {
   }
 
   protected limpiarFiltrosExceptoId() {
-    const idFiltro: Number = this.entidadFiltro.id;  //Salva id ingresado
-    this.limpiarFiltros();
-    this.entidadFiltro.id = idFiltro;  //Vuelve a agregar filtro ingresado
+    this.entidadFiltro.nombreApellido = null;
+    this.entidadFiltro.idsClase = [];
+    this.entidadFiltro.idSucursal = ID_OPCION_TODOS;
+    this.entidadFiltro.ciRuc = null;
     this.entidadFiltro.idSituacion = ID_OPCION_TODOS;
   }
 
@@ -167,7 +168,7 @@ export class EntidadesComponent implements OnInit {
       id: null,
       nombreApellido: null,
       idsClase: [],
-      idSucursal: this._loginService.getSucursalLogado()._id,
+      idSucursal: this._loginService.getIdSucursalLogado(),
       ciRuc: null,
       idSituacion: Situacion.ACTIVO
     };

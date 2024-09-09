@@ -37,13 +37,26 @@ export class LoginService {
     return this._httpClient.get(API_URL_BD_ACTUAL, { responseType: 'text' });  //Para recibir string
   }
 
-  public getSucursalLogado(): Sucursal {
+  public getSucursalLogado(): Sucursal | null {
     return HelpersService.obtenerItemDelSessionStorage('sucursalLogado');
   }
 
-  public getDepartamentoLogado(): Departamento {
+  public getIdSucursalLogado(): string | null {
+    var sucursalLogado: Sucursal | null = this.getSucursalLogado();
+
+    return sucursalLogado != null ? sucursalLogado._id : '-1';
+  }
+
+  public getDepartamentoLogado(): Departamento | null {
     return HelpersService.obtenerItemDelSessionStorage('departamentoLogado');
   }
+
+  public getIdDepartamentoLogado(): string | null {
+    var departamentoLogado: Departamento | null = this.getDepartamentoLogado();
+
+    return departamentoLogado != null ? departamentoLogado._id : '-1';
+  }
+
 
   public getNombreUsuarioLogado() {
     return HelpersService.obtenerItemDelSessionStorage('nombreUsuarioLogado');

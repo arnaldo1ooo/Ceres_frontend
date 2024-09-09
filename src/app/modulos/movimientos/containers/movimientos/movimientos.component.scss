@@ -19,7 +19,7 @@
 }
 
 .style-contenedor-filtro {
-  margin-left: auto;
+  margin-left: 2px;
   margin-right: auto;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -30,6 +30,7 @@
 .style-input-filtro-id {
   margin-right: 10px;
   width: 120px;
+  min-width: 100px;
 }
 
 .style-select-filtro-tipo {

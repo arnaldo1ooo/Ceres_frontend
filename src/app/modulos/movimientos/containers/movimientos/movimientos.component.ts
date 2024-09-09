@@ -99,11 +99,12 @@ export class MovimientosComponent implements OnInit {
   }
 
   protected limpiarFiltrosExceptoId() {
-    const idFiltro: Number = this.movimientoFiltro.id;  //Salva id ingresado
-    this.limpiarFiltros();
-    this.movimientoFiltro.id = idFiltro;  //Vuelve a agregar filtro ingresado
+    this.movimientoFiltro.idTipo = ID_OPCION_TODOS;
+    this.movimientoFiltro.nombreApellidoEntidad = null;
     this.movimientoFiltro.fechaInicial = null;
     this.movimientoFiltro.fechaFinal = null;
+    this.movimientoFiltro.keySituacion = ID_OPCION_TODOS;
+    this.movimientoFiltro.idDepartamento = ID_OPCION_TODOS;
     this.movimientoFiltro.keySituacion = ID_OPCION_TODOS;
   }
 
@@ -115,7 +116,7 @@ export class MovimientosComponent implements OnInit {
       nombreApellidoEntidad: "",
       fechaInicial: FechaHelpersService.getPrimerDiaDelAnho(),
       fechaFinal: new Date(),
-      idDepartamento: this._loginService.getDepartamentoLogado()._id,
+      idDepartamento: this._loginService.getIdDepartamentoLogado(),
       keySituacion: Situacion.ACTIVO
     };
   }

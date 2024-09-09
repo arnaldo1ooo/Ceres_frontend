@@ -50,11 +50,11 @@ export class HelpersService {
 
     const valor = sessionStorage.getItem(key);
 
-    try {
+    if(valor != null && valor != undefined) {
       return JSON.parse(valor!);
     }
-    catch (e) {
-      return valor;
+    else {
+      return null;
     }
   }
 
