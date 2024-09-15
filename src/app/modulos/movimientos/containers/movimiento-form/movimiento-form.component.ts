@@ -282,7 +282,7 @@ export class MovimientoFormComponent implements OnInit {
           )
         );
       },
-      error: () => this._avisoHelpersService.mostrarMensaje('Error al listar Entidades', '', 4000) // Mensaje cuando ocurre un error
+      error: () => this._avisoHelpersService.mostrarMensaje('Error al listar Entidades', '', 4000)
     });
   }
 
@@ -387,7 +387,7 @@ export class MovimientoFormComponent implements OnInit {
   }
 
   protected tabOnChange(tabChangeEvent: MatTabChangeEvent): void {
-    if(tabChangeEvent.index == this.INDEX_TAB_FINANCIERO) {
+    if (tabChangeEvent.index == this.INDEX_TAB_FINANCIERO) {
       this.listaFinancieroComponent.formMovimientoCuentaToAgregar.get('valor')?.setValue(this.totalItems);
       this.listaFinancieroComponent.actualizarSaldoLanzar();
     }

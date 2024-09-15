@@ -56,17 +56,16 @@ export class EntidadesService {
       + `&page=${apiPageRequest.pagina}&size=${apiPageRequest.tamanho}&sort=${apiPageRequest.ordenarPor},${apiPageRequest.orden}`);
   }
 
-  public listarEntidadesPorClases(idsClaseEntidad: string) {
-    return this._httpClient.get<Entidad[]>(API_URL_ENTIDADES
+  public listarEntidadesPorClases(idsClaseEntidad: string): Observable<Entidad[]> {
+    return this._httpClient.get<ApiResponse<Entidad[]>>(API_URL_ENTIDADES
       + '/filtrarPorClases?' + `idsClaseEntidad=${idsClaseEntidad}`)
       .pipe(
         first(),
         delay(100),
+        map(response => response.data),
         catchError((error) => {
-          // Aquí puedes realizar el tratamiento de errores según tus necesidades
           console.error('Ocurrió un error en la solicitud HTTP:', error);
-          // Puedes lanzar un nuevo error o devolver un valor por defecto en caso de error
-          return [] //Devuelve lista vacia
+          return [];
         })
       );
   }
