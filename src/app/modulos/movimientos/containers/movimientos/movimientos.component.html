@@ -68,16 +68,29 @@
       matTooltip="Limpia o vacía los campos de filtro de búsqueda">
       {{ ('botones.limpiar' | transloco) }}
     </button>
+
     <button mat-raised-button class="style-button-filtro" (click)="filtrar()" [disabled]="isFiltrando" color="primary"
       matTooltip="Realiza una búsqueda de los movimientos de acuerdo a los filtros seleccionados">
       {{ ('botones.filtrar' | transloco) }}
     </button>
+
+    <button mat-raised-button class="style-button-generar-reporte" [disabled]="isFiltrando" color="accent"
+      [matMenuTriggerFor]="menuReportes">
+      {{('botones.generar-reporte' | transloco)}}
+    </button>
+    <mat-menu #menuReportes="matMenu">
+      <button mat-menu-item (click)="generarLibroDiarioPorItem()">
+        <mat-icon>insert_drive_file</mat-icon>
+        Libro Diario por Item
+      </button>
+    </mat-menu>
   </div>
 
   <div class="column flex mat-elevation-z8">
     <!--Pasamos las variables del componente principal al componente lista-->
     <app-movimientos-lista *ngIf="listMovimientosListaDTO$ | async as movimientos; else cargando"
-      [listMovimientosListaDTO]="movimientos" [pageResponse]="this.pageRes" [apiPageRequest]="this.apiPageRequestDefault"
+      [listMovimientosListaDTO]="movimientos" [pageResponse]="this.pageRes"
+      [apiPageRequest]="this.apiPageRequestDefault"
       (mostrarTiposMovimientoSeleccion)="onMostrarTiposMovimientoSeleccion()" (visualizar)="onVisualizar($event)"
       (editar)="onEditar($event)" (eliminar)="onEliminar($event)" (inactivar)="onInactivar($event)">
     </app-movimientos-lista>

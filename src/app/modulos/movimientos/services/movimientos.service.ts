@@ -1,5 +1,5 @@
 import { MovimientoDetalleDTO } from './../model/dtos/movimientoDetalleDTO';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LocalDateTime } from '@js-joda/core';
 import { catchError, delay, first, Observable, throwError } from 'rxjs';
@@ -29,7 +29,7 @@ import { Situacion } from '../../../compartido/enums/situacion.enum';
 import { FormaPago } from '../enums/formaPago.enum';
 import { Mercaderia } from '../../mercaderias/model/mercaderia.model';
 import { MovimientoCuentaContable } from '../model/movimientoCuentaContable';
-import { CuentaContableDTO } from '../model/dtos/cuentaContableDTO';
+import { CuentaContableDTO } from '../model/dtos/cuenta-contable-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -109,6 +109,17 @@ export class MovimientosService {
 
   imprimirMovimientoA4Pdf(id: string) {
     return this._httpClient.get(`${API_URL_MOVIMIENTOS}/generarMovimientoA4PDF/${id}`, { responseType: 'blob' });
+  }
+
+  imprimirLibroDiarioPorItemA4Pdf(fechaInicio: Date, fechaFin: Date, idMoneda: number, idDepartamento: number): Observable<Blob> {
+    const params = new HttpParams()
+      .set('fechaInicio', FechaHelpersService.formatearFechaISO8601(fechaInicio))
+      .set('fechaFin', FechaHelpersService.formatearFechaISO8601(fechaFin))
+      .set('idMoneda', idMoneda.toString())
+      .set('idDepartamento', idDepartamento.toString());
+
+    return this._httpClient.get(`${API_URL_MOVIMIENTOS}/generarLibroDiarioPorItemA4PDF`,
+      { params: params, responseType: 'blob' });
   }
 
   private convertirToLDTasignarHorasInicial(fechaInicial: Date): LocalDateTime | null {

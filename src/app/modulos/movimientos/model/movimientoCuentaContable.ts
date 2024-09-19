@@ -1,5 +1,4 @@
-import { Movimiento } from "./movimiento.model";
-import { CuentaContableDTO } from './dtos/cuentaContableDTO';
+import { CuentaContableDTO } from './dtos/cuenta-contable-dto';
 import { MovimientoDetalleDTO } from './dtos/movimientoDetalleDTO';
 
 

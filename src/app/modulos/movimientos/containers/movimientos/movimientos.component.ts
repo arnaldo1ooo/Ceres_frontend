@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,12 +10,16 @@ import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-er
 import {
   DEFAULT_ORDENAR_POR,
   DEFAULT_PAGE_TAMANHO,
+  HORA_FINAL,
   ID_OPCION_TODOS,
+  MINUTO_FINAL,
   PAGE_INICIAL,
+  SEGUNDO_FINAL,
 } from 'src/app/compartido/constantes/constantes';
 import { Situacion, SituacionUtils } from 'src/app/compartido/enums/situacion.enum';
 import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
+import { JasperService } from 'src/app/compartido/services/jasper-helpers.service';
 import { Departamento } from 'src/app/modulos/departamentos/model/departamento.model';
 import { DepartamentosService } from 'src/app/modulos/departamentos/services/departamentos.service';
 import { LoginService } from 'src/app/modulos/login/services/login.service';
@@ -35,8 +38,6 @@ import { TipoMovimiento } from './../../../tipos-movimiento/models/tipo-movimien
   styleUrls: ['./movimientos.component.scss']
 })
 export class MovimientosComponent implements OnInit {
-
-
 
   protected listMovimientosListaDTO$: Observable<MovimientoListaDTO[]> | null = of([]); //El $ indica que es Observable, se inicializa con array vacio, acepta Observable o null
   protected listaTiposMovimiento: TipoMovimiento[] = [];
@@ -85,13 +86,39 @@ export class MovimientosComponent implements OnInit {
     this.listarMovimientosListaPage(this.movimientoFiltro, page);
   }
 
-  public filtrar() {
+  protected filtrar() {
     this.refrescar(this.apiPageRequestDefault);
   }
 
   protected limpiar() {
     this.limpiarFiltros();
     this.listMovimientosListaDTO$ = of([]);
+  }
+
+  protected generarLibroDiarioPorItem() {
+
+    const libroDiarioRequest = {
+      fechaInicio: this.movimientoFiltro.fechaInicial!,
+      fechaFin: FechaHelpersService.asignarHoraAFechaDate(
+          this.movimientoFiltro.fechaFinal!, HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL),
+      idMoneda: 1,
+      idDepartamento: this.movimientoFiltro.idDepartamento
+    };
+
+    return this._movimientosService
+      .imprimirLibroDiarioPorItemA4Pdf(
+        libroDiarioRequest.fechaInicio, libroDiarioRequest.fechaFin,
+        libroDiarioRequest.idMoneda, libroDiarioRequest.idDepartamento).subscribe({
+          next: (respuesta: Blob) => {
+            JasperService.mostrarPdf(respuesta);
+          },
+          error: (error) => {
+            console.error('Error al imprimir Libro Diario por Item: ', error);
+            this.onError('Error al imprimir Libro Diario por Item');
+          },
+          complete: () => {
+          }
+        });
   }
 
   protected limpiarFiltros() {
