@@ -11,6 +11,7 @@ import {
   DEFAULT_ORDENAR_POR,
   DEFAULT_PAGE_TAMANHO,
   HORA_FINAL,
+  ID_LIBRO_DIARIO_POR_ITEM,
   ID_OPCION_TODOS,
   MINUTO_FINAL,
   PAGE_INICIAL,
@@ -31,6 +32,7 @@ import { MovimientoListaDTO, Page } from '../../model/dtos/movimientoListaDTO';
 import { MovimientosService } from '../../services/movimientos.service';
 import { FechaHelpersService } from './../../../../compartido/services/fecha-helpers.service';
 import { TipoMovimiento } from './../../../tipos-movimiento/models/tipo-movimiento';
+import { DialogoGenerarReporteComponent } from '../../../../compartido/componentes/dialogo-generar-reporte/dialogo-generar-reporte.component';
 
 @Component({
   selector: 'app-movimientos',
@@ -95,30 +97,29 @@ export class MovimientosComponent implements OnInit {
     this.listMovimientosListaDTO$ = of([]);
   }
 
-  protected generarLibroDiarioPorItem() {
+  protected generarReporte(reporteSeleccionado: number) {
+    switch (reporteSeleccionado) {
+      case ID_LIBRO_DIARIO_POR_ITEM: {
+        this.abrirDialogoGenerarReporte(ID_LIBRO_DIARIO_POR_ITEM);
 
-    const libroDiarioRequest = {
-      fechaInicio: this.movimientoFiltro.fechaInicial!,
-      fechaFin: FechaHelpersService.asignarHoraAFechaDate(
-          this.movimientoFiltro.fechaFinal!, HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL),
-      idMoneda: 1,
-      idDepartamento: this.movimientoFiltro.idDepartamento
-    };
+        //this.generarLibroDiarioPorItem();
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  }
 
-    return this._movimientosService
-      .imprimirLibroDiarioPorItemA4Pdf(
-        libroDiarioRequest.fechaInicio, libroDiarioRequest.fechaFin,
-        libroDiarioRequest.idMoneda, libroDiarioRequest.idDepartamento).subscribe({
-          next: (respuesta: Blob) => {
-            JasperService.mostrarPdf(respuesta);
-          },
-          error: (error) => {
-            console.error('Error al imprimir Libro Diario por Item: ', error);
-            this.onError('Error al imprimir Libro Diario por Item');
-          },
-          complete: () => {
-          }
-        });
+  protected abrirDialogoGenerarReporte(reporteSel: number) {
+    const dialogoGenerarReporte = this.dialog.open(
+      DialogoGenerarReporteComponent,
+      { data: { reporteSeleccionado: reporteSel } }
+    );
+
+    dialogoGenerarReporte.afterClosed().subscribe(result => {
+      //Al cerrar dialogo
+    });
   }
 
   protected limpiarFiltros() {

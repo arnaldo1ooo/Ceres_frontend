@@ -75,7 +75,8 @@
     "limpiar": "Limpiar",
     "filtrar": "Filtrar",
     "agregar": "Agregar",
-    "generar-reporte": "Generar Reporte"
+    "reportes": "Reportes",
+    "salir": "Salir"
   },
 
   "sin-registros": "Sin registros"

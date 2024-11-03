@@ -74,12 +74,12 @@
       {{ ('botones.filtrar' | transloco) }}
     </button>
 
-    <button mat-raised-button class="style-button-generar-reporte" [disabled]="isFiltrando" color="accent"
+    <button mat-raised-button class="style-button-reporte" [disabled]="isFiltrando" color="accent"
       [matMenuTriggerFor]="menuReportes">
-      {{('botones.generar-reporte' | transloco)}}
+      {{('botones.reportes' | transloco)}}
     </button>
     <mat-menu #menuReportes="matMenu">
-      <button mat-menu-item (click)="generarLibroDiarioPorItem()">
+      <button mat-menu-item (click)="generarReporte(1)">
         <mat-icon>insert_drive_file</mat-icon>
         Libro Diario por Item
       </button>

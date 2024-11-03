@@ -54,3 +54,6 @@ export const ID_OPCION_TODOS: number = -1;
 export const FORMATO_FECHA_HORA_COMUN: string = 'DD/MM/yyyy HH:mm:ss';
 export const FORMATO_FECHA_HORA_SIN_SEG_COMUN: string = 'DD/MM/yyyy HH:mm';
 export const FORMATO_FECHA_HORA_ISO8601: string = 'YYYY-MM-DDTHH:mm:ss';
+
+//REPORTES
+export const ID_LIBRO_DIARIO_POR_ITEM: number = 1;

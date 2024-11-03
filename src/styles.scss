@@ -211,7 +211,7 @@ $temaDark: (
 );
 
 // Theme Init
-@include mat.all-component-themes($temaLight);
+@include mat.all-component-themes($temaDark);
 
 .theme-alternate {
   @include mat.all-component-colors($temaDark);
