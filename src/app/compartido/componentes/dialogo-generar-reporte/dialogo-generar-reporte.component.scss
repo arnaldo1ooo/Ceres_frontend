@@ -1,26 +1,23 @@
-.style-dialogo-generar-reporte {
-  width: 600px;
-  height: 250px;
-}
+.style-dialogo-content {
 
-.style-contenedor-filtro {
-  width: 95%;
-  height: 20%;
-  margin: 10px;
 }
 
 .style-date-picker-filtro {
-  margin-right: 10px;
+  margin: 10px;
   width: 156px;
 }
 
+.style-select-filtro-moneda {
+  margin: 10px;
+  width: 150px;
+}
+
 .style-select-filtro-departamento {
-  margin-right: 10px;
+  margin: 10px;
   width: 180px;
 }
 
-.style-barra-acciones {
-  display: flex;
+.style-dialogo-actions {
   justify-content: flex-end;
-  margin-top: 70px;
+  margin: 10px;
 }

@@ -9,12 +9,15 @@ import { DialogoErrorComponent } from '../dialogo-error/dialogo-error.component'
 import { JasperService } from '../../services/jasper-helpers.service';
 import { MovimientosService } from '../../../modulos/movimientos/services/movimientos.service';
 import { HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL, ID_LIBRO_DIARIO_POR_ITEM } from '../../constantes/constantes';
+import { Moneda } from 'src/app/modulos/monedas/models/moneda';
+import { MonedasService } from '../../../modulos/monedas/services/monedas.service';
 
 
 export interface FiltrosGenerarReporte {
   reporteSeleccionado: number
   fechaInicial: Date;
   fechaFinal: Date;
+  idMoneda: string;
   idDepartamento: string;
 }
 @Component({
@@ -25,18 +28,21 @@ export interface FiltrosGenerarReporte {
 })
 
 export class DialogoGenerarReporteComponent implements OnInit {
+  protected listaMonedas: Moneda[] = [];
   protected listaDepartamentos: Departamento[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<DialogoGenerarReporteComponent>,
     @Inject(MAT_DIALOG_DATA) public filtros: FiltrosGenerarReporte,
     protected dialog: MatDialog,
+    private _monedasService: MonedasService,
     private _departamentosService: DepartamentosService,
     private _loginService: LoginService,
     private _movimientosService: MovimientosService
   ) { }
 
   ngOnInit(): void {
+    this.listarMonedas();
     this.listarDepartamentos();
     this.filtroInicial();
   }
@@ -67,6 +73,13 @@ export class DialogoGenerarReporteComponent implements OnInit {
     });
   }
 
+  private listarMonedas() {
+    this._monedasService.listarTodosMonedas()
+      .subscribe((respuesta: any) => {
+        this.listaMonedas = respuesta;
+      })
+  }
+
   private listarDepartamentos() {
     this._departamentosService.listarTodosDepartamentos()
       .subscribe((respuesta: any) => {
@@ -77,6 +90,7 @@ export class DialogoGenerarReporteComponent implements OnInit {
   private filtroInicial() {
     this.filtros.fechaInicial = FechaHelpersService.getPrimerDiaDelAnho()
     this.filtros.fechaFinal = new Date();
+    this.filtros.idMoneda = '1'; //Guarani por default
     this.filtros.idDepartamento = this._loginService.getIdDepartamentoLogado()!;
   }
 
@@ -86,7 +100,7 @@ export class DialogoGenerarReporteComponent implements OnInit {
       fechaInicio: this.filtros.fechaInicial,
       fechaFin: FechaHelpersService.asignarHoraAFechaDate(
         this.filtros.fechaFinal, HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL),
-      idMoneda: 1,
+      idMoneda: Number(this.filtros.idMoneda),
       idDepartamento: Number(this.filtros.idDepartamento)
     };
 
@@ -108,12 +122,14 @@ export class DialogoGenerarReporteComponent implements OnInit {
   }
 
   protected rendered(idCampo: string): boolean {
-    switch(idCampo) {
+    switch (idCampo) {
       case 'filtroFechaInicial':
         return this.renderedFiltroFechaInicial();
       case 'filtroFechaFinal':
         return this.renderedFiltroFechaFinal();
-        case 'filtroDepartamento':
+      case 'filtroMoneda':
+        return this.renderedFiltroMoneda();
+      case 'filtroDepartamento':
         return this.renderedFiltroDepartamento();
       default:
         return true;
@@ -121,18 +137,21 @@ export class DialogoGenerarReporteComponent implements OnInit {
   }
 
   protected disabled(idCampo: string): boolean {
-    switch(idCampo) {
+    switch (idCampo) {
       case 'filtroFechaInicial':
         return this.disabledFiltroFechaInicial();
       case 'filtroFechaFinal':
         return this.disabledFiltroFechaFinal();
-        case 'filtroDepartamento':
+      case 'filtroMoneda':
+        return this.disabledFiltroMoneda();
+      case 'filtroDepartamento':
         return this.disabledFiltroDepartamento();
       default:
         return false;
     }
   }
 
+  //RENDERED
   private renderedFiltroFechaInicial(): boolean {
     return true;
   }
@@ -141,16 +160,25 @@ export class DialogoGenerarReporteComponent implements OnInit {
     return true;
   }
 
+  private renderedFiltroMoneda(): boolean {
+    return true;
+  }
+
   private renderedFiltroDepartamento(): boolean {
     return true;
   }
 
+  //DISABLED
   private disabledFiltroFechaInicial(): boolean {
     return false;
   }
 
   private disabledFiltroFechaFinal(): boolean {
     return false;
+  }
+
+  private disabledFiltroMoneda(): boolean {
+    return true;
   }
 
   private disabledFiltroDepartamento(): boolean {
