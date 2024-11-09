@@ -154,11 +154,11 @@ export class DialogoGenerarReporteComponent implements OnInit {
 
   //RENDERED
   private renderedFiltroFechaInicial(): boolean {
-    return this.filtros.reporteSeleccionado == Reporte.LIBRO_DIARIO_POR_ITEM;
+    return this.filtros.reporteSeleccionado.includes(Reporte.LIBRO_DIARIO_POR_ITEM);
   }
 
   private renderedFiltroFechaFinal(): boolean {
-    return this.filtros.reporteSeleccionado == Reporte.LIBRO_DIARIO_POR_ITEM;
+    return this.filtros.reporteSeleccionado.includes(Reporte.LIBRO_DIARIO_POR_ITEM);
   }
 
   private renderedFiltroMoneda(): boolean {
@@ -166,7 +166,7 @@ export class DialogoGenerarReporteComponent implements OnInit {
   }
 
   private renderedFiltroDepartamento(): boolean {
-    return this.filtros.reporteSeleccionado == Reporte.LIBRO_DIARIO_POR_ITEM;
+    return this.filtros.reporteSeleccionado.includes(Reporte.LIBRO_DIARIO_POR_ITEM);
   }
 
   //DISABLED
