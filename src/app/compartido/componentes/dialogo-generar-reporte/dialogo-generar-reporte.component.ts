@@ -8,13 +8,14 @@ import { LoginService } from '../../../modulos/login/services/login.service';
 import { DialogoErrorComponent } from '../dialogo-error/dialogo-error.component';
 import { JasperService } from '../../services/jasper-helpers.service';
 import { MovimientosService } from '../../../modulos/movimientos/services/movimientos.service';
-import { HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL, ID_LIBRO_DIARIO_POR_ITEM } from '../../constantes/constantes';
+import { HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL } from '../../constantes/constantes';
 import { Moneda } from 'src/app/modulos/monedas/models/moneda';
 import { MonedasService } from '../../../modulos/monedas/services/monedas.service';
+import { Reporte } from '../../enums/reporte.enum';
 
 
 export interface FiltrosGenerarReporte {
-  reporteSeleccionado: number
+  reporteSeleccionado: Reporte
   fechaInicial: Date;
   fechaFinal: Date;
   idMoneda: string;
@@ -49,7 +50,7 @@ export class DialogoGenerarReporteComponent implements OnInit {
 
   onGenerarReporte(): void {
     switch (this.filtros.reporteSeleccionado) {
-      case ID_LIBRO_DIARIO_POR_ITEM: {
+      case Reporte.LIBRO_DIARIO_POR_ITEM: {
         this.generarLibroDiarioPorItem();
         break;
       }
@@ -153,11 +154,11 @@ export class DialogoGenerarReporteComponent implements OnInit {
 
   //RENDERED
   private renderedFiltroFechaInicial(): boolean {
-    return true;
+    return this.filtros.reporteSeleccionado == Reporte.LIBRO_DIARIO_POR_ITEM;
   }
 
   private renderedFiltroFechaFinal(): boolean {
-    return true;
+    return this.filtros.reporteSeleccionado == Reporte.LIBRO_DIARIO_POR_ITEM;
   }
 
   private renderedFiltroMoneda(): boolean {
@@ -165,7 +166,7 @@ export class DialogoGenerarReporteComponent implements OnInit {
   }
 
   private renderedFiltroDepartamento(): boolean {
-    return true;
+    return this.filtros.reporteSeleccionado == Reporte.LIBRO_DIARIO_POR_ITEM;
   }
 
   //DISABLED

@@ -10,17 +10,12 @@ import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-er
 import {
   DEFAULT_ORDENAR_POR,
   DEFAULT_PAGE_TAMANHO,
-  HORA_FINAL,
-  ID_LIBRO_DIARIO_POR_ITEM,
   ID_OPCION_TODOS,
-  MINUTO_FINAL,
   PAGE_INICIAL,
-  SEGUNDO_FINAL,
 } from 'src/app/compartido/constantes/constantes';
 import { Situacion, SituacionUtils } from 'src/app/compartido/enums/situacion.enum';
 import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
-import { JasperService } from 'src/app/compartido/services/jasper-helpers.service';
 import { Departamento } from 'src/app/modulos/departamentos/model/departamento.model';
 import { DepartamentosService } from 'src/app/modulos/departamentos/services/departamentos.service';
 import { LoginService } from 'src/app/modulos/login/services/login.service';
@@ -33,6 +28,7 @@ import { MovimientosService } from '../../services/movimientos.service';
 import { FechaHelpersService } from './../../../../compartido/services/fecha-helpers.service';
 import { TipoMovimiento } from './../../../tipos-movimiento/models/tipo-movimiento';
 import { DialogoGenerarReporteComponent } from '../../../../compartido/componentes/dialogo-generar-reporte/dialogo-generar-reporte.component';
+import { Reporte } from 'src/app/compartido/enums/reporte.enum';
 
 @Component({
   selector: 'app-movimientos',
@@ -97,12 +93,10 @@ export class MovimientosComponent implements OnInit {
     this.listMovimientosListaDTO$ = of([]);
   }
 
-  protected generarReporte(reporteSeleccionado: number) {
+  protected generarReporte(reporteSeleccionado: string) {
     switch (reporteSeleccionado) {
-      case ID_LIBRO_DIARIO_POR_ITEM: {
-        this.abrirDialogoGenerarReporte(ID_LIBRO_DIARIO_POR_ITEM);
-
-        //this.generarLibroDiarioPorItem();
+      case Reporte.LIBRO_DIARIO_POR_ITEM: {
+        this.abrirDialogoGenerarReporte(Reporte.LIBRO_DIARIO_POR_ITEM);
         break;
       }
       default: {
@@ -111,7 +105,7 @@ export class MovimientosComponent implements OnInit {
     }
   }
 
-  protected abrirDialogoGenerarReporte(reporteSel: number) {
+  protected abrirDialogoGenerarReporte(reporteSel: Reporte) {
     const dialogoGenerarReporte = this.dialog.open(
       DialogoGenerarReporteComponent,
       { data: { reporteSeleccionado: reporteSel } }
