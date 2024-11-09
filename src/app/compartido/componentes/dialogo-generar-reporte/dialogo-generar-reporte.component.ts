@@ -29,7 +29,7 @@ export class DialogoGenerarReporteComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<DialogoGenerarReporteComponent>,
-    @Inject(MAT_DIALOG_DATA) public datos: FiltrosGenerarReporte,
+    @Inject(MAT_DIALOG_DATA) public filtros: FiltrosGenerarReporte,
     protected dialog: MatDialog,
     private _departamentosService: DepartamentosService,
     private _loginService: LoginService,
@@ -42,7 +42,7 @@ export class DialogoGenerarReporteComponent implements OnInit {
   }
 
   onGenerarReporte(): void {
-    switch (this.datos.reporteSeleccionado) {
+    switch (this.filtros.reporteSeleccionado) {
       case ID_LIBRO_DIARIO_POR_ITEM: {
         this.generarLibroDiarioPorItem();
         break;
@@ -75,19 +75,19 @@ export class DialogoGenerarReporteComponent implements OnInit {
   }
 
   private filtroInicial() {
-    this.datos.fechaInicial = FechaHelpersService.getPrimerDiaDelAnho()
-    this.datos.fechaFinal = new Date();
-    this.datos.idDepartamento = this._loginService.getIdDepartamentoLogado()!;
+    this.filtros.fechaInicial = FechaHelpersService.getPrimerDiaDelAnho()
+    this.filtros.fechaFinal = new Date();
+    this.filtros.idDepartamento = this._loginService.getIdDepartamentoLogado()!;
   }
 
   protected generarLibroDiarioPorItem() {
 
     const libroDiarioRequest = {
-      fechaInicio: this.datos.fechaInicial,
+      fechaInicio: this.filtros.fechaInicial,
       fechaFin: FechaHelpersService.asignarHoraAFechaDate(
-        this.datos.fechaFinal, HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL),
+        this.filtros.fechaFinal, HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL),
       idMoneda: 1,
-      idDepartamento: Number(this.datos.idDepartamento)
+      idDepartamento: Number(this.filtros.idDepartamento)
     };
 
     return this._movimientosService
