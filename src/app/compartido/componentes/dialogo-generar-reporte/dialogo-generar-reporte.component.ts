@@ -10,12 +10,20 @@ import { JasperService } from '../../services/jasper-helpers.service';
 import { MovimientosService } from '../../../modulos/movimientos/services/movimientos.service';
 import { HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL, ID_LIBRO_DIARIO_POR_ITEM } from '../../constantes/constantes';
 
+
+export interface FiltrosGenerarReporte {
+  reporteSeleccionado: number
+  fechaInicial: Date;
+  fechaFinal: Date;
+  idDepartamento: string;
+}
 @Component({
   selector: 'app-dialogo-generar-reporte',
   templateUrl: 'dialogo-generar-reporte.component.html',
   styleUrl: './dialogo-generar-reporte.component.scss',
   standalone: false
 })
+
 export class DialogoGenerarReporteComponent implements OnInit {
   protected listaDepartamentos: Departamento[] = [];
 
@@ -99,15 +107,56 @@ export class DialogoGenerarReporteComponent implements OnInit {
       });
   }
 
-}
+  protected rendered(idCampo: string): boolean {
+    switch(idCampo) {
+      case 'filtroFechaInicial':
+        return this.renderedFiltroFechaInicial();
+      case 'filtroFechaFinal':
+        return this.renderedFiltroFechaFinal();
+        case 'filtroDepartamento':
+        return this.renderedFiltroDepartamento();
+      default:
+        return true;
+    }
+  }
 
+  protected disabled(idCampo: string): boolean {
+    switch(idCampo) {
+      case 'filtroFechaInicial':
+        return this.disabledFiltroFechaInicial();
+      case 'filtroFechaFinal':
+        return this.disabledFiltroFechaFinal();
+        case 'filtroDepartamento':
+        return this.disabledFiltroDepartamento();
+      default:
+        return false;
+    }
+  }
 
+  private renderedFiltroFechaInicial(): boolean {
+    return true;
+  }
 
-export interface FiltrosGenerarReporte {
-  reporteSeleccionado: number
-  fechaInicial: Date;
-  fechaFinal: Date;
-  idDepartamento: string;
+  private renderedFiltroFechaFinal(): boolean {
+    return true;
+  }
+
+  private renderedFiltroDepartamento(): boolean {
+    return true;
+  }
+
+  private disabledFiltroFechaInicial(): boolean {
+    return false;
+  }
+
+  private disabledFiltroFechaFinal(): boolean {
+    return false;
+  }
+
+  private disabledFiltroDepartamento(): boolean {
+    return false;
+  }
+
 }
 
 

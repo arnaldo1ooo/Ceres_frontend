@@ -3,25 +3,25 @@
 <mat-dialog-content class="style-dialogo-generar-reporte">
 
   <div class="style-contenedor-filtro">
-    <mat-form-field appearance="outline" class="style-date-picker-filtro">
+    <mat-form-field *ngIf="rendered('filtroFechaInicial')" appearance="outline" class="style-date-picker-filtro">
       <mat-label>Fecha inicial</mat-label>
-      <input matInput [matDatepicker]="pickerInicial" [(ngModel)]="datos.fechaInicial">
+      <input matInput [matDatepicker]="pickerInicial" [(ngModel)]="datos.fechaInicial" [disabled]="disabled('filtroFechaInicial')">
       <mat-hint>DD/MM/YYYY</mat-hint>
       <mat-datepicker-toggle matIconSuffix [for]="pickerInicial"></mat-datepicker-toggle>
       <mat-datepicker #pickerInicial></mat-datepicker>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="style-date-picker-filtro">
+    <mat-form-field *ngIf="rendered('filtroFechaFinal')" appearance="outline" class="style-date-picker-filtro">
       <mat-label>Fecha final</mat-label>
-      <input matInput [matDatepicker]="pickerFinal" [(ngModel)]="datos.fechaFinal">
+      <input matInput [matDatepicker]="pickerFinal" [(ngModel)]="datos.fechaFinal" [disabled]="disabled('filtroFechaFinal')">
       <mat-hint>DD/MM/YYYY</mat-hint>
       <mat-datepicker-toggle matIconSuffix [for]="pickerFinal"></mat-datepicker-toggle>
       <mat-datepicker #pickerFinal></mat-datepicker>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="style-select-filtro-departamento">
+    <mat-form-field *ngIf="rendered('filtroDepartamento')" appearance="outline" class="style-select-filtro-departamento">
       <mat-label>Departamento</mat-label>
-      <mat-select [(ngModel)]="datos.idDepartamento" [compareWith]="compararOpcionesSelect">
+      <mat-select [(ngModel)]="datos.idDepartamento" [compareWith]="compararOpcionesSelect" [disabled]="disabled('filtroDepartamento')">
         <mat-option [value]="-1">TODOS</mat-option>
         <mat-option *ngFor="let departamento of listaDepartamentos" value={{departamento._id}}>
           {{ departamento.descripcion }}
