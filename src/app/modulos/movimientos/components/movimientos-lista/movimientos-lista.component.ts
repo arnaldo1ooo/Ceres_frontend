@@ -1,7 +1,6 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DEFAULT_PAGE_TAMANHOS } from 'src/app/compartido/constantes/constantes';
 import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
@@ -42,8 +41,7 @@ export class MovimientosListaComponent implements OnInit {
 
   constructor(private _movimientosComponent: MovimientosComponent,
     private _movimientosService: MovimientosService,
-    private _avisoHelpersService: AvisoHelpersService,
-    private _liveAnnouncer: LiveAnnouncer) { }
+    private _avisoHelpersService: AvisoHelpersService) { }
 
   ngOnInit(): void {
 
