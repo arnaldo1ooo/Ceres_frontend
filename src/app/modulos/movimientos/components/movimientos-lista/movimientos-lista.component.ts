@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -41,7 +41,8 @@ export class MovimientosListaComponent implements OnInit {
 
   constructor(private _movimientosComponent: MovimientosComponent,
     private _movimientosService: MovimientosService,
-    private _avisoHelpersService: AvisoHelpersService) { }
+    private _avisoHelpersService: AvisoHelpersService,
+    private _cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
 
@@ -50,6 +51,8 @@ export class MovimientosListaComponent implements OnInit {
   ngAfterViewInit() {
     this.sortListMovimientosListaDTO = new MatTableDataSource(this.listMovimientosListaDTO); //Inicializar lista sort
     this.sortListMovimientosListaDTO.sort = this.sort;
+
+    this._cdr.detectChanges(); // Forzar la detección de cambios
   }
 
   onMostrarTiposMovimientoSeleccion() {
