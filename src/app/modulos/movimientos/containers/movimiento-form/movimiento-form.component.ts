@@ -278,7 +278,9 @@ export class MovimientoFormComponent implements OnInit {
             this.listaEntidades?.filter(entidad =>
               entidad._id?.toString().includes(valorAFiltrar || '') ||
               entidad.nombre?.toLocaleLowerCase().includes(valorAFiltrar || '') ||
-              entidad.apellido?.toLocaleLowerCase().includes(valorAFiltrar || ''))
+              entidad.apellido?.toLocaleLowerCase().includes(valorAFiltrar || '') ||
+              entidad.ci?.toLocaleLowerCase().includes(valorAFiltrar || '') ||
+              entidad.ruc?.toLocaleLowerCase().includes(valorAFiltrar || ''))
           )
         );
       },
