@@ -1,8 +1,6 @@
 import { TipoMovimiento } from './../../../tipos-movimiento/models/tipo-movimiento';
 import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { map, Observable, of, startWith } from 'rxjs';
 import { Situacion } from 'src/app/compartido/enums/situacion.enum';
 import { ErrorHelpersService } from 'src/app/compartido/services/error-helpers.service';
@@ -31,6 +29,8 @@ import { MatSelect } from '@angular/material/select';
 import { MovimientoCuentaContable } from '../../model/movimientoCuentaContable';
 import { ListaFinancieroComponent } from '../../components/lista-financiero/lista-financiero.component';
 import { MonedaHelpersService } from 'src/app/compartido/services/moneda-helpers.service';
+import { FormArray, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-movimiento-form',
@@ -265,7 +265,7 @@ export class MovimientoFormComponent implements OnInit {
   }
 
   private listarFiltrarEntidades() {
-    const idsClaseEntidad: string = ClaseEntidad.ID_CLIENTE; // Poner entre comas ej: 1,2,3..
+    const idsClaseEntidad: string[] = [ClaseEntidad.ID_CLIENTE, ClaseEntidad.ID_PROVEEDOR];
 
     this._entidadesService.listarEntidadesPorClases(idsClaseEntidad).subscribe({
       next: (respuesta: Entidad[]) => {
@@ -304,9 +304,9 @@ export class MovimientoFormComponent implements OnInit {
   }
 
   private listarFiltrarCompradoresVendedores() {
-    const idsClaseEntidad: string = this.formMovimientoDetalle.get('tipo')?.value.tipo == EntradaSalida.ENTRADA
-      ? ClaseEntidad.ID_COMPRADOR
-      : ClaseEntidad.ID_VENDEDOR;
+    const idsClaseEntidad: string[] = this.formMovimientoDetalle.get('tipo')?.value.tipo == EntradaSalida.ENTRADA
+      ? [ClaseEntidad.ID_COMPRADOR]
+      : [ClaseEntidad.ID_VENDEDOR];
 
     this._entidadesService.listarEntidadesPorClases(idsClaseEntidad).subscribe({
       next: (respuesta: Entidad[]) => {

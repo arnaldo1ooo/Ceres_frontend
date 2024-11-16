@@ -56,9 +56,9 @@ export class EntidadesService {
       + `&page=${apiPageRequest.pagina}&size=${apiPageRequest.tamanho}&sort=${apiPageRequest.ordenarPor},${apiPageRequest.orden}`);
   }
 
-  public listarEntidadesPorClases(idsClaseEntidad: string): Observable<Entidad[]> {
+  public listarEntidadesPorClases(idsClaseEntidad: string[]): Observable<Entidad[]> {
     return this._httpClient.get<ApiResponse<Entidad[]>>(API_URL_ENTIDADES
-      + '/filtrarPorClases?' + `idsClaseEntidad=${idsClaseEntidad}`)
+      + '/filtrarPorClases?' + `idsClaseEntidad=${idsClaseEntidad.join(", ")}`)
       .pipe(
         first(),
         delay(100),
