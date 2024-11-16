@@ -21,6 +21,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatSortModule } from '@angular/material/sort';
 
 //Este es un modulo para exportar facilmente modulos de angular material a otros componentes
 @NgModule({
@@ -47,7 +48,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatTabsModule,
     MatAutocompleteModule,
     MatMenuModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSortModule
   ],
 })
 
