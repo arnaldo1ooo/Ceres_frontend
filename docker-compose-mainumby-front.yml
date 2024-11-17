@@ -10,5 +10,6 @@ services:
         - CONFIGURATION=mainumby-prod
     environment:
       NODE_ENV: production
+      TZ: "America/Asuncion"
     ports:
       - 4500:80
