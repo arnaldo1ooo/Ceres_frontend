@@ -49,7 +49,8 @@ export class MercaderiaFormComponent implements OnInit {
       departamentos: mercaderia.departamentos,
       situacion: HelpersService.isNoNuloYNoVacio(mercaderia.situacion)
         ? mercaderia.situacion
-        : Situacion.ACTIVO //Se pone por default Activo
+        : Situacion.ACTIVO, //Se pone por default Activo
+      presentaEnReporte: mercaderia.presentaEnReporte
     });
   }
 
@@ -127,7 +128,8 @@ export class MercaderiaFormComponent implements OnInit {
       ]),
       situacion: new FormControl('', [
         Validators.required
-      ])
+      ]),
+      presentaEnReporte: new FormControl(true)
     });
   }
 }

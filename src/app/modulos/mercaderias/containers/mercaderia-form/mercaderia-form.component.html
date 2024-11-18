@@ -5,63 +5,94 @@
   <mat-card-content>
     <form [formGroup]="formGroupMercaderia" class="anchura-minima">
 
-      <mat-form-field appearance="outline" class="anchura-maxima">
-        <mat-label>{{ "titulos.id" | transloco }}</mat-label>
-        <input matInput formControlName="_id" readonly="true">
-      </mat-form-field>
+      <mat-grid-list [cols]="2" rowHeight="105px">
 
-      <mat-form-field appearance="outline" class="anchura-maxima">
-        <mat-label>{{ "titulos.descripcion" | transloco }}</mat-label>
-        <input matInput #descripcionMercaderia formControlName="descripcion"
-          oninput="this.value = this.value.toUpperCase()">
-        <mat-hint align="end">{{ descripcionMercaderia.value.length || 0 }} / 100</mat-hint>
-        <mat-error *ngIf="formGroupMercaderia.get('descripcion')?.invalid">{{getMensajeError('descripcion')}}</mat-error>
-        <!--verifica validaciones, invalid evita error con null o valor invalido-->
-      </mat-form-field>
+        <!--Fila 1-->
+        <mat-grid-tile>
+          <mat-form-field appearance="outline" class="anchura-maxima">
+            <mat-label>{{ "titulos.id" | transloco }}</mat-label>
+            <input matInput formControlName="_id" readonly="true">
+          </mat-form-field>
+        </mat-grid-tile>
 
-      <mat-form-field appearance="outline" class="anchura-maxima">
-        <mat-label>{{ "titulos.tipo" | transloco }}</mat-label>
-        <mat-select formControlName="tipo">
-          <mat-option disabled selected value="">{{ "seleccion.seleccion-tipo-mercaderia" | transloco }}</mat-option>
-          <mat-option *ngFor="let tipoMercaderia of listaTiposMercaderia" [value]="tipoMercaderia">
-            {{tipoMercaderia | tipoMercaderiaPipe}}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="formGroupMercaderia.get('tipo')?.invalid">{{getMensajeError('tipo')}}</mat-error>
-      </mat-form-field>
+        <mat-grid-tile>
+          <mat-form-field appearance="outline" class="anchura-maxima">
+            <mat-label>{{ "titulos.descripcion" | transloco }}</mat-label>
+            <input matInput #descripcionMercaderia formControlName="descripcion"
+              oninput="this.value = this.value.toUpperCase()">
+            <mat-hint align="end">{{ descripcionMercaderia.value.length || 0 }} / 100</mat-hint>
+            <mat-error *ngIf="formGroupMercaderia.get('descripcion')?.invalid">{{getMensajeError('descripcion')}}
+            </mat-error>
+            <!--verifica validaciones, invalid evita error con null o valor invalido-->
+          </mat-form-field>
+        </mat-grid-tile>
 
-      <mat-form-field appearance="outline" class="anchura-maxima">
-        <mat-label>{{ "titulos.departamentos" | transloco }}</mat-label>
-        <mat-select formControlName="departamentos" [compareWith]="compararOpcionesSelect"
-                    matTooltip="Seleccione los departamentos en los cuales la mercadería se encontrará disponbile" multiple>
-          <mat-option *ngFor="let departamento of listaDepartamentos" [value]="departamento">
-            {{departamento._id}} - {{departamento.descripcion}}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="formGroupMercaderia.get('departamento')?.invalid">{{getMensajeError('departamento')}}</mat-error>
-      </mat-form-field>
+        <!--Fila 2-->
+        <mat-grid-tile>
+          <mat-form-field appearance="outline" class="anchura-maxima">
+            <mat-label>{{ "titulos.tipo" | transloco }}</mat-label>
+            <mat-select formControlName="tipo">
+              <mat-option disabled selected value="">{{ "seleccion.seleccion-tipo-mercaderia" | transloco }}
+              </mat-option>
+              <mat-option *ngFor="let tipoMercaderia of listaTiposMercaderia" [value]="tipoMercaderia">
+                {{tipoMercaderia | tipoMercaderiaPipe}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formGroupMercaderia.get('tipo')?.invalid">{{getMensajeError('tipo')}}</mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
 
-      <mat-form-field appearance="outline" class="anchura-maxima">
-        <mat-label>{{ "titulos.situacion" | transloco }}</mat-label>
-        <mat-select formControlName="situacion">
-          <mat-option *ngFor="let situacion of listaSituaciones" [value]="situacion" >
-            {{situacion | situacionPipe}}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="formGroupMercaderia.get('situacion')?.invalid">
-          {{getMensajeError('situacion')}}
-        </mat-error>
-      </mat-form-field>
+        <mat-grid-tile>
+          <mat-form-field appearance="outline" class="anchura-maxima">
+            <mat-label>{{ "titulos.departamentos" | transloco }}</mat-label>
+            <mat-select formControlName="departamentos" [compareWith]="compararOpcionesSelect"
+              matTooltip="Seleccione los departamentos en los cuales la mercadería se encontrará disponbile" multiple>
+              <mat-option *ngFor="let departamento of listaDepartamentos" [value]="departamento">
+                {{departamento._id}} - {{departamento.descripcion}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formGroupMercaderia.get('departamento')?.invalid">{{getMensajeError('departamento')}}
+            </mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
 
+        <!--Fila 3-->
+        <mat-grid-tile>
+
+          <mat-form-field appearance="outline" class="anchura-maxima">
+            <mat-label>{{ "titulos.situacion" | transloco }}</mat-label>
+            <mat-select formControlName="situacion">
+              <mat-option *ngFor="let situacion of listaSituaciones" [value]="situacion">
+                {{situacion | situacionPipe}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formGroupMercaderia.get('situacion')?.invalid">
+              {{getMensajeError('situacion')}}
+            </mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <div class="style-contenedor-checkboxs">
+
+            <mat-checkbox formControlName="presentaEnReporte" class="anchura-maxima">
+              {{ "titulos.presenta-en-reporte" | transloco }}
+            </mat-checkbox>
+
+          </div>
+
+        </mat-grid-tile>
+
+      </mat-grid-list>
     </form>
   </mat-card-content>
 
   <mat-card-actions class="style-barra-acciones">
-    <button id="botonGuardar" mat-raised-button color="primary" (click)="onGuardar()" [disabled]="formGroupMercaderia.disabled">
+    <button id="botonGuardar" mat-raised-button color="primary" (click)="onGuardar()"
+      [disabled]="formGroupMercaderia.disabled">
       {{ "botones.guardar" | transloco }}
     </button>
-    <button id="botonCancelar" mat-raised-button color="warn" (click)="onCancelar()"
-      class="style-espacio-boton">
+    <button id="botonCancelar" mat-raised-button color="warn" (click)="onCancelar()" class="style-espacio-boton">
       {{ "botones.cancelar" | transloco }}
     </button>
   </mat-card-actions>
