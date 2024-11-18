@@ -2,7 +2,7 @@
   <mat-table [dataSource]="sortListMovimientosListaDTO" matSort>
     <!-- Columna id -->
     <ng-container matColumnDef="_id">
-      <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Id
+      <mat-header-cell *matHeaderCellDef mat-sort-header guardar-sort-en-cache [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Id
       </mat-header-cell>
       <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">{{ movimientoListaDTO._id }}
       </mat-cell>
@@ -28,7 +28,7 @@
 
     <!-- Columna fecha emision -->
     <ng-container matColumnDef="fechaEmision">
-      <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Fecha Emisión
+      <mat-header-cell *matHeaderCellDef mat-sort-header guardarSortEnCache [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Fecha Emisión
       </mat-header-cell>
       <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">
         {{ movimientoListaDTO.fechaEmision | date: 'dd/MM/yyyy' }}
