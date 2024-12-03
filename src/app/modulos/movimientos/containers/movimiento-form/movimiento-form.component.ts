@@ -265,7 +265,7 @@ export class MovimientoFormComponent implements OnInit {
   }
 
   private listarFiltrarEntidades() {
-    const idsClaseEntidad: string[] = [ClaseEntidad.ID_CLIENTE, ClaseEntidad.ID_PROVEEDOR];
+    const idsClaseEntidad: string[] = [ClaseEntidad.ID_CLIENTE, ClaseEntidad.ID_PROVEEDOR, ClaseEntidad.ID_FUNCIONARIO];
 
     this._entidadesService.listarEntidadesPorClases(idsClaseEntidad).subscribe({
       next: (respuesta: Entidad[]) => {
