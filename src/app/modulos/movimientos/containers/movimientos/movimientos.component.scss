@@ -2,6 +2,7 @@
   max-width: 95%;
   margin: 2em auto;
   text-align: center;
+  margin: 10px;
 }
 
 .column-flex {
@@ -45,12 +46,12 @@
 
 .style-date-picker-filtro-fecha-inicial-final {
   margin-right: 10px;
-  width: 245px;
+  width: 250px;
 }
 
 .style-date-picker-filtro {
   margin-right: 10px;
-  width: 150px;
+  width: 156px;
 }
 
 .style-select-filtro-departamento {
@@ -66,5 +67,11 @@
 .style-button-filtro {
   margin-right: 10px;
   width: 120px;
+  height: 50px;
+}
+
+.style-button-reporte {
+  margin-right: 10px;
+  width: 100px;
   height: 50px;
 }

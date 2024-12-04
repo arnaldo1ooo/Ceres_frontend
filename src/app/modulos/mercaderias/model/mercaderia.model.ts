@@ -7,4 +7,5 @@ export class Mercaderia {
   tipo: string | null = null;
   departamentos: Array<Departamento> = [];
   situacion: string | null = null;
+  presentaEnReporte: boolean = true;
 }

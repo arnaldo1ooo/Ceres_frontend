@@ -17,6 +17,7 @@ import { SpinnerCargandoModule } from './componentes/spinner-cargando/spinner-ca
 import { FooterPrincipalComponent } from './componentes/footer-principal/footer-principal.component';
 import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 import { DialogoIngresarTextoComponent } from './componentes/dialogo-ingresar-texto/dialogo-ingresar-texto.component';
+import { DialogoGenerarReporteComponent } from './componentes/dialogo-generar-reporte/dialogo-generar-reporte.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { DialogoIngresarTextoComponent } from './componentes/dialogo-ingresar-te
     SelectorIdiomaComponent,
     DialogoQuillEditorComponent,
     FooterPrincipalComponent,
-    DialogoIngresarTextoComponent
+    DialogoIngresarTextoComponent,
+    DialogoGenerarReporteComponent
   ],
   imports: [
     CommonModule,

@@ -47,7 +47,12 @@
 
                   <mat-autocomplete #entidadAutocomplete="matAutocomplete" [displayWith]="displayEntidad">
                     <mat-option *ngFor="let entidad of listaEntidadesFiltrado$ | async" [value]="entidad">
-                      {{ entidad._id + ' - ' + entidad.nombre + ' ' + entidad.apellido }}
+                      {{ entidad._id + ' - '
+                        + entidad.nombre + ' ' + entidad.apellido + ' | '
+                        + (entidad.ci != null
+                            ? entidad.ci
+                            : entidad.ruc)
+                      }}
                     </mat-option>
                   </mat-autocomplete>
                   <mat-error *ngIf="formMovimientoDetalle.get('entidad')?.invalid">{{ getMensajeError('entidad') }}

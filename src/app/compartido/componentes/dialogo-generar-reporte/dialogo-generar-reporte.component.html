@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>Generar Reporte</h2>
+
+<mat-dialog-content class="style-dialogo-content">
+  <mat-form-field *ngIf="rendered('filtroFechaInicial')" appearance="outline" class="style-date-picker-filtro">
+    <mat-label>Fecha inicial</mat-label>
+    <input matInput [matDatepicker]="pickerInicial" [(ngModel)]="filtros.fechaInicial"
+      [disabled]="disabled('filtroFechaInicial')">
+    <mat-hint>DD/MM/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="pickerInicial"></mat-datepicker-toggle>
+    <mat-datepicker #pickerInicial></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="rendered('filtroFechaFinal')" appearance="outline" class="style-date-picker-filtro">
+    <mat-label>Fecha final</mat-label>
+    <input matInput [matDatepicker]="pickerFinal" [(ngModel)]="filtros.fechaFinal"
+      [disabled]="disabled('filtroFechaFinal')">
+    <mat-hint>DD/MM/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="pickerFinal"></mat-datepicker-toggle>
+    <mat-datepicker #pickerFinal></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="rendered('filtroMoneda')" appearance="outline" class="style-select-filtro-moneda">
+    <mat-label>Moneda</mat-label>
+    <mat-select [(ngModel)]="filtros.idMoneda" [compareWith]="compararOpcionesSelect"
+      [disabled]="disabled('filtroMoneda')">
+      <mat-option [value]="-1">TODOS</mat-option>
+      <mat-option *ngFor="let moneda of listaMonedas" value={{moneda._id}}>
+        {{ moneda.descripcion }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="rendered('filtroDepartamento')" appearance="outline" class="style-select-filtro-departamento">
+    <mat-label>Departamento</mat-label>
+    <mat-select [(ngModel)]="filtros.idDepartamento" [compareWith]="compararOpcionesSelect"
+      [disabled]="disabled('filtroDepartamento')">
+      <mat-option [value]="-1">TODOS</mat-option>
+      <mat-option *ngFor="let departamento of listaDepartamentos" value={{departamento._id}}>
+        {{ departamento.descripcion }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions class="style-dialogo-actions">
+  <button mat-button mat-raised-button color="primary" (click)="onGenerarReporte()">Generar reporte</button>
+  <button mat-button mat-raised-button color="warn" (click)="onSalir()">{{ "botones.salir" | transloco }}</button>
+</mat-dialog-actions>

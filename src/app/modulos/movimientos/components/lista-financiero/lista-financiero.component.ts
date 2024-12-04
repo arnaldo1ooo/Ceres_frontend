@@ -1,7 +1,7 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { MovimientosService } from '../../services/movimientos.service';
-import { CuentaContableDTO } from '../../model/dtos/cuentaContableDTO';
+import { CuentaContableDTO } from '../../model/dtos/cuenta-contable-dto';
 import { map, Observable, startWith } from 'rxjs';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { CuentasContablesService } from '../../services/cuentas-contables.service';
