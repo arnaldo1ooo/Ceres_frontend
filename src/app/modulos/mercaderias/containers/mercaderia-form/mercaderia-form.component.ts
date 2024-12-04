@@ -48,8 +48,8 @@ export class MercaderiaFormComponent implements OnInit {
       tipo: mercaderia.tipo,
       departamentos: mercaderia.departamentos,
       situacion: HelpersService.isNoNuloYNoVacio(mercaderia.situacion)
-        ? mercaderia.situacion
-        : Situacion.ACTIVO, //Se pone por default Activo
+                  ? mercaderia.situacion
+                  : Situacion.ACTIVO, //Se pone por default Activo
       presentaEnReporte: mercaderia.presentaEnReporte
     });
   }
