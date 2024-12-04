@@ -64,7 +64,8 @@
       "ci": "CI",
       "ruc": "RUC",
       "email": "Email",
-      "celular": "Celular"
+      "celular": "Celular",
+      "presenta-en-reporte": "Presentar em relatorio?"
     },
 
     "botones": {
