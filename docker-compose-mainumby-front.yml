@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   ceres_frontend_docker:
     container_name: ceres_frontend_container
@@ -12,5 +10,6 @@ services:
         - CONFIGURATION=mainumby-prod
     environment:
       NODE_ENV: production
+      TZ: America/Asuncion
     ports:
       - 4500:80

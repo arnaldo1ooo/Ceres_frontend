@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -28,6 +27,8 @@ import { MovimientoListaDTO, Page } from '../../model/dtos/movimientoListaDTO';
 import { MovimientosService } from '../../services/movimientos.service';
 import { FechaHelpersService } from './../../../../compartido/services/fecha-helpers.service';
 import { TipoMovimiento } from './../../../tipos-movimiento/models/tipo-movimiento';
+import { DialogoGenerarReporteComponent } from '../../../../compartido/componentes/dialogo-generar-reporte/dialogo-generar-reporte.component';
+import { Reporte } from 'src/app/compartido/enums/reporte.enum';
 
 @Component({
   selector: 'app-movimientos',
@@ -35,8 +36,6 @@ import { TipoMovimiento } from './../../../tipos-movimiento/models/tipo-movimien
   styleUrls: ['./movimientos.component.scss']
 })
 export class MovimientosComponent implements OnInit {
-
-
 
   protected listMovimientosListaDTO$: Observable<MovimientoListaDTO[]> | null = of([]); //El $ indica que es Observable, se inicializa con array vacio, acepta Observable o null
   protected listaTiposMovimiento: TipoMovimiento[] = [];
@@ -85,7 +84,7 @@ export class MovimientosComponent implements OnInit {
     this.listarMovimientosListaPage(this.movimientoFiltro, page);
   }
 
-  public filtrar() {
+  protected filtrar() {
     this.refrescar(this.apiPageRequestDefault);
   }
 
@@ -94,16 +93,40 @@ export class MovimientosComponent implements OnInit {
     this.listMovimientosListaDTO$ = of([]);
   }
 
+  protected generarReporte(reporteSeleccionado: string) {
+    switch (reporteSeleccionado) {
+      case Reporte.LIBRO_DIARIO_POR_ITEM: {
+        this.abrirDialogoGenerarReporte(Reporte.LIBRO_DIARIO_POR_ITEM);
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  }
+
+  protected abrirDialogoGenerarReporte(reporteSel: Reporte) {
+    const dialogoGenerarReporte = this.dialog.open(
+      DialogoGenerarReporteComponent,
+      { data: { reporteSeleccionado: reporteSel } }
+    );
+
+    dialogoGenerarReporte.afterClosed().subscribe(result => {
+      //Al cerrar dialogo
+    });
+  }
+
   protected limpiarFiltros() {
     this.movimientoFiltro = this.filtroInicial();
   }
 
   protected limpiarFiltrosExceptoId() {
-    const idFiltro: Number = this.movimientoFiltro.id;  //Salva id ingresado
-    this.limpiarFiltros();
-    this.movimientoFiltro.id = idFiltro;  //Vuelve a agregar filtro ingresado
+    this.movimientoFiltro.idTipo = ID_OPCION_TODOS;
+    this.movimientoFiltro.nombreApellidoEntidad = null;
     this.movimientoFiltro.fechaInicial = null;
     this.movimientoFiltro.fechaFinal = null;
+    this.movimientoFiltro.keySituacion = ID_OPCION_TODOS;
+    this.movimientoFiltro.idDepartamento = ID_OPCION_TODOS;
     this.movimientoFiltro.keySituacion = ID_OPCION_TODOS;
   }
 
@@ -115,7 +138,7 @@ export class MovimientosComponent implements OnInit {
       nombreApellidoEntidad: "",
       fechaInicial: FechaHelpersService.getPrimerDiaDelAnho(),
       fechaFinal: new Date(),
-      idDepartamento: this._loginService.getDepartamentoLogado()._id,
+      idDepartamento: this._loginService.getIdDepartamentoLogado(),
       keySituacion: Situacion.ACTIVO
     };
   }

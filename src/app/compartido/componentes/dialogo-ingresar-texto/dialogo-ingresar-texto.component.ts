@@ -17,7 +17,7 @@ export class DialogoIngresarTextoComponent {
   public isModoLectura: boolean = false;
   public cantidadMinLineas: number = 4;
   public cantidadMaxLineas: number = 5;
-  public tamanhoMaximo: number = 50;
+  public tamanhoMaximo: number = 500;
 
   constructor(
     private _avisoHelpersService: AvisoHelpersService,

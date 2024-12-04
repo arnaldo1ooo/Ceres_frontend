@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   ceres_frontend_docker:
     container_name: ceres_frontend_container

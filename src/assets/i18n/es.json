@@ -66,7 +66,8 @@
     "ci": "CI",
     "ruc": "RUC",
     "email": "Email",
-    "celular": "Celular"
+    "celular": "Celular",
+    "presenta-en-reporte": "Presentar en reporte?"
   },
 
   "botones": {
@@ -74,7 +75,9 @@
     "cancelar": "Cancelar",
     "limpiar": "Limpiar",
     "filtrar": "Filtrar",
-    "agregar": "Agregar"
+    "agregar": "Agregar",
+    "reportes": "Reportes",
+    "salir": "Salir"
   },
 
   "sin-registros": "Sin registros"

@@ -25,11 +25,12 @@ export class MercaderiasService {
       );
   }
 
-  listarTodosMercaderiasActivos() {
-    return this._httpClient.get<Mercaderia[]>(API_URL_MERCADERIAS + '/activos')
+  listarTodosMercaderiasActivos(): Observable<Mercaderia[]> {
+    return this._httpClient.get<ApiResponse<Mercaderia[]>>(API_URL_MERCADERIAS + '/activos')
       .pipe(
         first(),
-        delay(100)
+        delay(100),
+        map(response => response.data)
       );
   }
 

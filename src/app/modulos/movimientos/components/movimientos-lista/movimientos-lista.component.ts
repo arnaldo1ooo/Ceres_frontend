@@ -1,5 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { DEFAULT_PAGE_TAMANHOS } from 'src/app/compartido/constantes/constantes';
 import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
 import { AvisoHelpersService } from 'src/app/compartido/services/aviso-helpers.service';
@@ -21,6 +23,7 @@ export class MovimientosListaComponent implements OnInit {
 
   //Input entra en el componente, Output sale del componente hacia otro componente
   @Input() listMovimientosListaDTO: MovimientoListaDTO[] = [];
+  @Input() sortListMovimientosListaDTO!: MatTableDataSource<MovimientoListaDTO>;
   @Input() pageResponse: Page | undefined;
   @Input() apiPageRequest!: ApiPageRequest; //Recibe el request default
 
@@ -31,16 +34,25 @@ export class MovimientosListaComponent implements OnInit {
   @Output() inactivar = new EventEmitter(false);
 
   @ViewChild(MatPaginator) paginador: MatPaginator | undefined;
+  @ViewChild(MatSort) sort!: MatSort;
 
   protected readonly columnasAMostrar = ['_id', 'tipo', 'nombreApellidoEntidad', 'fechaEmision', 'departamento', 'total', 'situacion', 'acciones'];
   protected tamanhosPage = DEFAULT_PAGE_TAMANHOS;
 
   constructor(private _movimientosComponent: MovimientosComponent,
     private _movimientosService: MovimientosService,
-    private _avisoHelpersService: AvisoHelpersService) { }
+    private _avisoHelpersService: AvisoHelpersService,
+    private _cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
 
+  }
+
+  ngAfterViewInit() {
+    this.sortListMovimientosListaDTO = new MatTableDataSource(this.listMovimientosListaDTO); //Inicializar lista sort
+    this.sortListMovimientosListaDTO.sort = this.sort;
+
+    this._cdr.detectChanges(); // Forzar la detección de cambios
   }
 
   onMostrarTiposMovimientoSeleccion() {

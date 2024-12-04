@@ -1,4 +1,4 @@
-import { CuentaContableDTO } from './../model/dtos/cuentaContableDTO';
+import { CuentaContableDTO } from '../model/dtos/cuenta-contable-dto';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { API_URL_CUENTAS_CONTABLES } from 'src/app/compartido/constantes/constantes';

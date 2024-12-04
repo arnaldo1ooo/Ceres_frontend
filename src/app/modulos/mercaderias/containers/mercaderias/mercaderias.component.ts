@@ -19,6 +19,7 @@ import { MercaderiaFiltroDTO } from '../../model/dtos/mercaderiaFiltroDTO';
 import { Mercaderia } from '../../model/mercaderia.model';
 import { MercaderiasService } from '../../services/mercaderias.service';
 import { Orden } from './../../../../compartido/enums/orden.enum';
+import { LoginService } from '../../../login/services/login.service';
 
 @Component({
   selector: 'app-mercaderias',
@@ -51,7 +52,8 @@ export class MercaderiasComponent implements OnInit {
     private _ruta: Router,
     private _rutaActual: ActivatedRoute,
     private _alertaSnackBar: MatSnackBar,
-    private _departamentosService: DepartamentosService) {
+    private _departamentosService: DepartamentosService,
+    private _loginService: LoginService) {
 
   }
 
@@ -82,18 +84,19 @@ export class MercaderiasComponent implements OnInit {
   }
 
   protected limpiarFiltrosExceptoId() {
-    const idFiltro: Number = this.mercaderiaFiltro.id;  //Salva id ingresado
-    this.limpiarFiltros();
-    this.mercaderiaFiltro.id = idFiltro;  //Vuelve a agregar filtro ingresado
+    this.mercaderiaFiltro.descripcion = null;
+    this.mercaderiaFiltro.idTipo = ID_OPCION_TODOS;
+    this.mercaderiaFiltro.idDepartamento = ID_OPCION_TODOS;
+    this.mercaderiaFiltro.idSituacion = ID_OPCION_TODOS;
   }
 
   private filtroInicial() {
     return this.mercaderiaFiltro = {
       id: null,
       descripcion: null,
-      idTipo: ID_OPCION_TODOS, //Opcion TODOS por defecto
-      idDepartamento: ID_OPCION_TODOS,
-      idSituacion: Situacion.ACTIVO //Opcion TODOS por defecto
+      idTipo: ID_OPCION_TODOS,
+      idDepartamento: this._loginService.getIdDepartamentoLogado(),
+      idSituacion: Situacion.ACTIVO
     };
   }
 

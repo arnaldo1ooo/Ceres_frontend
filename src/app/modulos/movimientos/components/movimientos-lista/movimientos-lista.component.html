@@ -1,8 +1,8 @@
 <div>
-  <mat-table [dataSource]="listMovimientosListaDTO">
+  <mat-table [dataSource]="sortListMovimientosListaDTO" matSort>
     <!-- Columna id -->
     <ng-container matColumnDef="_id">
-      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Id
+      <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Id
       </mat-header-cell>
       <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">{{ movimientoListaDTO._id }}
       </mat-cell>
@@ -10,7 +10,7 @@
 
     <!-- Columna tipo -->
     <ng-container matColumnDef="tipo">
-      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Tipo
+      <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Tipo
       </mat-header-cell>
       <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'izquierda-texto-global'">
         {{ movimientoListaDTO.tipo.descripcion }}
@@ -19,7 +19,7 @@
 
     <!-- Columna nombreApellido -->
     <ng-container matColumnDef="nombreApellidoEntidad">
-      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Entidad
+      <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Entidad
       </mat-header-cell>
       <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">
         {{ movimientoListaDTO.nombreApellidoEntidad }}
@@ -28,7 +28,7 @@
 
     <!-- Columna fecha emision -->
     <ng-container matColumnDef="fechaEmision">
-      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Fecha Emisión
+      <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Fecha Emisión
       </mat-header-cell>
       <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">
         {{ movimientoListaDTO.fechaEmision | date: 'dd/MM/yyyy' }}
@@ -37,7 +37,7 @@
 
     <!-- Columna departamento -->
     <ng-container matColumnDef="departamento">
-      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Departamento
+      <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Departamento
       </mat-header-cell>
       <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">
         {{movimientoListaDTO.departamento.descripcion}}</mat-cell>
@@ -45,7 +45,7 @@
 
     <!-- Columna situacion -->
     <ng-container matColumnDef="situacion">
-      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Situación
+      <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Situación
       </mat-header-cell>
       <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">
         {{ movimientoListaDTO.situacion | situacionPipe }}</mat-cell>
@@ -53,7 +53,7 @@
 
     <!-- Columna total -->
     <ng-container matColumnDef="total">
-      <mat-header-cell *matHeaderCellDef [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Total
+      <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="['centrar-texto-global', 'titulo-tabla-global']">Total
       </mat-header-cell>
       <mat-cell *matCellDef="let movimientoListaDTO" [ngClass]="'centrar-texto-global'">
         {{ formatearValorMoneda(movimientoListaDTO.total, movimientoListaDTO.moneda) }}
