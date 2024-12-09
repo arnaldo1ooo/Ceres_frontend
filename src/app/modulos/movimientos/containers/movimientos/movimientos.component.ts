@@ -72,8 +72,16 @@ export class MovimientosComponent implements OnInit {
   ngOnInit(): void {
     this.listarTiposMovimiento();
     this.listarDepartamentos();
-    this.movimientoFiltro = this.filtroInicial();
+    this.recuperarFiltrosDeSesion();
     this.filtrar();
+  }
+
+  private recuperarFiltrosDeSesion() {
+    const filtrosGuardados = sessionStorage.getItem('movimientoFiltros');
+    
+    this.movimientoFiltro = filtrosGuardados 
+                            ? JSON.parse(filtrosGuardados) 
+                            : this.filtroInicial();
   }
 
   protected abrirDialogoError(msgError: string) {
@@ -85,6 +93,7 @@ export class MovimientosComponent implements OnInit {
   }
 
   protected filtrar() {
+    HelpersService.salvarItemEnSessionStorage('movimientoFiltros', JSON.stringify(this.movimientoFiltro));
     this.refrescar(this.apiPageRequestDefault);
   }
 
@@ -117,6 +126,7 @@ export class MovimientosComponent implements OnInit {
   }
 
   protected limpiarFiltros() {
+    HelpersService.removerItemDelSessionStorage('movimientoFiltros');
     this.movimientoFiltro = this.filtroInicial();
   }
 
