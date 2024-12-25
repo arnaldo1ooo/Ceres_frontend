@@ -13,7 +13,8 @@ import { SucursalesService } from 'src/app/modulos/sucursales/services/sucursale
 import { Departamento } from '../../../../departamentos/model/departamento.model';
 import { AvisoHelpersService } from '../../../../../compartido/services/aviso-helpers.service';
 import { finalize } from 'rxjs';
-import { API_URL_SERVER, COD_ERROR_CONEXION, COD_ERROR_DATOS_INVALIDOS } from 'src/app/compartido/constantes/constantes';
+import { COD_ERROR_CONEXION, COD_ERROR_DATOS_INVALIDOS } from 'src/app/compartido/constantes/constantes';
+import { ApiEndpointsService } from 'src/app/compartido/services/api-endpoints.service';
 
 
 @Component({
@@ -36,10 +37,11 @@ export class LoginFormComponent implements OnInit {
     private _translocoService: TranslocoService,
     private _sucursalesService: SucursalesService,
     private _departamentosService: DepartamentosService,
-    private _avisoHelpersService: AvisoHelpersService) { }
+    private _avisoHelpersService: AvisoHelpersService,
+    private _apiEndpointsService: ApiEndpointsService) { }
 
   ngOnInit(): void {
-    console.log("este es el env: "+ API_URL_SERVER)
+    console.log("este es el env: "+ this._apiEndpointsService.API_URL_SERVER)
   }
 
   login() {

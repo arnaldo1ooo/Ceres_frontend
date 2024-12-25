@@ -9,7 +9,6 @@ import { HelpersService, RequerirAutocomplete } from 'src/app/compartido/service
 import { MovimientoFiltroDTO } from '../model/dtos/movimientoFiltroDTO';
 import { Movimiento } from '../model/movimiento.model';
 import {
-  API_URL_MOVIMIENTOS,
   HORA_FINAL,
   HORA_INICIAL,
   MINUTO_FINAL,
@@ -30,6 +29,7 @@ import { FormaPago } from '../enums/formaPago.enum';
 import { Mercaderia } from '../../mercaderias/model/mercaderia.model';
 import { MovimientoCuentaContable } from '../model/movimientoCuentaContable';
 import { CuentaContableDTO } from '../model/dtos/cuenta-contable-dto';
+import { ApiEndpointsService } from 'src/app/compartido/services/api-endpoints.service';
 
 @Injectable({
   providedIn: 'root'
@@ -39,10 +39,11 @@ export class MovimientosService {
 
   constructor(
     private _httpClient: HttpClient,
-    private _formBuilder: NonNullableFormBuilder) { } //El httpClient permite la conexion con el backend
+    private _formBuilder: NonNullableFormBuilder,
+    private _apiEndPointsService: ApiEndpointsService) { } //El httpClient permite la conexion con el backend
 
   listarTodosMovimientosLista() {
-    return this._httpClient.get<MovimientoListaDTO[]>(API_URL_MOVIMIENTOS)
+    return this._httpClient.get<MovimientoListaDTO[]>(this._apiEndPointsService.API_URL_MOVIMIENTOS)
       .pipe(                                        //Manipular datos
         first(),                                    //Ejecuta la accion al primer resultado
         delay(100),
@@ -55,7 +56,7 @@ export class MovimientosService {
   }
 
   listarTodosMovimientosListaFiltro() {
-    return this._httpClient.get<MovimientoListaDTO[]>(API_URL_MOVIMIENTOS + '/filtro')
+    return this._httpClient.get<MovimientoListaDTO[]>(this._apiEndPointsService.API_URL_MOVIMIENTOS + '/filtro')
       .pipe(                                        //Manipular datos
         first(),                                    //Ejecuta la accion al primer resultado
         delay(100)                             //Espera de x segundos
@@ -64,7 +65,7 @@ export class MovimientosService {
 
   public listarTodosMovimientosListaFiltroPage(movimientoFiltro: MovimientoFiltroDTO, apiPageRequest: ApiPageRequest): Observable<Page> {
 
-    return this._httpClient.get<Page>(API_URL_MOVIMIENTOS
+    return this._httpClient.get<Page>(this._apiEndPointsService.API_URL_MOVIMIENTOS
       + '/filtroPage?'
       + `id=${movimientoFiltro.id}`
       + `&idTipo=${movimientoFiltro.idTipo}`
@@ -88,27 +89,27 @@ export class MovimientosService {
   }
 
   private crear(movimiento: Partial<Movimiento>) {
-    return this._httpClient.post<Movimiento>(API_URL_MOVIMIENTOS, movimiento).pipe(first());
+    return this._httpClient.post<Movimiento>(this._apiEndPointsService.API_URL_MOVIMIENTOS, movimiento).pipe(first());
   }
 
   private actualizar(movimiento: Partial<Movimiento>) {
-    return this._httpClient.put<Movimiento>(`${API_URL_MOVIMIENTOS}/${movimiento._id}`, movimiento).pipe(first());
+    return this._httpClient.put<Movimiento>(`${this._apiEndPointsService.API_URL_MOVIMIENTOS}/${movimiento._id}`, movimiento).pipe(first());
   }
 
   eliminar(id: string) {
-    return this._httpClient.delete(`${API_URL_MOVIMIENTOS}/${id}`).pipe(first());
+    return this._httpClient.delete(`${this._apiEndPointsService.API_URL_MOVIMIENTOS}/${id}`).pipe(first());
   }
 
   inactivar(id: string) {
-    return this._httpClient.put<MovimientoListaDTO>(`${API_URL_MOVIMIENTOS}/inactivar/${id}`, null).pipe(first());
+    return this._httpClient.put<MovimientoListaDTO>(`${this._apiEndPointsService.API_URL_MOVIMIENTOS}/inactivar/${id}`, null).pipe(first());
   }
 
   cargarPorId(id: string) {
-    return this._httpClient.get<MovimientoDetalleDTO>(`${API_URL_MOVIMIENTOS}/${id}`);
+    return this._httpClient.get<MovimientoDetalleDTO>(`${this._apiEndPointsService.API_URL_MOVIMIENTOS}/${id}`);
   }
 
   imprimirMovimientoA4Pdf(id: string) {
-    return this._httpClient.get(`${API_URL_MOVIMIENTOS}/generarMovimientoA4PDF/${id}`, { responseType: 'blob' });
+    return this._httpClient.get(`${this._apiEndPointsService.API_URL_MOVIMIENTOS}/generarMovimientoA4PDF/${id}`, { responseType: 'blob' });
   }
 
   imprimirLibroDiarioPorItemA4Pdf(fechaInicio: Date, fechaFin: Date, idMoneda: number, idDepartamento: number): Observable<Blob> {
@@ -118,7 +119,7 @@ export class MovimientosService {
       .set('idMoneda', idMoneda.toString())
       .set('idDepartamento', idDepartamento.toString());
 
-    return this._httpClient.get(`${API_URL_MOVIMIENTOS}/generarLibroDiarioPorItemA4PDF`,
+    return this._httpClient.get(`${this._apiEndPointsService.API_URL_MOVIMIENTOS}/generarLibroDiarioPorItemA4PDF`,
       { params: params, responseType: 'blob' });
   }
 

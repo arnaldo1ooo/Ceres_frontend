@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { firstValueFrom, map, Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Login } from 'src/app/modulos/login/model/login';
-import { API_URL_IS_NOMBRE_USUARIO_EXISTE } from 'src/app/compartido/constantes/constantes';
+import { ApiEndpointsService } from 'src/app/compartido/services/api-endpoints.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,8 @@ export class AuthService {
 
   constructor(
     private _httpClient: HttpClient,
-    private _router: Router
+    private _router: Router,
+    private _apiEndPointsService: ApiEndpointsService
   ) {
     this.sesionIniciada = new BehaviorSubject<boolean>(this.isTokenValido(this.getTokenAlmacenado()));
   }
@@ -64,7 +65,7 @@ export class AuthService {
 
   public async isNombreUsuarioExiste(nombreUsuario: string): Promise<boolean> {
     try {
-      return await firstValueFrom(this._httpClient.get<boolean>(API_URL_IS_NOMBRE_USUARIO_EXISTE
+      return await firstValueFrom(this._httpClient.get<boolean>(this._apiEndPointsService.API_URL_IS_NOMBRE_USUARIO_EXISTE
         + `?nombreUsuario=${nombreUsuario}`));
 
     } catch (error) {
