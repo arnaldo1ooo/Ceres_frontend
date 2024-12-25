@@ -8,5 +8,17 @@ services:
       dockerfile: Dockerfile
     environment:
       NODE_ENV: production
+      TZ: America/Asuncion
     ports:
       - 4500:80
+    env_file:
+      -  ./backend.env 
+    
+    command:  #Actualiza automaticamente backend.env con la ip publica actual y #Reemplaza config.json con config.templ.json
+            /bin/sh -c "
+             export NOMBRE_SERVIDOR=$(curl https://ipinfo.io/ip) && \echo -e "\NOMBRE_SERVIDOR="$NOMBRE_SERVIDOR >> backend.env;
+            
+             envsubst '$${NOMBRE_SERVIDOR},$${PUERTO_BACKEND}' 
+              < /usr/share/nginx/html/assets/config.templ.json > /usr/share/nginx/html/assets/config.json 
+              && exec nginx -g 'daemon off;'
+            "

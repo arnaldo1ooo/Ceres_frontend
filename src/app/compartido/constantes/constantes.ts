@@ -4,8 +4,10 @@ export class Constantes {
 
 
 }
-export const API_NOMBRE: string = 'ceres-api';
-export const API_URL_SERVER = 'http://localhost:8080/';
+export const API_NOMBRE: string = '/ceres-api';
+export const API_URL_SERVER = environment.production 
+                                    ? process.env['API_URL_SERVER'] 
+                                    : environment.apiUrlServer; //Si es prod obtiene el env de docker-compose, sino obtiene del enviroment.prod
 export const API_URL_LOGIN: string = API_URL_SERVER + 'login';
 export const API_URL_IS_NOMBRE_USUARIO_EXISTE: string = API_URL_LOGIN + '/isNombreUsuarioExiste';
 export const API_URL_VERSION_ACTUAL: string = API_URL_LOGIN + '/versionActual';
