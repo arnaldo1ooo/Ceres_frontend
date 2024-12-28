@@ -1,3 +1,0 @@
-{ 
-    "apiUrlServer": "https://${NOMBRE_SERVIDOR}:${PUERTO_BACKEND}" 
-}

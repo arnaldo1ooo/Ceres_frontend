@@ -19,6 +19,7 @@ export class AuthInterceptor implements HttpInterceptor {
     private _configService: ConfigService
   ) { }
 
+  //INTERCEPTOR DE AUTENTICACION, intercepta el token
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> { //Intercepta el token almacenado
     const token = this._authService.getTokenAlmacenado();
   
@@ -57,7 +58,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
       request = requestModificado;
     }
-    console.log(request.url)
+    
     return next.handle(request);  //Redirige al request solicitado sin headers
   }
 

@@ -12,13 +12,16 @@ services:
     ports:
       - 4500:80
     env_file:
-      -  ./backend.env 
+      - ./backend.env 
     
-    command:  #Actualiza automaticamente backend.env con la ip publica actual y #Reemplaza config.json con config.templ.json
+    command:  # Obtiene la IP local, la guarda en backend.env, 
+              # reemplaza las variables en config-formato.json con valores dinámicos y 
+              # genera el archivo config.json en docker, en la direccion /usr/share/nginx/html/assets/ antes de iniciar el servidor.
+                  # Para obtener ip publica de la maquina: NOMBRE_SERVIDOR=$(curl https://ipinfo.io/ip)
             /bin/sh -c "
-             export NOMBRE_SERVIDOR=$(curl https://ipinfo.io/ip) && \echo -e "\NOMBRE_SERVIDOR="$NOMBRE_SERVIDOR >> backend.env;
+             export NOMBRE_SERVIDOR=$(ip route | awk '/default/ {print $3}') && \echo -e "\NOMBRE_SERVIDOR="$NOMBRE_SERVIDOR >> backend.env;
             
              envsubst '$${NOMBRE_SERVIDOR},$${PUERTO_BACKEND}' 
-              < /usr/share/nginx/html/assets/config.templ.json > /usr/share/nginx/html/assets/config.json 
+              < /usr/share/nginx/html/assets/config-formato.json > /usr/share/nginx/html/assets/config.json 
               && exec nginx -g 'daemon off;'
             "
