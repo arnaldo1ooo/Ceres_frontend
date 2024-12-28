@@ -4,7 +4,7 @@ import { delay, first } from 'rxjs';
 
 import { Departamento } from '../model/departamento.model';
 import { DepartamentoListaDTO } from './../model/dtos/departamentoListaDTO';
-import { ApiEndpointsService } from 'src/app/compartido/services/api-endpoints.service';
+import { API_URL_DEPARTAMENTOS } from 'src/app/compartido/constantes/constantes';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +12,10 @@ import { ApiEndpointsService } from 'src/app/compartido/services/api-endpoints.s
 export class DepartamentosService {
 
   constructor(
-    private _httpClient: HttpClient,
-    private _apiEndPointsService: ApiEndpointsService) { } //El httpClient permite la conexion con el backend
+    private _httpClient: HttpClient) { } //El httpClient permite la conexion con el backend
 
   listarTodosDepartamentos() {
-    return this._httpClient.get<DepartamentoListaDTO[]>(this._apiEndPointsService.API_URL_DEPARTAMENTOS)
+    return this._httpClient.get<DepartamentoListaDTO[]>(API_URL_DEPARTAMENTOS)
       .pipe(                                        //Manipular datos
         first(),                                    //Ejecuta la accion al primer resultado
         delay(100)/*,                                //Espera de x segundos
@@ -25,7 +24,7 @@ export class DepartamentosService {
   }
 
   listarTodosDepartamentosActivos() {
-    return this._httpClient.get<DepartamentoListaDTO[]>(this._apiEndPointsService.API_URL_DEPARTAMENTOS + '/activos')
+    return this._httpClient.get<DepartamentoListaDTO[]>(API_URL_DEPARTAMENTOS + '/activos')
       .pipe(                                        //Manipular datos
         first(),                                    //Ejecuta la accion al primer resultado
         delay(100)                             //Espera de x segundos
@@ -33,7 +32,7 @@ export class DepartamentosService {
   }
 
   listarTodosPorSucursal(idSucursal: string) {
-    return this._httpClient.get<DepartamentoListaDTO[]>(this._apiEndPointsService.API_URL_DEPARTAMENTOS + '/filtrarPorSucursal?' + `idSucursal=${idSucursal}`)
+    return this._httpClient.get<DepartamentoListaDTO[]>(API_URL_DEPARTAMENTOS + '/filtrarPorSucursal?' + `idSucursal=${idSucursal}`)
     .pipe(
       first(),
       delay(100)
@@ -51,23 +50,23 @@ export class DepartamentosService {
   }
 
   private crear(departamento: Partial<Departamento>) {
-    return this._httpClient.post<Departamento>(this._apiEndPointsService.API_URL_DEPARTAMENTOS, departamento).pipe(first());
+    return this._httpClient.post<Departamento>(API_URL_DEPARTAMENTOS, departamento).pipe(first());
   }
 
   private actualizar(departamento: Partial<Departamento>) {
-    return this._httpClient.put<Departamento>(`${this._apiEndPointsService.API_URL_DEPARTAMENTOS}/${departamento._id}`, departamento).pipe(first());
+    return this._httpClient.put<Departamento>(`${API_URL_DEPARTAMENTOS}/${departamento._id}`, departamento).pipe(first());
   }
 
   eliminar(id: string) {
-    return this._httpClient.delete(`${this._apiEndPointsService.API_URL_DEPARTAMENTOS}/${id}`).pipe(first());
+    return this._httpClient.delete(`${API_URL_DEPARTAMENTOS}/${id}`).pipe(first());
   }
 
   inactivar(id: string) {
-    return this._httpClient.put<Departamento>(`${this._apiEndPointsService.API_URL_DEPARTAMENTOS}/inactivar/${id}`, null).pipe(first());
+    return this._httpClient.put<Departamento>(`${API_URL_DEPARTAMENTOS}/inactivar/${id}`, null).pipe(first());
   }
 
   cargarPorId(id: string) {
-    return this._httpClient.get<Departamento>(`${this._apiEndPointsService.API_URL_DEPARTAMENTOS}/${id}`);
+    return this._httpClient.get<Departamento>(`${API_URL_DEPARTAMENTOS}/${id}`);
   }
 
 }

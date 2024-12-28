@@ -3,8 +3,7 @@
 // La lista de reemplazos de archivos se puede encontrar en `angular.json`.
 
 export const environment = {
-  production: false,
-  apiUrlServer: 'http://localhost:8080'
+  production: false
 };
 
 /*

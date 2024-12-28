@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { API_NOMBRE } from '../constantes/constantes';
 import { lastValueFrom } from 'rxjs';
 
 interface Config {
-  url: string;
+  apiUrlServer: string;
 }
 
 export interface IAppConfig {
-  baseUrl: string;
-  baseDMUrl: string;
-  baseStandardUrl: string;
+  apiUrlServer: string;
   load: () => Promise<void>;
 }
 
@@ -18,33 +15,29 @@ export interface IAppConfig {
   providedIn: 'root'
 })
 export class ConfigService implements IAppConfig {
-  public baseUrl!: string;
-  public baseDMUrl!: string;
-  public baseStandardUrl!: string;
+  public apiUrlServer!: string;
 
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly _http: HttpClient) { }
 
-  public load(): Promise<void> {
-    return lastValueFrom(
-      this.http.get<Config>('assets/config.templ.json')
-    )
-      .then(config => {
-        if (config) {
-          this.baseUrl = config.url;
-        } else {
-          console.error('Config es undefined');
-        }
-      })
-      .catch(error => {
-        console.error('Error cargando config:', error);
-      });
+  public async load(): Promise<void> {
+    try {
+      console.log("Se carga config");
+      const config = await lastValueFrom(this._http.get<Config>('assets/config.json'));
+
+      if (config) {
+        this.apiUrlServer = config.apiUrlServer; //Se obtiene el apiUrlServer del archivo Config del Docker, ubicado en /usr/share/nginx/html/assets/config.json
+      }
+      else {
+        console.error('Config es undefined');
+      }
+    } 
+    catch (error) {
+      console.error('No se pudo cargar config:', error);
+    }
   }
 
-  public getAPIUrl(endpoint: string): string {
-    return this.baseUrl + API_NOMBRE + endpoint;
-  }
 }
 
-export function initConfig(config: ConfigService): () => Promise<void> {
-  return () => config.load();
+export function iniciarConfig(configService: ConfigService): () => Promise<void> {
+  return () => configService.load();
 }

@@ -3,6 +3,27 @@ export class Constantes {
 }
 export const API_NOMBRE: string = '/ceres-api';
 
+//ENDPOINTS
+export const API_URL_LOGIN = '/login';
+export const API_URL_IS_NOMBRE_USUARIO_EXISTE = API_URL_LOGIN + '/isNombreUsuarioExiste';
+export const API_URL_VERSION_ACTUAL = API_URL_LOGIN + '/versionActual';
+export const API_URL_BD_ACTUAL = API_URL_LOGIN + '/bdActual';
+
+export const API_URL_MERCADERIAS = '/mercaderias';
+export const API_URL_SUCURSALES = '/sucursales';
+export const API_URL_DPTOS_POLITICO = '/departamentosPolitico';
+
+export const API_URL_MUNICIPIOS = '/municipios';
+export const API_URL_MUNICIPIOS_POR_DPTO_POLITICO = '/municipios/filtrarPorDepartamentoPolitico';
+
+export const API_URL_DEPARTAMENTOS = '/departamentos';
+export const API_URL_TIPOS_MOVIMIENTO = '/tipos-movimiento';
+export const API_URL_MOVIMIENTOS = '/movimientos';
+export const API_URL_MONEDAS = '/monedas';
+export const API_URL_ENTIDADES = '/entidades';
+export const API_URL_CUENTAS_CONTABLES = '/cuentasContables';
+
+
 export const DEFAULT_PAGE_TAMANHO: number = 10;
 export const DEFAULT_PAGE_TAMANHOS: number[] = [10, 20, 50];
 export const DEFAULT_ORDENAR_POR: string = 'id';

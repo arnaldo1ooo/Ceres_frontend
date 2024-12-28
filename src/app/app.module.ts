@@ -15,7 +15,7 @@ import { SpinnerCargandoInterceptor } from './compartido/componentes/spinner-car
 import { FORMATO_FECHA_HORA_SIN_SEG_COMUN, FORMATO_REGIONAL_ES } from './compartido/constantes/constantes';
 import { MaterialModulosModule } from './compartido/material-modulos/material-modulos.module';
 import { NgxMatDateFormats, NGX_MAT_DATE_FORMATS } from '@angular-material-components/datetime-picker';
-import { ConfigService, initConfig } from './compartido/services/config.service';
+import { ConfigService, iniciarConfig } from './compartido/services/config.service';
 
 registerLocaleData(localeEs, FORMATO_REGIONAL_ES);
 
@@ -52,6 +52,7 @@ const FORMATO_FECHA_PERSONALIZADO: NgxMatDateFormats = {
       useClass: SpinnerCargandoInterceptor, 
       multi: true 
     }, 
+    
     { provide: LOCALE_ID, //Configura el LOCALE_ID a 'es' para usar el español como idioma
       useValue: FORMATO_REGIONAL_ES 
     }, 
@@ -59,8 +60,8 @@ const FORMATO_FECHA_PERSONALIZADO: NgxMatDateFormats = {
       useValue: FORMATO_FECHA_PERSONALIZADO 
     },
     {
-      provide: APP_INITIALIZER, //Sirve para el api url server
-      useFactory: initConfig,
+      provide: APP_INITIALIZER, //Inicia el config, Sirve para el api url server
+      useFactory: iniciarConfig,
       deps: [ConfigService],
       multi: true
     }

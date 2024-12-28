@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { HelpersService } from '../../../compartido/services/helpers.service';
 import { Sucursal } from '../../sucursales/model/sucursal.model';
 import { Departamento } from '../../departamentos/model/departamento.model';
-import { ApiEndpointsService } from 'src/app/compartido/services/api-endpoints.service';
+import { API_URL_BD_ACTUAL, API_URL_LOGIN, API_URL_VERSION_ACTUAL } from 'src/app/compartido/constantes/constantes';
 
 @Injectable({
   providedIn: 'root'
@@ -16,12 +16,10 @@ export class LoginService {
 
   constructor(
     private authService: AuthService,
-    private _httpClient: HttpClient,
-    private _apiEndPointsService: ApiEndpointsService
-  ) { }
+    private _httpClient: HttpClient) { }
 
   public login(credenciales: Login) {
-    return this.authService.login(credenciales, this._apiEndPointsService.API_URL_LOGIN);
+    return this.authService.login(credenciales, API_URL_LOGIN);
   }
 
   //metodo Sincronico, espera la respuesta para continuar
@@ -30,11 +28,11 @@ export class LoginService {
   }
 
   public getVersionBackeEnd(): Observable<string> {
-    return this._httpClient.get(this._apiEndPointsService.API_URL_VERSION_ACTUAL, { responseType: 'text' });  //Para recibir string
+    return this._httpClient.get(API_URL_VERSION_ACTUAL, { responseType: 'text' });  //Para recibir string
   }
 
   public getBaseDatosActual(): Observable<string> {
-    return this._httpClient.get(this._apiEndPointsService.API_URL_BD_ACTUAL, { responseType: 'text' });  //Para recibir string
+    return this._httpClient.get(API_URL_BD_ACTUAL, { responseType: 'text' });  //Para recibir string
   }
 
   public getSucursalLogado(): Sucursal | null {

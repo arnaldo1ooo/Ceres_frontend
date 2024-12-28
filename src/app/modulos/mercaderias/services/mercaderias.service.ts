@@ -8,7 +8,7 @@ import { MercaderiaFiltroDTO } from '../model/dtos/mercaderiaFiltroDTO';
 import { Mercaderia } from '../model/mercaderia.model';
 import { ApiPageResponse } from '../../../compartido/interfaces/api-page-response';
 import { ApiResponse } from 'src/app/compartido/interfaces/api-response';
-import { ApiEndpointsService } from 'src/app/compartido/services/api-endpoints.service';
+import { API_URL_MERCADERIAS } from 'src/app/compartido/constantes/constantes';
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +16,10 @@ import { ApiEndpointsService } from 'src/app/compartido/services/api-endpoints.s
 export class MercaderiasService {
 
   constructor(
-    private _httpClient: HttpClient,
-    private _apiEndPointsService: ApiEndpointsService) { } //El httpClient permite la conexion con el backend
+    private _httpClient: HttpClient) { } //El httpClient permite la conexion con el backend
 
   listarTodosMercaderias() {
-    return this._httpClient.get<Mercaderia[]>(this._apiEndPointsService.API_URL_MERCADERIAS)
+    return this._httpClient.get<Mercaderia[]>(API_URL_MERCADERIAS)
       .pipe(
         first(),
         delay(100)
@@ -28,7 +27,7 @@ export class MercaderiasService {
   }
 
   listarTodosMercaderiasActivos(): Observable<Mercaderia[]> {
-    return this._httpClient.get<ApiResponse<Mercaderia[]>>(this._apiEndPointsService.API_URL_MERCADERIAS + '/activos')
+    return this._httpClient.get<ApiResponse<Mercaderia[]>>(API_URL_MERCADERIAS + '/activos')
       .pipe(
         first(),
         delay(100),
@@ -37,7 +36,7 @@ export class MercaderiasService {
   }
 
   listarTodosMercaderiasFiltro() {
-    return this._httpClient.get<Mercaderia[]>(this._apiEndPointsService.API_URL_MERCADERIAS + '/filtro')
+    return this._httpClient.get<Mercaderia[]>(API_URL_MERCADERIAS + '/filtro')
       .pipe(                                        //Manipular datos
         first(),                                    //Ejecuta la accion al primer resultado
         delay(100)                             //Espera de x segundos
@@ -45,7 +44,7 @@ export class MercaderiasService {
   }
 
   listarTodosMercaderiasFiltroPage(mercaderiaFiltro: MercaderiaFiltroDTO, apiPageRequest: ApiPageRequest): Observable<ApiPageResponse> {
-    return this._httpClient.get<ApiPageResponse>(this._apiEndPointsService.API_URL_MERCADERIAS
+    return this._httpClient.get<ApiPageResponse>(API_URL_MERCADERIAS
       + '/filtroPage?' + `id=${mercaderiaFiltro.id}`
       + `&descripcion=${mercaderiaFiltro.descripcion}`
       + `&idTipo=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idTipo)}`
@@ -63,23 +62,23 @@ export class MercaderiasService {
   }
 
   private crear(mercaderia: Partial<Mercaderia>) {
-    return this._httpClient.post<Mercaderia>(this._apiEndPointsService.API_URL_MERCADERIAS, mercaderia).pipe(first());
+    return this._httpClient.post<Mercaderia>(API_URL_MERCADERIAS, mercaderia).pipe(first());
   }
 
   private actualizar(mercaderia: Partial<Mercaderia>) {
-    return this._httpClient.put<Mercaderia>(`${this._apiEndPointsService.API_URL_MERCADERIAS}/${mercaderia._id}`, mercaderia).pipe(first());
+    return this._httpClient.put<Mercaderia>(`${API_URL_MERCADERIAS}/${mercaderia._id}`, mercaderia).pipe(first());
   }
 
   eliminar(id: string) {
-    return this._httpClient.delete(`${this._apiEndPointsService.API_URL_MERCADERIAS}/${id}`).pipe(first());
+    return this._httpClient.delete(`${API_URL_MERCADERIAS}/${id}`).pipe(first());
   }
 
   inactivar(id: string) {
-    return this._httpClient.put<Mercaderia>(`${this._apiEndPointsService.API_URL_MERCADERIAS}/inactivar/${id}`, null).pipe(first());
+    return this._httpClient.put<Mercaderia>(`${API_URL_MERCADERIAS}/inactivar/${id}`, null).pipe(first());
   }
 
   cargarPorId(id: string): Observable<Mercaderia> {
-    return this._httpClient.get<ApiResponse<Mercaderia>>(`${this._apiEndPointsService.API_URL_MERCADERIAS}/${id}`)
+    return this._httpClient.get<ApiResponse<Mercaderia>>(`${API_URL_MERCADERIAS}/${id}`)
       .pipe(
         map(response => response.data)  // Extraer la mercadería desde `response.data`
       );

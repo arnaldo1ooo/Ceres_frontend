@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { AuthService } from './../services/auth.service';
+import { ConfigService } from 'src/app/compartido/services/config.service';
+import { API_NOMBRE } from 'src/app/compartido/constantes/constantes';
 
 
 
@@ -12,13 +14,14 @@ import { AuthService } from './../services/auth.service';
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
-    private authService: AuthService,
-    private router: Router
+    private _authService: AuthService,
+    private _router: Router,
+    private _configService: ConfigService
   ) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> { //Intercepta el token almacenado
-    const token = this.authService.getTokenAlmacenado();
-
+    const token = this._authService.getTokenAlmacenado();
+  
     if (HelpersService.urlDistintoALogin(request.url)) { //Si es distinto al login
       if (HelpersService.isNoNulo(token) && HelpersService.isNoUndefined(token)) {  //Si existe token almacenado
         if (!HelpersService.isTokenExpirado(token)) {
@@ -37,11 +40,29 @@ export class AuthInterceptor implements HttpInterceptor {
       this.logoutYredigirLogin();
     }
 
+   //Agrega la URL del server caso no posea
+    if(!request.url.startsWith('http') && !request.url.includes('assets')) {
+      let requestModificado;
+
+      if(request.url.includes('login')) { //login no usa nombre de api
+        requestModificado = request.clone({
+          url: this._configService.apiUrlServer + request.url
+        });
+      }
+      else {
+        requestModificado = request.clone({
+          url: this._configService.apiUrlServer + API_NOMBRE + request.url
+        });
+      }
+
+      request = requestModificado;
+    }
+    console.log(request.url)
     return next.handle(request);  //Redirige al request solicitado sin headers
   }
 
  logoutYredigirLogin() {
-    this.authService.cerrarSesion();
-    this.router.navigate(['login']) //Si no existe token o esta expirado redirige al login
+    this._authService.cerrarSesion();
+    this._router.navigate(['login']) //Si no existe token o esta expirado redirige al login
   }
 }

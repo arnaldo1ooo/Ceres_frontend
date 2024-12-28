@@ -11,12 +11,12 @@ import { EntidadFiltroDTO } from '../models/dtos/entidadFiltroDTO';
 import { EntidadListaDTO } from '../models/dtos/entidadListaDTO';
 
 import { Entidad } from '../models/entidad.model';
-import { Municipio } from '../models/municipio.model';
 import { ClaseEntidad } from '../models/claseEntidad.model';
 import { ApiPageResponse } from '../../../compartido/interfaces/api-page-response';
 import { ApiResponse } from 'src/app/compartido/interfaces/api-response';
-import { ValidatorsCustom } from '../../../compartido/validators/validators-custom';
-import { ApiEndpointsService } from 'src/app/compartido/services/api-endpoints.service';
+import { API_URL_ENTIDADES } from 'src/app/compartido/constantes/constantes';
+import { ValidatorsCustom } from 'src/app/compartido/validators/validators-custom';
+import { Municipio } from '../models/municipio.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,11 +25,10 @@ export class EntidadesService {
 
   constructor(
     private _httpClient: HttpClient, //El httpClient permite la conexion con el backend
-    private _formBuilder: NonNullableFormBuilder,
-    private _apiEndPointsService: ApiEndpointsService) { }
+    private _formBuilder: NonNullableFormBuilder) { }
 
   listarTodosEntidades() {
-    return this._httpClient.get<EntidadListaDTO[]>(this._apiEndPointsService.API_URL_ENTIDADES)
+    return this._httpClient.get<EntidadListaDTO[]>(API_URL_ENTIDADES)
       .pipe(
         first(),
         delay(100)
@@ -37,7 +36,7 @@ export class EntidadesService {
   }
 
   listarClasesEntidades() {
-    return this._httpClient.get<ApiResponse<ClaseEntidad[]>>(`${this._apiEndPointsService.API_URL_ENTIDADES}/listarClasesEntidad`)
+    return this._httpClient.get<ApiResponse<ClaseEntidad[]>>(`${API_URL_ENTIDADES}/listarClasesEntidad`)
       .pipe(
         first(),
         delay(100),
@@ -46,7 +45,7 @@ export class EntidadesService {
   }
 
   listarTodosEntidadesFiltroPage(entidadFiltro: EntidadFiltroDTO, apiPageRequest: ApiPageRequest): Observable<ApiPageResponse> {
-    return this._httpClient.get<ApiPageResponse>(this._apiEndPointsService.API_URL_ENTIDADES
+    return this._httpClient.get<ApiPageResponse>(API_URL_ENTIDADES
       + '/filtroPage?'
       + `id=${HelpersService.isNuloRetornaVacio(entidadFiltro.id)}`
       + `&nombreApellido=${HelpersService.isNuloRetornaVacio(entidadFiltro.nombreApellido)}`
@@ -58,7 +57,7 @@ export class EntidadesService {
   }
 
   public listarEntidadesPorClases(idsClaseEntidad: string[]): Observable<Entidad[]> {
-    return this._httpClient.get<ApiResponse<Entidad[]>>(this._apiEndPointsService.API_URL_ENTIDADES
+    return this._httpClient.get<ApiResponse<Entidad[]>>(API_URL_ENTIDADES
       + '/filtrarPorClases?' + `idsClaseEntidad=${idsClaseEntidad.join(", ")}`)
       .pipe(
         first(),
@@ -72,14 +71,14 @@ export class EntidadesService {
   }
 
   cargarPorId(id: string): Observable<Entidad> {
-    return this._httpClient.get<ApiResponse<Entidad>>(`${this._apiEndPointsService.API_URL_ENTIDADES}/${id}`)
+    return this._httpClient.get<ApiResponse<Entidad>>(`${API_URL_ENTIDADES}/${id}`)
       .pipe(
         map(response => response.data)
       );
   }
 
   inactivar(id: string) {
-    return this._httpClient.put<Entidad>(`${this._apiEndPointsService.API_URL_ENTIDADES}/inactivar/${id}`, null).pipe(first());
+    return this._httpClient.put<Entidad>(`${API_URL_ENTIDADES}/inactivar/${id}`, null).pipe(first());
   }
 
   public crearEntidadFormGroup(): FormGroup {
@@ -111,11 +110,11 @@ export class EntidadesService {
   }
 
   private crear(entidad: Partial<Entidad>) {
-    return this._httpClient.post<Entidad>(this._apiEndPointsService.API_URL_ENTIDADES, entidad).pipe(first());
+    return this._httpClient.post<Entidad>(API_URL_ENTIDADES, entidad).pipe(first());
   }
 
   private actualizar(entidad: Partial<Entidad>) {
-    return this._httpClient.put<Entidad>(`${this._apiEndPointsService.API_URL_ENTIDADES}/${entidad._id}`, entidad).pipe(first());
+    return this._httpClient.put<Entidad>(`${API_URL_ENTIDADES}/${entidad._id}`, entidad).pipe(first());
   }
 
 }
