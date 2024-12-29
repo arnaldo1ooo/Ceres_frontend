@@ -22,8 +22,8 @@ export class AuthInterceptor implements HttpInterceptor {
   //INTERCEPTOR DE AUTENTICACION, intercepta el token
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> { //Intercepta el token almacenado
     const token = this._authService.getTokenAlmacenado();
-  
-    if (HelpersService.urlDistintoALogin(request.url)) { //Si es distinto al login
+
+    if (this.urlDistintoALogin(request.url)) { //Si es distinto al login
       if (HelpersService.isNoNulo(token) && HelpersService.isNoUndefined(token)) {  //Si existe token almacenado
         if (!HelpersService.isTokenExpirado(token)) {
           let clonado = request.clone({
@@ -41,11 +41,11 @@ export class AuthInterceptor implements HttpInterceptor {
       this.logoutYredigirLogin();
     }
 
-   //Agrega la URL del server caso no posea
-    if(!request.url.startsWith('http') && !request.url.includes('assets')) {
+    //Agrega la URL del server caso no posea
+    if (!request.url.startsWith('http') && !request.url.includes('assets')) {
       let requestModificado;
 
-      if(request.url.includes('login')) { //login no usa nombre de api
+      if (request.url.includes('login')) { //login no usa nombre de api
         requestModificado = request.clone({
           url: this._configService.apiUrlServer + request.url
         });
@@ -58,12 +58,16 @@ export class AuthInterceptor implements HttpInterceptor {
 
       request = requestModificado;
     }
-    
+
     return next.handle(request);  //Redirige al request solicitado sin headers
   }
 
- logoutYredigirLogin() {
+  logoutYredigirLogin() {
     this._authService.cerrarSesion();
     this._router.navigate(['login']) //Si no existe token o esta expirado redirige al login
+  }
+
+  public urlDistintoALogin(url: any): boolean {
+    return url != null && !url.includes('login');
   }
 }
