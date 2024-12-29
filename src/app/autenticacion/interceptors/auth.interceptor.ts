@@ -20,8 +20,8 @@ export class AuthInterceptor implements HttpInterceptor {
   ) { }
 
   //INTERCEPTOR DE AUTENTICACION, intercepta el token
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> { //Intercepta el token almacenado
-    const token = this._authService.getTokenAlmacenado();
+  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    const token = this._authService.getTokenAlmacenado(); //Intercepta el token almacenado
 
     if (this.urlDistintoALogin(request.url)) { //Si es distinto al login
       if (HelpersService.isNoNulo(token) && HelpersService.isNoUndefined(token)) {  //Si existe token almacenado
