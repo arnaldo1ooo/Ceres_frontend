@@ -8,5 +8,30 @@ services:
       dockerfile: Dockerfile
     environment:
       NODE_ENV: production
+      TZ: America/Asuncion
     ports:
       - 4500:80
+    env_file:
+      - ./backend.env 
+
+    #Persiste el directorio assets en el volumen assets-persistente  
+    volumes:
+      - assets-persistente:/usr/share/nginx/html/assets
+    
+    #Generar dinamicamente nombre de server con ip publico 
+    command: # guarda nombre servidor en backend.env, 
+             # reemplaza las variables en config.json con my_ip_local
+             # genera el archivo config.json en docker, en la direccion /usr/share/nginx/html/assets/ antes de iniciar el servidor.
+             # obs: Para obtener ip publica de la maquina: NOMBRE_SERVIDOR=$(curl https://ipinfo.io/ip)
+      #/bin/sh -c 
+      #"
+       #echo 'Generando config.json dinamicamente...';
+       #export NOMBRE_SERVIDOR=$(curl https://ipinfo.io/ip) && echo -e '\NOMBRE_SERVIDOR=$NOMBRE_SERVIDOR' >> backend.env;
+       #envsubst '\$${NOMBRE_SERVIDOR},\$${PUERTO_BACKEND}' < /usr/share/nginx/html/assets/config-formato.json > /usr/share/nginx/html/assets/config.json;
+        
+       #exec nginx -g 'daemon off;';
+      #"
+
+#Se crea volumen para persistir config.json
+volumes:
+  assets-persistente:

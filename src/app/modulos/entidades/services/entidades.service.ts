@@ -11,12 +11,12 @@ import { EntidadFiltroDTO } from '../models/dtos/entidadFiltroDTO';
 import { EntidadListaDTO } from '../models/dtos/entidadListaDTO';
 
 import { Entidad } from '../models/entidad.model';
-import { Municipio } from '../models/municipio.model';
-import { API_URL_ENTIDADES } from './../../../compartido/constantes/constantes';
 import { ClaseEntidad } from '../models/claseEntidad.model';
 import { ApiPageResponse } from '../../../compartido/interfaces/api-page-response';
 import { ApiResponse } from 'src/app/compartido/interfaces/api-response';
-import { ValidatorsCustom } from '../../../compartido/validators/validators-custom';
+import { API_URL_ENTIDADES } from 'src/app/compartido/constantes/constantes';
+import { ValidatorsCustom } from 'src/app/compartido/validators/validators-custom';
+import { Municipio } from '../models/municipio.model';
 
 @Injectable({
   providedIn: 'root'

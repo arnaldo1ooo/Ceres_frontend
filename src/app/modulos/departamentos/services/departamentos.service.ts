@@ -1,17 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { delay, first } from 'rxjs';
-import { API_URL_DEPARTAMENTOS } from 'src/app/compartido/constantes/constantes';
 
 import { Departamento } from '../model/departamento.model';
 import { DepartamentoListaDTO } from './../model/dtos/departamentoListaDTO';
+import { API_URL_DEPARTAMENTOS } from 'src/app/compartido/constantes/constantes';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DepartamentosService {
 
-  constructor(private _httpClient: HttpClient) { } //El httpClient permite la conexion con el backend
+  constructor(
+    private _httpClient: HttpClient) { } //El httpClient permite la conexion con el backend
 
   listarTodosDepartamentos() {
     return this._httpClient.get<DepartamentoListaDTO[]>(API_URL_DEPARTAMENTOS)

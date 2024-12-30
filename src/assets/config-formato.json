@@ -1,0 +1,3 @@
+{ 
+    "apiUrlServer": "http://${NOMBRE_SERVIDOR}:${PUERTO_BACKEND}" 
+}

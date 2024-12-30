@@ -1,8 +1,15 @@
 <div class="style-container" [class.style-is-mobile]="mobileQuery.matches" *ngIf="shouldRun">
-  <mat-toolbar color="primary" class="style-toolbar" *ngIf="isSesionIniciada$ | async"> <!--Si se inició sesion muestra rl boton para abrir barra lateral-->
+  <mat-toolbar color="primary" class="style-toolbar" *ngIf="isSesionIniciada$ | async">
+    <!--Si se inició sesion muestra rl boton para abrir barra lateral-->
     <button mat-icon-button (click)="abrirOCerrar()"><mat-icon>menu</mat-icon></button>
     <span class="style-app-nombre">Sistema Ceres</span>
     <span class="style-expandir"></span> <!--Expande el espacio para que los elementos siguientes queden al final-->
+    
+    <button mat-icon-button (click)="alternarTema()"
+      matTooltip="{{ temaOscuro ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro' }}" aria-label="Cambiar tema">
+      <mat-icon>{{ !temaOscuro ? 'light_mode' : 'dark_mode' }}</mat-icon>
+    </button>
+    
     <button mat-button (click)="cerrarSesion()">Desconectar</button>
   </mat-toolbar>
 
@@ -28,4 +35,3 @@
   </div>
 
 </div>
-

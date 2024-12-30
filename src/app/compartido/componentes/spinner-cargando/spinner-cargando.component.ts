@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SpinnerCargandoService } from './services/spinner-cargando.service';
 
 @Component({
   selector: 'app-spinner-cargando',
   templateUrl: './spinner-cargando.component.html',
-  styleUrls: ['./spinner-cargando.component.scss']
+  styleUrls: ['./spinner-cargando.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SpinnerCargandoComponent {
 

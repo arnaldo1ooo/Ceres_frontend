@@ -34,7 +34,7 @@ export class EntidadesComponent implements OnInit {
   protected listSituaciones = Object.values(Situacion);
   protected situacionUtils = SituacionUtils;
   protected listSucursales: any;
-  protected entidadFiltro: EntidadFiltroDTO = this.filtroInicial();
+  protected entidadFiltro!: EntidadFiltroDTO;
   protected isFiltrando: boolean = false;
   protected apiPageResponse!: ApiPageResponse;
 
@@ -62,7 +62,16 @@ export class EntidadesComponent implements OnInit {
 
   ngOnInit(): void {
     this.listarSucursales();
+    this.recuperarFiltrosDeSesion();
     this.filtrar();
+  }
+
+  private recuperarFiltrosDeSesion() {
+    const filtrosGuardados = sessionStorage.getItem('entidadFiltros');
+    
+    this.entidadFiltro = filtrosGuardados 
+                            ? JSON.parse(filtrosGuardados) 
+                            : this.filtroInicial();
   }
 
   refrescar(page: ApiPageRequest) {
@@ -143,6 +152,7 @@ export class EntidadesComponent implements OnInit {
   }
 
   public filtrar() {
+    HelpersService.salvarItemEnSessionStorage('entidadFiltros', JSON.stringify(this.entidadFiltro));
     this.refrescar(this.apiPageRequestDefault);
   }
 
@@ -152,6 +162,7 @@ export class EntidadesComponent implements OnInit {
   }
 
   protected limpiarFiltros() {
+    HelpersService.removerItemDelSessionStorage('entidadFiltros');
     this.entidadFiltro = this.filtroInicial();
   }
 

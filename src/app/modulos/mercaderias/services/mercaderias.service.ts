@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { delay, first, map, Observable } from 'rxjs';
-import { API_URL_MERCADERIAS } from 'src/app/compartido/constantes/constantes';
 import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 
@@ -9,13 +8,15 @@ import { MercaderiaFiltroDTO } from '../model/dtos/mercaderiaFiltroDTO';
 import { Mercaderia } from '../model/mercaderia.model';
 import { ApiPageResponse } from '../../../compartido/interfaces/api-page-response';
 import { ApiResponse } from 'src/app/compartido/interfaces/api-response';
+import { API_URL_MERCADERIAS } from 'src/app/compartido/constantes/constantes';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MercaderiasService {
 
-  constructor(private _httpClient: HttpClient) { } //El httpClient permite la conexion con el backend
+  constructor(
+    private _httpClient: HttpClient) { } //El httpClient permite la conexion con el backend
 
   listarTodosMercaderias() {
     return this._httpClient.get<Mercaderia[]>(API_URL_MERCADERIAS)
