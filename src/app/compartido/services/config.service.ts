@@ -30,7 +30,7 @@ export class ConfigService implements IAppConfig {
       else {
         console.error('Config es undefined');
       }
-    } 
+    }
     catch (error) {
       console.error('No se pudo cargar config:', error);
     }
