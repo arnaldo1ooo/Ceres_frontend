@@ -58,7 +58,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
       request = requestModificado;
     }
-
+    
     return next.handle(request);  //Redirige al request solicitado sin headers
   }
 
@@ -67,7 +67,7 @@ export class AuthInterceptor implements HttpInterceptor {
     this._router.navigate(['login']) //Si no existe token o esta expirado redirige al login
   }
 
-  public urlDistintoALogin(url: any): boolean {
+  public urlDistintoALogin(url: string): boolean {
     return url != null && !url.includes('login');
   }
 }
