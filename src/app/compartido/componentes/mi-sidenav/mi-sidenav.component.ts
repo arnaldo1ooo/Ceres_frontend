@@ -1,7 +1,8 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, Renderer2 } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { AuthService } from 'src/app/autenticacion/services/auth.service';
+import { HelpersService } from '../../services/helpers.service';
 
 @Component({
   selector: 'app-mi-sidenav',
@@ -11,8 +12,9 @@ import { AuthService } from 'src/app/autenticacion/services/auth.service';
 export class MiSidenavComponent implements OnInit {
 
   mobileQuery: MediaQueryList;
-  shouldRun = true;
-  isAbierto = true;
+  shouldRun: boolean = true;
+  isAbierto: boolean = true;
+  temaOscuro: boolean = false;
 
   menus = [ //Las rutas se encuentran en app-routing.module
     { nombre: "Home", ruta: "home", icono: "home" },
@@ -27,7 +29,8 @@ export class MiSidenavComponent implements OnInit {
   constructor(
     public changeDetectorRef: ChangeDetectorRef,
     public media: MediaMatcher,
-    private authService: AuthService
+    private authService: AuthService,
+    private renderer: Renderer2
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -35,7 +38,7 @@ export class MiSidenavComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.iniciarTema();
   }
 
   ngOnDestroy(): void {
@@ -49,10 +52,42 @@ export class MiSidenavComponent implements OnInit {
 
   abrirOCerrar() {
     this.isAbierto = !this.isAbierto;
- }
+  }
 
- public get isSesionIniciada$(): Observable<boolean> {
-  return this.authService.isSesionIniciada;
- }
+  public get isSesionIniciada$(): Observable<boolean> {
+    return this.authService.isSesionIniciada;
+  }
+
+  private iniciarTema() {
+    const isTemaOscuroEnLocal = HelpersService.obtenerItemDelLocalStorage('temaOscuro');
+
+    if (isTemaOscuroEnLocal === "")
+      HelpersService.salvarItemEnLocalStorage('temaOscuro', this.temaOscuro.toString());
+
+    if (isTemaOscuroEnLocal === 'true') {
+      this.aplicarTemaOscuro();
+      this.temaOscuro = true;
+    }
+  }
+
+  public alternarTema(): void {
+    if (this.temaOscuro) {
+      this.aplicarTemaClaro();
+    }
+    else {
+      this.aplicarTemaOscuro();
+    }
+
+    this.temaOscuro = !this.temaOscuro;
+    HelpersService.salvarItemEnLocalStorage('temaOscuro', this.temaOscuro.toString());
+  }
+
+  private aplicarTemaClaro() {
+    this.renderer.removeClass(document.body, 'theme-alternate');
+  }
+
+  private aplicarTemaOscuro() {
+    this.renderer.addClass(document.body, 'theme-alternate');
+  }
 
 }

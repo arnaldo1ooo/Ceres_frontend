@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
 import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-error/dialogo-error.component';
-import { COD_ERROR_CONEXION, COD_ERROR_DATOS_INVALIDOS } from 'src/app/compartido/constantes/constantes';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { DepartamentosService } from 'src/app/modulos/departamentos/services/departamentos.service';
 import { Login } from 'src/app/modulos/login/model/login';
@@ -14,6 +13,8 @@ import { SucursalesService } from 'src/app/modulos/sucursales/services/sucursale
 import { Departamento } from '../../../../departamentos/model/departamento.model';
 import { AvisoHelpersService } from '../../../../../compartido/services/aviso-helpers.service';
 import { finalize } from 'rxjs';
+import { COD_ERROR_CONEXION, COD_ERROR_DATOS_INVALIDOS } from 'src/app/compartido/constantes/constantes';
+
 
 @Component({
   selector: 'app-login-form',
@@ -38,7 +39,7 @@ export class LoginFormComponent implements OnInit {
     private _avisoHelpersService: AvisoHelpersService) { }
 
   ngOnInit(): void {
-
+  
   }
 
   login() {

@@ -34,7 +34,7 @@ export class MercaderiasComponent implements OnInit {
   protected listaSituaciones = Object.values(Situacion);
   protected tipoMercaderiaUtils = TipoMercaderiaUtils;
   protected situacionUtils = SituacionUtils;
-  protected mercaderiaFiltro: MercaderiaFiltroDTO = this.filtroInicial();
+  protected mercaderiaFiltro!: MercaderiaFiltroDTO;
   protected isFiltrando: boolean = false;
   protected apiPageResponse!: ApiPageResponse;
 
@@ -59,7 +59,16 @@ export class MercaderiasComponent implements OnInit {
 
   ngOnInit(): void {
     this.listarDepartamentos();
+    this.recuperarFiltrosDeSesion();
     this.filtrar();
+  }
+
+  private recuperarFiltrosDeSesion() {
+    const filtrosGuardados = sessionStorage.getItem('mercaderiaFiltros');
+    
+    this.mercaderiaFiltro = filtrosGuardados 
+                            ? JSON.parse(filtrosGuardados) 
+                            : this.filtroInicial();
   }
 
   protected abrirDialogoError(msgError: string) {
@@ -71,6 +80,8 @@ export class MercaderiasComponent implements OnInit {
   }
 
   public filtrar() {
+    HelpersService.salvarItemEnSessionStorage('mercaderiaFiltros', JSON.stringify(this.mercaderiaFiltro));
+
     this.refrescar(this.apiPageRequestDefault);
   }
 
@@ -80,6 +91,7 @@ export class MercaderiasComponent implements OnInit {
   }
 
   protected limpiarFiltros() {
+    HelpersService.removerItemDelSessionStorage('mercaderiaFiltros');
     this.mercaderiaFiltro = this.filtroInicial();
   }
 

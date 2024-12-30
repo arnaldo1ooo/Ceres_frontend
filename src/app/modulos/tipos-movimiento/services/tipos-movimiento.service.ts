@@ -3,15 +3,16 @@ import { Injectable } from '@angular/core';
 import { catchError, delay, first, firstValueFrom, throwError } from 'rxjs';
 import { TipoMovimiento } from '../models/tipo-movimiento';
 
-import { API_URL_TIPOS_MOVIMIENTO } from './../../../compartido/constantes/constantes';
 import { MovimientoListaDTO } from './../../movimientos/model/dtos/movimientoListaDTO';
+import { API_URL_TIPOS_MOVIMIENTO } from 'src/app/compartido/constantes/constantes';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TiposMovimientoService {
 
-  constructor(private _httpClient: HttpClient) { } //El httpClient permite la conexion con el backend
+  constructor(
+    private _httpClient: HttpClient) { } //El httpClient permite la conexion con el backend
 
   //METODOS
   listarTodosTiposMovimiento() {  //Retorna un observable, para leer su retorno se debe suscribir

@@ -41,8 +41,9 @@ export class FechaHelpersService {
   }
 
   public static asignarHoraAFechaDate(fecha: Date, hora: number, minuto: number, segundo: number): Date {
-    return new Date(fecha.getFullYear(),
-      fecha.getMonth(), fecha.getDate(), hora, minuto, segundo);
+    const fechaDate = (fecha instanceof Date) ? fecha : new Date(fecha); //Verificar si esta en formato Date
+
+    return new Date(fechaDate.getFullYear(), fechaDate.getMonth(), fechaDate.getDate(), hora, minuto, segundo);
   }
 
   public static asignarHoraAFechaLDT(fecha: LocalDateTime | null, hora: number, minuto: number, segundo: number): LocalDateTime | null {

@@ -2,15 +2,16 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { delay, first, firstValueFrom } from 'rxjs';
 
-import { API_URL_MONEDAS } from './../../../compartido/constantes/constantes';
 import { Moneda } from './../models/moneda';
+import { API_URL_MONEDAS } from 'src/app/compartido/constantes/constantes';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MonedasService {
 
-  constructor(private _httpClient: HttpClient) { } //El httpClient permite la conexion con el backend
+  constructor(
+    private _httpClient: HttpClient) { } //El httpClient permite la conexion con el backend
 
   listarTodosMonedas() {
     return this._httpClient.get<Moneda[]>(API_URL_MONEDAS)

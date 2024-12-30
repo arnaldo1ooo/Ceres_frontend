@@ -1,19 +1,16 @@
 import { CuentaContableDTO } from '../model/dtos/cuenta-contable-dto';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { API_URL_CUENTAS_CONTABLES } from 'src/app/compartido/constantes/constantes';
 import { delay, first } from 'rxjs';
-import { FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
-import { MovimientoCuentaContable } from '../model/movimientoCuentaContable';
-import { Movimiento } from '../model/movimiento.model';
+import { API_URL_CUENTAS_CONTABLES } from 'src/app/compartido/constantes/constantes';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CuentasContablesService {
 
-  constructor(private _httpClient: HttpClient,
-    private _formBuilder: NonNullableFormBuilder) { } //El httpClient permite la conexion con el backend
+  constructor(
+    private _httpClient: HttpClient) { } //El httpClient permite la conexion con el backend
 
   listarTodosCuentasContablesActivos() {
     return this._httpClient.get<CuentaContableDTO[]>(API_URL_CUENTAS_CONTABLES + '/activos')

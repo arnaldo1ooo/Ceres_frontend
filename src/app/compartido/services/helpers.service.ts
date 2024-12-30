@@ -170,10 +170,6 @@ export class HelpersService {
     }
   }
 
-  public static urlDistintoALogin(url: any): boolean {
-    return url != null && !url.includes('login');
-  }
-
   public static idTodosReturnVacio(valor: string): string {
     return valor != "-1" ? valor : "";
   }

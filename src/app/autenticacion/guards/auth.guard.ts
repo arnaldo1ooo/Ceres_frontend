@@ -43,7 +43,7 @@ export class AuthGuard implements CanActivate, CanLoad {
 
       console.log("Sesión expirada..");
     }
-
+    
     this.router.navigate(['login']); //Si no existe token almacenado Redirige al login
     return false;
   }
