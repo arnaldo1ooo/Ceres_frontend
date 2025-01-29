@@ -8,6 +8,7 @@ export const API_URL_LOGIN = '/login';
 export const API_URL_IS_NOMBRE_USUARIO_EXISTE = API_URL_LOGIN + '/isNombreUsuarioExiste';
 export const API_URL_VERSION_ACTUAL = API_URL_LOGIN + '/versionActual';
 export const API_URL_BD_ACTUAL = API_URL_LOGIN + '/bdActual';
+export const API_URL_PERMISOS_USUARIO_LOGUEADO = API_URL_LOGIN + '/permisosUsuarioLogueado';
 
 export const API_URL_MERCADERIAS = '/mercaderias';
 export const API_URL_SUCURSALES = '/sucursales';

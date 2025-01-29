@@ -17,11 +17,11 @@ export class MiSidenavComponent implements OnInit {
   temaOscuro: boolean = false;
 
   menus = [ //Las rutas se encuentran en app-routing.module
-    { nombre: "Home", ruta: "home", icono: "home" },
-    { nombre: "Departamentos", ruta: "departamentos", icono: "supervisor_account" },
-    { nombre: "Entidades", ruta: "entidades", icono: "person_pin" },
-    { nombre: "Mercaderias", ruta: "mercaderias", icono: "shopping_basket" },
-    { nombre: "Movimientos", ruta: "movimientos", icono: "input" }
+    { nombre: "Home", ruta: "home", icono: "home", permiso: "ACCEDER_DASHBOARD" },
+    { nombre: "Departamentos", ruta: "departamentos", icono: "supervisor_account", permiso: "ACCEDER_DEPARTAMENTOS" },
+    { nombre: "Entidades", ruta: "entidades", icono: "person_pin", permiso: "ACCEDER_ENTIDADES" },
+    { nombre: "Mercaderias", ruta: "mercaderias", icono: "shopping_basket", permiso: "ACCEDER_MERCADERIAS" },
+    { nombre: "Movimientos", ruta: "movimientos", icono: "input", permiso: "ACCEDER_MOVIMIENTOS" }
   ]
 
   private _mobileQueryListener: () => void;
@@ -38,11 +38,21 @@ export class MiSidenavComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authService.cargarPermisosUsuarioLogueado().subscribe(() => {
+      this.validarPermisosDeMenus();
+    });
+
     this.iniciarTema();
   }
 
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
+  }
+
+  private validarPermisosDeMenus() {
+    this.menus = this.menus.filter(menu =>
+      this.authService.isTienePermiso(menu.permiso)
+    );
   }
 
   cerrarSesion() {

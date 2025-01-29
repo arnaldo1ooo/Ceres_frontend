@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 import { AuthService } from './../services/auth.service';
 import { ConfigService } from 'src/app/compartido/services/config.service';
-import { API_NOMBRE } from 'src/app/compartido/constantes/constantes';
+import { API_NOMBRE, API_URL_BD_ACTUAL, API_URL_IS_NOMBRE_USUARIO_EXISTE, API_URL_LOGIN, API_URL_PERMISOS_USUARIO_LOGUEADO, API_URL_VERSION_ACTUAL } from 'src/app/compartido/constantes/constantes';
 
 
 
@@ -23,14 +23,25 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const token = this._authService.getTokenAlmacenado(); //Intercepta el token almacenado
 
-    if (this.urlDistintoALogin(request.url)) { //Si es distinto al login
+    if (this.isUrlRequiereAutenticacion(request.url)) {
       if (HelpersService.isNoNulo(token) && HelpersService.isNoUndefined(token)) {  //Si existe token almacenado
         if (!HelpersService.isTokenExpirado(token)) {
-          let clonado = request.clone({
-            headers: request.headers.set('Authorization', `Bearer ${token}`)  //Envia el token local desde el header Authorization
-          })
 
-          return next.handle(clonado);  //Regirige al request ya con el header Authorization
+          let requestConToken;
+
+          if(request.url == API_URL_PERMISOS_USUARIO_LOGUEADO) {
+            requestConToken = request.clone({
+              headers: request.headers.set('Authorization', `Bearer ${token}`),  //Envia el token local desde el header Authorization
+              url: this._configService.apiUrlServer + request.url
+            })
+          }
+          else {
+            requestConToken = request.clone({
+              headers: request.headers.set('Authorization', `Bearer ${token}`)  //Envia el token local desde el header Authorization
+            })
+          }
+
+          return next.handle(requestConToken);  //Regirige al request ya con el header Authorization
         }
 
         console.log("Sesión expirada, rediriendo a login..");
@@ -69,5 +80,12 @@ export class AuthInterceptor implements HttpInterceptor {
 
   public urlDistintoALogin(url: string): boolean {
     return url != null && !url.includes('login');
+  }
+
+  public isUrlRequiereAutenticacion(url: string): boolean {
+    return url != API_URL_LOGIN 
+        && url != API_URL_IS_NOMBRE_USUARIO_EXISTE
+        && url != API_URL_VERSION_ACTUAL
+        && url != API_URL_BD_ACTUAL;
   }
 }
