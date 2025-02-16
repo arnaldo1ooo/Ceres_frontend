@@ -90,8 +90,16 @@ export class AuthService {
   }
   
   public isTienePermiso(permiso: string): boolean {
-    // Asegúrate de que siempre se valida sobre un array
-    return this.permisosUsuarioLogueado?.includes(permiso) || false;
+    if(this.sesionIniciada) {
+      return this.isUsuarioLogueadoSuper() 
+              || this.permisosUsuarioLogueado?.includes(permiso) || false;
+    }
+
+    return false;
+  }
+
+  public isUsuarioLogueadoSuper(): boolean {
+    return HelpersService.obtenerItemDelSessionStorage('nombreUsuarioLogado') == 'SUPER';
   }
 
 }

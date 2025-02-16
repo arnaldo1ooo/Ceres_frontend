@@ -55,7 +55,6 @@ export class LoginService {
     return departamentoLogado != null ? departamentoLogado._id : '-1';
   }
 
-
   public getNombreUsuarioLogado() {
     return HelpersService.obtenerItemDelSessionStorage('nombreUsuarioLogado');
   }
