@@ -23,6 +23,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { MatSortModule } from '@angular/material/sort';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 //Este es un modulo para exportar facilmente modulos de angular material a otros componentes
 @NgModule({
@@ -51,7 +52,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatMenuModule,
     MatTooltipModule,
     MatSortModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatExpansionModule,
   ],
 })
 
