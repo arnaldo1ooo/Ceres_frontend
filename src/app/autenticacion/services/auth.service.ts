@@ -6,6 +6,7 @@ import { catchError, firstValueFrom, map, Observable, of, tap } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Login } from 'src/app/modulos/login/model/login';
 import { API_URL_IS_NOMBRE_USUARIO_EXISTE, API_URL_PERMISOS_USUARIO_LOGUEADO } from 'src/app/compartido/constantes/constantes';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -88,18 +89,34 @@ export class AuthService {
       })
     );
   }
-  
+
   public isTienePermiso(permiso: string): boolean {
-    if(this.sesionIniciada) {
-      return this.isUsuarioLogueadoSuper() 
-              || this.permisosUsuarioLogueado?.includes(permiso) || false;
+    if (this.sesionIniciada) {
+      return this.isUsuarioLogueadoSuper()
+        || this.permisosUsuarioLogueado?.includes(permiso) || false;
     }
 
     return false;
   }
 
   public isUsuarioLogueadoSuper(): boolean {
-    return HelpersService.obtenerItemDelSessionStorage('nombreUsuarioLogado') == 'SUPER';
+    return this.getNombreUsuarioToken() == 'SUPER';
+  }
+
+  public getNombreUsuarioToken(): string | null {
+    const token = this.getTokenAlmacenado();
+    if (!token) {
+      return null;
+    }
+
+    try {
+      const decodedToken: any = jwtDecode(token);
+      return decodedToken?.username || decodedToken?.sub || null;
+    }
+    catch (error) {
+      console.error('Error al decodificar el token:', error);
+      return null;
+    }
   }
 
 }
