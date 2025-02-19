@@ -92,31 +92,41 @@ export class AuthService {
 
   public isTienePermiso(permiso: string): boolean {
     if (this.sesionIniciada) {
-      return this.isUsuarioLogueadoSuper()
-        || this.permisosUsuarioLogueado?.includes(permiso) || false;
+      return this.isUsuarioPoseeRolSuper()
+              || this.permisosUsuarioLogueado?.includes(permiso) || false;
     }
 
     return false;
   }
 
-  public isUsuarioLogueadoSuper(): boolean {
-    return this.getNombreUsuarioToken() == 'SUPER';
-  }
-
   public getNombreUsuarioToken(): string | null {
-    const token = this.getTokenAlmacenado();
-    if (!token) {
-      return null;
-    }
-
     try {
-      const decodedToken: any = jwtDecode(token);
+      const decodedToken: any = jwtDecode( this.getTokenAlmacenado());
       return decodedToken?.username || decodedToken?.sub || null;
     }
     catch (error) {
-      console.error('Error al decodificar el token:', error);
+      console.error('Error al decodificar el token para obtener nombreUsuario:', error);
       return null;
     }
   }
+
+  private isUsuarioPoseeRolSuper(): boolean {
+    return this.getRolesDeToken().includes('ROLE_SUPERUSUARIO');
+  }
+
+  public getRolesDeToken(): string[] {
+    try {
+      const decodedToken: any = jwtDecode( this.getTokenAlmacenado());
+      const roles = decodedToken?.roles || [];
+
+      return roles.map((rol: any) => rol.authority);
+    } 
+    catch (error) {
+      console.error('Error al decodificar el token para obtener los roles:', error);
+      return [];
+    }
+  }
+
+
 
 }
