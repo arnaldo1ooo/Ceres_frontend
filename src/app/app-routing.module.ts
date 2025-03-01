@@ -13,7 +13,8 @@ const routes: Routes = [
   { path: 'departamentos', canActivate: [AuthGuard], canLoad: [AuthGuard], loadChildren: () => import('./modulos/departamentos/departamentos.module').then(m => m.DepartamentosModule) },
   { path: 'entidades', canActivate: [AuthGuard], canLoad: [AuthGuard], loadChildren: () => import('./modulos/entidades/entidades.module').then(m => m.EntidadesModule) },
   { path: 'mercaderias', canActivate: [AuthGuard], canLoad: [AuthGuard], loadChildren: () => import('./modulos/mercaderias/mercaderias.module').then(m => m.MercaderiasModule) },
-  { path: 'movimientos', canActivate: [AuthGuard], canLoad: [AuthGuard], loadChildren: () => import('./modulos/movimientos/movimientos.module').then(m => m.MovimientosModule) }
+  { path: 'movimientos', canActivate: [AuthGuard], canLoad: [AuthGuard], loadChildren: () => import('./modulos/movimientos/movimientos.module').then(m => m.MovimientosModule) },
+  { path: 'ordenes', canActivate: [AuthGuard], canLoad: [AuthGuard], loadChildren: () => import('./modulos/ordenes/ordenes.module').then(m => m.OrdenesModule) }
 ];
 
 @NgModule({

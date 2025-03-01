@@ -39,6 +39,10 @@
             <mat-label>{{ menu.nombre }}</mat-label>
           </a>
 
+          <a mat-list-item [routerLink]="menu.ruta" *ngIf="menu.nombre === 'Ordenes'">
+            <mat-icon class="style-icono">{{ menu.icono }}</mat-icon>
+            <mat-label>{{ menu.nombre }}</mat-label>
+          </a>
 
           <mat-expansion-panel *ngIf="menu.nombre === 'Configuraciones'">
             <mat-expansion-panel-header>

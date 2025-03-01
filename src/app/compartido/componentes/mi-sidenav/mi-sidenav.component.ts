@@ -21,6 +21,7 @@ export class MiSidenavComponent implements OnInit {
     { nombre: "Entidades", ruta: "entidades", icono: "person_pin", permiso: "ACCEDER_ENTIDADES" },
     { nombre: "Mercaderias", ruta: "mercaderias", icono: "shopping_basket", permiso: "ACCEDER_MERCADERIAS" },
     { nombre: "Movimientos", ruta: "movimientos", icono: "input", permiso: "ACCEDER_MOVIMIENTOS" },
+    { nombre: "Ordenes", ruta: "ordenes", icono: "input", permiso: "ACCEDER_ORDENES" },
     { nombre: "Configuraciones", icono: "settings", permiso: "ACCEDER_CONFIGURACIONES",
       submenu: [
         { nombre: "Configuraciones generales", ruta: "configuracionesGenerales", icono: "settings" },

@@ -119,7 +119,7 @@ export class AuthService {
       const decodedToken: any = jwtDecode( this.getTokenAlmacenado());
       const roles = decodedToken?.roles || [];
 
-      return roles.map((rol: any) => rol.authority);
+      return roles ? roles.map((rol: any) => rol.authority) : [];
     } 
     catch (error) {
       console.error('Error al decodificar el token para obtener los roles:', error);
