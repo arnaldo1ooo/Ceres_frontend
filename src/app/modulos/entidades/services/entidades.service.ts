@@ -53,7 +53,7 @@ export class EntidadesService {
       + `&idSucursal=${HelpersService.idTodosReturnVacio(entidadFiltro.idSucursal)}`
       + `&ciRuc=${HelpersService.isNuloRetornaVacio(entidadFiltro.ciRuc)}`
       + `&idSituacion=${HelpersService.idTodosReturnVacio(entidadFiltro.idSituacion)}`
-      + `&page=${apiPageRequest.pagina}&size=${apiPageRequest.tamanho}&sort=${apiPageRequest.ordenarPor},${apiPageRequest.orden}`);
+      + `&page=${apiPageRequest.pagina}&size=${apiPageRequest.tamanho}&sort=${apiPageRequest.ordenarPor},${apiPageRequest.ordenamiento}`);
   }
 
   public listarEntidadesPorClases(idsClaseEntidad: string[]): Observable<Entidad[]> {

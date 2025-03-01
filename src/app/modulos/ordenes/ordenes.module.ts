@@ -3,14 +3,15 @@ import { CommonModule } from '@angular/common';
 import { OrdenesRoutingModule } from './ordenes-routing.module';
 import { MaterialModulosModule } from 'src/app/compartido/material-modulos/material-modulos.module';
 import { CompartidoModule } from 'src/app/compartido/compartido.module';
-import { OrdenesComponent } from './containers/ordenes/ordenes.component';
 import { OrdenesListaComponent } from './components/ordenes-lista/ordenes-lista.component';
+import { OrdenesComponent } from './containers/ordenes/ordenes.component';
 
 
 
 @NgModule({
   declarations: [
-
+    OrdenesListaComponent,
+    OrdenesComponent
   ],
   imports: [
     CommonModule,

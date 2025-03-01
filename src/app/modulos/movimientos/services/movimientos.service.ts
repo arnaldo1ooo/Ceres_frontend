@@ -76,7 +76,7 @@ export class MovimientosService {
           movimientoFiltro.fechaFinal, HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL) : ""}`
       + `&idDepartamento=${HelpersService.idTodosReturnVacio(movimientoFiltro.idDepartamento)}`
       + `&keySituacion=${HelpersService.idTodosReturnVacio(movimientoFiltro.keySituacion)}`
-      + `&page=${apiPageRequest.pagina}&size=${apiPageRequest.tamanho}&sort=${apiPageRequest.ordenarPor},${apiPageRequest.orden}`);
+      + `&page=${apiPageRequest.pagina}&size=${apiPageRequest.tamanho}&sort=${apiPageRequest.ordenarPor},${apiPageRequest.ordenamiento}`);
   }
 
   guardar(movimiento: Partial<Movimiento>) { //Se usa Partial cuando se espera que no reciba todos los datos de la entidad

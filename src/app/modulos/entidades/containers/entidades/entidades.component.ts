@@ -11,7 +11,7 @@ import { EntidadesService } from '../../services/entidades.service';
 import { Entidad } from '../../models/entidad.model';
 import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
 import { DEFAULT_ORDENAR_POR, DEFAULT_PAGE_TAMANHO, ID_OPCION_TODOS, PAGE_INICIAL } from 'src/app/compartido/constantes/constantes';
-import { Orden } from 'src/app/compartido/enums/orden.enum';
+import { Ordenamiento } from 'src/app/compartido/enums/ordenamiento.enum';
 import { EntidadFiltroDTO } from '../../models/dtos/entidadFiltroDTO';
 import { Situacion, SituacionUtils } from 'src/app/compartido/enums/situacion.enum';
 import { ClaseEntidad, ClaseEntidadUtils } from '../../enums/clase-entidad.enum';
@@ -42,7 +42,7 @@ export class EntidadesComponent implements OnInit {
     pagina: PAGE_INICIAL,
     tamanho: DEFAULT_PAGE_TAMANHO,
     ordenarPor: DEFAULT_ORDENAR_POR,
-    orden: Orden.DESCENDENTE
+    ordenamiento: Ordenamiento.DESCENDENTE
   };
 
   constructor(
@@ -68,9 +68,9 @@ export class EntidadesComponent implements OnInit {
 
   private recuperarFiltrosDeSesion() {
     const filtrosGuardados = sessionStorage.getItem('entidadFiltros');
-    
-    this.entidadFiltro = filtrosGuardados 
-                            ? JSON.parse(filtrosGuardados) 
+
+    this.entidadFiltro = filtrosGuardados
+                            ? JSON.parse(filtrosGuardados)
                             : this.filtroInicial();
   }
 

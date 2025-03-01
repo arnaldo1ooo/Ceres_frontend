@@ -18,7 +18,7 @@ import { TipoMercaderia, TipoMercaderiaUtils } from '../../enums/tipoMercaderia.
 import { MercaderiaFiltroDTO } from '../../model/dtos/mercaderiaFiltroDTO';
 import { Mercaderia } from '../../model/mercaderia.model';
 import { MercaderiasService } from '../../services/mercaderias.service';
-import { Orden } from './../../../../compartido/enums/orden.enum';
+import { Ordenamiento } from '../../../../compartido/enums/ordenamiento.enum';
 import { LoginService } from '../../../login/services/login.service';
 
 @Component({
@@ -43,7 +43,7 @@ export class MercaderiasComponent implements OnInit {
     pagina: PAGE_INICIAL,
     tamanho: DEFAULT_PAGE_TAMANHO,
     ordenarPor: DEFAULT_ORDENAR_POR,
-    orden: Orden.DESCENDENTE
+    ordenamiento: Ordenamiento.DESCENDENTE
   };
 
   constructor(
@@ -65,9 +65,9 @@ export class MercaderiasComponent implements OnInit {
 
   private recuperarFiltrosDeSesion() {
     const filtrosGuardados = sessionStorage.getItem('mercaderiaFiltros');
-    
-    this.mercaderiaFiltro = filtrosGuardados 
-                            ? JSON.parse(filtrosGuardados) 
+
+    this.mercaderiaFiltro = filtrosGuardados
+                            ? JSON.parse(filtrosGuardados)
                             : this.filtroInicial();
   }
 

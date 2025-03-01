@@ -50,7 +50,7 @@ export class MercaderiasService {
       + `&idTipo=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idTipo)}`
       + `&idDepartamento=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idDepartamento)}`
       + `&idSituacion=${HelpersService.idTodosReturnVacio(mercaderiaFiltro.idSituacion)}`
-      + `&page=${apiPageRequest.pagina}&size=${apiPageRequest.tamanho}&sort=${apiPageRequest.ordenarPor},${apiPageRequest.orden}`);
+      + `&page=${apiPageRequest.pagina}&size=${apiPageRequest.tamanho}&sort=${apiPageRequest.ordenarPor},${apiPageRequest.ordenamiento}`);
   }
 
   guardar(mercaderia: Partial<Mercaderia>) { //Se usa Partial cuando se espera que no reciba todos los datos de la entidad
