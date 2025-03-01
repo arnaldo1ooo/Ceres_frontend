@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Orden } from '../model/orden';
 
 @Injectable({
@@ -14,7 +14,34 @@ export class OrdenesService {
 
   // GET /ceres-api/ordenes
   getOrdenes(): Observable<Orden[]> {
-    return this.http.get<Orden[]>(this.apiUrl);
+    //return this.http.get<Orden[]>(this.apiUrl);
+
+    const ordenesMock: Orden[] = [
+      {
+        id: 1,
+        numero: '#1',
+        nombreApellidoOcasional: 'Juan Pérez',
+        fechaEmision: new Date('2023-01-10'),
+        descuentoGlobal: 0,
+        tipoEntrega: 'L', // Local
+        notificado: 'N',
+        estado: 'P', // Pendiente
+        // ... completa con más campos si lo deseas
+      },
+      {
+        id: 2,
+        numero: '#2',
+        nombreApellidoOcasional: 'María Gómez',
+        fechaEmision: new Date('2023-01-12'),
+        descuentoGlobal: 10,
+        tipoEntrega: 'D', // Delivery
+        notificado: 'S',
+        estado: 'E', // En preparación
+        // ...
+      }
+    ];
+    // Retorna un Observable con los datos de ejemplo
+    return of(ordenesMock);
   }
 
   // GET /ceres-api/ordenes/{idOrden}

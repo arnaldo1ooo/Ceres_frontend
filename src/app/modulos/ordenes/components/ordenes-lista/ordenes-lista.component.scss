@@ -1,0 +1,40 @@
+/* src/app/ordenes/orden-list/orden-list.component.css */
+
+/* Barra de herramientas */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.title {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.spacer {
+  flex: 1 1 auto;
+}
+
+/* Contenedor principal */
+.container {
+  padding: 1rem;
+}
+
+/* Grid de cards */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1rem;
+}
+
+/* Card de cada orden */
+.orden-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.no-data {
+  text-align: center;
+  font-style: italic;
+  margin-top: 2rem;
+}
