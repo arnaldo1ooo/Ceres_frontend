@@ -5,6 +5,7 @@ import { MaterialModulosModule } from 'src/app/compartido/material-modulos/mater
 import { CompartidoModule } from 'src/app/compartido/compartido.module';
 import { OrdenesListaComponent } from './components/ordenes-lista/ordenes-lista.component';
 import { OrdenesComponent } from './containers/ordenes/ordenes.component';
+import { EstadoOrdenPipe } from "./pipes/estado-orden.pipe";
 
 
 
@@ -17,7 +18,8 @@ import { OrdenesComponent } from './containers/ordenes/ordenes.component';
     CommonModule,
     OrdenesRoutingModule,
     MaterialModulosModule,
-    CompartidoModule
-  ]
+    CompartidoModule,
+    EstadoOrdenPipe
+]
 })
 export class OrdenesModule { }

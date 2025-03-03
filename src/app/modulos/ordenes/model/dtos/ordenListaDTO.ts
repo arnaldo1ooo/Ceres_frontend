@@ -1,5 +1,5 @@
 import { DepartamentoDTO } from "src/app/modulos/departamentos/model/dtos/departamentoDTO";
-import { EstadoOrden } from "../../enums/estadoOrden.enum";
+import { EstadoOrden } from "../../enums/estado-orden.enum";
 import { TipoEntregaOrden } from "../../enums/tipoEntregaOrden.enum";
 
 export interface OrdenListaDTO {

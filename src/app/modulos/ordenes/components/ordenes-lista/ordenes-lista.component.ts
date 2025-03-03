@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OrdenesService } from '../../services/ordenes.service';
-import { EstadoOrden } from '../../enums/estadoOrden.enum';
+import { EstadoOrden } from '../../enums/estado-orden.enum';
 import { DEFAULT_PAGE_TAMANHOS } from 'src/app/compartido/constantes/constantes';
 import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
 import { ApiPageResponse } from 'src/app/compartido/interfaces/api-page-response';
@@ -88,7 +88,7 @@ export class OrdenesListaComponent implements OnInit {
   }
 
   getEstadoOrden(estado: string): string {
-    switch (estado.toLowerCase()) {
+    switch (estado.toUpperCase()) {
       case EstadoOrden.PENDIENTE: return 'estado-color-pendiente';
       case EstadoOrden.EN_PREPARACION: return 'estado-color-en-preparacion';
       case EstadoOrden.LISTO: return 'estado-color-listo';
