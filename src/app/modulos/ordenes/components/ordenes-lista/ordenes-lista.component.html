@@ -16,7 +16,7 @@
   </mat-tab-group>
 
   <div class="cards" *ngIf="!loading && ordenesFiltradas.length > 0">
-    <mat-card class="orden-card"
+    <mat-card class="orden-card {{ getEstadoOrden(orden.estado) }}"
     *ngFor="let orden of ordenesFiltradas | paginate: { itemsPerPage: 5, currentPage: paginaActual }">
     <mat-card-header>
       <mat-card-title>Orden {{ '#' + orden.numero }}</mat-card-title>
@@ -59,7 +59,7 @@
         <mat-menu #subMenuImprimir="matMenu">
           <button mat-menu-item (click)="onImprimirTicketOrden(orden)">
             <mat-icon>print</mat-icon>
-            <span>Movimiento A4</span>
+            <span>Ticket Orden</span>
           </button>
         </mat-menu>
       </mat-menu>

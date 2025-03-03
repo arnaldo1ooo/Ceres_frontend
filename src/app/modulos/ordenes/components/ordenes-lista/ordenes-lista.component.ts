@@ -87,4 +87,16 @@ export class OrdenesListaComponent implements OnInit {
     this.paginaActual = event.pageIndex + 1;
   }
 
+  getEstadoOrden(estado: string): string {
+    switch (estado.toLowerCase()) {
+      case EstadoOrden.PENDIENTE: return 'estado-color-pendiente';
+      case EstadoOrden.EN_PREPARACION: return 'estado-color-en-preparacion';
+      case EstadoOrden.LISTO: return 'estado-color-listo';
+      case EstadoOrden.EN_ENTREGA: return 'estado-color-en-entrega';
+      case EstadoOrden.ENTREGADO: return 'estado-color-entregado';
+      case EstadoOrden.CANCELADO: return 'estado-color-cancelado';
+      default: return 'estado-color-default';
+    }
+  }
+
 }

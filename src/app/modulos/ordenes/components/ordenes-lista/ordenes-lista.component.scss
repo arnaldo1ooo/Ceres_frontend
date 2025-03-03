@@ -52,9 +52,50 @@
 
 /* Card de cada orden */
 .orden-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  border-left: 5px solid transparent; /* Borde lateral por defecto */
+  transition: border-color 0.3s ease-in-out;
+}
+
+/* Estado Pendiente - Naranja */
+.estado-color-pendiente {
+  border-left: 5px solid orange;
+  background-color: rgba(255, 165, 0, 0.1);
+}
+
+/* Estado En Preparación - Morado */
+.estado-color-en-preparacion {
+  border-left: 5px solid purple;
+  background-color: rgba(128, 0, 128, 0.1);
+}
+
+/* Estado Listo - Verde Azulado */
+.estado-color-listo {
+  border-left: 5px solid teal;
+  background-color: rgba(0, 128, 128, 0.1);
+}
+
+/* Estado En Entrega - Naranja Oscuro */
+.estado-color-en-entrega {
+  border-left: 5px solid darkorange;
+  background-color: rgba(255, 140, 0, 0.1);
+}
+
+/* Estado Entregado - Verde */
+.estado-color-entregado {
+  border-left: 5px solid green;
+  background-color: rgba(0, 128, 0, 0.1);
+}
+
+/* Estado Cancelado - Rojo */
+.estado-color-cancelado {
+  border-left: 5px solid red;
+  background-color: rgba(255, 0, 0, 0.1);
+}
+
+/* Estado Default - Gris */
+.estado-color-default {
+  border-left: 5px solid gray;
+  background-color: rgba(128, 128, 128, 0.1);
 }
 
 .sin-resultados {
