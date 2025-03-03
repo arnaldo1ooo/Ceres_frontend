@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Orden } from '../../model/orden';
 import { OrdenesService } from '../../services/ordenes.service';
 import { EstadoOrden } from '../../enums/estadoOrden.enum';
 import { DEFAULT_PAGE_TAMANHOS } from 'src/app/compartido/constantes/constantes';
 import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
 import { ApiPageResponse } from 'src/app/compartido/interfaces/api-page-response';
-import { PageEvent } from '@angular/material/paginator';
 import { OrdenListaDTO } from '../../model/dtos/ordenListaDTO';
 
 @Component({
@@ -15,7 +13,7 @@ import { OrdenListaDTO } from '../../model/dtos/ordenListaDTO';
 })
 export class OrdenesListaComponent implements OnInit {
   loading = true;
-  listOrdenes: OrdenListaDTO[] = [];
+  ordenesListaDTO: OrdenListaDTO[] = [];
   ordenesFiltradas: OrdenListaDTO[] = [];
   paginaActual = 1;
   estadoSeleccionado = 0;
@@ -41,7 +39,7 @@ export class OrdenesListaComponent implements OnInit {
   cargarOrdenes() {
     this.ordenesService.listarTodosOrdenes().subscribe({
       next: (ordenes: OrdenListaDTO[]) => {
-        this.listOrdenes = ordenes;
+        this.ordenesListaDTO = ordenes;
         this.filtrarOrdenes();
         this.loading = false;
       },
@@ -53,26 +51,36 @@ export class OrdenesListaComponent implements OnInit {
 
   filtrarOrdenes() {
     if (this.estadoSeleccionado === 0) {
-      this.ordenesFiltradas = [...this.listOrdenes]; // "TODOS"
+      this.ordenesFiltradas = [...this.ordenesListaDTO]; // "TODOS"
     } else {
       const estado = this.estadosOrden[this.estadoSeleccionado - 1].valor;
-      this.ordenesFiltradas = this.listOrdenes.filter(o => o.estado === estado);
+      this.ordenesFiltradas = this.ordenesListaDTO.filter(o => o.estado === estado);
     }
   }
 
-  agregarOrden(): void {
+  onNuevo(): void {
     // Aquí podrías abrir un diálogo o navegar a un formulario de creación
     console.log('Agregar nueva orden');
   }
 
-  editarOrden(orden: OrdenListaDTO): void {
+  onVisualizar(orden: OrdenListaDTO): void {
+    // Aquí podrías abrir un diálogo o navegar a un formulario de edición
+    console.log('Visualizar orden', orden);
+  }
+
+  onEditar(orden: OrdenListaDTO): void {
     // Aquí podrías abrir un diálogo o navegar a un formulario de edición
     console.log('Editar orden', orden);
   }
 
-  cancelarOrden(orden: OrdenListaDTO): void {
+  onCancelarOrden(orden: OrdenListaDTO): void {
     // Si tuvieras un endpoint para borrar, podrías llamarlo aquí
-    console.log('Eliminar orden', orden);
+    console.log('Cancelar orden', orden);
+  }
+
+  onImprimirTicketOrden(orden: OrdenListaDTO): void {
+    // Si tuvieras un endpoint para borrar, podrías llamarlo aquí
+    console.log('Imprimir ticket orden', orden);
   }
 
   cambiarPagina(event: any) {
