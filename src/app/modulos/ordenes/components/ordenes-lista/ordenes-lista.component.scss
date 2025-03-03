@@ -26,6 +26,31 @@
   gap: 1rem;
 }
 
+::ng-deep mat-tab-group {
+  background: #1e1e1e; // Fondo oscuro
+  border-radius: 8px;
+  padding: 8px; // Fondo oscuro
+}
+
+::ng-deep .mat-tab-label {
+  color: rgba(255, 255, 255, 0.7); // Texto más visible en modo oscuro
+  font-weight: 500;
+}
+
+::ng-deep .mat-tab-label-active {
+  color: #ffffff; // Texto más visible para la pestaña activa
+  font-weight: bold;
+}
+
+::ng-deep .mat-ink-bar {
+  background-color: #ff9800; // Color más visible para el indicador de pestaña activa
+}
+
+::ng-deep .mat-tab-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2); // Línea divisoria más visible
+}
+
+
 /* Card de cada orden */
 .orden-card {
   display: flex;
@@ -33,8 +58,11 @@
   justify-content: space-between;
 }
 
-.no-data {
+.sin-resultados {
+  font-size: clamp(16px, 5vw, 25px);
   text-align: center;
   font-style: italic;
-  margin-top: 2rem;
+  margin-top: 100px;
+  margin-bottom: 100px;
 }
+

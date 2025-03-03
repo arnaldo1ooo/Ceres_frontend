@@ -23,6 +23,7 @@ export const API_URL_MOVIMIENTOS = '/movimientos';
 export const API_URL_MONEDAS = '/monedas';
 export const API_URL_ENTIDADES = '/entidades';
 export const API_URL_CUENTAS_CONTABLES = '/cuentasContables';
+export const API_URL_ORDENES = '/ordenes';
 
 
 export const DEFAULT_PAGE_TAMANHO: number = 10;

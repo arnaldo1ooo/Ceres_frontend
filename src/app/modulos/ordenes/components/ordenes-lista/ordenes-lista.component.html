@@ -10,39 +10,39 @@
 <div class="container">
   <mat-progress-spinner *ngIf="loading" mode="indeterminate" diameter="50"></mat-progress-spinner>
 
-  <div class="cards" *ngIf="!loading && ordenes.length > 0">
-    <mat-card class="orden-card" *ngFor="let orden of ordenes">
+  <mat-tab-group [(selectedIndex)]="estadoSeleccionado">
+    <mat-tab label="TODOS"></mat-tab>
+    <mat-tab *ngFor="let estado of estadosOrden" [label]="estado.label"></mat-tab>
+  </mat-tab-group>
+
+  <div class="cards" *ngIf="!loading && ordenesFiltradas.length > 0">
+    <mat-card class="orden-card" *ngFor="let orden of ordenesFiltradas | paginate: { itemsPerPage: 5, currentPage: paginaActual }">
       <mat-card-header>
-        <mat-card-title>Orden {{ orden.numero }}</mat-card-title>
-        <mat-card-subtitle>
-          Estado: {{ orden.estado }}
-        </mat-card-subtitle>
+        <mat-card-title>Orden {{ '#' + orden.numero }}</mat-card-title>
+        <mat-card-subtitle>Estado: {{ orden.estado }}</mat-card-subtitle>
       </mat-card-header>
 
       <mat-card-content>
-        <p>
-          <strong>Fecha Emisión:</strong> {{ orden.fechaEmision | date:'shortDate' }}
-        </p>
-        <p *ngIf="orden.nombreApellidoOcasional">
-          <strong>Cliente Ocasional:</strong> {{ orden.nombreApellidoOcasional }}
-        </p>
-        <p *ngIf="orden.observacion">
-          <strong>Observación:</strong> {{ orden.observacion }}
-        </p>
+        <p><strong>Fecha Emisión:</strong> {{ orden.fechaEmision | date:'shortDate' }}</p>
+        <p *ngIf="orden.nombreApellidoOcasional"><strong>Cliente Ocasional:</strong> {{ orden.nombreApellidoOcasional }}</p>
+        <p *ngIf="orden.observacion"><strong>Observación:</strong> {{ orden.observacion }}</p>
       </mat-card-content>
 
       <mat-card-actions>
         <button mat-icon-button color="primary" (click)="editarOrden(orden)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="warn" (click)="eliminarOrden(orden)">
+        <button mat-icon-button color="warn" (click)="cancelarOrden(orden)">
           <mat-icon>delete</mat-icon>
         </button>
       </mat-card-actions>
     </mat-card>
   </div>
 
-  <div class="no-data" *ngIf="!loading && ordenes.length === 0">
+  <div class="sin-resultados" *ngIf="!loading && ordenesFiltradas.length === 0">
     <p>No hay órdenes disponibles.</p>
   </div>
+
+  <mat-paginator [length]="ordenesFiltradas.length" [pageSize]="10" [pageSizeOptions]="tamanhosPage" (page)="cambiarPagina($event)">
+  </mat-paginator>
 </div>
