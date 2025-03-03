@@ -12,6 +12,7 @@ export interface OrdenListaDTO {
   departamento: DepartamentoDTO;
   tipoEntrega: TipoEntregaOrden;
   notificado: string;
+  motivoCancelacion?: string;
   estado: EstadoOrden;
   numeroMesa?: string;
   observacion: string;

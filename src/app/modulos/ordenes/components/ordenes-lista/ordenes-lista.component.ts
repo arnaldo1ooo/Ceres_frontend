@@ -5,6 +5,7 @@ import { DEFAULT_PAGE_TAMANHOS } from 'src/app/compartido/constantes/constantes'
 import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
 import { ApiPageResponse } from 'src/app/compartido/interfaces/api-page-response';
 import { OrdenListaDTO } from '../../model/dtos/ordenListaDTO';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-ordenes-lista',
@@ -12,6 +13,7 @@ import { OrdenListaDTO } from '../../model/dtos/ordenListaDTO';
   styleUrl: './ordenes-lista.component.scss'
 })
 export class OrdenesListaComponent implements OnInit {
+  ID_TODOS = 0;
   loading = true;
   ordenesListaDTO: OrdenListaDTO[] = [];
   ordenesFiltradas: OrdenListaDTO[] = [];
@@ -50,8 +52,8 @@ export class OrdenesListaComponent implements OnInit {
   }
 
   filtrarOrdenes() {
-    if (this.estadoSeleccionado === 0) {
-      this.ordenesFiltradas = [...this.ordenesListaDTO]; // "TODOS"
+    if (this.estadoSeleccionado === this.ID_TODOS) {
+      this.ordenesFiltradas = [...this.ordenesListaDTO];
     } else {
       const estado = this.estadosOrden[this.estadoSeleccionado - 1].valor;
       this.ordenesFiltradas = this.ordenesListaDTO.filter(o => o.estado === estado);
@@ -97,6 +99,11 @@ export class OrdenesListaComponent implements OnInit {
       case EstadoOrden.CANCELADO: return 'estado-color-cancelado';
       default: return 'estado-color-default';
     }
+  }
+
+  protected tabOnChange(tabChangeEvent: MatTabChangeEvent): void {
+    this.estadoSeleccionado = tabChangeEvent.index;
+    this.filtrarOrdenes();
   }
 
 }

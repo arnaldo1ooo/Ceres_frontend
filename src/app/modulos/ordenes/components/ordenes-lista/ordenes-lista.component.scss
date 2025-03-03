@@ -1,108 +1,143 @@
-/* src/app/ordenes/orden-list/orden-list.component.css */
-
-/* Barra de herramientas */
+/* Titulo */
 .toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-.title {
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-.spacer {
-  flex: 1 1 auto;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Contenedor principal */
-.container {
-  padding: 1rem;
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffffff; /* Color de texto en blanco */
+  letter-spacing: 1px; /* Espaciado de letras */
+}
+
+.spacer {
+  flex: 1;
+}
+
+button {
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+button mat-icon {
+  font-size: 20px;
 }
 
 /* Grid de cards */
-.cards {
+.ui-cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1rem;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 ::ng-deep mat-tab-group {
   border-radius: 8px;
-  padding: 8px; // Fondo oscuro
+  padding: 8px;
 }
 
 ::ng-deep .mat-tab-label {
-  color: rgba(255, 255, 255, 0.7); // Texto más visible en modo oscuro
+  color: rgba(255, 255, 255, 0.7);
   font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 1px;
 }
 
 ::ng-deep .mat-tab-label-active {
-  color: #ffffff; // Texto más visible para la pestaña activa
+  color: #ff9800;
   font-weight: bold;
 }
 
-::ng-deep .mat-ink-bar {
-  background-color: #ff9800; // Color más visible para el indicador de pestaña activa
-}
-
 ::ng-deep .mat-tab-header {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2); // Línea divisoria más visible
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-
-/* Card de cada orden */
-.orden-card {
-  border-left: 5px solid transparent; /* Borde lateral por defecto */
+/* Cards */
+.ui-orden-card {
+  border-left: 5px solid transparent;
   transition: border-color 0.3s ease-in-out;
+  background-color: #f9f9f9; /* Fondo claro para las cards */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  border-radius: 8px;
 }
 
-/* Estado Pendiente - Naranja */
+.ui-orden-card:hover {
+  transform: translateY(-5px); /* Efecto al pasar el mouse */
+}
+
+.mat-card-header {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Estado colores */
 .estado-color-pendiente {
   border-left: 5px solid orange;
   background-color: rgba(255, 165, 0, 0.1);
 }
 
-/* Estado En Preparación - Morado */
 .estado-color-en-preparacion {
   border-left: 5px solid purple;
   background-color: rgba(128, 0, 128, 0.1);
 }
 
-/* Estado Listo - Verde Azulado */
 .estado-color-listo {
   border-left: 5px solid teal;
   background-color: rgba(0, 128, 128, 0.1);
 }
 
-/* Estado En Entrega - Naranja Oscuro */
 .estado-color-en-entrega {
   border-left: 5px solid darkorange;
   background-color: rgba(255, 140, 0, 0.1);
 }
 
-/* Estado Entregado - Verde */
 .estado-color-entregado {
   border-left: 5px solid green;
   background-color: rgba(0, 128, 0, 0.1);
 }
 
-/* Estado Cancelado - Rojo */
 .estado-color-cancelado {
   border-left: 5px solid red;
   background-color: rgba(255, 0, 0, 0.1);
 }
 
-/* Estado Default - Gris */
 .estado-color-default {
   border-left: 5px solid gray;
   background-color: rgba(128, 128, 128, 0.1);
 }
 
+/*Fin estado colores*/
+
+/* Sin resultados */
 .sin-resultados {
   font-size: clamp(16px, 5vw, 25px);
   text-align: center;
   font-style: italic;
   margin-top: 100px;
   margin-bottom: 100px;
+  color: #333; /* Texto gris */
 }
 
+/* Botón con íconos */
+.mat-icon-button {
+  color: #ffffff;
+  transition: background-color 0.3s;
+}
+
+.mat-icon-button:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* Fondo cuando pasa el mouse */
+}
+
+.mat-menu-item {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  letter-spacing: 1px;
+}

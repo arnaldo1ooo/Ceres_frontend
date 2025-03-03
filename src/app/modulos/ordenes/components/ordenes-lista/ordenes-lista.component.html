@@ -1,5 +1,5 @@
 <mat-toolbar color="primary" class="toolbar">
-  <span class="title">Lista de Órdenes</span>
+  <span class="title">Ordenes</span>
   <span class="spacer"></span>
   <button mat-raised-button color="accent" (click)="onNuevo()">
     <mat-icon>add</mat-icon>
@@ -10,14 +10,14 @@
 <div class="container">
   <mat-progress-spinner *ngIf="loading" mode="indeterminate" diameter="50"></mat-progress-spinner>
 
-  <mat-tab-group [(selectedIndex)]="estadoSeleccionado">
+  <mat-tab-group #ordenTabGroup [(selectedIndex)]="estadoSeleccionado" (selectedTabChange)="tabOnChange($event)">
     <mat-tab label="TODOS"></mat-tab>
     <mat-tab *ngFor="let estado of estadosOrden" [label]="estado.label"></mat-tab>
   </mat-tab-group>
 
-  <div class="cards" *ngIf="!loading && ordenesFiltradas.length > 0">
-    <mat-card class="orden-card {{ getEstadoOrden(orden.estado) }}"
-      *ngFor="let orden of ordenesFiltradas | paginate: { itemsPerPage: 5, currentPage: paginaActual }">
+  <div class="ui-cards" *ngIf="!loading && ordenesFiltradas.length > 0">
+    <mat-card class="ui-orden-card {{ getEstadoOrden(orden.estado) }}"
+      *ngFor="let orden of ordenesFiltradas | paginate: { itemsPerPage: 10, currentPage: paginaActual }">
       <mat-card-header>
         <mat-card-title>Orden {{ '#' + orden.numero }}</mat-card-title>
         <mat-card-subtitle><strong>Estado:</strong> {{ orden.estado | estadoOrden }}</mat-card-subtitle>
@@ -25,7 +25,7 @@
 
       <mat-card-content>
         <p *ngIf="orden.nombreApellidoOcasional"><strong>Cliente:</strong> {{ orden.nombreApellidoOcasional }}</p>
-        <p><strong>Fecha Emisión:</strong> {{ orden.fechaEmision | date:'dd/MM/yyyy HH:mm:ss' }}</p>
+        <p><strong>Fecha Emisión:</strong> {{ orden.fechaEmision | date:'dd/MM/yyyy HH:mm' }}</p>
         <p *ngIf="orden.observacion"><strong>Observación:</strong> {{ orden.observacion }}</p>
       </mat-card-content>
 
