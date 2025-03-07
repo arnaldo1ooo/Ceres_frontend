@@ -93,7 +93,7 @@ export class AuthService {
   public isTienePermiso(permiso: string): boolean {
     if (this.sesionIniciada) {
       return this.isUsuarioPoseeRolSuper()
-              || this.permisosUsuarioLogueado?.includes(permiso) || false;
+        || this.permisosUsuarioLogueado?.includes(permiso) || false;
     }
 
     return false;
@@ -101,7 +101,7 @@ export class AuthService {
 
   public getNombreUsuarioToken(): string | null {
     try {
-      const decodedToken: any = jwtDecode( this.getTokenAlmacenado());
+      const decodedToken: any = jwtDecode(this.getTokenAlmacenado());
       return decodedToken?.username || decodedToken?.sub || null;
     }
     catch (error) {
@@ -116,7 +116,8 @@ export class AuthService {
 
   public getRolesDeToken(): string[] {
     try {
-      const decodedToken: any = jwtDecode(this.getTokenAlmacenado());
+      const token: any = this.getTokenAlmacenado();
+      const decodedToken: any = token != null ? jwtDecode(token) : null;
       const roles = decodedToken?.roles || [];
 
       return roles ? roles.map((rol: any) => rol.authority) : [];
