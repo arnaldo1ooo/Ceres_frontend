@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { OrdenesService } from '../../services/ordenes.service';
 import { EstadoOrden, EstadoOrdenUtils } from '../../enums/estado-orden.enum';
 import { DEFAULT_PAGE_TAMANHOS } from 'src/app/compartido/constantes/constantes';
@@ -7,6 +7,8 @@ import { ApiPageResponse } from 'src/app/compartido/interfaces/api-page-response
 import { OrdenListaDTO } from '../../model/dtos/ordenListaDTO';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { HelpersService } from 'src/app/compartido/services/helpers.service';
+import { AvisoHelpersService } from 'src/app/compartido/services/aviso-helpers.service';
 
 @Component({
   selector: 'app-ordenes-lista',
@@ -36,7 +38,10 @@ export class OrdenesListaComponent implements OnInit {
     { label: 'Cancelado', valor: EstadoOrden.CANCELADO }
   ];
 
-  constructor(private ordenesService: OrdenesService) { }
+  constructor(private ordenesService: OrdenesService,
+    private _avisoHelpersService: AvisoHelpersService,
+    private _cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.cargarOrdenes();
@@ -147,15 +152,16 @@ export class OrdenesListaComponent implements OnInit {
         event.currentIndex
       );
 
-      const ordenMovida: OrdenListaDTO = event.container.data[event.currentIndex];
+      let ordenMovida: OrdenListaDTO = event.container.data[event.currentIndex];
       ordenMovida.estado = EstadoOrdenUtils.getEstadoOrdenPorKey(estadoDestino);
 
-      this.ordenesService.actualizarEstadoDeOrden(ordenMovida._id!, ordenMovida.estado).subscribe({
+      this.ordenesService.actualizarParcialOrden(ordenMovida._id!, ordenMovida).subscribe({
         next: (response) => {
           console.log("Éxito al actualizar estado de orden:", response);
         },
         error: (error) => {
-          console.error("Error al actualizar estado de orden:", error);
+          this.cargarOrdenes();
+          this._avisoHelpersService.mostrarMensajeError("Error: ", error);
         }
       });
     }

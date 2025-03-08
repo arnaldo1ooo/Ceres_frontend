@@ -5,12 +5,12 @@ import { TipoEntregaOrden } from "../enums/tipoEntregaOrden.enum";
 import { OrdenItem } from "./ordenItem";
 
 export class Orden {
-  _id: string = '';
+  _id?: number;
   numero: string = '';
   entidad: Entidad = new Entidad();
   nombreApellidoOcasional: string = '';
   celularOcasional: string = '';
-  fechaEmision: Date | null = null;
+  fechaEmision?: Date;
   departamento: Departamento = new Departamento();
   descuentoGlobal: number = 0;
   tipoEntrega: TipoEntregaOrden | null = null;

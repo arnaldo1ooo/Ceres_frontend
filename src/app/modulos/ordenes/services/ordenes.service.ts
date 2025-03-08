@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { delay, first, map, Observable, of, throwError } from 'rxjs';
 import { Orden } from '../model/orden';
-import { API_URL_ACTUALIZAR_ESTADO_DE_ORDEN, API_URL_ORDENES } from 'src/app/compartido/constantes/constantes';
+import { API_URL_ACTUALIZAR_PARCIAL_ORDEN, API_URL_ORDENES } from 'src/app/compartido/constantes/constantes';
 import { ApiResponse } from 'src/app/compartido/interfaces/api-response';
 import { OrdenListaDTO } from '../model/dtos/ordenListaDTO';
 import { EstadoOrden } from '../enums/estado-orden.enum';
@@ -18,11 +18,11 @@ export class OrdenesService {
 
   listarTodosOrdenes(): Observable<OrdenListaDTO[]> {
     return this._httpClient.get<ApiResponse<OrdenListaDTO[]>>(API_URL_ORDENES)
-         .pipe(
-           first(),
-           map(response => response.data),
-           delay(100)
-         );
+      .pipe(
+        first(),
+        map(response => response.data),
+        delay(100)
+      );
   }
 
   // GET /ceres-api/ordenes/{idOrden}
@@ -39,15 +39,10 @@ export class OrdenesService {
     return this._httpClient.put<Orden>(`${this.apiUrl}/${id}`, orden);
   }
 
-  // DELETE (si tuvieras un endpoint para borrar)
-  deleteOrden(id: number): Observable<any> {
-    return this._httpClient.delete(`${this.apiUrl}/${id}`);
-  }
-
-  actualizarEstadoDeOrden(id: number, estadoOrden: EstadoOrden): Observable<Orden> {
-    return this._httpClient.put<Orden>(
-      `${API_URL_ACTUALIZAR_ESTADO_DE_ORDEN}/${id}?idEstadoOrden=${estadoOrden}`,
-      {}
+  actualizarParcialOrden(id: number, ordenListaDTO: OrdenListaDTO): Observable<ApiResponse<Orden>> {
+    return this._httpClient.put<ApiResponse<Orden>>(
+      `${API_URL_ACTUALIZAR_PARCIAL_ORDEN}/${id}`,
+      ordenListaDTO
     );
   }
 

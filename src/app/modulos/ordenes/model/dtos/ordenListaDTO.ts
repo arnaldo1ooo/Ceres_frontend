@@ -3,7 +3,7 @@ import { EstadoOrden } from "../../enums/estado-orden.enum";
 import { TipoEntregaOrden } from "../../enums/tipoEntregaOrden.enum";
 
 export interface OrdenListaDTO {
-  _id: number;
+  _id?: number;
   numero: string;
   nombreApellidoEntidad: string
   nombreApellidoOcasional?: string;
