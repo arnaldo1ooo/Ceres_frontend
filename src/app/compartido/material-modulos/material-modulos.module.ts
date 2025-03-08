@@ -24,6 +24,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { MatSortModule } from '@angular/material/sort';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+
+
 
 //Este es un modulo para exportar facilmente modulos de angular material a otros componentes
 @NgModule({
@@ -54,6 +57,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatSortModule,
     MatCheckboxModule,
     MatExpansionModule,
+    DragDropModule
   ],
 })
 

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { OrdenesService } from '../../services/ordenes.service';
-import { EstadoOrden } from '../../enums/estado-orden.enum';
+import { EstadoOrden, EstadoOrdenUtils } from '../../enums/estado-orden.enum';
 import { DEFAULT_PAGE_TAMANHOS } from 'src/app/compartido/constantes/constantes';
 import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
 import { ApiPageResponse } from 'src/app/compartido/interfaces/api-page-response';
 import { OrdenListaDTO } from '../../model/dtos/ordenListaDTO';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-ordenes-lista',
@@ -19,9 +20,12 @@ export class OrdenesListaComponent implements OnInit {
   ordenesFiltradas: OrdenListaDTO[] = [];
   paginaActual = 1;
   estadoSeleccionado = 0;
+  ordenesPorEstado: { [key: string]: OrdenListaDTO[] } = {};
+
   protected tamanhosPage = DEFAULT_PAGE_TAMANHOS;
   protected apiPageResponse!: ApiPageResponse;
   protected apiPageRequest!: ApiPageRequest;
+
 
   estadosOrden = [
     { label: 'Pendiente', valor: EstadoOrden.PENDIENTE },
@@ -42,7 +46,27 @@ export class OrdenesListaComponent implements OnInit {
     this.ordenesService.listarTodosOrdenes().subscribe({
       next: (ordenes: OrdenListaDTO[]) => {
         this.ordenesListaDTO = ordenes;
-        this.filtrarOrdenes();
+
+        // Ordenar por id de mayor a menor
+        this.ordenesListaDTO.sort((a, b) => {
+          const idA = a._id ?? 0;
+          const idB = b._id ?? 0;
+
+          return idB - idA;
+        });
+
+        // Inicializa el objeto para cada estado
+        this.estadosOrden.forEach(estado => {
+          this.ordenesPorEstado[estado.valor] = [];
+        });
+
+        // Agrupa las órdenes según su estado
+        this.ordenesListaDTO.forEach(orden => {
+          if (this.ordenesPorEstado[orden.estado]) {
+            this.ordenesPorEstado[orden.estado].push(orden);
+          }
+        });
+
         this.loading = false;
       },
       error: (error) => {
@@ -50,6 +74,8 @@ export class OrdenesListaComponent implements OnInit {
       }
     });
   }
+
+
 
   filtrarOrdenes() {
     if (this.estadoSeleccionado === this.ID_TODOS) {
@@ -81,7 +107,6 @@ export class OrdenesListaComponent implements OnInit {
   }
 
   onImprimirTicketOrden(orden: OrdenListaDTO): void {
-    // Si tuvieras un endpoint para borrar, podrías llamarlo aquí
     console.log('Imprimir ticket orden', orden);
   }
 
@@ -104,6 +129,36 @@ export class OrdenesListaComponent implements OnInit {
   protected tabOnChange(tabChangeEvent: MatTabChangeEvent): void {
     this.estadoSeleccionado = tabChangeEvent.index;
     this.filtrarOrdenes();
+  }
+
+
+  onDropOrden(event: CdkDragDrop<OrdenListaDTO[]>, estadoDestino: string) {
+
+    if (event.previousContainer === event.container) {
+      // Reordenamos dentro de la misma columna
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    }
+    else {
+      // Transferimos la orden de una columna a otra y actualizamos su estado
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+
+      const ordenMovida: OrdenListaDTO = event.container.data[event.currentIndex];
+      ordenMovida.estado = EstadoOrdenUtils.getEstadoOrdenPorKey(estadoDestino);
+
+      this.ordenesService.actualizarEstadoDeOrden(ordenMovida._id!, ordenMovida.estado).subscribe({
+        next: (response) => {
+          console.log("Éxito al actualizar estado de orden:", response);
+        },
+        error: (error) => {
+          console.error("Error al actualizar estado de orden:", error);
+        }
+      });
+    }
   }
 
 }

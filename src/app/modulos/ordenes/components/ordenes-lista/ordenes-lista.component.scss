@@ -80,8 +80,8 @@ button mat-icon {
 
 /* Estado colores */
 .estado-color-pendiente {
-  border-left: 5px solid orange;
-  background-color: rgba(255, 165, 0, 0.1);
+  border-left: 5px solid yellow;
+  background-color: rgba(240, 177, 59, 0.1);
 }
 
 .estado-color-en-preparacion {
@@ -95,8 +95,8 @@ button mat-icon {
 }
 
 .estado-color-en-entrega {
-  border-left: 5px solid darkorange;
-  background-color: rgba(255, 140, 0, 0.1);
+  border-left: 5px solid orange;
+  background-color: rgba(161, 89, 0, 0.1);
 }
 
 .estado-color-entregado {
@@ -140,4 +140,27 @@ button mat-icon {
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
   letter-spacing: 1px;
+}
+
+.dropListBoard {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 1rem;
+}
+
+.columna {
+  border-radius: 4px;
+  padding: 1rem;
+  width: 300px;
+  min-height: 400px;
+}
+
+.ordenes-lista {
+  min-height: 350px;
+}
+
+.orden-card {
+  margin-bottom: 1rem;
+  cursor: move;
 }

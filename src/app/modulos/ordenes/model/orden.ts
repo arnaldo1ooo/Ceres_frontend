@@ -1,6 +1,5 @@
 import { Departamento } from "../../departamentos/model/departamento.model";
 import { Entidad } from "../../entidades/models/entidad.model";
-import { Moneda } from "../../monedas/models/moneda";
 import { EstadoOrden } from "../enums/estado-orden.enum";
 import { TipoEntregaOrden } from "../enums/tipoEntregaOrden.enum";
 import { OrdenItem } from "./ordenItem";

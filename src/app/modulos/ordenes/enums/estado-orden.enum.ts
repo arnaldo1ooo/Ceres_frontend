@@ -28,15 +28,15 @@ export class EstadoOrdenUtils {
   }
 
   public static getEstadoOrdenPorDescripcion(descripcion: string): EstadoOrden | string {
-    const estadosOrden = Object.values(EstadoOrden);
+    const estadoEncontrado = Object.entries(EstadoOrden).find(
+      ([, value]) => this.getDescripcion(value as EstadoOrden) === descripcion
+    );
 
-    for (let i in estadosOrden) {
-      if (this.getDescripcion(estadosOrden[i]) == descripcion) {
-        return estadosOrden[i];
-      }
-    }
+    return estadoEncontrado ? (estadoEncontrado[1] as EstadoOrden) : `Valor no reconocido: ${descripcion}`;
+  }
 
-    return `Valor no reconocido: ${descripcion}`;
+  public static getEstadoOrdenPorKey(key: string): EstadoOrden {
+    return Object.values(EstadoOrden).find(estado => estado === key)!;
   }
 }
 
