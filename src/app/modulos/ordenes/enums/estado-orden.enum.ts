@@ -38,5 +38,6 @@ export class EstadoOrdenUtils {
   public static getEstadoOrdenPorKey(key: string): EstadoOrden {
     return Object.values(EstadoOrden).find(estado => estado === key)!;
   }
+
 }
 

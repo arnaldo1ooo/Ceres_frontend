@@ -9,6 +9,9 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { AvisoHelpersService } from 'src/app/compartido/services/aviso-helpers.service';
+import { DialogoIngresarTextoComponent } from 'src/app/compartido/componentes/dialogo-ingresar-texto/dialogo-ingresar-texto.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-ordenes-lista',
@@ -22,7 +25,7 @@ export class OrdenesListaComponent implements OnInit {
   ordenesFiltradas: OrdenListaDTO[] = [];
   paginaActual = 1;
   estadoSeleccionado = 0;
-  ordenesPorEstado: { [key: string]: OrdenListaDTO[] } = {};
+  arrayOrdenesPorEstado: { [key: string]: OrdenListaDTO[] } = {};
 
   protected tamanhosPage = DEFAULT_PAGE_TAMANHOS;
   protected apiPageResponse!: ApiPageResponse;
@@ -40,7 +43,7 @@ export class OrdenesListaComponent implements OnInit {
 
   constructor(private ordenesService: OrdenesService,
     private _avisoHelpersService: AvisoHelpersService,
-    private _cdr: ChangeDetectorRef
+    private _dialogo: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -52,24 +55,22 @@ export class OrdenesListaComponent implements OnInit {
       next: (ordenes: OrdenListaDTO[]) => {
         this.ordenesListaDTO = ordenes;
 
-        // Ordenar por id de mayor a menor
-        this.ordenesListaDTO.sort((a, b) => {
-          const idA = a._id ?? 0;
-          const idB = b._id ?? 0;
-
-          return idB - idA;
-        });
-
-        // Inicializa el objeto para cada estado
         this.estadosOrden.forEach(estado => {
-          this.ordenesPorEstado[estado.valor] = [];
+          this.arrayOrdenesPorEstado[estado.valor] = [];
         });
 
         // Agrupa las órdenes según su estado
         this.ordenesListaDTO.forEach(orden => {
-          if (this.ordenesPorEstado[orden.estado]) {
-            this.ordenesPorEstado[orden.estado].push(orden);
+          if (this.arrayOrdenesPorEstado[orden.estado]) {
+            this.arrayOrdenesPorEstado[orden.estado].push(orden);
           }
+        });
+
+        // Ordenar cada grupo de órdenes por fecha de emisión (de mayor a menor)
+        Object.keys(this.arrayOrdenesPorEstado).forEach(estado => {
+          this.arrayOrdenesPorEstado[estado].sort((a, b) =>
+            new Date(b.fechaEmision).getTime() - new Date(a.fechaEmision).getTime()
+          );
         });
 
         this.loading = false;
@@ -141,30 +142,85 @@ export class OrdenesListaComponent implements OnInit {
 
     if (event.previousContainer === event.container) {
       // Reordenamos dentro de la misma columna
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      this.dropItemEnMismaColumna(event);
     }
     else {
       // Transferimos la orden de una columna a otra y actualizamos su estado
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
+      this.dropItemEntreColumnas(event);
 
+      const estadoOrdenDestino: EstadoOrden = EstadoOrdenUtils.getEstadoOrdenPorKey(estadoDestino);
       let ordenMovida: OrdenListaDTO = event.container.data[event.currentIndex];
-      ordenMovida.estado = EstadoOrdenUtils.getEstadoOrdenPorKey(estadoDestino);
 
-      this.ordenesService.actualizarParcialOrden(ordenMovida._id!, ordenMovida).subscribe({
-        next: (response) => {
-          console.log("Éxito al actualizar estado de orden:", response);
-        },
-        error: (error) => {
-          this.cargarOrdenes();
-          this._avisoHelpersService.mostrarMensajeError("Error: ", error);
-        }
-      });
+
+      if (ordenMovida.estado === EstadoOrden.CANCELADO) {
+        this._avisoHelpersService.mostrarMensaje("Una orden Cancelada no puede cambiar de estado!");
+        this.revertirDrop(event);
+        return;
+      }
+
+      if (estadoOrdenDestino === EstadoOrden.CANCELADO) {
+        this.abrirDialogoMotivoCancelacion(ordenMovida).subscribe(motivoCanIngresado => {
+          if (motivoCanIngresado) {
+            ordenMovida.motivoCancelacion = motivoCanIngresado;
+            this.actualizarEstadoDeOrden(ordenMovida, estadoOrdenDestino);
+          }
+          else {
+            this.revertirDrop(event);
+          }
+        });
+      }
+      else {
+        this.actualizarEstadoDeOrden(ordenMovida, estadoOrdenDestino);
+      }
     }
+  }
+
+  private dropItemEnMismaColumna<T>(event: CdkDragDrop<T[]>): void {
+    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+  }
+
+  private dropItemEntreColumnas<T>(event: CdkDragDrop<T[]>): void { //Mover el item entre columnas
+    transferArrayItem(
+      event.previousContainer.data,
+      event.container.data,
+      event.previousIndex,
+      event.currentIndex
+    );
+  }
+
+  private revertirDrop<T>(event: CdkDragDrop<T[]>): void { //Revertir y volver el item a su columna original
+    transferArrayItem(
+      event.container.data,
+      event.previousContainer.data,
+      event.currentIndex,
+      event.previousIndex
+    );
+  }
+
+  private actualizarEstadoDeOrden(ordenMovida: OrdenListaDTO, estadoOrdenDestino: EstadoOrden) {
+    ordenMovida.estado = estadoOrdenDestino;
+
+    this.ordenesService.actualizarParcialOrden(ordenMovida._id!, ordenMovida).subscribe({
+      next: (response) => {
+        console.log("Éxito al actualizar estado de orden:", response);
+      },
+      error: (error) => {
+        this.cargarOrdenes();
+        this._avisoHelpersService.mostrarMensajeError("Error: ", error);
+      }
+    });
+  }
+
+  abrirDialogoMotivoCancelacion(ordenListaDTO: OrdenListaDTO): Observable<string> {
+    const dialogRef = this._dialogo.open(DialogoIngresarTextoComponent, {
+      data: {
+        titulo: 'Informe el motivo de la cancelación',
+        textoInicial: ordenListaDTO.motivoCancelacion,
+        isModoLectura: false
+      }
+    });
+
+    return dialogRef.afterClosed();
   }
 
 }
