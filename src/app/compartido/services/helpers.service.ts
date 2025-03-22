@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { ModoEdicion } from '../enums/modoEdicion.enum';
+import { EDITAR, NUEVO, VISUALIZAR } from '../constantes/constantes';
 @Injectable({
   providedIn: 'root'
 })
@@ -98,20 +99,20 @@ export class HelpersService {
     return this.isNuloOrVacio(valor) || this.isUndefined(valor);
   }
 
-  public static isNuloRetornaVacio(valor: any): boolean {
+  public static isNuloRetornaVacio(valor: any): any {
     return this.isNulo(valor) ? '' : valor;
   }
 
   public static isPathModoVisualizar(path: any): boolean {
-    return path.includes('visualizar');
+    return path.includes(VISUALIZAR);
   }
 
   public static isPathModoEditar(path: any): boolean {
-    return path.includes('editar');
+    return path.includes(EDITAR);
   }
 
   public static isPathModoNuevo(path: any): boolean {
-    return path.includes('nuevo');
+    return path.includes(NUEVO);
   }
 
   public static isMayorACero(valor: number): boolean {

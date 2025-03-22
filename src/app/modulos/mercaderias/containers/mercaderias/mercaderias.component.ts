@@ -7,7 +7,7 @@ import {
   DialogoConfirmacionComponent,
 } from 'src/app/compartido/componentes/dialogo-confirmacion/dialogo-confirmacion/dialogo-confirmacion.component';
 import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-error/dialogo-error.component';
-import { DEFAULT_ORDENAR_POR, DEFAULT_PAGE_TAMANHO, ID_OPCION_TODOS, PAGE_INICIAL } from 'src/app/compartido/constantes/constantes';
+import { DEFAULT_ORDENAR_POR, DEFAULT_PAGE_TAMANHO, EDITAR, ID_OPCION_TODOS, NUEVO, PAGE_INICIAL, VISUALIZAR } from 'src/app/compartido/constantes/constantes';
 import { Situacion, SituacionUtils } from 'src/app/compartido/enums/situacion.enum';
 import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
 import { ApiPageResponse } from 'src/app/compartido/interfaces/api-page-response';
@@ -119,15 +119,15 @@ export class MercaderiasComponent implements OnInit {
   }
 
   protected onNuevo() {
-    this._ruta.navigate(['nuevo'], { relativeTo: this._rutaActual }); //Para que navegue a esa direccion
+    this._ruta.navigate([NUEVO], { relativeTo: this._rutaActual }); //Para que navegue a esa direccion
   }
 
   protected onVisualizar(mercaderia: Mercaderia) {
-    this._ruta.navigate(['visualizar', mercaderia._id], { relativeTo: this._rutaActual });
+    this._ruta.navigate([VISUALIZAR, mercaderia._id], { relativeTo: this._rutaActual });
   }
 
   protected onEditar(mercaderia: Mercaderia) {
-    this._ruta.navigate(['editar', mercaderia._id], { relativeTo: this._rutaActual }); //Navega a esa direccion con los datos seleccionados
+    this._ruta.navigate([EDITAR, mercaderia._id], { relativeTo: this._rutaActual }); //Navega a esa direccion con los datos seleccionados
   }
 
   protected onEliminar(mercaderia: Mercaderia) {

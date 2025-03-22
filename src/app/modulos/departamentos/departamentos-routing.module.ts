@@ -3,10 +3,11 @@ import { DepartamentoFormComponent } from './containers/departamento-form/depart
 import { DepartamentosComponent } from './containers/departamentos/departamentos.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { NUEVO } from 'src/app/compartido/constantes/constantes';
 
 const routes: Routes = [
   { path: '', component: DepartamentosComponent }, //Departamentos
-  { path: 'nuevo', component: DepartamentoFormComponent, resolve: { departamento: DepartamentoResolver } }, //Seria departamentos/nuevo
+  { path: NUEVO, component: DepartamentoFormComponent, resolve: { departamento: DepartamentoResolver } }, //Seria departamentos/nuevo
   { path: 'visualizar/:id', component: DepartamentoFormComponent, resolve: { departamento: DepartamentoResolver } },
   { path: 'editar/:id', component: DepartamentoFormComponent, resolve: { departamento: DepartamentoResolver } } //Seria departamentos/editar/id
 ];

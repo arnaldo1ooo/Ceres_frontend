@@ -11,6 +11,7 @@ import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-er
 
 import { Departamento } from '../../model/departamento.model';
 import { DepartamentosService } from '../../services/departamentos.service';
+import { EDITAR, NUEVO, VISUALIZAR } from 'src/app/compartido/constantes/constantes';
 
 @Component({
   selector: 'app-departamentos',
@@ -49,15 +50,15 @@ export class DepartamentosComponent implements OnInit {
   }
 
   onNuevo() {
-    this.ruta.navigate(['nuevo'], { relativeTo: this.rutaActual }); //Para que navegue a esa direccion
+    this.ruta.navigate([NUEVO], { relativeTo: this.rutaActual }); //Para que navegue a esa direccion
   }
 
   onVisualizar(departamento: Departamento) {
-    this.ruta.navigate(['visualizar', departamento._id], { relativeTo: this.rutaActual });
+    this.ruta.navigate([VISUALIZAR, departamento._id], { relativeTo: this.rutaActual });
   }
 
   onEditar(departamento: Departamento) {
-    this.ruta.navigate(['editar', departamento._id], { relativeTo: this.rutaActual }); //Navega a esa direccion con los datos del departamento
+    this.ruta.navigate([EDITAR, departamento._id], { relativeTo: this.rutaActual }); //Navega a esa direccion con los datos del departamento
   }
 
   onEliminar(departamento: Departamento) {

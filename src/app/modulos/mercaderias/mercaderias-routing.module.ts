@@ -4,11 +4,12 @@ import { MercaderiasComponent } from './containers/mercaderias/mercaderias.compo
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ModoEdicion } from 'src/app/compartido/enums/modoEdicion.enum';
+import { NUEVO } from 'src/app/compartido/constantes/constantes';
 
 const routes: Routes = [
   { path: '', component: MercaderiasComponent },
   {
-    path: 'nuevo', component: MercaderiaFormComponent,
+    path: NUEVO, component: MercaderiaFormComponent,
     resolve: { mercaderia: MercaderiaResolver },
     data: { modoEdicion: ModoEdicion.MODO_NUEVO }
   },

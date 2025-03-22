@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { OrdenesService } from '../../services/ordenes.service';
 import { EstadoOrden, EstadoOrdenUtils } from '../../enums/estado-orden.enum';
-import { DEFAULT_PAGE_TAMANHOS } from 'src/app/compartido/constantes/constantes';
+import { DEFAULT_PAGE_TAMANHOS, EDITAR, NUEVO, VISUALIZAR } from 'src/app/compartido/constantes/constantes';
 import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
 import { ApiPageResponse } from 'src/app/compartido/interfaces/api-page-response';
 import { OrdenListaDTO } from '../../model/dtos/ordenListaDTO';
@@ -12,6 +12,7 @@ import { AvisoHelpersService } from 'src/app/compartido/services/aviso-helpers.s
 import { DialogoIngresarTextoComponent } from 'src/app/compartido/componentes/dialogo-ingresar-texto/dialogo-ingresar-texto.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-ordenes-lista',
@@ -43,7 +44,9 @@ export class OrdenesListaComponent implements OnInit {
 
   constructor(private ordenesService: OrdenesService,
     private _avisoHelpersService: AvisoHelpersService,
-    private _dialogo: MatDialog
+    private _dialogo: MatDialog,
+    private _ruta: Router,
+    private _rutaActual: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -93,18 +96,15 @@ export class OrdenesListaComponent implements OnInit {
   }
 
   onNuevo(): void {
-    // Aquí podrías abrir un diálogo o navegar a un formulario de creación
-    console.log('Agregar nueva orden');
+    this._ruta.navigate([NUEVO], { relativeTo: this._rutaActual });
   }
 
   onVisualizar(orden: OrdenListaDTO): void {
-    // Aquí podrías abrir un diálogo o navegar a un formulario de edición
-    console.log('Visualizar orden', orden);
+    this._ruta.navigate([VISUALIZAR, orden._id], { relativeTo: this._rutaActual });
   }
 
   onEditar(orden: OrdenListaDTO): void {
-    // Aquí podrías abrir un diálogo o navegar a un formulario de edición
-    console.log('Editar orden', orden);
+    this._ruta.navigate([EDITAR, orden._id], { relativeTo: this._rutaActual });
   }
 
   onCancelarOrden(orden: OrdenListaDTO): void {

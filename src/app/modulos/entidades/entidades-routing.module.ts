@@ -4,13 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { EntidadFormComponent } from './containers/entidad-form/entidad-form.component';
 import { EntidadResolver } from './guards/entidad.resolver';
 import { ModoEdicion } from '../../compartido/enums/modoEdicion.enum';
+import { NUEVO } from 'src/app/compartido/constantes/constantes';
 
 const routes: Routes = [
   {
     path: '', component: EntidadesComponent
   },
   {
-    path: 'nuevo', component: EntidadFormComponent,
+    path: NUEVO, component: EntidadFormComponent,
     resolve: { entidad: EntidadResolver },
     data: { modoEdicion: ModoEdicion.MODO_NUEVO }
   },

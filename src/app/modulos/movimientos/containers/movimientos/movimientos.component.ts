@@ -10,8 +10,11 @@ import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-er
 import {
   DEFAULT_ORDENAR_POR,
   DEFAULT_PAGE_TAMANHO,
+  EDITAR,
   ID_OPCION_TODOS,
+  NUEVO,
   PAGE_INICIAL,
+  VISUALIZAR,
 } from 'src/app/compartido/constantes/constantes';
 import { Situacion, SituacionUtils } from 'src/app/compartido/enums/situacion.enum';
 import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
@@ -160,7 +163,7 @@ export class MovimientosComponent implements OnInit {
   }
 
   protected onNuevo() {
-    this._ruta.navigate(['nuevo'], { relativeTo: this._rutaActual });
+    this._ruta.navigate([NUEVO], { relativeTo: this._rutaActual });
   }
 
   protected onMostrarTiposMovimientoSeleccion() {
@@ -168,11 +171,11 @@ export class MovimientosComponent implements OnInit {
   }
 
   protected onVisualizar(movimientoListaDTO: MovimientoListaDTO) {
-    this._ruta.navigate(['visualizar', movimientoListaDTO._id], { relativeTo: this._rutaActual });
+    this._ruta.navigate([VISUALIZAR, movimientoListaDTO._id], { relativeTo: this._rutaActual });
   }
 
   protected onEditar(movimientoListaDTO: MovimientoListaDTO) {
-    this._ruta.navigate(['editar', movimientoListaDTO._id], { relativeTo: this._rutaActual }); //Navega a esa direccion con los datos del departamento
+    this._ruta.navigate([EDITAR, movimientoListaDTO._id], { relativeTo: this._rutaActual }); //Navega a esa direccion con los datos del departamento
   }
 
   protected onEliminar(movimientoListaDTO: MovimientoListaDTO) {
