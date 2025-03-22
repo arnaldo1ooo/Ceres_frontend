@@ -6,7 +6,7 @@ import { MonedaDTO } from "src/app/modulos/monedas/models/dtos/monedaDTO";
 import { UsuarioDTO } from "src/app/modulos/usuarios/model/dtos/usuarioDTO";
 import { OrdenItemDTO } from "./ordenItemDTO";
 
-export interface OrdenListaDTO {
+export interface OrdenDetalleDTO {
   _id?: number;
   numero: string;
   entidad: EntidadDetalleDTO
