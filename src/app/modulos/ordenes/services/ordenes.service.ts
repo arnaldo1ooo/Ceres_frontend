@@ -5,7 +5,6 @@ import { Orden } from '../model/orden';
 import { API_URL_ACTUALIZAR_PARCIAL_ORDEN, API_URL_ORDENES } from 'src/app/compartido/constantes/constantes';
 import { ApiResponse } from 'src/app/compartido/interfaces/api-response';
 import { OrdenListaDTO } from '../model/dtos/ordenListaDTO';
-import { EstadoOrden } from '../enums/estado-orden.enum';
 
 @Injectable({
   providedIn: 'root'

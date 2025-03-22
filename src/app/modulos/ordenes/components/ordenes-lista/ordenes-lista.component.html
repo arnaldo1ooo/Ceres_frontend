@@ -1,3 +1,12 @@
+<mat-toolbar color="primary" class="toolbar">
+  <span class="title">Lista de Órdenes</span>
+  <span class="spacer"></span>
+  <button mat-raised-button color="accent" (click)="onNuevo()">
+    <mat-icon>add</mat-icon>
+    Nueva orden
+  </button>
+</mat-toolbar>
+
 <div class="dropListBoard" cdkDropListGroup>
   <div class="columna" *ngFor="let estado of estadosOrden">
     <h2>{{ estado.label }}</h2>

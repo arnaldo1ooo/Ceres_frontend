@@ -19,7 +19,7 @@ export class Orden {
   estado: EstadoOrden | null = null;
   numeroMesa: string = '';
   observacion: string = '';
-  items: OrdenItem | null = null;
+  items: OrdenItem[] = [];
 
   constructor() {
 
