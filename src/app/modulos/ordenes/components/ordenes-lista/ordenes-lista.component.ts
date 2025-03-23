@@ -4,7 +4,7 @@ import { EstadoOrden, EstadoOrdenUtils } from '../../enums/estado-orden.enum';
 import { DEFAULT_PAGE_TAMANHOS, EDITAR, NUEVO, VISUALIZAR } from 'src/app/compartido/constantes/constantes';
 import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
 import { ApiPageResponse } from 'src/app/compartido/interfaces/api-page-response';
-import { OrdenListaDTO } from '../../model/dtos/ordenListaDTO';
+import { OrdenListaDTO } from '../../model/dtos/orden-lista-DTO';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';

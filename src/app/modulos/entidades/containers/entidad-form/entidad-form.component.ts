@@ -21,7 +21,7 @@ import { TipoEntidad } from '../../enums/tipo-entidad.enum';
 import { ClaseEntidad } from '../../models/claseEntidad.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { EntidadDetalleForm } from '../../models/dtos/entidadDetalleForm';
-import { ModoEdicion } from 'src/app/compartido/enums/modoEdicion.enum';
+import { ModoEdicion } from 'src/app/compartido/enums/modo-edicion.enum';
 
 @Component({
   selector: 'app-entidad-form',

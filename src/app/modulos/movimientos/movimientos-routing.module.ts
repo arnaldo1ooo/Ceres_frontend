@@ -1,4 +1,4 @@
-import { ModoEdicion } from '../../compartido/enums/modoEdicion.enum';
+import { ModoEdicion } from '../../compartido/enums/modo-edicion.enum';
 import { MovimientoFormComponent } from './containers/movimiento-form/movimiento-form.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';

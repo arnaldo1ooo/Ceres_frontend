@@ -4,7 +4,7 @@ import { TipoEntregaOrden } from "../../enums/tipoEntregaOrden.enum";
 import { EntidadDetalleDTO } from "src/app/modulos/entidades/models/dtos/entidadDetalleDTO";
 import { MonedaDTO } from "src/app/modulos/monedas/models/dtos/monedaDTO";
 import { UsuarioDTO } from "src/app/modulos/usuarios/model/dtos/usuarioDTO";
-import { OrdenItemDTO } from "./ordenItemDTO";
+import { OrdenItemDTO } from "./orden-item-DTO";
 
 export interface OrdenDetalleDTO {
   _id?: number;

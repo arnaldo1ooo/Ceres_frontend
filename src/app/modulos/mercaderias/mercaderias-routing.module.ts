@@ -3,7 +3,7 @@ import { MercaderiaFormComponent } from './containers/mercaderia-form/mercaderia
 import { MercaderiasComponent } from './containers/mercaderias/mercaderias.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ModoEdicion } from 'src/app/compartido/enums/modoEdicion.enum';
+import { ModoEdicion } from 'src/app/compartido/enums/modo-edicion.enum';
 import { NUEVO } from 'src/app/compartido/constantes/constantes';
 
 const routes: Routes = [

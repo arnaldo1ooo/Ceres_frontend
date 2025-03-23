@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { ModoEdicion } from "src/app/compartido/enums/modoEdicion.enum";
+import { ModoEdicion } from "src/app/compartido/enums/modo-edicion.enum";
 import { OrdenesComponent } from "./containers/ordenes/ordenes.component";
 import { OrdenesFormComponent } from "./containers/ordenes-form/ordenes-form.component";
 import { OrdenResolver } from "./guards/orden.resolver";

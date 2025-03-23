@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { ModoEdicion } from '../enums/modoEdicion.enum';
+import { ModoEdicion } from '../enums/modo-edicion.enum';
 import { EDITAR, NUEVO, VISUALIZAR } from '../constantes/constantes';
 @Injectable({
   providedIn: 'root'

@@ -5,9 +5,9 @@ import {
 import { Observable, of } from 'rxjs';
 import { Sucursal } from '../../sucursales/model/sucursal.model';
 import { Orden } from '../model/orden';
-import { OrdenDetalleDTO } from '../model/dtos/ordenDetalleDTO';
+import { OrdenDetalleDTO } from '../model/dtos/orden-detalle-DTO';
 import { OrdenesService } from '../services/ordenes.service';
-import { SiNo } from 'src/app/compartido/enums/siNo.enum';
+import { SiNo } from 'src/app/compartido/enums/si-no.enum';
 import { EstadoOrden } from '../enums/estado-orden.enum';
 
 //Un resolver se ejecuta al clickar en un boton y antes de que cargue el enlace de la misma

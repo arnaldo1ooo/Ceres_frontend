@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EntidadFormComponent } from './containers/entidad-form/entidad-form.component';
 import { EntidadResolver } from './guards/entidad.resolver';
-import { ModoEdicion } from '../../compartido/enums/modoEdicion.enum';
+import { ModoEdicion } from '../../compartido/enums/modo-edicion.enum';
 import { NUEVO } from 'src/app/compartido/constantes/constantes';
 
 const routes: Routes = [

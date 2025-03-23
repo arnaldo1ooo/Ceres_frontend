@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { delay, first, map, Observable, } from 'rxjs';
 import { API_URL_ACTUALIZAR_PARCIAL_ORDEN, API_URL_ORDENES } from 'src/app/compartido/constantes/constantes';
 import { ApiResponse } from 'src/app/compartido/interfaces/api-response';
-import { OrdenListaDTO } from '../model/dtos/ordenListaDTO';
-import { OrdenDetalleDTO } from '../model/dtos/ordenDetalleDTO';
+import { OrdenListaDTO } from '../model/dtos/orden-lista-DTO';
+import { OrdenDetalleDTO } from '../model/dtos/orden-detalle-DTO';
 
 @Injectable({
   providedIn: 'root'

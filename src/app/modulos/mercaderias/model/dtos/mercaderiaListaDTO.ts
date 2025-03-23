@@ -2,7 +2,7 @@ import { DepartamentoDTO } from "src/app/modulos/departamentos/model/dtos/depart
 import { TipoMercaderia } from "../../enums/tipoMercaderia.enum";
 import { CategoriaMercaderiaDTO } from "./categoria-mercaderiaDTO";
 
-export interface MercaderiaDTO {
+export interface MercaderiaListaDTO {
   _id?: number;
   descripcion: string;
   tipo: TipoMercaderia | null;

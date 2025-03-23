@@ -2,16 +2,17 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ModoEdicion } from 'src/app/compartido/enums/modoEdicion.enum';
+import { ModoEdicion } from 'src/app/compartido/enums/modo-edicion.enum';
 import { Situacion } from 'src/app/compartido/enums/situacion.enum';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { DepartamentosService } from 'src/app/modulos/departamentos/services/departamentos.service';
 
 import { TipoMercaderia } from '../../enums/tipoMercaderia.enum';
-import { Mercaderia } from '../../model/mercaderia.model';
 import { MercaderiasService } from '../../services/mercaderias.service';
 import { AvisoHelpersService } from './../../../../compartido/services/aviso-helpers.service';
 import { ErrorHelpersService } from './../../../../compartido/services/error-helpers.service';
+import { MercaderiaDetalleDTO } from '../../model/dtos/mercaderiaDetalleDTO';
+import { CategoriaMercaderiaDTO } from '../../model/dtos/categoria-mercaderiaDTO';
 
 @Component({
   selector: 'app-mercaderia-form',
@@ -21,6 +22,7 @@ import { ErrorHelpersService } from './../../../../compartido/services/error-hel
 export class MercaderiaFormComponent implements OnInit {
   public listaTiposMercaderia = Object.values(TipoMercaderia);
   public listaDepartamentos: any;
+  public listaCategoriasMercaderia!: CategoriaMercaderiaDTO[];
   public listaSituaciones = Object.values(Situacion);
   public modoEdicion: string = this._ruta.snapshot.data['modoEdicion']; //Proviene del routing
   public formGroupMercaderia = this.formMercaderiaInicial();
@@ -38,19 +40,21 @@ export class MercaderiaFormComponent implements OnInit {
   ngOnInit(): void {  //Se ejecuta al iniciar componente
     this.verificarModoEdicion();
 
-    this.listaDepartamentos = this.listarDepartamentos();
+    this.listarDepartamentos();
+    this.listarCategoriasMercaderia();
 
-    const mercaderia: Mercaderia = this._ruta.snapshot.data['mercaderia'];  //Obtiene el objeto del resolver
+    const mercaderiaDetalleDTO: MercaderiaDetalleDTO = this._ruta.snapshot.data['mercaderia'];  //Obtiene el objeto del resolver
 
     this.formGroupMercaderia.setValue({ //Setamos los datos para que aparezca al editar
-      _id: mercaderia._id,
-      descripcion: mercaderia.descripcion,
-      tipo: mercaderia.tipo,
-      departamentos: mercaderia.departamentos,
-      situacion: HelpersService.isNoNuloYNoVacio(mercaderia.situacion)
-                  ? mercaderia.situacion
-                  : Situacion.ACTIVO, //Se pone por default Activo
-      presentaEnReporte: mercaderia.presentaEnReporte
+      _id: mercaderiaDetalleDTO._id,
+      descripcion: mercaderiaDetalleDTO.descripcion,
+      tipo: mercaderiaDetalleDTO.tipo,
+      departamentos: mercaderiaDetalleDTO.departamentos,
+      situacion: HelpersService.isNoNuloYNoVacio(mercaderiaDetalleDTO.situacion)
+        ? mercaderiaDetalleDTO.situacion
+        : Situacion.ACTIVO, //Se pone por default Activo
+      presentaEnReporte: mercaderiaDetalleDTO.presentaEnReporte,
+      categoria: mercaderiaDetalleDTO.categoria
     });
   }
 
@@ -112,6 +116,12 @@ export class MercaderiaFormComponent implements OnInit {
     })
   }
 
+  private listarCategoriasMercaderia() {
+    this._mercaderiaService.listarTodosCategoriasMercaderia().subscribe((respuesta: any) => {
+      this.listaCategoriasMercaderia = respuesta;
+    })
+  }
+
   private formMercaderiaInicial(): FormGroup {
     return this._formBuilder.group({
       _id: new FormControl(''),  //Sirve para el modo editar
@@ -129,7 +139,10 @@ export class MercaderiaFormComponent implements OnInit {
       situacion: new FormControl('', [
         Validators.required
       ]),
-      presentaEnReporte: new FormControl(true)
+      presentaEnReporte: new FormControl(true),
+      categoria: new FormControl('', [
+        Validators.required
+      ])
     });
   }
 }

@@ -83,6 +83,19 @@
 
         </mat-grid-tile>
 
+        <!--Categoria-->
+        <mat-grid-tile style="display: flex;">
+
+        <mat-form-field appearance="outline" appearance="outline" class="anchura-maxima">
+          <mat-label>Categoria</mat-label>
+          <mat-select formControlName="categoria" [compareWith]="compararOpcionesSelect">
+            <mat-option disabled selected value="">Seleccione una categoria</mat-option>
+            <mat-option *ngFor="let categoria of listaCategoriasMercaderia" [value]="categoria">{{ categoria.descripcion }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        </mat-grid-tile>
+
       </mat-grid-list>
     </form>
   </mat-card-content>

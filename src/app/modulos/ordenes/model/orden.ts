@@ -2,7 +2,7 @@ import { Departamento } from "../../departamentos/model/departamento.model";
 import { Entidad } from "../../entidades/models/entidad.model";
 import { EstadoOrden } from "../enums/estado-orden.enum";
 import { TipoEntregaOrden } from "../enums/tipoEntregaOrden.enum";
-import { OrdenItem } from "./ordenItem";
+import { OrdenItem } from "./orden-item";
 
 export class Orden {
   _id?: number;
