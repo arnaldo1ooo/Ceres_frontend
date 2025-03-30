@@ -1,1 +1,44 @@
-<p>ordenes-form works!</p>
+<div class="ui-orden-form-container">
+  <mat-toolbar color="primary">
+    <span class="spacer"></span>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Buscar Productos</mat-label>
+      <input matInput id="filtroBuscarProducto" type="text" [(ngModel)]="filtroBuscarProducto">
+    </mat-form-field>
+
+  </mat-toolbar>
+
+  <div class="main-content">
+    <div class="ui-lista-mercaderias">
+      <mat-list>
+        <mat-list-item *ngFor="let mercaderia of listaMercaderiasFiltradas">
+          <h4 matLine>{{mercaderia.descripcion}}</h4>
+          <p matLine>Price: {{mercaderia.tipo}}</p>
+          <button mat-button (click)="addItem(mercaderia)">Add</button>
+        </mat-list-item>
+      </mat-list>
+    </div>
+
+    <div class="selected-items">
+      <h2>Selected Items</h2>
+      <mat-list>
+        <mat-list-item *ngFor="let selectedItem of selectedItems">
+          <h4 matLine>{{selectedItem.nombre}} - {{selectedItem.precio | currency}}</h4>
+          <!-- Quantity adjustment -->
+          <mat-form-field appearance="fill">
+            <mat-label>Qty</mat-label>
+            <input matInput type="number" [(ngModel)]="selectedItem.cantidad" min="1">
+          </mat-form-field>
+          <button mat-button (click)="removeItem(selectedItem)">Remove</button>
+        </mat-list-item>
+      </mat-list>
+      <div class="totals">
+        <h4>Subtotal: {{getSubtotal() | currency}}</h4>
+        <h4>Tax (15%): {{getTax() | currency}}</h4>
+        <h4>Total: {{getTotal() | currency}}</h4>
+      </div>
+      <button mat-raised-button color="accent" (click)="checkout()">Checkout</button>
+    </div>
+  </div>
+</div>

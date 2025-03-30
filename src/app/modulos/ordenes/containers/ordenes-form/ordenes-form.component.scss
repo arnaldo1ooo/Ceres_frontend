@@ -1,0 +1,32 @@
+.ui-orden-form-container{
+  display: flex;
+  flex-direction: column;
+
+  .main-content {
+    display: flex;
+    flex: 1;
+    max-height: calc(100vh - 170px); // Ajusta restando espacio del header si hay
+
+    //Lista Mercaderias
+    .ui-lista-mercaderias {
+      flex: 1;
+      overflow-y: auto; //Habilita desplazamiento
+      padding: 10px;
+      border-right: 1px solid #ccc;
+      max-width: 40%;
+
+
+    }
+
+    //Lista mercaderias seleccionados
+    .selected-items {
+      flex: 1;
+      padding: 10px;
+      max-width: 60%;
+
+      .totals {
+        margin-top: 20px;
+      }
+    }
+  }
+}
