@@ -26,6 +26,7 @@ export class MercaderiaFormComponent implements OnInit {
   public listaSituaciones = Object.values(Situacion);
   public modoEdicion: string = this._ruta.snapshot.data['modoEdicion']; //Proviene del routing
   public formGroupMercaderia = this.formMercaderiaInicial();
+  public imagenVistaPrevia: string | null = null;
 
   constructor(
     private _formBuilder: NonNullableFormBuilder,
@@ -54,8 +55,15 @@ export class MercaderiaFormComponent implements OnInit {
         ? mercaderiaDetalleDTO.situacion
         : Situacion.ACTIVO, //Se pone por default Activo
       presentaEnReporte: mercaderiaDetalleDTO.presentaEnReporte,
-      categoria: mercaderiaDetalleDTO.categoria
+      categoria: mercaderiaDetalleDTO.categoria,
+      imagen: this.formatarBase64(mercaderiaDetalleDTO.imagen)
     });
+
+    this.imagenVistaPrevia = this.formGroupMercaderia.get('imagen')?.value;
+  }
+
+  private formatarBase64(base64: string | null) {
+    return base64 ? `data:image/jpeg;base64,${base64}` : null;
   }
 
   private verificarModoEdicion() {
@@ -79,7 +87,7 @@ export class MercaderiaFormComponent implements OnInit {
       this._mercaderiaService.guardar(this.formGroupMercaderia.getRawValue()) //getRawValue incluye los campos disabled
         .subscribe({
           next: resultado => this.onExito(),
-          error: err => this.onError()
+          error: err => this.onError(err.error.mensajes)
         });
     }
     else {
@@ -97,8 +105,8 @@ export class MercaderiaFormComponent implements OnInit {
     this.onCancelar(); //Para que vuelva atras
   }
 
-  private onError() {
-    this._avisoHelpersService.mostrarMensaje('Error al guardar mercaderia', '', 4000); //Mensaje cuando da error
+  private onError(error: string) {
+    this._avisoHelpersService.mostrarMensaje('Error al guardar mercaderia: ' + error, '', 8000); //Mensaje cuando da error
   }
 
   protected compararOpcionesSelect(opcion: any, opcionRecibida: any): boolean {
@@ -142,7 +150,31 @@ export class MercaderiaFormComponent implements OnInit {
       presentaEnReporte: new FormControl(true),
       categoria: new FormControl('', [
         Validators.required
-      ])
+      ]),
+      imagen: new FormControl('')
     });
   }
+
+  onSeleccionarImagen(event: any): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagenVistaPrevia = reader.result as string;
+        this.formGroupMercaderia.patchValue({ imagen: this.imagenVistaPrevia }); // guardar archivo en base64
+        this.formGroupMercaderia.get('imagen')?.updateValueAndValidity();
+      };
+
+      reader.readAsDataURL(file);
+    }
+  }
+
+  onEliminarImagen() {
+    this.imagenVistaPrevia = null;
+    this.formGroupMercaderia.patchValue({ imagen: null });
+    this.formGroupMercaderia.get('imagen')?.updateValueAndValidity();
+  }
+
 }

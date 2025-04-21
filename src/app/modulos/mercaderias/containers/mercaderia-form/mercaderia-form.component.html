@@ -83,18 +83,50 @@
 
         </mat-grid-tile>
 
-        <!--Categoria-->
+        <!--Fila 4-->
         <mat-grid-tile style="display: flex;">
-
-        <mat-form-field appearance="outline" appearance="outline" class="anchura-maxima">
-          <mat-label>Categoria</mat-label>
-          <mat-select formControlName="categoria" [compareWith]="compararOpcionesSelect">
-            <mat-option disabled selected value="">Seleccione una categoria</mat-option>
-            <mat-option *ngFor="let categoria of listaCategoriasMercaderia" [value]="categoria">{{ categoria.descripcion }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+          <mat-form-field appearance="outline" appearance="outline" class="anchura-maxima">
+            <mat-label>Categoria</mat-label>
+            <mat-select formControlName="categoria" [compareWith]="compararOpcionesSelect">
+              <mat-option disabled selected value="">Seleccione una categoria</mat-option>
+              <mat-option *ngFor="let categoria of listaCategoriasMercaderia"
+                [value]="categoria">{{ categoria.descripcion }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </mat-grid-tile>
+
+        <mat-grid-tile>
+          <div class="imagen-contenedor">
+            <!-- Imagen -->
+            <img *ngIf="imagenVistaPrevia" [src]="imagenVistaPrevia" class="imagen-preview" alt="Imagen seleccionada" />
+
+            <!-- Botones al costado derecho -->
+            <div *ngIf="imagenVistaPrevia" class="imagen-acciones">
+              <button mat-icon-button color="primary" (click)="actualizarInputImagen.click()"
+                matTooltip="Modificar imagen" aria-label="Modificar imagen">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="onEliminarImagen()" matTooltip="Eliminar imagen"
+                aria-label="Eliminar imagen">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+
+            <!-- Input oculto para actualizar imagen -->
+            <input #actualizarInputImagen type="file" (change)="onSeleccionarImagen($event)" accept="image/*" hidden />
+
+            <!-- Carga inicial si no hay imagen -->
+            <ng-container *ngIf="!imagenVistaPrevia">
+              <input type="file" (change)="onSeleccionarImagen($event)" accept="image/*" />
+            </ng-container>
+
+            <mat-error *ngIf="formGroupMercaderia.get('imagen')?.invalid">
+              {{ getMensajeError('imagen') }}
+            </mat-error>
+          </div>
+        </mat-grid-tile>
+
 
       </mat-grid-list>
     </form>

@@ -12,10 +12,11 @@
   <div class="main-content">
     <div class="ui-lista-mercaderias">
       <mat-list>
-        <mat-list-item *ngFor="let mercaderia of listaMercaderiasFiltradas">
-          <h4 matLine>{{mercaderia.descripcion}}</h4>
-          <p matLine>Price: {{mercaderia.tipo}}</p>
-          <button mat-button (click)="addItem(mercaderia)">Add</button>
+        <mat-list-item *ngFor="let mercaderia of listaMercaderiasFiltradas" (click)="addItem(mercaderia)" class="ui-mercaderia-item">
+          <img [src]="mercaderia.imagen" alt="Imagen de {{ mercaderia.descripcion }}" class="mercaderia-imagen">
+          <div class="mercaderia-info">
+            <div matLine class="mercaderia-descripcion">{{ mercaderia.descripcion }}</div>
+          </div>
         </mat-list-item>
       </mat-list>
     </div>

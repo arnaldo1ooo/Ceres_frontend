@@ -10,4 +10,5 @@ export interface MercaderiaDTO {
   situacion: string
   presentaEnReporte: boolean;
   categoria: CategoriaMercaderiaDTO | null;
+  imagen: string | null;
 }
