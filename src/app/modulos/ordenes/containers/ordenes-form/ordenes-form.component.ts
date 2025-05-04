@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { map, Observable, of, startWith } from 'rxjs';
+import { ID_OPCION_TODOS } from 'src/app/compartido/constantes/constantes';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
+import { CategoriaMercaderiaDTO } from 'src/app/modulos/mercaderias/model/dtos/categoria-mercaderiaDTO';
 import { MercaderiaDTO } from 'src/app/modulos/mercaderias/model/dtos/mercaderiaDTO';
 import { MercaderiaListaDTO } from 'src/app/modulos/mercaderias/model/dtos/mercaderiaListaDTO';
 import { MercaderiasService } from 'src/app/modulos/mercaderias/services/mercaderias.service';
@@ -17,6 +19,8 @@ export class OrdenesFormComponent implements OnInit {
   protected listaMercaderiasFiltradas: MercaderiaListaDTO[] = [];
   protected selectedItems: any[] = [];
   protected filtroBuscarProducto: string = '';
+  protected filtroIdCategoria!: number;
+  protected listaCategoriasMercaderia: CategoriaMercaderiaDTO[] = [];
 
   constructor(
     private _mercaderiasService: MercaderiasService
@@ -26,10 +30,13 @@ export class OrdenesFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cargarMercaderias();
+    this.listarMercaderias();
+    this.listarCategorias();
+
+    this.filtroIdCategoria = this.listaCategoriasMercaderia[0]._id!;
   }
 
-  cargarMercaderias() {
+  listarMercaderias() {
        this._mercaderiasService.listarTodosMercaderiasActivos().subscribe({
          next: (retorno: MercaderiaListaDTO[]) => {
            this.listaMercaderias = retorno;
@@ -74,5 +81,15 @@ export class OrdenesFormComponent implements OnInit {
   checkout() {
     alert('Checkout complete!');
     // Implement checkout logic
+  }
+
+  protected compararOpcionesSelect(opcion: any, opcionRecibida: any): boolean {
+    return HelpersService.compararOpcionesSelect(opcion, opcionRecibida);
+  }
+
+  private listarCategorias() {
+    this._mercaderiasService.listarTodosCategoriasMercaderia().subscribe((resp: any) => {
+      this.listaCategoriasMercaderia = resp;
+    })
   }
 }
