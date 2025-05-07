@@ -24,8 +24,7 @@ export class OrdenesFormComponent implements OnInit {
 
   constructor(
     private _mercaderiasService: MercaderiasService
-  )
-  {
+  ) {
 
   }
 
@@ -33,24 +32,29 @@ export class OrdenesFormComponent implements OnInit {
     this.listarMercaderias();
     this.listarCategorias();
 
-    this.filtroIdCategoria = this.listaCategoriasMercaderia[0]._id!;
+    this.filtroIdCategoria = ID_OPCION_TODOS;
   }
 
   listarMercaderias() {
-       this._mercaderiasService.listarTodosMercaderiasActivos().subscribe({
-         next: (retorno: MercaderiaListaDTO[]) => {
-           this.listaMercaderias = retorno;
-           this.listaMercaderiasFiltradas = this.listaMercaderias;
-         },
-         error: (err) => console.log("Error al listar mercaderias: " + err)
-       });
+    this._mercaderiasService.listarTodosMercaderiasActivos().subscribe({
+      next: (retorno: MercaderiaListaDTO[]) => {
+        this.listaMercaderias = retorno;
+        this.listaMercaderiasFiltradas = this.listaMercaderias;
+      },
+      error: (err) => console.log("Error al listar mercaderias: " + err)
+    });
   }
 
-  onSearch() {
+  filtrarMercaderias() {
+    const textoABuscar: string = this.filtroBuscarProducto.toLowerCase().trim();
+    const idCategoria: number = this.filtroIdCategoria;
 
-    this.listaMercaderiasFiltradas = this.listaMercaderias.filter(merc =>
-      merc.descripcion.toLowerCase().includes(''.toLowerCase())
-    );
+    this.listaMercaderiasFiltradas = this.listaMercaderias.filter((m) => {
+      const isContieneTexto: boolean = m.descripcion.toLowerCase().includes(textoABuscar);
+      const isCoincideCategoria: boolean = idCategoria == ID_OPCION_TODOS || m.categoria?._id == idCategoria;
+
+      return isContieneTexto && isCoincideCategoria;
+    });
   }
 
   addItem(item: MercaderiaDTO) {
@@ -58,7 +62,7 @@ export class OrdenesFormComponent implements OnInit {
     if (existingItem) {
       existingItem.cantidad++;
     } else {
-      this.selectedItems.push({...item, cantidad: 1});
+      this.selectedItems.push({ ...item, cantidad: 1 });
     }
   }
 
@@ -92,4 +96,5 @@ export class OrdenesFormComponent implements OnInit {
       this.listaCategoriasMercaderia = resp;
     })
   }
+
 }

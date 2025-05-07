@@ -4,12 +4,13 @@
     <div class="ui-div-filtros-lista-merc">
       <mat-form-field appearance="outline" class="ui-filtro-buscar-producto">
         <mat-label>Buscar Productos</mat-label>
-        <input matInput id="filtroBuscarProducto" type="text" [(ngModel)]="filtroBuscarProducto">
+        <input matInput id="filtroBuscarProducto" type="text" [(ngModel)]="filtroBuscarProducto" (ngModelChange)="filtrarMercaderias()">
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="ui-select-filtro-tipo">
         <mat-label>Categoria</mat-label>
-        <mat-select [(ngModel)]="filtroIdCategoria" [compareWith]="compararOpcionesSelect">
+        <mat-select [(ngModel)]="filtroIdCategoria" (ngModelChange)="filtrarMercaderias()" [compareWith]="compararOpcionesSelect">
+          <mat-option [value]="-1">TODOS</mat-option>
           <mat-option *ngFor="let categoria of listaCategoriasMercaderia" value={{categoria._id}}>
             {{categoria.descripcion}}
           </mat-option>
@@ -24,7 +25,7 @@
     <div class="ui-lista-mercaderias">
       <mat-list>
 
-        <ng-container *ngFor="let mercaderia of listaMercaderiasFiltradas; let last = last">
+        <ng-container *ngFor="let mercaderia of listaMercaderiasFiltradas; let ultimo = last">
 
           <mat-list-item (click)="addItem(mercaderia)" class="ui-list-item">
             <div class="ui-item ">
@@ -38,7 +39,7 @@
             </div>
           </mat-list-item>
 
-          <mat-divider *ngIf="!last"></mat-divider>
+          <mat-divider *ngIf="!ultimo"></mat-divider>
 
         </ng-container>
 

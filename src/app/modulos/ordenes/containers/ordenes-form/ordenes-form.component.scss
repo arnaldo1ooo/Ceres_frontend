@@ -1,7 +1,7 @@
 .main-content {
   display: flex;
   flex: 1;
-  max-height: calc(100vh - 170px); // Ajusta restando espacio del header si hay
+  max-height: calc(100vh - 200px); // Ajusta restando espacio del header si hay
 }
 
 .ui-orden-form-container {
@@ -38,30 +38,31 @@
   overflow-y: auto; //barra deslizadora
   padding: 10px;
   border-right: 1px solid #ccc;
+
   max-width: 40%;
 }
 
 .ui-list-item {
-  margin-top: -14px;
   height: 120px;
 }
 
 .ui-item {
+  height: 75px;
   display: flex;
   align-items: center;
   cursor: pointer;
   transition: background 0.3s;
 }
 
-.ui-item-detalle {
-  margin-left: 10px;
-}
-
 .ui-item-imagen {
-  width: 80px;
-  height: 80px;
+  width: 10vh;
+  height: 10vh;
   object-fit: cover;
   border-radius: 4px;
+}
+
+.ui-item-detalle {
+  margin-left: 10px;
 }
 
 //Lista mercaderias seleccionados

@@ -87,22 +87,22 @@ export class MercaderiasService {
       );
   }
 
-    listarTodosCategoriasMercaderia() {
-      return this._httpClient.get<ApiResponse<CategoriaMercaderiaDTO[]>>(API_URL_CATEGORIAS_MERCADERIA)
-        .pipe(
-          map(response => response.data)
-        );
-    }
+  listarTodosCategoriasMercaderia() {
+    return this._httpClient.get<ApiResponse<CategoriaMercaderiaDTO[]>>(API_URL_CATEGORIAS_MERCADERIA)
+      .pipe(
+        map(response => response.data)
+      );
+  }
 
-    cargarImagenMercaderia(id: number): Observable<string> {
-      return this._httpClient.get<ApiResponse<string>>(`${API_URL_MERCADERIAS}/${id}${API_URL_IMAGEN_MERCADERIA}`)
-        .pipe(
-          map(response => response.data),
-          catchError(error => {
-            console.error('Error al cargar la imagen', error);
-            return of('');
-          })
-        );
-    }
+  cargarImagenMercaderia(id: number): Observable<string> {
+    return this._httpClient.get<ApiResponse<string>>(`${API_URL_MERCADERIAS}/${id}${API_URL_IMAGEN_MERCADERIA}`)
+      .pipe(
+        map(response => response.data),
+        catchError(error => {
+          console.error('Error al cargar la imagen', error);
+          return of('');
+        })
+      );
+  }
 
 }
