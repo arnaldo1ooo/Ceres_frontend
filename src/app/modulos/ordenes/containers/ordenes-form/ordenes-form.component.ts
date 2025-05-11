@@ -36,7 +36,7 @@ export class OrdenesFormComponent implements OnInit {
   }
 
   listarMercaderias() {
-    this._mercaderiasService.listarTodosMercaderiasActivos().subscribe({
+    this._mercaderiasService.listarTodosMercaderiasActivos(true).subscribe({
       next: (retorno: MercaderiaListaDTO[]) => {
         this.listaMercaderias = retorno;
         this.listaMercaderiasFiltradas = this.listaMercaderias;

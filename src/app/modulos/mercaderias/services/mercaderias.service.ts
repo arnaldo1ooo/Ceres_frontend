@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, delay, first, map, Observable, of } from 'rxjs';
 import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
@@ -12,6 +12,7 @@ import { API_URL_CATEGORIAS_MERCADERIA, API_URL_IMAGEN_MERCADERIA, API_URL_MERCA
 import { MercaderiaListaDTO } from '../model/dtos/mercaderiaListaDTO';
 import { MercaderiaDetalleDTO } from '../model/dtos/mercaderiaDetalleDTO';
 import { CategoriaMercaderiaDTO } from '../model/dtos/categoria-mercaderiaDTO';
+import { LoginService } from '../../login/services/login.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,8 @@ import { CategoriaMercaderiaDTO } from '../model/dtos/categoria-mercaderiaDTO';
 export class MercaderiasService {
 
   constructor(
-    private _httpClient: HttpClient) { } //El httpClient permite la conexion con el backend
+    private _httpClient: HttpClient,
+    private _loginService: LoginService) { } //El httpClient permite la conexion con el backend
 
   listarTodosMercaderias() {
     return this._httpClient.get<MercaderiaListaDTO[]>(API_URL_MERCADERIAS)
@@ -29,14 +31,35 @@ export class MercaderiasService {
       );
   }
 
-  listarTodosMercaderiasActivos(): Observable<MercaderiaListaDTO[]> {
-    return this._httpClient.get<ApiResponse<MercaderiaListaDTO[]>>(API_URL_MERCADERIAS + '/activos')
-      .pipe(
-        first(),
-        delay(100),
-        map(response => response.data)
-      );
+  listarTodosMercaderiasActivos(isIncluirImagen: boolean): Observable<MercaderiaListaDTO[]> {
+
+    let parametros = new HttpParams();
+    let idsDepartamento: number[] = [];
+    const dptoLogado = this._loginService.getDepartamentoLogado();
+
+    if (dptoLogado) {
+      idsDepartamento.push(Number(dptoLogado._id));
+    }
+
+    parametros = parametros.set('isIncluirImagen', isIncluirImagen ? 'true' : 'false');
+
+    if (idsDepartamento && idsDepartamento.length > 0) { //Agregamos mas idDepartamentos si existe
+      idsDepartamento.forEach(id => {
+        parametros = parametros.append('idsDepartamento', id.toString());
+      });
+    }
+
+    return this._httpClient.get<ApiResponse<MercaderiaListaDTO[]>>(
+      API_URL_MERCADERIAS + '/activos',
+      { params: parametros }
+    ).pipe(
+      first(),
+      delay(100),
+      map(response => response.data)
+    );
   }
+
+
 
   listarTodosMercaderiasFiltro() {
     return this._httpClient.get<MercaderiaListaDTO[]>(API_URL_MERCADERIAS + '/filtro')

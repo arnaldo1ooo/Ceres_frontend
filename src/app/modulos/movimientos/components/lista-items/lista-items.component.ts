@@ -75,7 +75,7 @@ export class ListaItemsComponent implements OnInit {
   private listarFiltrarMercaderias() {
     let control = this.formItemToAgregar.get('mercaderia');
 
-    this._mercaderiasService.listarTodosMercaderiasActivos().subscribe({
+    this._mercaderiasService.listarTodosMercaderiasActivos(false).subscribe({
       next: (respuesta: MercaderiaListaDTO[]) => {
         this.listaMercaderias = respuesta;
 

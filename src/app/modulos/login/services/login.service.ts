@@ -46,7 +46,7 @@ export class LoginService {
   }
 
   public getDepartamentoLogado(): Departamento | null {
-    return HelpersService.obtenerItemDelSessionStorage('departamentoLogado');
+    return HelpersService.obtenerItemDelSessionStorage('departamentoLogado') as Departamento;
   }
 
   public getIdDepartamentoLogado(): string | null {

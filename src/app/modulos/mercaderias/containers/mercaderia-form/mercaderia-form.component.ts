@@ -63,7 +63,7 @@ export class MercaderiaFormComponent implements OnInit {
   }
 
   private formatarBase64(base64: string | null) {
-    return base64 ? `data:image/jpeg;base64,${base64}` : null;
+    return base64 && !base64.includes('data:image') ? `data:image/jpeg;base64,${base64}` : base64;
   }
 
   private verificarModoEdicion() {

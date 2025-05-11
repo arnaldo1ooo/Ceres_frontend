@@ -4,12 +4,14 @@
     <div class="ui-div-filtros-lista-merc">
       <mat-form-field appearance="outline" class="ui-filtro-buscar-producto">
         <mat-label>Buscar Productos</mat-label>
-        <input matInput id="filtroBuscarProducto" type="text" [(ngModel)]="filtroBuscarProducto" (ngModelChange)="filtrarMercaderias()">
+        <input matInput id="filtroBuscarProducto" type="text" [(ngModel)]="filtroBuscarProducto"
+          (ngModelChange)="filtrarMercaderias()">
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="ui-select-filtro-tipo">
         <mat-label>Categoria</mat-label>
-        <mat-select [(ngModel)]="filtroIdCategoria" (ngModelChange)="filtrarMercaderias()" [compareWith]="compararOpcionesSelect">
+        <mat-select [(ngModel)]="filtroIdCategoria" (ngModelChange)="filtrarMercaderias()"
+          [compareWith]="compararOpcionesSelect">
           <mat-option [value]="-1">TODOS</mat-option>
           <mat-option *ngFor="let categoria of listaCategoriasMercaderia" value={{categoria._id}}>
             {{categoria.descripcion}}
@@ -34,7 +36,8 @@
 
               <div class="ui-item-detalle">
                 <span matListItemTitle>{{ mercaderia.descripcion }}</span>
-                <span matListItemLine>Second line</span>
+                <span matListItemLine>ID: {{ mercaderia._id }}</span>
+                <span matListItemLine>Precio: {{ mercaderia._id }}</span>
               </div>
             </div>
           </mat-list-item>
