@@ -20,7 +20,6 @@ import { Mercaderia } from '../../model/mercaderia.model';
 import { MercaderiasService } from '../../services/mercaderias.service';
 import { Ordenamiento } from '../../../../compartido/enums/ordenamiento.enum';
 import { LoginService } from '../../../login/services/login.service';
-import { removerItemDelSessionStorage, salvarItemEnSessionStorage } from 'src/app/compartido/services/storage-helpers.service';
 
 @Component({
   selector: 'app-mercaderias',
@@ -81,7 +80,7 @@ export class MercaderiasComponent implements OnInit {
   }
 
   public filtrar() {
-    salvarItemEnSessionStorage('mercaderiaFiltros', JSON.stringify(this.mercaderiaFiltro), false);
+    HelpersService.salvarItemEnSessionStorage('mercaderiaFiltros', JSON.stringify(this.mercaderiaFiltro));
 
     this.refrescar(this.apiPageRequestDefault);
   }
@@ -92,7 +91,7 @@ export class MercaderiasComponent implements OnInit {
   }
 
   protected limpiarFiltros() {
-    removerItemDelSessionStorage('mercaderiaFiltros');
+    HelpersService.removerItemDelSessionStorage('mercaderiaFiltros');
     this.mercaderiaFiltro = this.filtroInicial();
   }
 

@@ -14,7 +14,6 @@ import { Departamento } from '../../../../departamentos/model/departamento.model
 import { AvisoHelpersService } from '../../../../../compartido/services/aviso-helpers.service';
 import { finalize } from 'rxjs';
 import { COD_ERROR_CONEXION, COD_ERROR_DATOS_INVALIDOS } from 'src/app/compartido/constantes/constantes';
-import { salvarItemEnSessionStorage } from 'src/app/compartido/services/storage-helpers.service';
 
 
 @Component({
@@ -48,7 +47,7 @@ export class LoginFormComponent implements OnInit {
       this._loginService.login(this.credenciales)
         .pipe(
           finalize(() => {
-            salvarItemEnSessionStorage('departamentoLogado', this.credenciales.departamento, true);
+            HelpersService.salvarItemEnSessionStorage('departamentoLogado', this.credenciales.departamento);
           })
         )
         .subscribe({

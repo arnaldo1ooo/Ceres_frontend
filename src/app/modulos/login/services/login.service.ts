@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { Sucursal } from '../../sucursales/model/sucursal.model';
 import { Departamento } from '../../departamentos/model/departamento.model';
 import { API_URL_BD_ACTUAL, API_URL_LOGIN, API_URL_VERSION_ACTUAL } from 'src/app/compartido/constantes/constantes';
-import { obtenerItemDelSessionStorage } from 'src/app/compartido/services/storage-helpers.service';
+import { HelpersService } from 'src/app/compartido/services/helpers.service';
 
 @Injectable({
   providedIn: 'root'
@@ -42,11 +42,11 @@ export class LoginService {
   }
 
   public getDepartamentoLogado(): Departamento | null {
-    return obtenerItemDelSessionStorage('departamentoLogado', true) as Departamento;
+    return HelpersService.obtenerItemDelSessionStorage('departamentoLogado') as Departamento;
   }
 
   public getNombreUsuarioLogado() {
-    return obtenerItemDelSessionStorage('nombreUsuarioLogado', true);
+    return HelpersService.obtenerItemDelSessionStorage('nombreUsuarioLogado');
   }
 
 }

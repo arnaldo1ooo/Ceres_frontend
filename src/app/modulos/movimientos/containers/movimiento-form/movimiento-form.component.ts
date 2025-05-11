@@ -32,7 +32,6 @@ import { MonedaHelpersService } from 'src/app/compartido/services/moneda-helpers
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DepartamentoListaDTO } from 'src/app/modulos/departamentos/model/dtos/departamentoListaDTO';
-import { obtenerItemDelLocalStorage } from 'src/app/compartido/services/storage-helpers.service';
 
 @Component({
   selector: 'app-movimiento-form',
@@ -105,7 +104,7 @@ export class MovimientoFormComponent implements OnInit {
       if (HelpersService.isNuloOrVacio(movimientoDetalleDTO._id)) {
         this.cargarDatosEnForm(
           '0',
-          await this._tiposMovimientoService.cargarPorId(obtenerItemDelLocalStorage('idTipoMovimiento', false)), //Await sirve para esperar hasta que retorne el llamado para continuar la ejecucion);
+          await this._tiposMovimientoService.cargarPorId(HelpersService.obtenerItemDelLocalStorage('idTipoMovimiento')), //Await sirve para esperar hasta que retorne el llamado para continuar la ejecucion);
           await this._monedasService.cargarPorId(MonedaEnum.GUARANI),
           new Entidad(),
           FechaHelpersService.getFechaHoraActual(),
