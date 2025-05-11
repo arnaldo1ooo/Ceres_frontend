@@ -57,11 +57,11 @@ export class DepartamentosService {
     return this._httpClient.put<Departamento>(`${API_URL_DEPARTAMENTOS}/${departamento._id}`, departamento).pipe(first());
   }
 
-  eliminar(id: string) {
+  eliminar(id: number) {
     return this._httpClient.delete(`${API_URL_DEPARTAMENTOS}/${id}`).pipe(first());
   }
 
-  inactivar(id: string) {
+  inactivar(id: number) {
     return this._httpClient.put<Departamento>(`${API_URL_DEPARTAMENTOS}/inactivar/${id}`, null).pipe(first());
   }
 

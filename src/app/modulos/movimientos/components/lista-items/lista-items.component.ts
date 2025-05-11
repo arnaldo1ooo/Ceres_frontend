@@ -15,6 +15,7 @@ import { Moneda } from 'src/app/modulos/monedas/models/moneda';
 import { MonedaHelpersService } from '../../../../compartido/services/moneda-helpers.service';
 import { MercaderiaDTO } from 'src/app/modulos/mercaderias/model/dtos/mercaderiaDTO';
 import { MercaderiaListaDTO } from 'src/app/modulos/mercaderias/model/dtos/mercaderiaListaDTO';
+import { convertirToMayus } from 'src/app/compartido/services/convert-helpers.service';
 
 @Component({
   selector: 'app-lista-items',
@@ -86,7 +87,7 @@ export class ListaItemsComponent implements OnInit {
             if (valorAFiltrar) {
               return this.listaMercaderias?.filter(mercaderia =>
                 mercaderia._id?.toString().includes(valorAFiltrar || '') ||
-                mercaderia.descripcion?.toUpperCase().includes(HelpersService.convertirToMayus(valorAFiltrar) || '')
+                mercaderia.descripcion?.toUpperCase().includes(convertirToMayus(valorAFiltrar) || '')
               );
             } else {
               return this.listaMercaderias; // Devuelve la lista sin filtrar si valorAFiltrar es vacío

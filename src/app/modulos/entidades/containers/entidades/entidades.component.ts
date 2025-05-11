@@ -179,7 +179,7 @@ export class EntidadesComponent implements OnInit {
       id: null,
       nombreApellido: null,
       idsClase: [],
-      idSucursal: this._loginService.getIdSucursalLogado(),
+      idSucursal: this._loginService.getDepartamentoLogado()?.sucursal._id,
       ciRuc: null,
       idSituacion: Situacion.ACTIVO
     };

@@ -151,7 +151,7 @@ export class MovimientosComponent implements OnInit {
       nombreApellidoEntidad: "",
       fechaInicial: FechaHelpersService.getPrimerDiaDelAnho(),
       fechaFinal: new Date(),
-      idDepartamento: this._loginService.getIdDepartamentoLogado(),
+      idDepartamento: this._loginService.getDepartamentoLogado()?._id,
       keySituacion: Situacion.ACTIVO
     };
   }
