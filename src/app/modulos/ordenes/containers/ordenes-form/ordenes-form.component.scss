@@ -1,7 +1,7 @@
 .main-content {
   display: flex;
   flex: 1;
-  max-height: calc(100vh - 200px); // Ajusta restando espacio del header si hay
+  max-height: calc(100vh - 180px); /* Ajusta restando espacio del header si hay*/
 }
 
 .ui-orden-form-container {
@@ -10,7 +10,10 @@
 }
 
 .ui-div-toolbar {
-  height: auto;
+  height: 85px;
+  display: flex;
+  align-items: center; /*alinear verticalmente */
+  gap: 30px; /*espacio entre los elementos */
 }
 
 //Filtros lista mercaderia
@@ -36,16 +39,11 @@
   flex: 1;
   overflow-y: auto; //barra deslizadora
   padding: 10px;
-  border-right: 1px solid #ccc;
-
   max-width: 40%;
+  border: 1px solid #ccc;
 }
 
-.ui-list-item {
-  height: 120px;
-}
-
-.ui-item {
+.ui-mercaderia {
   height: 75px;
   display: flex;
   align-items: center;
@@ -53,24 +51,72 @@
   transition: background 0.3s;
 }
 
-.ui-item-imagen {
+.ui-mercaderia-imagen {
   width: 10vh;
   height: 10vh;
   object-fit: cover;
   border-radius: 4px;
 }
 
-.ui-item-detalle {
+.ui-mercaderia-detalle {
   margin-left: 10px;
 }
 
-//Lista mercaderias seleccionados
-.selected-items {
-  flex: 1;
-  padding: 10px;
-  max-width: 60%;
 
-  .totals {
-    margin-top: 20px;
-  }
+/* ITEMS SELECCIONADOS */
+
+.ui-item-selected {
+  height: 25px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.ui-item-imagen-selected {
+  width: 5vh;
+  height: 5vh;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.contenedor-principal-selected {
+  width: 60%;
+  margin: auto;
+}
+
+.ui-lista-selected {
+  display: flex;
+  flex-direction: column;
+  height: 80vh; /* o el alto que necesites */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ui-lista-scroll-selected {
+  flex: 1;
+  overflow-y: auto; //barra deslizadora
+  padding: 10px;
+}
+
+.ui-list-item-selected {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.ui-item-imagen-selected {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  margin-right: 12px;
+}
+
+.totales {
+  padding: 10px 20px;
+  border-top: 1px solid #ddd;
+  background-color: #f5f5f5;
+  color: #222;
 }

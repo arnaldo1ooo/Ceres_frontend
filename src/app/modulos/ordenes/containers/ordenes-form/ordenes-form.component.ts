@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { map, Observable, of, startWith } from 'rxjs';
 import { ID_OPCION_TODOS } from 'src/app/compartido/constantes/constantes';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { CategoriaMercaderiaDTO } from 'src/app/modulos/mercaderias/model/dtos/categoria-mercaderiaDTO';
 import { MercaderiaDTO } from 'src/app/modulos/mercaderias/model/dtos/mercaderiaDTO';
 import { MercaderiaListaDTO } from 'src/app/modulos/mercaderias/model/dtos/mercaderiaListaDTO';
 import { MercaderiasService } from 'src/app/modulos/mercaderias/services/mercaderias.service';
+import { OrdenItemDTO } from '../../model/dtos/orden-item-DTO';
+import { OrdenItem } from '../../model/orden-item';
 
 @Component({
   selector: 'app-ordenes-form',
@@ -17,7 +18,7 @@ export class OrdenesFormComponent implements OnInit {
 
   protected listaMercaderias: MercaderiaListaDTO[] = [];
   protected listaMercaderiasFiltradas: MercaderiaListaDTO[] = [];
-  protected selectedItems: any[] = [];
+  protected ItemsSeleccionados: OrdenItemDTO[] = [];
   protected filtroBuscarProducto: string = '';
   protected filtroIdCategoria!: number;
   protected listaCategoriasMercaderia: CategoriaMercaderiaDTO[] = [];
@@ -57,21 +58,32 @@ export class OrdenesFormComponent implements OnInit {
     });
   }
 
-  addItem(item: MercaderiaDTO) {
-    const existingItem = this.selectedItems.find(selected => selected.nombre === item.descripcion);
-    if (existingItem) {
-      existingItem.cantidad++;
-    } else {
-      this.selectedItems.push({ ...item, cantidad: 1 });
+  addItem(mercSel: MercaderiaDTO) {
+    const isMercYaSeleccionado = this.ItemsSeleccionados.find(itemSel => itemSel.mercaderia.descripcion === mercSel.descripcion);
+
+    if (isMercYaSeleccionado) {
+      isMercYaSeleccionado.cantidad++;
+    }
+    else {
+      let item: OrdenItemDTO = {
+        mercaderia: mercSel,
+        cantidad: 1,
+        valorUnitario: 0,
+        descuento: 0,
+        numeroItem: 0,
+        observacion: ''
+      };
+
+      this.ItemsSeleccionados.push(item);
     }
   }
 
   removeItem(selectedItem: any) {
-    this.selectedItems = this.selectedItems.filter(item => item.nombre !== selectedItem.nombre);
+    this.ItemsSeleccionados = this.ItemsSeleccionados.filter(item => item.mercaderia.descripcion !== selectedItem.nombre);
   }
 
   getSubtotal() {
-    return this.selectedItems.reduce((total, item) => total + (item.precio * item.cantidad), 0);
+    return this.ItemsSeleccionados.reduce((total, item) => total + (item.valorUnitario * item.cantidad), 0);
   }
 
   getTax() {

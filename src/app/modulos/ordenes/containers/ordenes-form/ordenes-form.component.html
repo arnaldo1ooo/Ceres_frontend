@@ -19,6 +19,10 @@
         </mat-select>
       </mat-form-field>
     </div>
+
+    <div>
+      <h2>Nueva Orden</h2>
+    </div>
   </div>
 
 
@@ -29,12 +33,12 @@
 
         <ng-container *ngFor="let mercaderia of listaMercaderiasFiltradas; let ultimo = last">
 
-          <mat-list-item (click)="addItem(mercaderia)" class="ui-list-item">
-            <div class="ui-item ">
-              <img class="ui-item-imagen" [src]="mercaderia.imagen || 'assets/imagenes/no_photo.png'"
+          <mat-list-item (click)="addItem(mercaderia)">
+            <div class="ui-mercaderia">
+              <img class="ui-mercaderia-imagen" [src]="mercaderia.imagen || 'assets/imagenes/no_photo.png'"
                 alt="Imagen de {{ mercaderia.descripcion }}">
 
-              <div class="ui-item-detalle">
+              <div class="ui-mercaderia-detalle">
                 <span matListItemTitle>{{ mercaderia.descripcion }}</span>
                 <span matListItemLine>ID: {{ mercaderia._id }}</span>
                 <span matListItemLine>Precio: {{ mercaderia._id }}</span>
@@ -53,25 +57,37 @@
       </mat-list>
     </div>
 
-    <div class="selected-items">
-      <h2>Selected Items</h2>
-      <mat-list>
-        <mat-list-item *ngFor="let selectedItem of selectedItems">
-          <h4 matLine>{{selectedItem.nombre}} - {{selectedItem.precio | currency}}</h4>
-          <!-- Quantity adjustment -->
-          <mat-form-field appearance="fill">
-            <mat-label>Qty</mat-label>
-            <input matInput type="number" [(ngModel)]="selectedItem.cantidad" min="1">
-          </mat-form-field>
-          <button mat-button (click)="removeItem(selectedItem)">Remove</button>
-        </mat-list-item>
-      </mat-list>
-      <div class="totals">
-        <h4>Subtotal: {{getSubtotal() | currency}}</h4>
-        <h4>Tax (15%): {{getTax() | currency}}</h4>
-        <h4>Total: {{getTotal() | currency}}</h4>
+    <div class="contenedor-principal-selected">
+      <div class="ui-lista-selected">
+
+        <div class="ui-lista-scroll-selected">
+          <h2>Productos seleccionados</h2>
+          <mat-list>
+            <mat-list-item class="ui-list-item-selected" *ngFor="let itemSel of ItemsSeleccionados">
+              <div class="ui-item-selected">
+                <img class="ui-item-imagen-selected" [src]="itemSel.mercaderia.imagen || 'assets/imagenes/no_photo.png'"
+                  alt="Imagen de {{ itemSel.mercaderia.descripcion }}">
+
+                <div class="ui-item-detalle">
+                  <span matListItemTitle>{{ itemSel.mercaderia.descripcion }}</span>
+                  <span matListItemLine>ID: {{ itemSel.mercaderia._id }}</span>
+                  <span matListItemLine>Precio: {{ itemSel.mercaderia._id }}</span>
+                </div>
+              </div>
+
+              <button mat-button (click)="removeItem(itemSel)">Remove</button>
+            </mat-list-item>
+          </mat-list>
+        </div>
+
+        <!-- Totales siempre abajo -->
+        <div class="totales">
+          <h4>Subtotal: {{getSubtotal() | currency}}</h4>
+          <h4>Tax (15%): {{getTax() | currency}}</h4>
+          <h4>Total: {{getTotal() | currency}}</h4>
+          <button mat-raised-button color="accent" (click)="checkout()">Checkout</button>
+        </div>
       </div>
-      <button mat-raised-button color="accent" (click)="checkout()">Checkout</button>
     </div>
   </div>
 </div>
