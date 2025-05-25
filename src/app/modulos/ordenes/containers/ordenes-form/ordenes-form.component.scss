@@ -1,25 +1,29 @@
-.main-content {
-  display: flex;
-  flex: 1;
-  max-height: calc(100vh - 180px); /* Ajusta restando espacio del header si hay*/
-}
-
 .ui-orden-form-container {
   display: flex;
   flex-direction: column;
 }
 
+.main-content {
+  display: flex;
+  flex: 1;
+  max-height: calc(100vh - 180px);
+  /* Ajusta restando espacio del header si hay*/
+}
+
 .ui-div-toolbar {
   height: 85px;
   display: flex;
-  align-items: center; /*alinear verticalmente */
-  gap: 30px; /*espacio entre los elementos */
+  align-items: center;
+  /*alinear verticalmente */
+  gap: 30px;
+  /*espacio entre los elementos */
 }
 
 //Filtros lista mercaderia
 .ui-div-filtros-lista-merc {
   width: 40%;
   height: auto;
+
 }
 
 .ui-filtro-buscar-producto {
@@ -33,6 +37,7 @@
   min-width: 40%;
   max-width: 100%;
 }
+
 //End Filtros lista mercaderia
 
 .ui-lista-mercaderias {
@@ -43,10 +48,14 @@
   border: 1px solid #ccc;
 }
 
-.ui-mercaderia {
-  height: 75px;
+.ui-mat-list-item-mercaderia {
+  margin-top: -20px;
+}
+
+.ui-item-mercaderia {
+  height: 100px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   cursor: pointer;
   transition: background 0.3s;
 }
@@ -65,33 +74,9 @@
 
 /* ITEMS SELECCIONADOS */
 
-.ui-item-selected {
-  height: 25px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.ui-item-imagen-selected {
-  width: 5vh;
-  height: 5vh;
-  object-fit: cover;
-  border-radius: 4px;
-}
-
 .contenedor-principal-selected {
   width: 60%;
   margin: auto;
-}
-
-.ui-lista-selected {
-  display: flex;
-  flex-direction: column;
-  height: 80vh; /* o el alto que necesites */
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  overflow: hidden;
 }
 
 .ui-lista-scroll-selected {
@@ -100,18 +85,52 @@
   padding: 10px;
 }
 
-.ui-list-item-selected {
+.ui-lista-selected {
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  /* o el alto que necesites */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ui-item-selected {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
+  width: 100%;
+  gap: 16px;
 }
 
 .ui-item-imagen-selected {
   width: 64px;
   height: 64px;
   object-fit: cover;
-  margin-right: 12px;
+  border-radius: 4px;
+}
+
+.ui-item-detalle-selected {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ui-item-acciones-selected {
+  display: flex;
+  align-items: center;
+}
+
+.ui-cantidad-selector {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ui-input-cantidad {
+  width: 50px;
+  text-align: center;
 }
 
 .totales {

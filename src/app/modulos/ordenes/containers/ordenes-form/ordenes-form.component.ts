@@ -109,4 +109,9 @@ export class OrdenesFormComponent implements OnInit {
     })
   }
 
+  cambiarCantidad(item: OrdenItemDTO, cambio: number): void {
+  const nuevaCantidad = item.cantidad + cambio;
+  item.cantidad = nuevaCantidad < 1 ? 1 : nuevaCantidad;
+}
+
 }

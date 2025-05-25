@@ -33,8 +33,8 @@
 
         <ng-container *ngFor="let mercaderia of listaMercaderiasFiltradas; let ultimo = last">
 
-          <mat-list-item (click)="addItem(mercaderia)">
-            <div class="ui-mercaderia">
+          <mat-list-item (click)="addItem(mercaderia)" class="ui-mat-list-item-mercaderia">
+            <div class="ui-item-mercaderia">
               <img class="ui-mercaderia-imagen" [src]="mercaderia.imagen || 'assets/imagenes/no_photo.png'"
                 alt="Imagen de {{ mercaderia.descripcion }}">
 
@@ -49,34 +49,56 @@
           <mat-divider *ngIf="!ultimo"></mat-divider>
 
         </ng-container>
-
-
-
-        <mat-divider></mat-divider> <!-- Línea divisoria después de cada ítem-->
-
       </mat-list>
     </div>
 
     <div class="contenedor-principal-selected">
       <div class="ui-lista-selected">
+        <h2 style="margin-left: 10px; margin-top: 10px;">Productos seleccionados</h2>
 
         <div class="ui-lista-scroll-selected">
-          <h2>Productos seleccionados</h2>
           <mat-list>
-            <mat-list-item class="ui-list-item-selected" *ngFor="let itemSel of ItemsSeleccionados">
-              <div class="ui-item-selected">
-                <img class="ui-item-imagen-selected" [src]="itemSel.mercaderia.imagen || 'assets/imagenes/no_photo.png'"
-                  alt="Imagen de {{ itemSel.mercaderia.descripcion }}">
+            <ng-container *ngFor="let itemSel of ItemsSeleccionados let ultimo = last">
+              <mat-list-item class="ui-list-item-selected">
+                <div class="ui-item-selected">
 
-                <div class="ui-item-detalle">
-                  <span matListItemTitle>{{ itemSel.mercaderia.descripcion }}</span>
-                  <span matListItemLine>ID: {{ itemSel.mercaderia._id }}</span>
-                  <span matListItemLine>Precio: {{ itemSel.mercaderia._id }}</span>
+                  <!-- Columna 1: Imagen -->
+                  <img class="ui-item-imagen-selected"
+                    [src]="itemSel.mercaderia.imagen || 'assets/imagenes/no_photo.png'"
+                    alt="Imagen de {{ itemSel.mercaderia.descripcion }}" />
+
+                  <!-- Columna 2: Detalle -->
+                  <div class="ui-item-detalle-selected">
+                    <span matListItemTitle>{{ itemSel.mercaderia.descripcion }}</span>
+                    <span matListItemLine>ID: {{ itemSel.mercaderia._id }}</span>
+                    <span matListItemLine>Precio unitario: {{ itemSel.mercaderia._id | currency:'PYG' }}</span>
+                  </div>
+
+                  <!-- Columna 3: Acción -->
+                  <div class="ui-item-acciones-selected">
+
+                    <span matListItemLine style="margin-right: 20px;"><strong>Precio: {{ itemSel.mercaderia._id | currency:'PYG' }}</strong></span>
+
+                    <div class="ui-cantidad-selector">
+                      <button mat-mini-button color="primary" (click)="cambiarCantidad(itemSel, -1)"
+                        [disabled]="itemSel.cantidad <= 1">–</button>
+                      <input matInput type="number" [(ngModel)]="itemSel.cantidad" min="1" class="ui-input-cantidad" />
+                      <button mat-mini-button color="primary" (click)="cambiarCantidad(itemSel, 1)">+</button>
+                    </div>
+
+                    <button mat-icon-button color="warn" (click)="removeItem(itemSel)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
                 </div>
-              </div>
 
-              <button mat-button (click)="removeItem(itemSel)">Remove</button>
-            </mat-list-item>
+                <mat-divider *ngIf="!ultimo"></mat-divider>
+
+              </mat-list-item>
+            </ng-container>
+
+            <mat-divider></mat-divider> <!-- Línea divisoria después de cada ítem-->
+
           </mat-list>
         </div>
 
