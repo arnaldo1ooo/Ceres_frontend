@@ -91,7 +91,7 @@
   height: 80vh;
   /* o el alto que necesites */
   border: 1px solid #ccc;
-  border-radius: 8px;
+
   overflow: hidden;
 }
 
@@ -129,13 +129,11 @@
 }
 
 .ui-input-cantidad {
-  width: 50px;
-  text-align: center;
+  width: 80px;
+  font-size: 18px;
 }
 
-.totales {
+.ui-totales {
   padding: 10px 20px;
   border-top: 1px solid #ddd;
-  background-color: #f5f5f5;
-  color: #222;
 }

@@ -77,16 +77,25 @@
                   <!-- Columna 3: Acción -->
                   <div class="ui-item-acciones-selected">
 
-                    <span matListItemLine style="margin-right: 20px;"><strong>Precio: {{ itemSel.mercaderia._id | currency:'PYG' }}</strong></span>
+                    <span matListItemLine style="margin-right: 20px;"><strong>Precio:
+                        {{ itemSel.mercaderia._id | currency:'PYG' }}</strong></span>
 
                     <div class="ui-cantidad-selector">
-                      <button mat-mini-button color="primary" (click)="cambiarCantidad(itemSel, -1)"
-                        [disabled]="itemSel.cantidad <= 1">–</button>
-                      <input matInput type="number" [(ngModel)]="itemSel.cantidad" min="1" class="ui-input-cantidad" />
-                      <button mat-mini-button color="primary" (click)="cambiarCantidad(itemSel, 1)">+</button>
+                      <button mat-icon-button color="primary" (click)="cambiarCantidadItemSel(itemSel, -1)"
+                        [disabled]="itemSel.cantidad <= 1">
+                        <mat-icon>remove</mat-icon>
+                      </button>
+
+                      <mat-form-field appearance="fill" class="ui-input-cantidad">
+                        <input matInput type="number" [(ngModel)]="itemSel.cantidad" min="1" />
+                      </mat-form-field>
+
+                      <button mat-icon-button color="primary" (click)="cambiarCantidadItemSel(itemSel, 1)">
+                        <mat-icon>add</mat-icon>
+                      </button>
                     </div>
 
-                    <button mat-icon-button color="warn" (click)="removeItem(itemSel)">
+                    <button mat-icon-button color="warn" (click)="removerItemSel(itemSel)">
                       <mat-icon>delete</mat-icon>
                     </button>
                   </div>
@@ -103,7 +112,7 @@
         </div>
 
         <!-- Totales siempre abajo -->
-        <div class="totales">
+        <div class="ui-totales">
           <h4>Subtotal: {{getSubtotal() | currency}}</h4>
           <h4>Tax (15%): {{getTax() | currency}}</h4>
           <h4>Total: {{getTotal() | currency}}</h4>

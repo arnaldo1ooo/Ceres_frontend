@@ -78,10 +78,6 @@ export class OrdenesFormComponent implements OnInit {
     }
   }
 
-  removeItem(selectedItem: any) {
-    this.ItemsSeleccionados = this.ItemsSeleccionados.filter(item => item.mercaderia.descripcion !== selectedItem.nombre);
-  }
-
   getSubtotal() {
     return this.ItemsSeleccionados.reduce((total, item) => total + (item.valorUnitario * item.cantidad), 0);
   }
@@ -109,9 +105,14 @@ export class OrdenesFormComponent implements OnInit {
     })
   }
 
-  cambiarCantidad(item: OrdenItemDTO, cambio: number): void {
-  const nuevaCantidad = item.cantidad + cambio;
-  item.cantidad = nuevaCantidad < 1 ? 1 : nuevaCantidad;
-}
+  cambiarCantidadItemSel(item: OrdenItemDTO, cambio: number): void {
+    const nuevaCantidad = item.cantidad + cambio;
+    item.cantidad = nuevaCantidad < 1 ? 1 : nuevaCantidad;
+  }
+
+    removerItemSel(itemSel: OrdenItemDTO) {
+    this.ItemsSeleccionados = this.ItemsSeleccionados
+                              .filter(item => item.mercaderia.descripcion !== itemSel.mercaderia.descripcion);
+  }
 
 }
