@@ -1,0 +1,31 @@
+<h2 mat-dialog-title>Seleccionar adicionales</h2>
+<mat-dialog-content>
+  <div *ngFor="let grupo of adicionalesAgrupados" class="grupo">
+    <h3 class="titulo">{{ grupo.descripcion }}</h3>
+
+    <!-- Múltiple selección: checkbox -->
+    <ng-container *ngIf="grupo.tipo === 'Sabor'; else seleccionUnica">
+      <mat-selection-list>
+        <mat-list-option *ngFor="let item of grupo.items" [selected]="isItemSeleccionado(grupo.tipo, item.id)"
+          (click)="toggleSeleccion(item, grupo.tipo, true)">
+          {{ item.adicional.descripcion }} <small *ngIf="item.adicional.valor">(+{{ item.adicional.valor }})</small>
+        </mat-list-option>
+      </mat-selection-list>
+    </ng-container>
+
+    <!-- Única selección: radio -->
+    <ng-template #seleccionUnica>
+      <mat-radio-group>
+        <mat-radio-button *ngFor="let item of grupo.items" [value]="item" (change)="toggleSeleccion(item, grupo.tipo)">
+          {{ item.adicional.descripcion }} <small *ngIf="item.adicional.valor">(+{{ item.adicional.valor }})</small>
+        </mat-radio-button>
+      </mat-radio-group>
+    </ng-template>
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="cancelar()">Cancelar</button>
+  <button mat-flat-button color="primary" (click)="confirmar()">Aceptar</button>
+</mat-dialog-actions>

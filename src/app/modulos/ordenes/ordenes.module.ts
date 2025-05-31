@@ -7,6 +7,7 @@ import { OrdenesListaComponent } from './components/ordenes-lista/ordenes-lista.
 import { OrdenesFormComponent } from './containers/ordenes-form/ordenes-form.component';
 import { OrdenesComponent } from './containers/ordenes/ordenes.component';
 import { EstadoOrdenPipe } from "./pipes/estado-orden.pipe";
+import { DialogAdicionalesComponent } from './components/dialog-adicionales/dialog-adicionales.component';
 
 
 
@@ -14,7 +15,8 @@ import { EstadoOrdenPipe } from "./pipes/estado-orden.pipe";
   declarations: [
     OrdenesListaComponent,
     OrdenesComponent,
-    OrdenesFormComponent
+    OrdenesFormComponent,
+    DialogAdicionalesComponent
   ],
   imports: [
     CommonModule,

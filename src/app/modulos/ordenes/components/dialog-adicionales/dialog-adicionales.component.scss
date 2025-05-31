@@ -1,0 +1,16 @@
+.grupo {
+  margin-bottom: 24px;
+
+  .titulo {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+
+  mat-list-option,
+  mat-radio-button {
+    font-size: 18px;
+    padding: 12px;
+    margin: 4px 0;
+  }
+}

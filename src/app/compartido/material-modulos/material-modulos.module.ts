@@ -25,6 +25,7 @@ import { MatSortModule } from '@angular/material/sort';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { MatRadioModule } from '@angular/material/radio';
 
 
 
@@ -57,7 +58,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     MatSortModule,
     MatCheckboxModule,
     MatExpansionModule,
-    DragDropModule
+    DragDropModule,
+    MatRadioModule
   ],
 })
 

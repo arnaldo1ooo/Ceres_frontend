@@ -7,6 +7,9 @@ import { MercaderiaListaDTO } from 'src/app/modulos/mercaderias/model/dtos/merca
 import { MercaderiasService } from 'src/app/modulos/mercaderias/services/mercaderias.service';
 import { OrdenItemDTO } from '../../model/dtos/orden-item-DTO';
 import { OrdenItem } from '../../model/orden-item';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogAdicionalesComponent } from '../../components/dialog-adicionales/dialog-adicionales.component';
+import { AdicionalItemDTO } from '../../model/dtos/adicional-item-DTO';
 
 @Component({
   selector: 'app-ordenes-form',
@@ -24,7 +27,8 @@ export class OrdenesFormComponent implements OnInit {
   protected listaCategoriasMercaderia: CategoriaMercaderiaDTO[] = [];
 
   constructor(
-    private _mercaderiasService: MercaderiasService
+    private _mercaderiasService: MercaderiasService,
+    private _dialog: MatDialog
   ) {
 
   }
@@ -59,24 +63,33 @@ export class OrdenesFormComponent implements OnInit {
   }
 
   addItem(mercSel: MercaderiaDTO) {
-    const isMercYaSeleccionado = this.ItemsSeleccionados.find(itemSel => itemSel.mercaderia.descripcion === mercSel.descripcion);
 
-    if (isMercYaSeleccionado) {
-      isMercYaSeleccionado.cantidad++;
-    }
-    else {
-      let item: OrdenItemDTO = {
-        mercaderia: mercSel,
-        cantidad: 1,
-        valorUnitario: 0,
-        descuento: 0,
-        numeroItem: 0,
-        observacion: ''
-      };
+    let ordenItemDTO: OrdenItemDTO = {
+      mercaderia: mercSel,
+      cantidad: 1,
+      valorUnitario: 0,
+      descuento: 0,
+      numeroItem: 0,
+      observacion: '',
+      adicionales: []
+    };
 
-      this.ItemsSeleccionados.push(item);
-    }
+
+    this._dialog.open(DialogAdicionalesComponent, {
+      data: { ordenItemDTO }, //Enviamos al dialogo nuestro item
+      width: '50%',
+      height: '50%'
+    })
+      .afterClosed().subscribe((adicionalesSel: AdicionalItemDTO[]) => {
+        if (adicionalesSel) {
+          ordenItemDTO.adicionales = adicionalesSel;
+          this.ItemsSeleccionados.push(ordenItemDTO);
+        }
+      });
+
+    this.ItemsSeleccionados.push(ordenItemDTO);
   }
+
 
   getSubtotal() {
     return this.ItemsSeleccionados.reduce((total, item) => total + (item.valorUnitario * item.cantidad), 0);
@@ -110,9 +123,9 @@ export class OrdenesFormComponent implements OnInit {
     item.cantidad = nuevaCantidad < 1 ? 1 : nuevaCantidad;
   }
 
-    removerItemSel(itemSel: OrdenItemDTO) {
+  removerItemSel(itemSel: OrdenItemDTO) {
     this.ItemsSeleccionados = this.ItemsSeleccionados
-                              .filter(item => item.mercaderia.descripcion !== itemSel.mercaderia.descripcion);
+      .filter(item => item.mercaderia.descripcion !== itemSel.mercaderia.descripcion);
   }
 
 }
