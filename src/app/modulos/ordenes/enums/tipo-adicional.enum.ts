@@ -2,28 +2,48 @@ export enum TipoAdicional {
   TAMANHO = 'T',
   BORDE = 'B',
   SABOR = 'S'
+
+
 }
 
-export const ListDescripciones: Record<TipoAdicional, string> = {
-  [TipoAdicional.TAMANHO]: 'Tamaño',
-  [TipoAdicional.BORDE]: 'Borde',
-  [TipoAdicional.SABOR]: 'Sabor'
-};
-
-export const ListTiposSeleccionMultiple: Record<TipoAdicional, boolean> = {
-  [TipoAdicional.TAMANHO]: false,
-  [TipoAdicional.BORDE]: false,
-  [TipoAdicional.SABOR]: true
-};
-
-export function isSeleccionMultiple(tipoAdic: TipoAdicional): boolean {
-  return ListTiposSeleccionMultiple[tipoAdic] ?? false;
-}
-
-export function obtenerDescripcionTipo(tipo: string): string {
-  if (Object.values(TipoAdicional).includes(tipo as TipoAdicional)) {
-    return ListDescripciones[tipo as TipoAdicional];
+export class TipoAdicionalUtils {
+  public static getDescripcion(tipoAdicional: TipoAdicional): string {
+    switch (tipoAdicional) {
+      case TipoAdicional.TAMANHO:
+        return "Tamaño";
+      case TipoAdicional.BORDE:
+        return "Borde";
+      case TipoAdicional.SABOR:
+        return "Sabor";
+      default:
+        return `Valor no reconocido: ${tipoAdicional}`;
+    }
   }
 
-  return tipo; // Si no coincide, devolvé el string original o un fallback
+  public static getTipoAdicPorDescripcion(descripcion: string): TipoAdicional | string {
+    const tiposAdic = Object.values(TipoAdicional);
+
+    for (let i in tiposAdic) {
+      if (this.getDescripcion(tiposAdic[i]) == descripcion) {
+        return tiposAdic[i];
+      }
+    }
+
+    return `Valor no reconocido: ${descripcion}`;
+  }
+
+    public static isSeleccionMultiple(tipoAdicional: TipoAdicional): boolean {
+    switch (tipoAdicional) {
+      case TipoAdicional.TAMANHO:
+        return false;
+      case TipoAdicional.BORDE:
+        return false;
+      case TipoAdicional.SABOR:
+        return true;
+      default:
+        return false;
+    }
+  }
+
 }
+

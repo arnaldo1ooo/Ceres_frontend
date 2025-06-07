@@ -4,8 +4,8 @@ import { AdicionalItemDTO } from '../../model/dtos/adicional-item-DTO';
 import { AdicionalesService } from '../../services/adicionales.service';
 import { OrdenItemDTO } from '../../model/dtos/orden-item-DTO';
 import { AdicionalDTO } from '../../model/dtos/adicional-DTO';
-import { isSeleccionMultiple, TipoAdicional } from '../../enums/tipo-adicional.enum';
-interface AdicionalesGrupo {
+import { TipoAdicional, TipoAdicionalUtils } from '../../enums/tipo-adicional.enum';
+interface AdicionalesPorTipo {
   tipoAdicional: TipoAdicional;
   descripcionGrupo: string;
   adicionales: AdicionalDTO[];
@@ -18,7 +18,7 @@ interface AdicionalesGrupo {
 export class DialogAdicionalesComponent implements OnInit {
 
   data: { ordenItemDTO: OrdenItemDTO };
-  adicionalesPorTipo: AdicionalesGrupo[] = [];
+  adicionalesPorTipo: AdicionalesPorTipo[] = [];
   seleccion: { [tipo in TipoAdicional]?: AdicionalItemDTO[] } = {};
 
   constructor(
@@ -26,33 +26,37 @@ export class DialogAdicionalesComponent implements OnInit {
     private adicionalesService: AdicionalesService,
     private dialogRef: MatDialogRef<DialogAdicionalesComponent>
   ) {
-    this.data = injectedData;
+    this.data = injectedData; //Recibimos el item
   }
 
   ngOnInit(): void {
     const ordenItem = this.data.ordenItemDTO;
     const categoriaId = ordenItem.mercaderia.categoria?._id;
+
     if (!categoriaId) return;
 
+    this.listarYAgruparAdics(categoriaId);
+  }
+
+  private listarYAgruparAdics(categoriaId: number) {
     this.adicionalesService.listarAdicionalesPorCategoria(categoriaId)
       .subscribe(resp => {
-        const agrupados: { [key in TipoAdicional]?: AdicionalesGrupo } = {};
+        const agrupados: { [key in TipoAdicional]?: AdicionalesPorTipo } = {};
 
         resp.data.forEach(adicional => {
-          // Asumo que adicional.tipoAdicional viene como string que coincide con TipoAdicional key
           const tipo = adicional.tipoAdicional as TipoAdicional;
 
           if (!agrupados[tipo]) {
             agrupados[tipo] = {
               tipoAdicional: tipo,
-              descripcionGrupo: adicional.descripcion,
+              descripcionGrupo: TipoAdicionalUtils.getDescripcion(adicional.tipoAdicional),
               adicionales: []
             };
           }
           agrupados[tipo]!.adicionales.push(adicional);
         });
 
-        this.adicionalesPorTipo = Object.values(agrupados) as AdicionalesGrupo[];
+        this.adicionalesPorTipo = Object.values(agrupados) as AdicionalesPorTipo[];
       });
   }
 
@@ -68,7 +72,7 @@ export class DialogAdicionalesComponent implements OnInit {
       this.seleccion[tipo] = [];
     }
 
-    const isSelMultiple = isSeleccionMultiple(tipo);
+    const isSelMultiple = this.isSeleccionMultiple(tipo);
 
     if (isSelMultiple) {
       const idx = this.seleccion[tipo]!.findIndex(i => i._id === adicItem._id);
@@ -99,6 +103,6 @@ export class DialogAdicionalesComponent implements OnInit {
   }
 
   isSeleccionMultiple(tipoAdic: TipoAdicional): boolean {
-    return isSeleccionMultiple(tipoAdic);
+    return TipoAdicionalUtils.isSeleccionMultiple(tipoAdic);
   }
 }

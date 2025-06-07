@@ -1,32 +1,40 @@
-<h2>Seleccionar adicionales</h2>
+<mat-card appearance="outlined">
+  <h2>Seleccionar adicionales</h2>
 
-<div *ngFor="let grupo of adicionalesPorTipo">
-  <h3>{{ grupo.descripcionGrupo }}</h3>
+  <div *ngFor="let grupoAdic of adicionalesPorTipo">
 
-  <ng-container *ngIf="isSeleccionMultiple(grupo.tipoAdicional); else unicaSeleccion">
-    <!-- Selección múltiple con checkboxes -->
-    <mat-checkbox *ngFor="let adicional of grupo.adicionales"
-      [checked]="isItemSeleccionado(grupo.tipoAdicional, adicional.id)"
-      (change)="toggleSeleccion(adicional, grupo.tipoAdicional)">
-      {{ adicional.descripcion }}
-    </mat-checkbox>
-  </ng-container>
+    <ng-container>
+      <mat-card appearance="outlined">
+        <!--Titulo del grupo de adicionales-->
+        <h2>{{grupoAdic.descripcionGrupo}}</h2>
 
-  <!--Selección única con radios -->
-  <ng-template #unicaSeleccion>
+        <!-- Selección múltiple con checkboxes -->
+        <mat-checkbox *ngFor="let adicional of grupoAdic.adicionales"
+          [checked]="isItemSeleccionado(grupoAdic.tipoAdicional, adicional.id)"
+          (change)="toggleSeleccion(adicional, grupoAdic.tipoAdicional)">
+          {{ adicional.descripcion }}
+        </mat-checkbox>
+      </mat-card>
+    </ng-container>
 
-    <!--<mat-radio-group [value]="seleccion[grupo.tipoAdicional]?.[0]?.id || null" (change)="toggleSeleccion(
+    <!--Selección única con radios -->
+    <ng-template #unicaSeleccion>
+
+      <!--<mat-radio-group [value]="seleccion[grgrupoAdicupo.tipoAdicional]?.[0]?.id || null" (change)="toggleSeleccion(
         grupo.adicionales.find(adic => adic.id === $event.value)!,
         grupo.tipoAdicional
       )">
-      <mat-radio-button *ngFor="let adicional of grupo.adicionales" [value]="adicional.id">
+      <mat-radio-button *ngFor="let adicional of grupoAdic.adicionales" [value]="adicional.id">
         {{ adicional.descripcion }}
       </mat-radio-button>
     </mat-radio-group>-->
-  </ng-template>
-</div>
+    </ng-template>
+  </div>
 
-<div class="actions">
-  <button mat-button (click)="cancelar()">Cancelar</button>
-  <button mat-raised-button color="primary" (click)="confirmar()">Confirmar</button>
-</div>
+
+
+  <mat-card-actions>
+    <button mat-button (click)="cancelar()">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="confirmar()">Confirmar</button>
+  </mat-card-actions>
+</mat-card>
