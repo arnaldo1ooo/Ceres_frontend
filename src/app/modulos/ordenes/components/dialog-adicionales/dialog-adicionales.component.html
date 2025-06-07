@@ -1,31 +1,32 @@
-<h2 mat-dialog-title>Seleccionar adicionales</h2>
-<mat-dialog-content>
-  <div *ngFor="let grupo of adicionalesAgrupados" class="grupo">
-    <h3 class="titulo">{{ grupo.descripcion }}</h3>
+<h2>Seleccionar adicionales</h2>
 
-    <!-- Múltiple selección: checkbox -->
-    <ng-container *ngIf="grupo.tipo === 'Sabor'; else seleccionUnica">
-      <mat-selection-list>
-        <mat-list-option *ngFor="let item of grupo.items" [selected]="isItemSeleccionado(grupo.tipo, item.id)"
-          (click)="toggleSeleccion(item, grupo.tipo, true)">
-          {{ item.adicional.descripcion }} <small *ngIf="item.adicional.valor">(+{{ item.adicional.valor }})</small>
-        </mat-list-option>
-      </mat-selection-list>
-    </ng-container>
+<div *ngFor="let grupo of adicionalesPorTipo">
+  <h3>{{ grupo.descripcionGrupo }}</h3>
 
-    <!-- Única selección: radio -->
-    <ng-template #seleccionUnica>
-      <mat-radio-group>
-        <mat-radio-button *ngFor="let item of grupo.items" [value]="item" (change)="toggleSeleccion(item, grupo.tipo)">
-          {{ item.adicional.descripcion }} <small *ngIf="item.adicional.valor">(+{{ item.adicional.valor }})</small>
-        </mat-radio-button>
-      </mat-radio-group>
-    </ng-template>
-  </div>
+  <ng-container *ngIf="isSeleccionMultiple(grupo.tipoAdicional); else unicaSeleccion">
+    <!-- Selección múltiple con checkboxes -->
+    <mat-checkbox *ngFor="let adicional of grupo.adicionales"
+      [checked]="isItemSeleccionado(grupo.tipoAdicional, adicional.id)"
+      (change)="toggleSeleccion(adicional, grupo.tipoAdicional)">
+      {{ adicional.descripcion }}
+    </mat-checkbox>
+  </ng-container>
 
-</mat-dialog-content>
+  <!--Selección única con radios -->
+  <ng-template #unicaSeleccion>
 
-<mat-dialog-actions align="end">
-  <button mat-stroked-button (click)="cancelar()">Cancelar</button>
-  <button mat-flat-button color="primary" (click)="confirmar()">Aceptar</button>
-</mat-dialog-actions>
+    <!--<mat-radio-group [value]="seleccion[grupo.tipoAdicional]?.[0]?.id || null" (change)="toggleSeleccion(
+        grupo.adicionales.find(adic => adic.id === $event.value)!,
+        grupo.tipoAdicional
+      )">
+      <mat-radio-button *ngFor="let adicional of grupo.adicionales" [value]="adicional.id">
+        {{ adicional.descripcion }}
+      </mat-radio-button>
+    </mat-radio-group>-->
+  </ng-template>
+</div>
+
+<div class="actions">
+  <button mat-button (click)="cancelar()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="confirmar()">Confirmar</button>
+</div>

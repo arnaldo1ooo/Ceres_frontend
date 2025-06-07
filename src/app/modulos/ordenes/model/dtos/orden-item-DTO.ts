@@ -1,5 +1,5 @@
 import { MercaderiaDTO } from "src/app/modulos/mercaderias/model/dtos/mercaderiaDTO";
-import { AdicionalItemDTO } from "./adicional-item-DTO";
+import { AdicionalDTO } from "./adicional-DTO";
 
 export interface OrdenItemDTO {
   _id?: number;
@@ -9,5 +9,5 @@ export interface OrdenItemDTO {
   descuento: number;
   numeroItem: number;
   observacion: string;
-  adicionales: AdicionalItemDTO[];
+  adicionales: AdicionalDTO[];
 }

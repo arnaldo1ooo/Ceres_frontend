@@ -29,6 +29,8 @@ export const API_URL_CUENTAS_CONTABLES = '/cuentasContables';
 
 export const API_URL_ORDENES = '/ordenes';
 export const API_URL_ACTUALIZAR_PARCIAL_ORDEN = API_URL_ORDENES + '/actualizarParcialOrden';
+export const API_URL_ADICIONALES_POR_CATEGORIA = API_URL_ORDENES + '/adicionales';
+
 
 
 export const DEFAULT_PAGE_TAMANHO: number = 10;

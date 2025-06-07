@@ -3,6 +3,13 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AdicionalItemDTO } from '../../model/dtos/adicional-item-DTO';
 import { AdicionalesService } from '../../services/adicionales.service';
 import { OrdenItemDTO } from '../../model/dtos/orden-item-DTO';
+import { AdicionalDTO } from '../../model/dtos/adicional-DTO';
+import { isSeleccionMultiple, TipoAdicional } from '../../enums/tipo-adicional.enum';
+interface AdicionalesGrupo {
+  tipoAdicional: TipoAdicional;
+  descripcionGrupo: string;
+  adicionales: AdicionalDTO[];
+}
 
 @Component({
   selector: 'app-dialog-adicionales',
@@ -10,49 +17,88 @@ import { OrdenItemDTO } from '../../model/dtos/orden-item-DTO';
 })
 export class DialogAdicionalesComponent implements OnInit {
 
-  @Inject(MAT_DIALOG_DATA) public data!: { ordenItemDTO: OrdenItemDTO };
-  adicionalesAgrupados: { tipo: string; descripcion: string; items: AdicionalItemDTO[] }[] = [];
-  seleccion: { [tipo: string]: AdicionalItemDTO[] } = {};
-
+  data: { ordenItemDTO: OrdenItemDTO };
+  adicionalesPorTipo: AdicionalesGrupo[] = [];
+  seleccion: { [tipo in TipoAdicional]?: AdicionalItemDTO[] } = {};
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public injectedData: { ordenItemDTO: OrdenItemDTO },
     private adicionalesService: AdicionalesService,
     private dialogRef: MatDialogRef<DialogAdicionalesComponent>
-  ) { }
-
-
-  ngOnInit() {
-    this.adicionalesService.listarAdicionalesPorCategoria(this.data.ordenItemDTO.mercaderia.categoria?._id!).subscribe((adicionales) => {
-      adicionales.forEach(ad => {
-        this.adicionalesService.listarValoresDeAdicionales(ad.valor).subscribe((items) => {
-          this.adicionalesAgrupados.push({ tipo: ad.tipo, descripcion: ad.descripcion, items });
-        });
-      });
-    });
+  ) {
+    this.data = injectedData;
   }
 
-  toggleSeleccion(item: AdicionalItemDTO, tipo: string, multiple: boolean = false) {
-    if (!this.seleccion[tipo]) this.seleccion[tipo] = [];
+  ngOnInit(): void {
+    const ordenItem = this.data.ordenItemDTO;
+    const categoriaId = ordenItem.mercaderia.categoria?._id;
+    if (!categoriaId) return;
 
-    if (multiple) {
-      const idx = this.seleccion[tipo].findIndex(i => i.id === item.id);
-      if (idx >= 0) this.seleccion[tipo].splice(idx, 1);
-      else this.seleccion[tipo].push(item);
-    } else {
-      this.seleccion[tipo] = [item];
+    this.adicionalesService.listarAdicionalesPorCategoria(categoriaId)
+      .subscribe(resp => {
+        const agrupados: { [key in TipoAdicional]?: AdicionalesGrupo } = {};
+
+        resp.data.forEach(adicional => {
+          // Asumo que adicional.tipoAdicional viene como string que coincide con TipoAdicional key
+          const tipo = adicional.tipoAdicional as TipoAdicional;
+
+          if (!agrupados[tipo]) {
+            agrupados[tipo] = {
+              tipoAdicional: tipo,
+              descripcionGrupo: adicional.descripcion,
+              adicionales: []
+            };
+          }
+          agrupados[tipo]!.adicionales.push(adicional);
+        });
+
+        this.adicionalesPorTipo = Object.values(agrupados) as AdicionalesGrupo[];
+      });
+  }
+
+  toggleSeleccion(adic: AdicionalDTO, tipo: TipoAdicional): void {
+    let adicItem: AdicionalItemDTO = {
+      _id: null,
+      ordenItem: this.data.ordenItemDTO,
+      adicional: adic,
+      valor: adic.valor
+    };
+
+    if (!this.seleccion[tipo]) {
+      this.seleccion[tipo] = [];
+    }
+
+    const isSelMultiple = isSeleccionMultiple(tipo);
+
+    if (isSelMultiple) {
+      const idx = this.seleccion[tipo]!.findIndex(i => i._id === adicItem._id);
+
+      if (idx >= 0) {
+        this.seleccion[tipo]!.splice(idx, 1);
+      }
+      else {
+        this.seleccion[tipo]!.push(adicItem);
+      }
+    }
+    else {
+      this.seleccion[tipo] = [adicItem];
     }
   }
 
-  confirmar() {
+  confirmar(): void {
     const adicionales: AdicionalItemDTO[] = Object.values(this.seleccion).flat();
     this.dialogRef.close(adicionales);
   }
 
-  cancelar() {
+  cancelar(): void {
     this.dialogRef.close();
   }
 
-  isItemSeleccionado(tipo: string, id: number): boolean {
-    return this.seleccion[tipo]?.some(i => i.id === id) ?? false;
+  isItemSeleccionado(tipo: TipoAdicional, id: number): boolean {
+    return this.seleccion[tipo]?.some(i => i._id === id) ?? false;
+  }
+
+  isSeleccionMultiple(tipoAdic: TipoAdicional): boolean {
+    return isSeleccionMultiple(tipoAdic);
   }
 }

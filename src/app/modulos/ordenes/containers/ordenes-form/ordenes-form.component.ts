@@ -10,6 +10,7 @@ import { OrdenItem } from '../../model/orden-item';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAdicionalesComponent } from '../../components/dialog-adicionales/dialog-adicionales.component';
 import { AdicionalItemDTO } from '../../model/dtos/adicional-item-DTO';
+import { AdicionalDTO } from '../../model/dtos/adicional-DTO';
 
 @Component({
   selector: 'app-ordenes-form',
@@ -74,22 +75,25 @@ export class OrdenesFormComponent implements OnInit {
       adicionales: []
     };
 
-
     this._dialog.open(DialogAdicionalesComponent, {
-      data: { ordenItemDTO }, //Enviamos al dialogo nuestro item
+      data: { ordenItemDTO }, // Enviamos al diálogo nuestro item
       width: '50%',
       height: '50%'
     })
-      .afterClosed().subscribe((adicionalesSel: AdicionalItemDTO[]) => {
-        if (adicionalesSel) {
+      .afterClosed()
+      .subscribe((adicionalesItemSel: AdicionalItemDTO[] | undefined) => {
+        if (adicionalesItemSel) {
+          // Convertimos el array de AdicionalItemDTO a AdicionalDTO extrayendo la propiedad 'adicional'
+          let adicionalesSel: AdicionalDTO[] = adicionalesItemSel.map(item => item.adicional);
+
+          // Asignamos al ordenItemDTO el array de adicionales seleccionados
           ordenItemDTO.adicionales = adicionalesSel;
+
+          // Lo agregamos a la lista de items seleccionados
           this.ItemsSeleccionados.push(ordenItemDTO);
         }
       });
-
-    this.ItemsSeleccionados.push(ordenItemDTO);
   }
-
 
   getSubtotal() {
     return this.ItemsSeleccionados.reduce((total, item) => total + (item.valorUnitario * item.cantidad), 0);
