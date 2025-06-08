@@ -77,8 +77,9 @@ export class OrdenesFormComponent implements OnInit {
 
     this._dialog.open(DialogAdicionalesComponent, {
       data: { ordenItemDTO }, // Enviamos al diálogo nuestro item
-      width: '50%',
-      height: '50%'
+      maxWidth: '95vw',
+      width: '80%',
+      height: 'auto',
     })
       .afterClosed()
       .subscribe((adicionalesItemSel: AdicionalItemDTO[] | undefined) => {

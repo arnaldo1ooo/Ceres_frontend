@@ -13,7 +13,8 @@ interface AdicionalesPorTipo {
 
 @Component({
   selector: 'app-dialog-adicionales',
-  templateUrl: './dialog-adicionales.component.html'
+  templateUrl: './dialog-adicionales.component.html',
+  styleUrls: ['./dialog-adicionales.component.scss']
 })
 export class DialogAdicionalesComponent implements OnInit {
 

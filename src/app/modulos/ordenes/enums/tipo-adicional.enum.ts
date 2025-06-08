@@ -14,7 +14,7 @@ export class TipoAdicionalUtils {
       case TipoAdicional.BORDE:
         return "Borde";
       case TipoAdicional.SABOR:
-        return "Sabor";
+        return "Sabores";
       default:
         return `Valor no reconocido: ${tipoAdicional}`;
     }

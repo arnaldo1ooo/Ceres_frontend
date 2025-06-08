@@ -1,40 +1,46 @@
-<mat-card appearance="outlined">
-  <h2>Seleccionar adicionales</h2>
+<mat-card class="ui-dialogo-container" appearance="outlined">
 
-  <div *ngFor="let grupoAdic of adicionalesPorTipo">
+  <!-- Título -->
+  <mat-toolbar color="primary" class="ui-toolbar">
+    <span>Seleccionar adicionales</span>
+  </mat-toolbar>
 
-    <ng-container>
-      <mat-card appearance="outlined">
-        <!--Titulo del grupo de adicionales-->
-        <h2>{{grupoAdic.descripcionGrupo}}</h2>
+  <!-- Contenido con scroll interno -->
+  <div class="ui-dialogo-content">
+    <div *ngFor="let grupoAdic of adicionalesPorTipo" class="ui-grupo-adicional">
 
-        <!-- Selección múltiple con checkboxes -->
-        <mat-checkbox *ngFor="let adicional of grupoAdic.adicionales"
-          [checked]="isItemSeleccionado(grupoAdic.tipoAdicional, adicional.id)"
-          (change)="toggleSeleccion(adicional, grupoAdic.tipoAdicional)">
-          {{ adicional.descripcion }}
-        </mat-checkbox>
+      <mat-card appearance="outlined" class="ui-grupo-card">
+        <!-- Título del grupo -->
+        <h3 class="ui-grupo-titulo">{{ grupoAdic.descripcionGrupo }}</h3>
+
+        <!-- Selección única -->
+        <ng-container *ngIf="!isSeleccionMultiple(grupoAdic.tipoAdicional); else multipleSeleccion">
+          <mat-radio-group class="ui-grupo-radio">
+            <mat-radio-button *ngFor="let adicional of grupoAdic.adicionales" [value]="adicional.id">
+              {{ adicional.descripcion }}
+            </mat-radio-button>
+          </mat-radio-group>
+        </ng-container>
+
+        <!-- Selección múltiple -->
+        <ng-template #multipleSeleccion>
+          <div class="ui-grupo-checkbox ui-cuatro-columnas">
+            <mat-checkbox *ngFor="let adicional of grupoAdic.adicionales"
+              [checked]="isItemSeleccionado(grupoAdic.tipoAdicional, adicional.id)"
+              (change)="toggleSeleccion(adicional, grupoAdic.tipoAdicional)">
+              {{ adicional.descripcion }}
+            </mat-checkbox>
+          </div>
+        </ng-template>
+
       </mat-card>
-    </ng-container>
-
-    <!--Selección única con radios -->
-    <ng-template #unicaSeleccion>
-
-      <!--<mat-radio-group [value]="seleccion[grgrupoAdicupo.tipoAdicional]?.[0]?.id || null" (change)="toggleSeleccion(
-        grupo.adicionales.find(adic => adic.id === $event.value)!,
-        grupo.tipoAdicional
-      )">
-      <mat-radio-button *ngFor="let adicional of grupoAdic.adicionales" [value]="adicional.id">
-        {{ adicional.descripcion }}
-      </mat-radio-button>
-    </mat-radio-group>-->
-    </ng-template>
+    </div>
   </div>
 
-
-
-  <mat-card-actions>
-    <button mat-button (click)="cancelar()">Cancelar</button>
+  <!-- Botones siempre visibles -->
+  <mat-card-actions class="ui-dialogo-actions">
+    <button mat-stroked-button color="warn" (click)="cancelar()">Cancelar</button>
     <button mat-raised-button color="primary" (click)="confirmar()">Confirmar</button>
   </mat-card-actions>
+
 </mat-card>
