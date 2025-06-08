@@ -47,7 +47,7 @@
 .ui-cuatro-columnas {
   display: grid;
   grid-template-columns: repeat(4, 1fr); // Tres columnas iguales
-  gap: 0.4rem 1rem; // Espacio vertical y horizontal
+  //gap: 0.4rem 1rem; // Espacio vertical y horizontal
   align-items: start; // Alineación superior si hay textos de distintos tamaños
 }
 

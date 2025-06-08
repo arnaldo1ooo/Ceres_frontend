@@ -5,6 +5,7 @@ import { AdicionalesService } from '../../services/adicionales.service';
 import { OrdenItemDTO } from '../../model/dtos/orden-item-DTO';
 import { AdicionalDTO } from '../../model/dtos/adicional-DTO';
 import { TipoAdicional, TipoAdicionalUtils } from '../../enums/tipo-adicional.enum';
+import { MonedaHelpersService } from 'src/app/compartido/services/moneda-helpers.service';
 interface AdicionalesPorTipo {
   tipoAdicional: TipoAdicional;
   descripcionGrupo: string;
@@ -21,6 +22,7 @@ export class DialogAdicionalesComponent implements OnInit {
   data: { ordenItemDTO: OrdenItemDTO };
   adicionalesPorTipo: AdicionalesPorTipo[] = [];
   seleccion: { [tipo in TipoAdicional]?: AdicionalItemDTO[] } = {};
+  valorUnitarioTotal: number = 0;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public injectedData: { ordenItemDTO: OrdenItemDTO },
@@ -28,6 +30,7 @@ export class DialogAdicionalesComponent implements OnInit {
     private dialogRef: MatDialogRef<DialogAdicionalesComponent>
   ) {
     this.data = injectedData; //Recibimos el item
+    this.valorUnitarioTotal = injectedData.ordenItemDTO.valorUnitario;
   }
 
   ngOnInit(): void {
@@ -106,4 +109,8 @@ export class DialogAdicionalesComponent implements OnInit {
   isSeleccionMultiple(tipoAdic: TipoAdicional): boolean {
     return TipoAdicionalUtils.isSeleccionMultiple(tipoAdic);
   }
+
+    public formatearValorMoneda(valor: number, moneda: any): string {
+      return MonedaHelpersService.formatearValorMoneda(valor, moneda);
+    }
 }

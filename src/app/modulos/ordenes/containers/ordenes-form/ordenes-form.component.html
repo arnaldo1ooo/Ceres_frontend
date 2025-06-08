@@ -33,7 +33,7 @@
 
         <ng-container *ngFor="let mercaderia of listaMercaderiasFiltradas; let ultimo = last">
 
-          <mat-list-item (click)="addItem(mercaderia)" class="ui-mat-list-item-mercaderia">
+          <mat-list-item (click)="addItemMerc(mercaderia)" class="ui-mat-list-item-mercaderia">
             <div class="ui-item-mercaderia">
               <img class="ui-mercaderia-imagen" [src]="mercaderia.imagen || 'assets/imagenes/no_photo.png'"
                 alt="Imagen de {{ mercaderia.descripcion }}">
