@@ -135,10 +135,12 @@ export class OrdenesFormComponent implements OnInit {
     });
   }
 
-  addItemMerc(mercSel: MercaderiaDTO) {
+  addItemMerc(mercSel: MercaderiaListaDTO) {
+
+    let mercaderiaDTO : MercaderiaDTO = { ...mercSel }; //Convertimos de MercaderiaListaDTO a mercaderiaDTO
 
     let ordenItemDTO: OrdenItemDTO = {
-      mercaderia: mercSel,
+      mercaderia: mercaderiaDTO,
       cantidad: 1,
       valorUnitario: 0,
       descuento: 0,

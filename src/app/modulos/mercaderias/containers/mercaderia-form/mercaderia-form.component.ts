@@ -13,6 +13,7 @@ import { AvisoHelpersService } from './../../../../compartido/services/aviso-hel
 import { ErrorHelpersService } from './../../../../compartido/services/error-helpers.service';
 import { MercaderiaDetalleDTO } from '../../model/dtos/mercaderiaDetalleDTO';
 import { CategoriaMercaderiaDTO } from '../../model/dtos/categoria-mercaderiaDTO';
+import { TipoIva } from '../../enums/tipo-iva.enum';
 
 @Component({
   selector: 'app-mercaderia-form',
@@ -23,7 +24,8 @@ export class MercaderiaFormComponent implements OnInit {
   public listaTiposMercaderia = Object.values(TipoMercaderia);
   public listaDepartamentos: any;
   public listaCategoriasMercaderia!: CategoriaMercaderiaDTO[];
-  public listaSituaciones = Object.values(Situacion);
+  public listaSituaciones: Situacion[] = Object.values(Situacion);
+  public listaTiposIva: TipoIva[] = Object.values(TipoIva);
   public modoEdicion: string = this._ruta.snapshot.data['modoEdicion']; //Proviene del routing
   public formGroupMercaderia = this.formMercaderiaInicial();
   public imagenVistaPrevia: string | null = null;
@@ -56,7 +58,9 @@ export class MercaderiaFormComponent implements OnInit {
         : Situacion.ACTIVO, //Se pone por default Activo
       presentaEnReporte: mercaderiaDetalleDTO.presentaEnReporte,
       categoria: mercaderiaDetalleDTO.categoria,
-      imagen: this.formatarBase64(mercaderiaDetalleDTO.imagen)
+      imagen: this.formatarBase64(mercaderiaDetalleDTO.imagen),
+      valor: mercaderiaDetalleDTO.valor,
+      tipoIva: mercaderiaDetalleDTO.tipoIva
     });
 
     this.imagenVistaPrevia = this.formGroupMercaderia.get('imagen')?.value;
@@ -151,7 +155,9 @@ export class MercaderiaFormComponent implements OnInit {
       categoria: new FormControl('', [
         Validators.required
       ]),
-      imagen: new FormControl('')
+      imagen: new FormControl(''),
+      valor: new FormControl(0, [Validators.required]),
+      tipoIva: new FormControl('', [Validators.required])
     });
   }
 

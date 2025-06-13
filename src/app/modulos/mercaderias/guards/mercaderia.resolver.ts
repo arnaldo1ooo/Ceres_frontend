@@ -22,6 +22,6 @@ export class MercaderiaResolver implements Resolve<MercaderiaDetalleDTO> {
       return this.mercaderiasService.cargarPorId(route.params['id']);
     }
 
-    return of({ _id: 0, descripcion: '', tipo: null, departamentos: [], situacion: '', presentaEnReporte: true, categoria: null, imagen: null });
+    return of({ _id: 0, descripcion: '', tipo: null, departamentos: [], situacion: '', presentaEnReporte: true, categoria: null, imagen: null, valor: 0, tipoIva: null });
   }
 }

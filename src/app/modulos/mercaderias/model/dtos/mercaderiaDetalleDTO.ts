@@ -11,4 +11,6 @@ export interface MercaderiaDetalleDTO {
   presentaEnReporte: boolean;
   categoria: CategoriaMercaderiaDTO | null;
   imagen: string | null;
+  valor: number;
+  tipoIva: number | null; // 0 = Exenta, 5 = IVA 5%, 10 = IVA 10%
 }
