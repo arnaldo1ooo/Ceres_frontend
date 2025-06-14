@@ -25,6 +25,7 @@ import { Moneda, MonedaEnum } from 'src/app/modulos/monedas/models/moneda';
 import { LoginService } from 'src/app/modulos/login/services/login.service';
 import { MonedasService } from 'src/app/modulos/monedas/services/monedas.service';
 import { Departamento } from 'src/app/modulos/departamentos/model/departamento.model';
+import { MercaderiaDetalleDTO } from 'src/app/modulos/mercaderias/model/dtos/mercaderiaDetalleDTO';
 
 @Component({
   selector: 'app-ordenes-form',
@@ -34,8 +35,8 @@ import { Departamento } from 'src/app/modulos/departamentos/model/departamento.m
 })
 export class OrdenesFormComponent implements OnInit {
 
-  protected listaMercaderias: MercaderiaListaDTO[] = [];
-  protected listaMercaderiasFiltradas: MercaderiaListaDTO[] = [];
+  protected listaMercaderias: MercaderiaDetalleDTO[] = [];
+  protected listaMercaderiasFiltradas: MercaderiaDetalleDTO[] = [];
   protected filtroBuscarProducto: string = '';
   protected filtroIdCategoria!: number;
   protected listaCategoriasMercaderia: CategoriaMercaderiaDTO[] = [];
@@ -114,8 +115,8 @@ export class OrdenesFormComponent implements OnInit {
   }
 
   listarMercaderias() {
-    this._mercaderiasService.listarTodosMercaderiasActivos(true).subscribe({
-      next: (retorno: MercaderiaListaDTO[]) => {
+    this._mercaderiasService.listarTodosMercaderiasActivosDetallado().subscribe({
+      next: (retorno: MercaderiaDetalleDTO[]) => {
         this.listaMercaderias = retorno;
         this.listaMercaderiasFiltradas = this.listaMercaderias;
       },
@@ -135,7 +136,7 @@ export class OrdenesFormComponent implements OnInit {
     });
   }
 
-  addItemMerc(mercSel: MercaderiaListaDTO) {
+  addItemMerc(mercSel: MercaderiaDetalleDTO) {
 
     let mercaderiaDTO : MercaderiaDTO = { ...mercSel }; //Convertimos de MercaderiaListaDTO a mercaderiaDTO
 
@@ -149,6 +150,8 @@ export class OrdenesFormComponent implements OnInit {
       adicionales: []
     };
 
+
+
     this._dialog.open(DialogAdicionalesComponent, {
       data: { ordenItemDTO }, // Enviamos al diálogo nuestro item
       maxWidth: '95vw',
@@ -158,13 +161,8 @@ export class OrdenesFormComponent implements OnInit {
       .afterClosed()
       .subscribe((adicionalesItemSel: AdicionalItemDTO[] | undefined) => {
         if (adicionalesItemSel) {
-          // Convertimos el array de AdicionalItemDTO a AdicionalDTO extrayendo la propiedad 'adicional'
           let adicionalesSel: AdicionalDTO[] = adicionalesItemSel.map(item => item.adicional);
-
-          // Asignamos al ordenItemDTO el array de adicionales seleccionados
           ordenItemDTO.adicionales = adicionalesSel;
-
-          // Lo agregamos a la lista de items seleccionados
           this.ItemsSeleccionados.push(ordenItemDTO);
         }
       });

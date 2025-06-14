@@ -11,6 +11,4 @@ export interface MercaderiaListaDTO {
   presentaEnReporte: boolean;
   categoria: CategoriaMercaderiaDTO | null;
   imagen: string | null;
-  valor: number;
-  tipoIva: number | null;
 }

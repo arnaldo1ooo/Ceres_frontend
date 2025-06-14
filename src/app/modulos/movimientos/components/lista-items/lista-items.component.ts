@@ -31,8 +31,8 @@ export class ListaItemsComponent implements OnInit {
   @ViewChild('itemsTable') itemsTable!: MatTable<any>; //ViewChild sirve para acceder a un elemento del html
 
   protected formItemToAgregar: FormGroup = this._movimientosService.crearItemFormGroup();
-  protected listaMercaderias: MercaderiaDTO[] = [];
-  protected listaMercaderiasFiltrado$: Observable<MercaderiaDTO[]> | undefined;
+  protected listaMercaderias: MercaderiaListaDTO[] = [];
+  protected listaMercaderiasFiltrado$: Observable<MercaderiaListaDTO[]> | undefined;
   protected columnasAMostrarItems: string[] = ['_id', 'descripcion', 'cantidad', 'valorUnitario', 'subtotal', 'acciones'];
 
 

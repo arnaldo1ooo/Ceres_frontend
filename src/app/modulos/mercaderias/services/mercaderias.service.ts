@@ -8,7 +8,7 @@ import { MercaderiaFiltroDTO } from '../model/dtos/mercaderiaFiltroDTO';
 import { Mercaderia } from '../model/mercaderia.model';
 import { ApiPageResponse } from '../../../compartido/interfaces/api-page-response';
 import { ApiResponse } from 'src/app/compartido/interfaces/api-response';
-import { API_URL_CATEGORIAS_MERCADERIA, API_URL_IMAGEN_MERCADERIA, API_URL_MERCADERIAS } from 'src/app/compartido/constantes/constantes';
+import { API_URL_CATEGORIAS_MERCADERIA, API_URL_IMAGEN_MERCADERIA, API_URL_MERCADERIAS, API_URL_MERCADERIAS_ACTIVAS, API_URL_MERCADERIAS_ACTIVAS_DETALLADO } from 'src/app/compartido/constantes/constantes';
 import { MercaderiaListaDTO } from '../model/dtos/mercaderiaListaDTO';
 import { MercaderiaDetalleDTO } from '../model/dtos/mercaderiaDetalleDTO';
 import { CategoriaMercaderiaDTO } from '../model/dtos/categoria-mercaderiaDTO';
@@ -50,7 +50,33 @@ export class MercaderiasService {
     }
 
     return this._httpClient.get<ApiResponse<MercaderiaListaDTO[]>>(
-      API_URL_MERCADERIAS + '/activos',
+      API_URL_MERCADERIAS_ACTIVAS,
+      { params: parametros }
+    ).pipe(
+      first(),
+      delay(100),
+      map(response => response.data)
+    );
+  }
+
+    listarTodosMercaderiasActivosDetallado(): Observable<MercaderiaDetalleDTO[]> {
+
+    let parametros = new HttpParams();
+    let idsDepartamento: number[] = [];
+    const dptoLogado = this._loginService.getDepartamentoLogado();
+
+    if (dptoLogado) {
+      idsDepartamento.push(Number(dptoLogado._id));
+    }
+
+    if (idsDepartamento && idsDepartamento.length > 0) { //Agregamos mas idDepartamentos si existe
+      idsDepartamento.forEach(id => {
+        parametros = parametros.append('idsDepartamento', id.toString());
+      });
+    }
+
+    return this._httpClient.get<ApiResponse<MercaderiaDetalleDTO[]>>(
+      API_URL_MERCADERIAS_ACTIVAS_DETALLADO,
       { params: parametros }
     ).pipe(
       first(),

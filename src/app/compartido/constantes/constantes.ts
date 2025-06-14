@@ -11,6 +11,8 @@ export const API_URL_BD_ACTUAL = API_URL_LOGIN + '/bdActual';
 export const API_URL_PERMISOS_USUARIO_LOGUEADO = API_URL_LOGIN + '/permisosUsuarioLogueado';
 
 export const API_URL_MERCADERIAS = '/mercaderias';
+export const API_URL_MERCADERIAS_ACTIVAS = API_URL_MERCADERIAS + '/activos';
+export const API_URL_MERCADERIAS_ACTIVAS_DETALLADO = API_URL_MERCADERIAS + '/activosDetallado';
 export const API_URL_CATEGORIAS_MERCADERIA = API_URL_MERCADERIAS + '/categorias';
 export const API_URL_IMAGEN_MERCADERIA = '/imagen';
 
