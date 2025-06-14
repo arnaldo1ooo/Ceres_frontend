@@ -26,6 +26,7 @@ import { LoginService } from 'src/app/modulos/login/services/login.service';
 import { MonedasService } from 'src/app/modulos/monedas/services/monedas.service';
 import { Departamento } from 'src/app/modulos/departamentos/model/departamento.model';
 import { MercaderiaDetalleDTO } from 'src/app/modulos/mercaderias/model/dtos/mercaderiaDetalleDTO';
+import { MonedaHelpersService } from 'src/app/compartido/services/moneda-helpers.service';
 
 @Component({
   selector: 'app-ordenes-form',
@@ -138,20 +139,28 @@ export class OrdenesFormComponent implements OnInit {
 
   addItemMerc(mercSel: MercaderiaDetalleDTO) {
 
-    let mercaderiaDTO : MercaderiaDTO = { ...mercSel }; //Convertimos de MercaderiaListaDTO a mercaderiaDTO
+    let mercaderiaDTO: MercaderiaDTO = { ...mercSel }; //Convertimos de MercaderiaListaDTO a mercaderiaDTO
 
     let ordenItemDTO: OrdenItemDTO = {
       mercaderia: mercaderiaDTO,
       cantidad: 1,
-      valorUnitario: 0,
+      valorUnitario: mercaderiaDTO.valor,
       descuento: 0,
       numeroItem: 0,
       observacion: '',
-      adicionales: []
+      adicionalesSel: []
     };
 
 
+    if (mercaderiaDTO.categoria != null && mercaderiaDTO.categoria.adicionales.length > 0) {
+      this.abrirDialogoAdicionales(ordenItemDTO); //Si la mercaderia sel tiene adicionales
+    }
+    else {
+      this.ItemsSeleccionados.push(ordenItemDTO);
+    }
+  }
 
+  private abrirDialogoAdicionales(ordenItemDTO: OrdenItemDTO) {
     this._dialog.open(DialogAdicionalesComponent, {
       data: { ordenItemDTO }, // Enviamos al diálogo nuestro item
       maxWidth: '95vw',
@@ -162,7 +171,7 @@ export class OrdenesFormComponent implements OnInit {
       .subscribe((adicionalesItemSel: AdicionalItemDTO[] | undefined) => {
         if (adicionalesItemSel) {
           let adicionalesSel: AdicionalDTO[] = adicionalesItemSel.map(item => item.adicional);
-          ordenItemDTO.adicionales = adicionalesSel;
+          ordenItemDTO.adicionalesSel = adicionalesSel;
           this.ItemsSeleccionados.push(ordenItemDTO);
         }
       });
@@ -270,5 +279,9 @@ export class OrdenesFormComponent implements OnInit {
     (this.formOrdenDetalle.get('items') as FormArray)
       .push(this._ordenService.crearOrdenItemFormGroup(item));
   }
+
+    public formatearValorMoneda(valor: number, moneda: any): string {
+      return MonedaHelpersService.formatearValorMoneda(valor, moneda);
+    }
 
 }

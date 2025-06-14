@@ -9,5 +9,5 @@ export interface OrdenItemDTO {
   descuento: number;
   numeroItem: number;
   observacion: string;
-  adicionales: AdicionalDTO[];
+  adicionalesSel: AdicionalDTO[];
 }

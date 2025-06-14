@@ -40,7 +40,7 @@
 
               <div class="ui-mercaderia-detalle">
                 <span matListItemTitle>{{ mercaderia.descripcion }}</span>
-                <span matListItemLine>Código: {{ mercaderia._id }}</span>
+                <span matListItemLine>Id: {{ mercaderia._id }}</span>
                 <span matListItemLine>Precio: {{ mercaderia.valor }}</span>
               </div>
             </div>
@@ -70,15 +70,15 @@
                   <!-- Columna 2: Detalle -->
                   <div class="ui-item-detalle-selected">
                     <span matListItemTitle>{{ itemSel.mercaderia.descripcion }}</span>
-                    <span matListItemLine>ID: {{ itemSel.mercaderia._id }}</span>
-                    <span matListItemLine>Precio unitario: {{ itemSel.mercaderia._id | currency:'PYG' }}</span>
+                    <span matListItemLine>Id: {{ itemSel.mercaderia._id }}</span>
+                    <span matListItemLine>Precio unit: {{ formatearValorMoneda(itemSel.valorUnitario, formOrdenDetalle.get('moneda')?.value) }}</span>
                   </div>
 
                   <!-- Columna 3: Acción -->
                   <div class="ui-item-acciones-selected">
 
-                    <span matListItemLine style="margin-right: 20px;"><strong>Precio:
-                        {{ itemSel.mercaderia._id | currency:'PYG' }}</strong></span>
+                    <span matListItemLine style="margin-right: 20px;"><strong>Subtotal :
+                        {{ formatearValorMoneda(itemSel.valorUnitario * itemSel.cantidad, formOrdenDetalle.get('moneda')?.value) }}</strong></span>
 
                     <div class="ui-cantidad-selector">
                       <button mat-icon-button color="primary" (click)="cambiarCantidadItemSel(itemSel, -1)"
@@ -113,9 +113,9 @@
 
         <!-- Totales siempre abajo -->
         <div class="ui-totales">
-          <h4>Subtotal: {{getSubtotal() | currency}}</h4>
-          <h4>Tax (15%): {{getTax() | currency}}</h4>
-          <h4>Total: {{getTotal() | currency}}</h4>
+          <h4>Subtotal: {{ formatearValorMoneda(getSubtotal(), formOrdenDetalle.get('moneda')?.value) }}</h4>
+          <h4>Tax (15%): {{ formatearValorMoneda(getTax(), formOrdenDetalle.get('moneda')?.value) }}</h4>
+          <h4>Total: {{ formatearValorMoneda(getTotal(), formOrdenDetalle.get('moneda')?.value) }}</h4>
           <button mat-raised-button color="accent" (click)="checkout()">Checkout</button>
         </div>
       </div>

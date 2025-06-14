@@ -85,7 +85,7 @@ export class OrdenesService {
     descuento: 0,
     numeroItem: 0,
     observacion: '',
-    adicionales: []
+    adicionalesSel: []
   }): FormGroup {
     return this._formBuilder.group({
       _id: new FormControl<number | null>(item._id ?? null),
@@ -95,7 +95,7 @@ export class OrdenesService {
       descuento: new FormControl<number>(item.descuento ?? 0),
       numeroItem: new FormControl<number>(item.numeroItem ?? 0),
       observacion: new FormControl<string>(item.observacion ?? ''),
-      adicionales: new FormControl<AdicionalDTO[]>(item.adicionales ?? [])
+      adicionalesSel: new FormControl<AdicionalDTO[]>(item.adicionalesSel ?? [])
     });
   }
 

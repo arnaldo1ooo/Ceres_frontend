@@ -37,32 +37,30 @@ export class DialogAdicionalesComponent implements OnInit {
     const ordenItem = this.data.ordenItemDTO;
     const categoriaId = ordenItem.mercaderia.categoria?._id;
 
-    if (!categoriaId) return;
 
-    this.listarYAgruparAdics(categoriaId);
+    this.agruparAdicionalesPorTipo(this.data.ordenItemDTO.mercaderia.categoria!.adicionales);
   }
 
-  private listarYAgruparAdics(categoriaId: number) {
-    this.adicionalesService.listarAdicionalesPorCategoria(categoriaId)
-      .subscribe(resp => {
-        const agrupados: { [key in TipoAdicional]?: AdicionalesPorTipo } = {};
+  private agruparAdicionalesPorTipo(adicionales: AdicionalDTO[]): void {
+    const agrupados: { [key in TipoAdicional]?: AdicionalesPorTipo } = {};
 
-        resp.data.forEach(adicional => {
-          const tipo = adicional.tipoAdicional as TipoAdicional;
+    adicionales.forEach(adicional => {
+      const tipo = adicional.tipoAdicional as TipoAdicional;
 
-          if (!agrupados[tipo]) {
-            agrupados[tipo] = {
-              tipoAdicional: tipo,
-              descripcionGrupo: TipoAdicionalUtils.getDescripcion(adicional.tipoAdicional),
-              adicionales: []
-            };
-          }
-          agrupados[tipo]!.adicionales.push(adicional);
-        });
+      if (!agrupados[tipo]) {
+        agrupados[tipo] = {
+          tipoAdicional: tipo,
+          descripcionGrupo: TipoAdicionalUtils.getDescripcion(tipo),
+          adicionales: []
+        };
+      }
 
-        this.adicionalesPorTipo = Object.values(agrupados) as AdicionalesPorTipo[];
-      });
+      agrupados[tipo]!.adicionales.push(adicional);
+    });
+
+    this.adicionalesPorTipo = Object.values(agrupados) as AdicionalesPorTipo[];
   }
+
 
   toggleSeleccion(adic: AdicionalDTO, tipo: TipoAdicional): void {
     let adicItem: AdicionalItemDTO = {
@@ -110,7 +108,7 @@ export class DialogAdicionalesComponent implements OnInit {
     return TipoAdicionalUtils.isSeleccionMultiple(tipoAdic);
   }
 
-    public formatearValorMoneda(valor: number, moneda: any): string {
-      return MonedaHelpersService.formatearValorMoneda(valor, moneda);
-    }
+  public formatearValorMoneda(valor: number, moneda: any): string {
+    return MonedaHelpersService.formatearValorMoneda(valor, moneda);
+  }
 }
