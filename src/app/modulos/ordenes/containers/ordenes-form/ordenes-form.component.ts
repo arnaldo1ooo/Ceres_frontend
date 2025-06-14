@@ -177,16 +177,8 @@ export class OrdenesFormComponent implements OnInit {
       });
   }
 
-  getSubtotal() {
-    return this.ItemsSeleccionados.reduce((total, item) => total + (item.valorUnitario * item.cantidad), 0);
-  }
-
-  getTax() {
-    return this.getSubtotal() * 0.15;
-  }
-
   getTotal() {
-    return this.getSubtotal() + this.getTax();
+    return this.ItemsSeleccionados.reduce((total, item) => total + (item.valorUnitario * item.cantidad), 0);
   }
 
   checkout() {

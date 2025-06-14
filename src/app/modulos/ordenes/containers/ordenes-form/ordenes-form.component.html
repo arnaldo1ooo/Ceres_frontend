@@ -70,15 +70,14 @@
                   <!-- Columna 2: Detalle -->
                   <div class="ui-item-detalle-selected">
                     <span matListItemTitle>{{ itemSel.mercaderia.descripcion }}</span>
-                    <span matListItemLine>Id: {{ itemSel.mercaderia._id }}</span>
-                    <span matListItemLine>Precio unit: {{ formatearValorMoneda(itemSel.valorUnitario, formOrdenDetalle.get('moneda')?.value) }}</span>
+                    <span matListItemLine>Precio unit:
+                      {{ formatearValorMoneda(itemSel.valorUnitario, formOrdenDetalle.get('moneda')?.value) }}</span>
+                    <span matListItemLine><strong>Subtotal :
+                        {{ formatearValorMoneda(itemSel.valorUnitario * itemSel.cantidad, formOrdenDetalle.get('moneda')?.value) }}</strong></span>
                   </div>
 
                   <!-- Columna 3: Acción -->
                   <div class="ui-item-acciones-selected">
-
-                    <span matListItemLine style="margin-right: 20px;"><strong>Subtotal :
-                        {{ formatearValorMoneda(itemSel.valorUnitario * itemSel.cantidad, formOrdenDetalle.get('moneda')?.value) }}</strong></span>
 
                     <div class="ui-cantidad-selector">
                       <button mat-icon-button color="primary" (click)="cambiarCantidadItemSel(itemSel, -1)"
@@ -93,11 +92,13 @@
                       <button mat-icon-button color="primary" (click)="cambiarCantidadItemSel(itemSel, 1)">
                         <mat-icon>add</mat-icon>
                       </button>
-                    </div>
 
-                    <button mat-icon-button color="warn" (click)="removerItemSel(itemSel)">
+                         <button mat-icon-button color="warn" (click)="removerItemSel(itemSel)">
                       <mat-icon>delete</mat-icon>
                     </button>
+                    </div>
+
+
                   </div>
                 </div>
 
@@ -113,8 +114,6 @@
 
         <!-- Totales siempre abajo -->
         <div class="ui-totales">
-          <h4>Subtotal: {{ formatearValorMoneda(getSubtotal(), formOrdenDetalle.get('moneda')?.value) }}</h4>
-          <h4>Tax (15%): {{ formatearValorMoneda(getTax(), formOrdenDetalle.get('moneda')?.value) }}</h4>
           <h4>Total: {{ formatearValorMoneda(getTotal(), formOrdenDetalle.get('moneda')?.value) }}</h4>
           <button mat-raised-button color="accent" (click)="checkout()">Checkout</button>
         </div>
