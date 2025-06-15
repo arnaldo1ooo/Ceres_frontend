@@ -6,8 +6,7 @@
 .main-content {
   display: flex;
   flex: 1;
-  max-height: calc(100vh - 180px);
-  /* Ajusta restando espacio del header si hay*/
+  max-height: calc(100vh - 209px); /* Ajusta restando espacio del header y footer si hay*/
 }
 
 .ui-div-toolbar {
@@ -75,7 +74,7 @@
 
 .contenedor-principal-selected {
   width: 60%;
-  margin: auto;
+
 }
 
 .ui-lista-scroll-selected {
@@ -87,11 +86,10 @@
 .ui-lista-selected {
   display: flex;
   flex-direction: column;
-  height: 80vh;
-  /* o el alto que necesites */
+  height: 99%;
   border: 1px solid #ccc;
-
   overflow: hidden;
+
 }
 
 .ui-item-selected {
