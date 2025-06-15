@@ -11,31 +11,30 @@
 }
 
 .ui-div-toolbar {
-  height: 85px;
   display: flex;
+  flex-wrap: wrap; /* Esto permite que los hijos bajen de línea */
   align-items: center;
-  /*alinear verticalmente */
-  gap: 30px;
-  /*espacio entre los elementos */
+  justify-content: space-between;
+  gap: 20px;
+  padding: 10px;
 }
 
 //Filtros lista mercaderia
 .ui-div-filtros-lista-merc {
-  width: 40%;
+  width: 100%;
   height: auto;
-
 }
 
 .ui-filtro-buscar-producto {
   padding: 10px 5px 5px 5px;
-  min-width: 50%;
-  max-width: 100%;
+  min-width: 8vh;
+  width: 25vh;
 }
 
-.ui-select-filtro-tipo {
+.ui-filtro-select-tipo {
   padding: 10px 5px 5px 1px;
-  min-width: 40%;
-  max-width: 100%;
+  min-width: 8vh;
+  width: 35vh;
 }
 
 //End Filtros lista mercaderia

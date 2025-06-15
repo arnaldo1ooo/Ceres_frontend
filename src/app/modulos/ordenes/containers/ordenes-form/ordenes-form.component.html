@@ -8,7 +8,7 @@
           (ngModelChange)="filtrarMercaderias()">
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="ui-select-filtro-tipo">
+      <mat-form-field appearance="outline" class="ui-filtro-select-tipo">
         <mat-label>Categoria</mat-label>
         <mat-select [(ngModel)]="filtroIdCategoria" (ngModelChange)="filtrarMercaderias()"
           [compareWith]="compararOpcionesSelect">
@@ -18,10 +18,6 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-    </div>
-
-    <div>
-      <h2>Nueva Orden</h2>
     </div>
   </div>
 
@@ -93,9 +89,9 @@
                         <mat-icon>add</mat-icon>
                       </button>
 
-                         <button mat-icon-button color="warn" (click)="removerItemSel(itemSel)">
-                      <mat-icon>delete</mat-icon>
-                    </button>
+                      <button mat-icon-button color="warn" (click)="removerItemSel(itemSel)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
                     </div>
 
 
