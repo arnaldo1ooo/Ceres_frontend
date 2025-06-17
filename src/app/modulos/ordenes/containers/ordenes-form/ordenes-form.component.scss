@@ -1,0 +1,135 @@
+.ui-orden-form-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
+  max-height: calc(100vh - 209px); /* Ajusta restando espacio del header y footer si hay*/
+}
+
+.ui-div-toolbar {
+  display: flex;
+  flex-wrap: wrap; /* Esto permite que los hijos bajen de línea */
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 10px;
+}
+
+//Filtros lista mercaderia
+.ui-div-filtros-lista-merc {
+  width: 100%;
+  height: auto;
+}
+
+.ui-filtro-buscar-producto {
+  padding: 10px 5px 5px 5px;
+  min-width: 8vh;
+  width: 25vh;
+}
+
+.ui-filtro-select-tipo {
+  padding: 10px 5px 5px 1px;
+  min-width: 8vh;
+  width: 35vh;
+}
+
+//End Filtros lista mercaderia
+
+.ui-lista-mercaderias {
+  flex: 1;
+  overflow-y: auto; //barra deslizadora
+  padding: 10px;
+  max-width: 40%;
+  border: 1px solid #ccc;
+}
+
+.ui-mat-list-item-mercaderia {
+  margin-top: -20px;
+}
+
+.ui-item-mercaderia {
+  height: 100px;
+  display: flex;
+  align-items: flex-start;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.ui-mercaderia-imagen {
+  width: 10vh;
+  height: 10vh;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.ui-mercaderia-detalle {
+  margin-left: 10px;
+}
+
+
+/* ITEMS SELECCIONADOS */
+
+.contenedor-principal-selected {
+  width: 60%;
+
+}
+
+.ui-lista-scroll-selected {
+  flex: 1;
+  overflow-y: auto; //barra deslizadora
+  padding: 10px;
+}
+
+.ui-lista-selected {
+  display: flex;
+  flex-direction: column;
+  height: 99%;
+  border: 1px solid #ccc;
+  overflow: hidden;
+
+}
+
+.ui-item-selected {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 16px;
+}
+
+.ui-item-imagen-selected {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.ui-item-detalle-selected {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ui-item-acciones-selected {
+
+}
+
+.ui-cantidad-selector {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ui-input-cantidad {
+  width: 80px;
+  font-size: 18px;
+}
+
+.ui-totales {
+  padding: 10px 20px;
+  border-top: 1px solid #ddd;
+}

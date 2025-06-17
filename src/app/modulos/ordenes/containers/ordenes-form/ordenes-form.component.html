@@ -1,0 +1,119 @@
+<div class="ui-orden-form-container">
+
+  <div class="ui-div-toolbar">
+    <div class="ui-div-filtros-lista-merc">
+      <mat-form-field appearance="outline" class="ui-filtro-buscar-producto">
+        <mat-label>Buscar Productos</mat-label>
+        <input matInput id="filtroBuscarProducto" type="text" [(ngModel)]="filtroBuscarProducto"
+          (ngModelChange)="filtrarMercaderias()">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="ui-filtro-select-tipo">
+        <mat-label>Categoria</mat-label>
+        <mat-select [(ngModel)]="filtroIdCategoria" (ngModelChange)="filtrarMercaderias()"
+          [compareWith]="compararOpcionesSelect">
+          <mat-option [value]="-1">TODOS</mat-option>
+          <mat-option *ngFor="let categoria of listaCategoriasMercaderia" value={{categoria._id}}>
+            {{categoria.descripcion}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+
+
+  <div class="main-content">
+    <div class="ui-lista-mercaderias">
+      <mat-list>
+
+        <ng-container *ngFor="let mercaderia of listaMercaderiasFiltradas; let ultimo = last">
+
+          <mat-list-item (click)="addItemMerc(mercaderia)" class="ui-mat-list-item-mercaderia">
+            <div class="ui-item-mercaderia">
+              <img class="ui-mercaderia-imagen" [src]="mercaderia.imagen || 'assets/imagenes/no_photo.png'"
+                alt="Imagen de {{ mercaderia.descripcion }}">
+
+              <div class="ui-mercaderia-detalle">
+                <span matListItemTitle>{{ mercaderia.descripcion }}</span>
+                <span matListItemLine>Id: {{ mercaderia._id }}</span>
+                <span matListItemLine>Precio: {{ mercaderia.valor }}</span>
+              </div>
+            </div>
+          </mat-list-item>
+
+          <mat-divider *ngIf="!ultimo"></mat-divider>
+
+        </ng-container>
+      </mat-list>
+    </div>
+
+    <div class="contenedor-principal-selected">
+      <div class="ui-lista-selected">
+        <h2 style="margin-left: 10px; margin-top: 10px;">Productos seleccionados</h2>
+
+        <div class="ui-lista-scroll-selected">
+          <mat-list>
+            <ng-container *ngFor="let itemSel of ItemsSeleccionados let ultimo = last">
+              <mat-list-item class="ui-list-item-selected">
+                <div class="ui-item-selected">
+
+                  <!-- Columna 1: Imagen -->
+                  <img class="ui-item-imagen-selected"
+                    [src]="itemSel.mercaderia.imagen || 'assets/imagenes/no_photo.png'"
+                    alt="Imagen de {{ itemSel.mercaderia.descripcion }}" />
+
+                  <!-- Columna 2: Detalle -->
+                  <div class="ui-item-detalle-selected">
+                    <span matListItemTitle>{{ itemSel.mercaderia.descripcion }}</span>
+                    <span matListItemLine>Precio unit:
+                      {{ formatearValorMoneda(itemSel.valorUnitario, formOrdenDetalle.get('moneda')?.value) }}</span>
+                    <span matListItemLine><strong>Subtotal :
+                        {{ formatearValorMoneda(itemSel.valorUnitario * itemSel.cantidad, formOrdenDetalle.get('moneda')?.value) }}</strong></span>
+                  </div>
+
+                  <!-- Columna 3: Acción -->
+                  <div class="ui-item-acciones-selected">
+
+                    <div class="ui-cantidad-selector">
+                      <button mat-icon-button color="primary" (click)="cambiarCantidadItemSel(itemSel, -1)"
+                        [disabled]="itemSel.cantidad <= 1">
+                        <mat-icon>remove</mat-icon>
+                      </button>
+
+                      <mat-form-field appearance="fill" class="ui-input-cantidad">
+                        <input matInput type="number" [(ngModel)]="itemSel.cantidad" min="1" />
+                      </mat-form-field>
+
+                      <button mat-icon-button color="primary" (click)="cambiarCantidadItemSel(itemSel, 1)">
+                        <mat-icon>add</mat-icon>
+                      </button>
+
+                      <button mat-icon-button color="warn" (click)="removerItemSel(itemSel)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+
+
+                  </div>
+                </div>
+
+                <mat-divider *ngIf="!ultimo"></mat-divider>
+
+              </mat-list-item>
+            </ng-container>
+
+            <mat-divider></mat-divider> <!-- Línea divisoria después de cada ítem-->
+
+          </mat-list>
+        </div>
+
+        <!-- Totales siempre abajo -->
+        <div class="ui-totales">
+          <h4>Total: {{ formatearValorMoneda(getTotal(), formOrdenDetalle.get('moneda')?.value) }}</h4>
+          <button mat-raised-button color="accent" (click)="checkout()">Checkout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

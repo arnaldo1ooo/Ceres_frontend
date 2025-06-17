@@ -7,6 +7,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { Departamento } from '../model/departamento.model';
 import { DepartamentosService } from '../services/departamentos.service';
+import { Sucursal } from '../../sucursales/model/sucursal.model';
 
 //Un resolver se ejecuta al clickar en un boton y antes de que cargue el enlace de la misma
 
@@ -24,6 +25,6 @@ export class DepartamentoResolver implements Resolve<Departamento> {
       return this.departamentoService.cargarPorId(route.params['id']);  //Devuelve el departamento
     }
 
-    return of({ _id: '', descripcion: '', sucursal: '', situacion: '' }); //Devuelve un departamento vacio
+    return of({ _id: 0, descripcion: '', sucursal: new Sucursal(), situacion: '' }); //Devuelve un departamento vacio
   }
 }

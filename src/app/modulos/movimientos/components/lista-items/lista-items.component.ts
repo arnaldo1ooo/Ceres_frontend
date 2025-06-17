@@ -5,14 +5,17 @@ import { map, Observable, startWith } from 'rxjs';
 import { AvisoHelpersService } from 'src/app/compartido/services/aviso-helpers.service';
 import { Mercaderia } from 'src/app/modulos/mercaderias/model/mercaderia.model';
 import { MercaderiasService } from 'src/app/modulos/mercaderias/services/mercaderias.service';
-import { ItemMovimiento } from '../../model/itemMovimiento';
-import { ModoEdicion } from '../../../../compartido/enums/modoEdicion.enum';
+import { ItemMovimiento } from '../../model/item-movimiento';
+import { ModoEdicion } from '../../../../compartido/enums/modo-edicion.enum';
 import { HelpersService } from '../../../../compartido/services/helpers.service';
 import { MovimientosService } from '../../services/movimientos.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogoIngresarTextoComponent } from '../../../../compartido/componentes/dialogo-ingresar-texto/dialogo-ingresar-texto.component';
 import { Moneda } from 'src/app/modulos/monedas/models/moneda';
 import { MonedaHelpersService } from '../../../../compartido/services/moneda-helpers.service';
+import { MercaderiaDTO } from 'src/app/modulos/mercaderias/model/dtos/mercaderiaDTO';
+import { MercaderiaListaDTO } from 'src/app/modulos/mercaderias/model/dtos/mercaderiaListaDTO';
+import { convertirToMayus } from 'src/app/compartido/services/convert-helpers.service';
 
 @Component({
   selector: 'app-lista-items',
@@ -28,8 +31,8 @@ export class ListaItemsComponent implements OnInit {
   @ViewChild('itemsTable') itemsTable!: MatTable<any>; //ViewChild sirve para acceder a un elemento del html
 
   protected formItemToAgregar: FormGroup = this._movimientosService.crearItemFormGroup();
-  protected listaMercaderias: Mercaderia[] = [];
-  protected listaMercaderiasFiltrado$: Observable<Mercaderia[]> | undefined;
+  protected listaMercaderias: MercaderiaListaDTO[] = [];
+  protected listaMercaderiasFiltrado$: Observable<MercaderiaListaDTO[]> | undefined;
   protected columnasAMostrarItems: string[] = ['_id', 'descripcion', 'cantidad', 'valorUnitario', 'subtotal', 'acciones'];
 
 
@@ -73,8 +76,8 @@ export class ListaItemsComponent implements OnInit {
   private listarFiltrarMercaderias() {
     let control = this.formItemToAgregar.get('mercaderia');
 
-    this._mercaderiasService.listarTodosMercaderiasActivos().subscribe({
-      next: (respuesta: Mercaderia[]) => {
+    this._mercaderiasService.listarTodosMercaderiasActivos(false).subscribe({
+      next: (respuesta: MercaderiaListaDTO[]) => {
         this.listaMercaderias = respuesta;
 
         // Se ejecuta cuando se escribe en autocomplete
@@ -84,7 +87,7 @@ export class ListaItemsComponent implements OnInit {
             if (valorAFiltrar) {
               return this.listaMercaderias?.filter(mercaderia =>
                 mercaderia._id?.toString().includes(valorAFiltrar || '') ||
-                mercaderia.descripcion?.toUpperCase().includes(HelpersService.convertirToMayus(valorAFiltrar) || '')
+                mercaderia.descripcion?.toUpperCase().includes(convertirToMayus(valorAFiltrar) || '')
               );
             } else {
               return this.listaMercaderias; // Devuelve la lista sin filtrar si valorAFiltrar es vacío

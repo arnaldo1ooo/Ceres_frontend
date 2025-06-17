@@ -8,8 +8,14 @@ export const API_URL_LOGIN = '/login';
 export const API_URL_IS_NOMBRE_USUARIO_EXISTE = API_URL_LOGIN + '/isNombreUsuarioExiste';
 export const API_URL_VERSION_ACTUAL = API_URL_LOGIN + '/versionActual';
 export const API_URL_BD_ACTUAL = API_URL_LOGIN + '/bdActual';
+export const API_URL_PERMISOS_USUARIO_LOGUEADO = API_URL_LOGIN + '/permisosUsuarioLogueado';
 
 export const API_URL_MERCADERIAS = '/mercaderias';
+export const API_URL_MERCADERIAS_ACTIVAS = API_URL_MERCADERIAS + '/activos';
+export const API_URL_MERCADERIAS_ACTIVAS_DETALLADO = API_URL_MERCADERIAS + '/activosDetallado';
+export const API_URL_CATEGORIAS_MERCADERIA = API_URL_MERCADERIAS + '/categorias';
+export const API_URL_IMAGEN_MERCADERIA = '/imagen';
+
 export const API_URL_SUCURSALES = '/sucursales';
 export const API_URL_DPTOS_POLITICO = '/departamentosPolitico';
 
@@ -22,6 +28,11 @@ export const API_URL_MOVIMIENTOS = '/movimientos';
 export const API_URL_MONEDAS = '/monedas';
 export const API_URL_ENTIDADES = '/entidades';
 export const API_URL_CUENTAS_CONTABLES = '/cuentasContables';
+
+export const API_URL_ORDENES = '/ordenes';
+export const API_URL_ACTUALIZAR_PARCIAL_ORDEN = API_URL_ORDENES + '/actualizarParcialOrden';
+export const API_URL_ADICIONALES_POR_CATEGORIA = API_URL_ORDENES + '/adicionales';
+
 
 
 export const DEFAULT_PAGE_TAMANHO: number = 10;
@@ -54,3 +65,8 @@ export const ID_OPCION_TODOS: number = -1;
 export const FORMATO_FECHA_HORA_COMUN: string = 'DD/MM/yyyy HH:mm:ss';
 export const FORMATO_FECHA_HORA_SIN_SEG_COMUN: string = 'DD/MM/yyyy HH:mm';
 export const FORMATO_FECHA_HORA_ISO8601: string = 'YYYY-MM-DDTHH:mm:ss';
+
+
+export const NUEVO: string = 'nuevo';
+export const EDITAR: string = 'editar';
+export const VISUALIZAR: string = 'visualizar';

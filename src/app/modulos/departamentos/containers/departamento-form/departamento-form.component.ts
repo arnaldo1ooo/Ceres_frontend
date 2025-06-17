@@ -10,6 +10,7 @@ import { ErrorHelpersService } from '../../../../compartido/services/error-helpe
 import { SucursalesService } from '../../../sucursales/services/sucursales.service';
 import { DepartamentoDetalleDTO } from '../../model/dtos/departamentoDetalleDTO';
 import { DepartamentosService } from '../../services/departamentos.service';
+import { Sucursal } from 'src/app/modulos/sucursales/model/sucursal.model';
 
 @Component({
   selector: 'app-departamento-form',
@@ -21,13 +22,13 @@ export class DepartamentoFormComponent implements OnInit {
   listaSituaciones = Object.values(Situacion);
 
   formDepartamento = this._formBuilder.group({
-    _id: [''],  //Sirve para el modo editar
+    _id: [0],  //Sirve para el modo editar
     descripcion: ['', [
       Validators.required, //Los validators sirven para agregar validaciones al campo
       Validators.minLength(3),
       Validators.maxLength(100)
     ]],
-    sucursal: ['', [
+    sucursal: [new Sucursal, [
       Validators.required
     ]],
     situacion: ['', [

@@ -3,8 +3,8 @@ import { Situacion } from '../../../compartido/enums/situacion.enum';
 import { Departamento } from '../../departamentos/model/departamento.model';
 import { Moneda } from '../../monedas/models/moneda';
 import { TipoMovimiento } from '../../tipos-movimiento/models/tipo-movimiento';
-import { ItemMovimiento } from './itemMovimiento';
-import { MovimientoCuentaContable } from './movimientoCuentaContable';
+import { ItemMovimiento } from './item-movimiento';
+import { MovimientoCuentaContable } from './movimiento-cuenta-contable';
 
 export class Movimiento {
   _id: string | null = null;

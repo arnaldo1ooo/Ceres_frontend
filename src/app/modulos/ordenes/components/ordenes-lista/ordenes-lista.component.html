@@ -1,0 +1,32 @@
+<mat-toolbar color="primary" class="toolbar">
+  <span class="title">Lista de Órdenes</span>
+  <span class="spacer"></span>
+  <button mat-raised-button color="accent" (click)="onNuevo()">
+    <mat-icon>add</mat-icon>
+    Nueva orden
+  </button>
+</mat-toolbar>
+
+<div class="dropListBoard" cdkDropListGroup>
+  <div class="columna" *ngFor="let estado of estadosOrden">
+    <h2>{{ estado.label }}</h2>
+    <div cdkDropList [cdkDropListData]="arrayOrdenesPorEstado[estado.valor]"
+      (cdkDropListDropped)="onDropOrden($event, estado.valor)" class="ordenes-lista">
+
+      <div class="orden-card" *ngFor="let orden of arrayOrdenesPorEstado[estado.valor]" cdkDrag>
+
+        <mat-card [ngClass]="getEstadoOrden(orden.estado)">
+          <mat-card-header>
+            <mat-card-title>Orden #{{ orden.numero }}</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <p *ngIf="orden.nombreApellidoOcasional"><strong>Cliente:</strong> {{ orden.nombreApellidoOcasional }}</p>
+            <p><strong>Fecha:</strong> {{ orden.fechaEmision | date:'dd/MM/yyyy HH:mm' }}</p>
+            <p *ngIf="orden.observacion"><strong>Observación:</strong> {{ orden.observacion }}</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

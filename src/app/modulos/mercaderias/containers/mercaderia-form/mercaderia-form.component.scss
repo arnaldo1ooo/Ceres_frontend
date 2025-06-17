@@ -40,4 +40,25 @@ input[disabled] {
   margin-left: -348px;
 }
 
+//Imagen
+.imagen-contenedor {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.imagen-preview {
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: contain;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.imagen-acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 

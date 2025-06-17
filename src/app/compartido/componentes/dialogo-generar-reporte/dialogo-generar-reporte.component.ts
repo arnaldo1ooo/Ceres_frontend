@@ -19,7 +19,7 @@ export interface FiltrosGenerarReporte {
   fechaInicial: Date;
   fechaFinal: Date;
   idMoneda: string;
-  idDepartamento: string;
+  idDepartamento: number;
 }
 @Component({
   selector: 'app-dialogo-generar-reporte',
@@ -92,7 +92,7 @@ export class DialogoGenerarReporteComponent implements OnInit {
     this.filtros.fechaInicial = FechaHelpersService.getPrimerDiaDelAnho()
     this.filtros.fechaFinal = new Date();
     this.filtros.idMoneda = '1'; //Guarani por default
-    this.filtros.idDepartamento = this._loginService.getIdDepartamentoLogado()!;
+    this.filtros.idDepartamento = this._loginService.getDepartamentoLogado()?._id!;
   }
 
   protected generarLibroDiarioPorItem() {
