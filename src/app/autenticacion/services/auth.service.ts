@@ -2,16 +2,18 @@ import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { firstValueFrom, map, Observable } from 'rxjs';
+import { catchError, firstValueFrom, map, Observable, of, tap } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Login } from 'src/app/modulos/login/model/login';
-import { API_URL_IS_NOMBRE_USUARIO_EXISTE } from 'src/app/compartido/constantes/constantes';
+import { API_URL_IS_NOMBRE_USUARIO_EXISTE, API_URL_PERMISOS_USUARIO_LOGUEADO } from 'src/app/compartido/constantes/constantes';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private sesionIniciada; //Se piede el valor al recargar pagina
+  private permisosUsuarioLogueado: string[] = [];
 
   constructor(
     private _httpClient: HttpClient,
@@ -72,5 +74,60 @@ export class AuthService {
       throw error; // Relanzar el error para que pueda ser manejado en un nivel superior
     }
   }
+
+  public cargarPermisosUsuarioLogueado(): Observable<string[]> {
+    return this._httpClient.get<string[]>(API_URL_PERMISOS_USUARIO_LOGUEADO).pipe(
+      tap(permisos => {
+        // Si el backend no devuelve resultados, inicializa como un array vacío
+        this.permisosUsuarioLogueado = permisos || [];
+      }),
+      catchError(error => {
+        // En caso de error, inicializa como un array vacío y opcionalmente maneja el error
+        console.error('Error al cargar permisos:', error);
+        this.permisosUsuarioLogueado = [];
+        return of([]); // Retorna un observable con un array vacío
+      })
+    );
+  }
+
+  public isTienePermiso(permiso: string): boolean {
+    if (this.sesionIniciada) {
+      return this.isUsuarioPoseeRolSuper()
+        || this.permisosUsuarioLogueado?.includes(permiso) || false;
+    }
+
+    return false;
+  }
+
+  public getNombreUsuarioToken(): string | null {
+    try {
+      const decodedToken: any = jwtDecode(this.getTokenAlmacenado());
+      return decodedToken?.username || decodedToken?.sub || null;
+    }
+    catch (error) {
+      console.error('Error al decodificar el token para obtener nombreUsuario:', error);
+      return null;
+    }
+  }
+
+  private isUsuarioPoseeRolSuper(): boolean {
+    return this.getRolesDeToken().includes('ROLE_SUPERUSUARIO');
+  }
+
+  public getRolesDeToken(): string[] {
+    try {
+      const token: any = this.getTokenAlmacenado();
+      const decodedToken: any = token != null ? jwtDecode(token) : null;
+      const roles = decodedToken?.roles || [];
+
+      return roles ? roles.map((rol: any) => rol.authority) : [];
+    }
+    catch (error) {
+      console.error('Error al decodificar el token para obtener los roles:', error);
+      return [];
+    }
+  }
+
+
 
 }

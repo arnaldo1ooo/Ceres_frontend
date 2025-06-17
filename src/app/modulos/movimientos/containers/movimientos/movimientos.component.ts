@@ -10,8 +10,11 @@ import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-er
 import {
   DEFAULT_ORDENAR_POR,
   DEFAULT_PAGE_TAMANHO,
+  EDITAR,
   ID_OPCION_TODOS,
+  NUEVO,
   PAGE_INICIAL,
+  VISUALIZAR,
 } from 'src/app/compartido/constantes/constantes';
 import { Situacion, SituacionUtils } from 'src/app/compartido/enums/situacion.enum';
 import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
@@ -21,7 +24,7 @@ import { DepartamentosService } from 'src/app/modulos/departamentos/services/dep
 import { LoginService } from 'src/app/modulos/login/services/login.service';
 import { TiposMovimientoService } from 'src/app/modulos/tipos-movimiento/services/tipos-movimiento.service';
 
-import { Orden } from '../../../../compartido/enums/orden.enum';
+import { Ordenamiento } from '../../../../compartido/enums/ordenamiento.enum';
 import { MovimientoFiltroDTO } from '../../model/dtos/movimientoFiltroDTO';
 import { MovimientoListaDTO, Page } from '../../model/dtos/movimientoListaDTO';
 import { MovimientosService } from '../../services/movimientos.service';
@@ -53,7 +56,7 @@ export class MovimientosComponent implements OnInit {
     pagina: PAGE_INICIAL,
     tamanho: DEFAULT_PAGE_TAMANHO,
     ordenarPor: DEFAULT_ORDENAR_POR,
-    orden: Orden.DESCENDENTE
+    ordenamiento: Ordenamiento.DESCENDENTE
   };
 
   constructor(
@@ -78,9 +81,9 @@ export class MovimientosComponent implements OnInit {
 
   private recuperarFiltrosDeSesion() {
     const filtrosGuardados = sessionStorage.getItem('movimientoFiltros');
-    
-    this.movimientoFiltro = filtrosGuardados 
-                            ? JSON.parse(filtrosGuardados) 
+
+    this.movimientoFiltro = filtrosGuardados
+                            ? JSON.parse(filtrosGuardados)
                             : this.filtroInicial();
   }
 
@@ -148,7 +151,7 @@ export class MovimientosComponent implements OnInit {
       nombreApellidoEntidad: "",
       fechaInicial: FechaHelpersService.getPrimerDiaDelAnho(),
       fechaFinal: new Date(),
-      idDepartamento: this._loginService.getIdDepartamentoLogado(),
+      idDepartamento: this._loginService.getDepartamentoLogado()?._id,
       keySituacion: Situacion.ACTIVO
     };
   }
@@ -160,7 +163,7 @@ export class MovimientosComponent implements OnInit {
   }
 
   protected onNuevo() {
-    this._ruta.navigate(['nuevo'], { relativeTo: this._rutaActual });
+    this._ruta.navigate([NUEVO], { relativeTo: this._rutaActual });
   }
 
   protected onMostrarTiposMovimientoSeleccion() {
@@ -168,11 +171,11 @@ export class MovimientosComponent implements OnInit {
   }
 
   protected onVisualizar(movimientoListaDTO: MovimientoListaDTO) {
-    this._ruta.navigate(['visualizar', movimientoListaDTO._id], { relativeTo: this._rutaActual });
+    this._ruta.navigate([VISUALIZAR, movimientoListaDTO._id], { relativeTo: this._rutaActual });
   }
 
   protected onEditar(movimientoListaDTO: MovimientoListaDTO) {
-    this._ruta.navigate(['editar', movimientoListaDTO._id], { relativeTo: this._rutaActual }); //Navega a esa direccion con los datos del departamento
+    this._ruta.navigate([EDITAR, movimientoListaDTO._id], { relativeTo: this._rutaActual }); //Navega a esa direccion con los datos del departamento
   }
 
   protected onEliminar(movimientoListaDTO: MovimientoListaDTO) {

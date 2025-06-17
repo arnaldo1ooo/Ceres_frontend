@@ -1,4 +1,4 @@
-import { SituacionIconPipe } from './situacionIcon.pipe';
+import { SituacionIconPipe } from './situacion-icon.pipe';
 
 describe('SituacionIconPipe', () => {
   it('create an instance', () => {

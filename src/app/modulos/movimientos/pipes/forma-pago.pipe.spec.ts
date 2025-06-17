@@ -1,4 +1,4 @@
-import { FormaPagoPipe } from './formaPago.pipe';
+import { FormaPagoPipe } from './forma-pago.pipe';
 
 describe('FormaPago', () => {
   it('create an instance', () => {

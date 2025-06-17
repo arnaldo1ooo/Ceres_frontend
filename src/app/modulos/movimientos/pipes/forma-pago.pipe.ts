@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { FormaPago, FormaPagoUtils } from '../enums/formaPago.enum';
+import { FormaPago, FormaPagoUtils } from '../enums/forma-pago.enum';
 
 @Pipe({
   name: 'formaPagoPipe'

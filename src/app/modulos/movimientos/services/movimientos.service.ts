@@ -20,15 +20,15 @@ import {
 import { FechaHelpersService } from './../../../compartido/services/fecha-helpers.service';
 import { MovimientoListaDTO, Page } from './../model/dtos/movimientoListaDTO';
 import { FormGroup, NonNullableFormBuilder, Validators, FormControl } from '@angular/forms';
-import { ItemMovimiento } from '../model/itemMovimiento';
+import { ItemMovimiento } from '../model/item-movimiento';
 import { TipoMovimientoEnum } from '../../tipos-movimiento/enums/tipo-movimiento-enum.enum';
 import { Moneda } from '../../monedas/models/moneda';
 import { Entidad } from '../../entidades/models/entidad.model';
 import { Departamento } from '../../departamentos/model/departamento.model';
 import { Situacion } from '../../../compartido/enums/situacion.enum';
-import { FormaPago } from '../enums/formaPago.enum';
+import { FormaPago } from '../enums/forma-pago.enum';
 import { Mercaderia } from '../../mercaderias/model/mercaderia.model';
-import { MovimientoCuentaContable } from '../model/movimientoCuentaContable';
+import { MovimientoCuentaContable } from '../model/movimiento-cuenta-contable';
 import { CuentaContableDTO } from '../model/dtos/cuenta-contable-dto';
 
 @Injectable({
@@ -76,7 +76,7 @@ export class MovimientosService {
           movimientoFiltro.fechaFinal, HORA_FINAL, MINUTO_FINAL, SEGUNDO_FINAL) : ""}`
       + `&idDepartamento=${HelpersService.idTodosReturnVacio(movimientoFiltro.idDepartamento)}`
       + `&keySituacion=${HelpersService.idTodosReturnVacio(movimientoFiltro.keySituacion)}`
-      + `&page=${apiPageRequest.pagina}&size=${apiPageRequest.tamanho}&sort=${apiPageRequest.ordenarPor},${apiPageRequest.orden}`);
+      + `&page=${apiPageRequest.pagina}&size=${apiPageRequest.tamanho}&sort=${apiPageRequest.ordenarPor},${apiPageRequest.ordenamiento}`);
   }
 
   guardar(movimiento: Partial<Movimiento>) { //Se usa Partial cuando se espera que no reciba todos los datos de la entidad

@@ -1,4 +1,5 @@
 import { Departamento } from '../../departamentos/model/departamento.model';
+import { CategoriaMercaderiaDTO } from './dtos/categoria-mercaderiaDTO';
 
 export class Mercaderia {
 
@@ -8,4 +9,5 @@ export class Mercaderia {
   departamentos: Array<Departamento> = [];
   situacion: string | null = null;
   presentaEnReporte: boolean = true;
+  categoria?: CategoriaMercaderiaDTO;
 }

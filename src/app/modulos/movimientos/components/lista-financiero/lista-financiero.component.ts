@@ -6,10 +6,10 @@ import { map, Observable, startWith } from 'rxjs';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { CuentasContablesService } from '../../services/cuentas-contables.service';
 import { AvisoHelpersService } from 'src/app/compartido/services/aviso-helpers.service';
-import { ModoEdicion } from 'src/app/compartido/enums/modoEdicion.enum';
-import { MovimientoCuentaContable } from '../../model/movimientoCuentaContable';
+import { ModoEdicion } from 'src/app/compartido/enums/modo-edicion.enum';
+import { MovimientoCuentaContable } from '../../model/movimiento-cuenta-contable';
 import { MatTable } from '@angular/material/table';
-import { ItemMovimiento } from '../../model/itemMovimiento';
+import { ItemMovimiento } from '../../model/item-movimiento';
 import { MonedaHelpersService } from 'src/app/compartido/services/moneda-helpers.service';
 import { Moneda } from 'src/app/modulos/monedas/models/moneda';
 

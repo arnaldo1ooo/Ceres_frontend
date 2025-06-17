@@ -18,6 +18,7 @@ import { FooterPrincipalComponent } from './componentes/footer-principal/footer-
 import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 import { DialogoIngresarTextoComponent } from './componentes/dialogo-ingresar-texto/dialogo-ingresar-texto.component';
 import { DialogoGenerarReporteComponent } from './componentes/dialogo-generar-reporte/dialogo-generar-reporte.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { DialogoGenerarReporteComponent } from './componentes/dialogo-generar-re
     NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,
     NgxMatNativeDateModule,
+    NgxPaginationModule
     //QuillModule
   ]
 })

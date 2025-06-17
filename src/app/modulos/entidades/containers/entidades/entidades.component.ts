@@ -10,8 +10,8 @@ import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-er
 import { EntidadesService } from '../../services/entidades.service';
 import { Entidad } from '../../models/entidad.model';
 import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
-import { DEFAULT_ORDENAR_POR, DEFAULT_PAGE_TAMANHO, ID_OPCION_TODOS, PAGE_INICIAL } from 'src/app/compartido/constantes/constantes';
-import { Orden } from 'src/app/compartido/enums/orden.enum';
+import { DEFAULT_ORDENAR_POR, DEFAULT_PAGE_TAMANHO, EDITAR, ID_OPCION_TODOS, NUEVO, PAGE_INICIAL, VISUALIZAR } from 'src/app/compartido/constantes/constantes';
+import { Ordenamiento } from 'src/app/compartido/enums/ordenamiento.enum';
 import { EntidadFiltroDTO } from '../../models/dtos/entidadFiltroDTO';
 import { Situacion, SituacionUtils } from 'src/app/compartido/enums/situacion.enum';
 import { ClaseEntidad, ClaseEntidadUtils } from '../../enums/clase-entidad.enum';
@@ -42,7 +42,7 @@ export class EntidadesComponent implements OnInit {
     pagina: PAGE_INICIAL,
     tamanho: DEFAULT_PAGE_TAMANHO,
     ordenarPor: DEFAULT_ORDENAR_POR,
-    orden: Orden.DESCENDENTE
+    ordenamiento: Ordenamiento.DESCENDENTE
   };
 
   constructor(
@@ -68,9 +68,9 @@ export class EntidadesComponent implements OnInit {
 
   private recuperarFiltrosDeSesion() {
     const filtrosGuardados = sessionStorage.getItem('entidadFiltros');
-    
-    this.entidadFiltro = filtrosGuardados 
-                            ? JSON.parse(filtrosGuardados) 
+
+    this.entidadFiltro = filtrosGuardados
+                            ? JSON.parse(filtrosGuardados)
                             : this.filtroInicial();
   }
 
@@ -85,15 +85,15 @@ export class EntidadesComponent implements OnInit {
   }
 
   onNuevo() {
-    this.ruta.navigate(['nuevo'], { relativeTo: this.rutaActual }); //Para que navegue a esa direccion
+    this.ruta.navigate([NUEVO], { relativeTo: this.rutaActual }); //Para que navegue a esa direccion
   }
 
   onVisualizar(entidad: Entidad) {
-    this.ruta.navigate(['visualizar', entidad._id], { relativeTo: this.rutaActual });
+    this.ruta.navigate([VISUALIZAR, entidad._id], { relativeTo: this.rutaActual });
   }
 
   onEditar(entidad: Entidad) {
-    this.ruta.navigate(['editar', entidad._id], { relativeTo: this.rutaActual }); //Navega a esa direccion con los datos del departamento
+    this.ruta.navigate([EDITAR, entidad._id], { relativeTo: this.rutaActual }); //Navega a esa direccion con los datos del departamento
   }
 
   onInactivar(entidad: Entidad) {
@@ -179,7 +179,7 @@ export class EntidadesComponent implements OnInit {
       id: null,
       nombreApellido: null,
       idsClase: [],
-      idSucursal: this._loginService.getIdSucursalLogado(),
+      idSucursal: this._loginService.getDepartamentoLogado()?.sucursal._id,
       ciRuc: null,
       idSituacion: Situacion.ACTIVO
     };

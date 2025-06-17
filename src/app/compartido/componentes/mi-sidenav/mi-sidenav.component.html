@@ -4,12 +4,12 @@
     <button mat-icon-button (click)="abrirOCerrar()"><mat-icon>menu</mat-icon></button>
     <span class="style-app-nombre">Sistema Ceres</span>
     <span class="style-expandir"></span> <!--Expande el espacio para que los elementos siguientes queden al final-->
-    
+
     <button mat-icon-button (click)="alternarTema()"
       matTooltip="{{ temaOscuro ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro' }}" aria-label="Cambiar tema">
       <mat-icon>{{ !temaOscuro ? 'light_mode' : 'dark_mode' }}</mat-icon>
     </button>
-    
+
     <button mat-button (click)="cerrarSesion()">Desconectar</button>
   </mat-toolbar>
 
@@ -17,10 +17,52 @@
     <mat-sidenav #elSideNav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
       fixedTopGap="56" [opened]="isAbierto" *ngIf="isSesionIniciada$ | async">
       <mat-nav-list *ngIf="isSesionIniciada$ | async">
-        <a mat-list-item [routerLink]="menu.ruta" *ngFor="let menu of menus">
-          <mat-icon class="style-icono">{{menu.icono}}</mat-icon>
-          {{menu.nombre}}
-        </a>
+
+        <ng-container *ngFor="let menu of menus">
+          <a mat-list-item [routerLink]="menu.ruta" *ngIf="menu.nombre === 'Home'">
+            <mat-icon class="style-icono">{{ menu.icono }}</mat-icon>
+            <mat-label>{{ menu.nombre }}</mat-label> 
+          </a>
+
+          <a mat-list-item [routerLink]="menu.ruta" *ngIf="menu.nombre === 'Entidades'">
+            <mat-icon class="style-icono">{{ menu.icono }}</mat-icon>
+            <mat-label>{{ menu.nombre }}</mat-label>
+          </a>
+
+          <a mat-list-item [routerLink]="menu.ruta" *ngIf="menu.nombre === 'Mercaderias'">
+            <mat-icon class="style-icono">{{ menu.icono }}</mat-icon>
+            <mat-label>{{ menu.nombre }}</mat-label>
+          </a>
+
+          <a mat-list-item [routerLink]="menu.ruta" *ngIf="menu.nombre === 'Movimientos'">
+            <mat-icon class="style-icono">{{ menu.icono }}</mat-icon>
+            <mat-label>{{ menu.nombre }}</mat-label>
+          </a>
+
+          <a mat-list-item [routerLink]="menu.ruta" *ngIf="menu.nombre === 'Ordenes'">
+            <mat-icon class="style-icono">{{ menu.icono }}</mat-icon>
+            <mat-label>{{ menu.nombre }}</mat-label>
+          </a>
+
+          <mat-expansion-panel *ngIf="menu.nombre === 'Configuraciones'">
+            <mat-expansion-panel-header>
+              <mat-icon class="style-icono">{{ menu.icono }}</mat-icon>
+              <mat-label>{{ menu.nombre }}</mat-label>
+            </mat-expansion-panel-header>
+
+            <mat-action-list>
+              <a mat-list-item *ngFor="let subMenu of menu.submenu" [routerLink]="subMenu.ruta">
+                <mat-icon class="style-icono">{{ subMenu.icono }}</mat-icon>
+                <mat-label>{{ subMenu.nombre }}</mat-label>
+              </a>
+            </mat-action-list>
+          </mat-expansion-panel>
+
+
+
+
+        </ng-container>
+
       </mat-nav-list>
     </mat-sidenav>
 

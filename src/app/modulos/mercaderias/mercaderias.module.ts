@@ -8,6 +8,7 @@ import { MercaderiasListaComponent } from './components/mercaderias-lista/mercad
 import { MercaderiaFormComponent } from './containers/mercaderia-form/mercaderia-form.component';
 import { MercaderiasComponent } from './containers/mercaderias/mercaderias.component';
 import { MercaderiasRoutingModule } from './mercaderias-routing.module';
+import { TipoIvaPipe } from "../../compartido/pipes/tipo-iva.pipe";
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { MercaderiasRoutingModule } from './mercaderias-routing.module';
     CommonModule,
     MercaderiasRoutingModule,
     MaterialModulosModule,
-    CompartidoModule
-  ]
+    CompartidoModule,
+    TipoIvaPipe
+]
 })
 export class MercaderiasModule { }

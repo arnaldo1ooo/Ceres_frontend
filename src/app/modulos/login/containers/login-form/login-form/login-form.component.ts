@@ -39,7 +39,7 @@ export class LoginFormComponent implements OnInit {
     private _avisoHelpersService: AvisoHelpersService) { }
 
   ngOnInit(): void {
-  
+
   }
 
   login() {
@@ -47,8 +47,6 @@ export class LoginFormComponent implements OnInit {
       this._loginService.login(this.credenciales)
         .pipe(
           finalize(() => {
-            HelpersService.salvarItemEnSessionStorage('nombreUsuarioLogado', this.credenciales.nombreUsuario);
-            HelpersService.salvarItemEnSessionStorage('sucursalLogado', this.credenciales.sucursal);
             HelpersService.salvarItemEnSessionStorage('departamentoLogado', this.credenciales.departamento);
           })
         )

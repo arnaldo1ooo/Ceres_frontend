@@ -67,7 +67,8 @@
     "ruc": "RUC",
     "email": "Email",
     "celular": "Celular",
-    "presenta-en-reporte": "Presentar en reporte?"
+    "presenta-en-reporte": "Presentar en reporte?",
+    "tipo-iva": "Tipo Iva"
   },
 
   "botones": {
