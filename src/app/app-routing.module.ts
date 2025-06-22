@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from './autenticacion/guards/auth.guard';
 import { HomeComponent } from './modulos/home/containers/home/home.component';
+import { PaginaNoEncontradaComponent } from './compartido/componentes/pagina-no-encontrada/pagina-no-encontrada.component';
 
 
 //Aca se encuentras las rutas del proyecto, el CanActivate el guard (guardian o vigilante) verifica si existe un token almacenado, caso sea falso redirige al login
@@ -14,9 +15,9 @@ const routes: Routes = [
   { path: 'entidades', canActivate: [AuthGuard], canLoad: [AuthGuard], loadChildren: () => import('./modulos/entidades/entidades.module').then(m => m.EntidadesModule) },
   { path: 'mercaderias', canActivate: [AuthGuard], canLoad: [AuthGuard], loadChildren: () => import('./modulos/mercaderias/mercaderias.module').then(m => m.MercaderiasModule) },
   { path: 'movimientos', canActivate: [AuthGuard], canLoad: [AuthGuard], loadChildren: () => import('./modulos/movimientos/movimientos.module').then(m => m.MovimientosModule) },
-  { path: 'ordenes', canActivate: [AuthGuard], canLoad: [AuthGuard], loadChildren: () => import('./modulos/ordenes/ordenes.module').then(m => m.OrdenesModule) }
+  { path: 'ordenes', canActivate: [AuthGuard], canLoad: [AuthGuard], loadChildren: () => import('./modulos/ordenes/ordenes.module').then(m => m.OrdenesModule) },
+  { path: '**', component: PaginaNoEncontradaComponent } // <= wildcard
 ];
-
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]

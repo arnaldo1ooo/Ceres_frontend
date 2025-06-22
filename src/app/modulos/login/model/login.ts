@@ -6,6 +6,7 @@ export class Login {
   contrasena: string = '';
   sucursal: Sucursal = new Sucursal();
   departamento: Departamento = new Departamento();
+  tenantKey: string = '';
 
   constructor() {
 

@@ -31,10 +31,11 @@ export class AuthService {
         const bearerToken = headers.get('Authorization')!;
         const token = bearerToken.replace('Bearer', '');
 
-        this.salvarTokenEnLocalStorage(token); //Se guarda el token por si el usuario cierra la ventana y con esto no tenga que volver a iniciar sesion
-
         if (this.isTokenValido(token)) {
           this.sesionIniciada.next(true); //Caso el token sea valido, sesion iniciada true
+          HelpersService.salvarItemEnSessionStorage('departamentoLogado', credenciales.departamento);
+          HelpersService.salvarItemEnSessionStorage('tenantKey', credenciales.tenantKey);
+          this.salvarTokenEnLocalStorage(token); //Se guarda el token por si el usuario cierra la ventana y con esto no tenga que volver a iniciar sesion
         }
 
         return body;
@@ -116,8 +117,9 @@ export class AuthService {
 
   public getRolesDeToken(): string[] {
     try {
-      const token: any = this.getTokenAlmacenado();
-      const decodedToken: any = token != null ? jwtDecode(token) : null;
+      const token: string = this.getTokenAlmacenado();
+      const decodedToken: any = token != null && token != ""
+        ? jwtDecode(token) : null;
       const roles = decodedToken?.roles || [];
 
       return roles ? roles.map((rol: any) => rol.authority) : [];

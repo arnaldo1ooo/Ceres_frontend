@@ -1,7 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
 import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-error/dialogo-error.component';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
@@ -24,14 +23,14 @@ import { COD_ERROR_CONEXION, COD_ERROR_DATOS_INVALIDOS } from 'src/app/compartid
 
 export class LoginFormComponent implements OnInit {
 
-  credenciales: Login = new Login();
-
-  listaSucursales!: Sucursal[];
-  listaDepartamentos!: Departamento[];
+  public credenciales: Login = new Login();
+  public listaSucursales!: Sucursal[];
+  public listaDepartamentos!: Departamento[];
+  public tenantKeyInformado: boolean = false;
 
   constructor(
     private _loginService: LoginService,
-    private _ruta: Router,
+    private _route: Router,
     public dialog: MatDialog,
     private _translocoService: TranslocoService,
     private _sucursalesService: SucursalesService,
@@ -39,28 +38,41 @@ export class LoginFormComponent implements OnInit {
     private _avisoHelpersService: AvisoHelpersService) { }
 
   ngOnInit(): void {
-
+    this.obtenerTenantKey();
   }
 
-  login() {
+  private obtenerTenantKey() {
+    const tenantKey: string = HelpersService.obtenerItemDelSessionStorage('tenantKey');
+
+    if (tenantKey) {
+      this.credenciales.tenantKey = tenantKey;
+      this.tenantKeyInformado = true;
+    }
+    else {
+      this.tenantKeyInformado = false;
+    }
+  }
+
+
+
+  onLogin() {
     if (this.isCamposValidos()) {
       this._loginService.login(this.credenciales)
-        .pipe(
-          finalize(() => {
-            HelpersService.salvarItemEnSessionStorage('departamentoLogado', this.credenciales.departamento);
-          })
-        )
         .subscribe({
           next: (response) => {
-            this._ruta.navigate(['/home']); // Manejar respuesta exitosa - redirigir al home
+            this._route.navigate(['/home']); // Manejar respuesta exitosa - redirigir al home
           },
           error: (error) => {
             // Manejar error
+            this.onError(error.error.mensajes);
+
             if (error.status === COD_ERROR_DATOS_INVALIDOS) {
               this.onError(this._translocoService.translate('errores.error-login-incorrecto'));
-            } else if (error.status === COD_ERROR_CONEXION) {
+            }
+            else if (error.status === COD_ERROR_CONEXION) {
               this.onError(this._translocoService.translate('errores.error-conexion-servidor'));
-            } else {
+            }
+            else {
               this.onError(this._translocoService.translate('errores.error-login'));
             }
           },
@@ -68,11 +80,25 @@ export class LoginFormComponent implements OnInit {
     }
   }
 
+  onSiguiente() {
+    if (this.credenciales.tenantKey?.trim()) {
+      this.tenantKeyInformado = true;
+    }
+    else {
+      this._avisoHelpersService.mostrarMensaje('Debe ingresar el Tenant Key');
+    }
+  }
+
   private isCamposValidos(): boolean {
     let isValido: boolean = true;
     let mensaje: string = '';
 
-    if (HelpersService.isNuloOrVacio(this.credenciales.nombreUsuario)) {
+    if (HelpersService.isNuloOrVacio(this.credenciales.tenantKey)) {
+      mensaje = "Ingrese un Tenant Key válido!"
+      isValido = false;
+      document.getElementById('tenantKeyInput')?.focus();
+    }
+    else if (HelpersService.isNuloOrVacio(this.credenciales.nombreUsuario)) {
       mensaje = "Ingrese un nombre de usuario!"
       isValido = false;
       document.getElementById('nombreUsuarioInput')?.focus();
@@ -111,7 +137,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   public async listarSucursales() {
-    if(HelpersService.isNoNuloYNoVacio(this.credenciales.nombreUsuario)) {
+    if (HelpersService.isNoNuloYNoVacio(this.credenciales.nombreUsuario)) {
       let isNombreUsuarioExiste: boolean = await this._loginService.isNombreUsuarioExiste(this.credenciales.nombreUsuario);
 
       if (isNombreUsuarioExiste) { //await espera hasta recibir respuesta de servidor
