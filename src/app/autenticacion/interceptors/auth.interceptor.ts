@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 import { AuthService } from './../services/auth.service';
 import { ConfigService } from 'src/app/compartido/services/config.service';
-import { API_NOMBRE, API_URL_BD_ACTUAL, API_URL_IS_NOMBRE_USUARIO_EXISTE, API_URL_LOGIN, API_URL_PERMISOS_USUARIO_LOGUEADO, API_URL_VERSION_ACTUAL } from 'src/app/compartido/constantes/constantes';
+import { API_NOMBRE, API_URL_BD_ACTUAL, API_URL_DEPARTAMENTOS, API_URL_IS_NOMBRE_USUARIO_EXISTE, API_URL_LOGIN, API_URL_PERMISOS_USUARIO_LOGUEADO, API_URL_SUCURSALES, API_URL_TENANTS_VALIDAR, API_URL_VERSION_ACTUAL } from 'src/app/compartido/constantes/constantes';
 
 
 
@@ -22,22 +22,22 @@ export class AuthInterceptor implements HttpInterceptor {
   //INTERCEPTOR DE AUTENTICACION, intercepta el token
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const token = this._authService.getTokenAlmacenado(); //Intercepta el token almacenado
+    let headers = request.headers.set('Authorization', `Bearer ${token}`);
 
     if (this.isUrlRequiereAutenticacion(request.url)) {
       if (HelpersService.isNoNulo(token) && HelpersService.isNoUndefined(token)) {  //Si existe token almacenado
         if (!HelpersService.isTokenExpirado(token)) {
-
           let requestConToken;
 
-          if(request.url == API_URL_PERMISOS_USUARIO_LOGUEADO) {
+          if (request.url == API_URL_PERMISOS_USUARIO_LOGUEADO) {
             requestConToken = request.clone({
-              headers: request.headers.set('Authorization', `Bearer ${token}`),  //Envia el token local desde el header Authorization
+              headers: headers,
               url: this._configService.apiUrlServer + request.url
             })
           }
           else {
             requestConToken = request.clone({
-              headers: request.headers.set('Authorization', `Bearer ${token}`)  //Envia el token local desde el header Authorization
+              headers: headers
             })
           }
 
@@ -50,6 +50,19 @@ export class AuthInterceptor implements HttpInterceptor {
 
       //console.log("token vacio, rediriendo a login..");
       this.logoutYredigirLogin();
+    }
+    else {
+      //enviamos el tenant en el header ya que no contamos con token
+      const tenantKey = this._authService.getTenantKeyAlmacenado();
+      if (tenantKey) {
+       headers = headers.set('X-Tenant-Key', tenantKey); //Agregamos el tenant
+      }
+
+      request = request.clone({
+        headers: headers
+      })
+
+
     }
 
     //Agrega la URL del server caso no posea
@@ -69,7 +82,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
       request = requestModificado;
     }
-    
+
     return next.handle(request);  //Redirige al request solicitado sin headers
   }
 
@@ -83,9 +96,12 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   public isUrlRequiereAutenticacion(url: string): boolean {
-    return url != API_URL_LOGIN 
-        && url != API_URL_IS_NOMBRE_USUARIO_EXISTE
-        && url != API_URL_VERSION_ACTUAL
-        && url != API_URL_BD_ACTUAL;
+    return url != API_URL_LOGIN
+      && !url.includes(API_URL_IS_NOMBRE_USUARIO_EXISTE)
+      && url != API_URL_VERSION_ACTUAL
+      && url != API_URL_BD_ACTUAL
+      && !url.includes(API_URL_TENANTS_VALIDAR)
+      && !url.includes(API_URL_SUCURSALES)
+      && !url.includes(API_URL_DEPARTAMENTOS);
   }
 }

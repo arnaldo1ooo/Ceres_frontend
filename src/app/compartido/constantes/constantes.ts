@@ -33,6 +33,8 @@ export const API_URL_ORDENES = '/ordenes';
 export const API_URL_ACTUALIZAR_PARCIAL_ORDEN = API_URL_ORDENES + '/actualizarParcialOrden';
 export const API_URL_ADICIONALES_POR_CATEGORIA = API_URL_ORDENES + '/adicionales';
 
+export const API_URL_TENANTS_VALIDAR = '/tenants/validar/';
+
 
 
 export const DEFAULT_PAGE_TAMANHO: number = 10;
@@ -70,3 +72,7 @@ export const FORMATO_FECHA_HORA_ISO8601: string = 'YYYY-MM-DDTHH:mm:ss';
 export const NUEVO: string = 'nuevo';
 export const EDITAR: string = 'editar';
 export const VISUALIZAR: string = 'visualizar';
+
+
+//Respuestas HTTP
+export const COD_NOT_FOUND = 404;

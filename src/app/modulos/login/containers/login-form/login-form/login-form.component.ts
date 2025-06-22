@@ -12,7 +12,8 @@ import { SucursalesService } from 'src/app/modulos/sucursales/services/sucursale
 import { Departamento } from '../../../../departamentos/model/departamento.model';
 import { AvisoHelpersService } from '../../../../../compartido/services/aviso-helpers.service';
 import { finalize } from 'rxjs';
-import { COD_ERROR_CONEXION, COD_ERROR_DATOS_INVALIDOS } from 'src/app/compartido/constantes/constantes';
+import { COD_ERROR_CONEXION, COD_ERROR_DATOS_INVALIDOS, COD_NOT_FOUND } from 'src/app/compartido/constantes/constantes';
+import { AuthService } from 'src/app/autenticacion/services/auth.service';
 
 
 @Component({
@@ -35,14 +36,15 @@ export class LoginFormComponent implements OnInit {
     private _translocoService: TranslocoService,
     private _sucursalesService: SucursalesService,
     private _departamentosService: DepartamentosService,
-    private _avisoHelpersService: AvisoHelpersService) { }
+    private _avisoHelpersService: AvisoHelpersService,
+    private _authService: AuthService) { }
 
   ngOnInit(): void {
-    this.obtenerTenantKey();
+    this.inicializarTenantKey();
   }
 
-  private obtenerTenantKey() {
-    const tenantKey: string = HelpersService.obtenerItemDelSessionStorage('tenantKey');
+  private inicializarTenantKey() {
+    const tenantKey: string = this._authService.getTenantKeyAlmacenado();
 
     if (tenantKey) {
       this.credenciales.tenantKey = tenantKey;
@@ -52,8 +54,6 @@ export class LoginFormComponent implements OnInit {
       this.tenantKeyInformado = false;
     }
   }
-
-
 
   onLogin() {
     if (this.isCamposValidos()) {
@@ -81,8 +81,24 @@ export class LoginFormComponent implements OnInit {
   }
 
   onSiguiente() {
-    if (this.credenciales.tenantKey?.trim()) {
-      this.tenantKeyInformado = true;
+    const tenant = this.credenciales.tenantKey?.trim();
+
+    if (tenant) {
+      this._authService.validarTenant(tenant).subscribe({
+        next: () => {
+          // Si el backend responde OK (200), seguimos
+          HelpersService.salvarItemEnSessionStorage('tenantKey', tenant);
+          this.tenantKeyInformado = true;
+        },
+        error: (err) => {
+          if (err.status === COD_NOT_FOUND) {
+            this._avisoHelpersService.mostrarMensaje('Tenant key invalido');
+          }
+          else {
+            this._avisoHelpersService.mostrarMensaje('Error al validar tenant');
+          }
+        }
+      });
     }
     else {
       this._avisoHelpersService.mostrarMensaje('Debe ingresar el Tenant Key');

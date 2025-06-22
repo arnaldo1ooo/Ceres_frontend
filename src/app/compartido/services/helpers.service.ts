@@ -47,16 +47,31 @@ export class HelpersService {
     sessionStorage.setItem(key, valor);
   }
 
-  public static obtenerItemDelSessionStorage(key: string) {
-
+  public static obtenerItemDelSessionStorage(key: string): any {
     const valor = sessionStorage.getItem(key);
 
-    if(valor != null && valor != undefined) {
-      return JSON.parse(valor!);
+    if (valor !== null && valor !== undefined) {
+      const trimmed = valor.trim();
+
+      // Verificamos si parece un JSON válido (objeto o array)
+      const esJson =
+        (trimmed.startsWith('{') && trimmed.endsWith('}')) ||
+        (trimmed.startsWith('[') && trimmed.endsWith(']'));
+
+      if (esJson) {
+        try {
+          return JSON.parse(trimmed);
+        } catch (error) {
+          console.warn(`Error al parsear JSON desde sessionStorage["${key}"]:`, error);
+          return null;
+        }
+      }
+
+      // Si no parece JSON, lo devolvemos como string plano
+      return trimmed;
     }
-    else {
-      return null;
-    }
+
+    return null;
   }
 
   public static isNulo(valor: any): boolean {
