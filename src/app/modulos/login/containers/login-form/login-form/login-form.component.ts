@@ -85,13 +85,15 @@ export class LoginFormComponent implements OnInit {
     const tenant = this.credenciales.tenantKey?.trim();
 
     if (tenant) {
+      HelpersService.salvarItemEnSessionStorage('tenantKey', tenant);
+
       this._authService.validarTenant(tenant).subscribe({
         next: () => {
           // Si el backend responde OK (200), seguimos
-          HelpersService.salvarItemEnSessionStorage('tenantKey', tenant);
           this.tenantKeyInformado = true;
         },
         error: (err) => {
+          HelpersService.removerItemDelSessionStorage('tenantKey');
           if (err.status === COD_NOT_FOUND) {
             this._avisoHelpersService.mostrarMensaje('Tenant key invalido');
           }
