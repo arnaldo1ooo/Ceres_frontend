@@ -64,8 +64,9 @@ export class LoginFormComponent implements OnInit {
           },
           error: (error) => {
             // Manejar error
-            this.onError(error.error.mensajes);
-
+            if (error.error.mensajes) {
+              this.onError(error.error.mensajes);
+            }
             if (error.status === COD_ERROR_DATOS_INVALIDOS) {
               this.onError(this._translocoService.translate('errores.error-login-incorrecto'));
             }
