@@ -175,11 +175,13 @@ export class EntidadesComponent implements OnInit {
   }
 
   private filtroInicial() {
+    let dptoLogadoId = this._loginService.getDepartamentoLogado()?.sucursal._id;
+
     return this.entidadFiltro = {
       id: null,
       nombreApellido: null,
       idsClase: [],
-      idSucursal: this._loginService.getDepartamentoLogado()?.sucursal._id,
+      idSucursal: dptoLogadoId != undefined ? dptoLogadoId : ID_OPCION_TODOS,
       ciRuc: null,
       idSituacion: Situacion.ACTIVO
     };

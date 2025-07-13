@@ -144,14 +144,15 @@ export class MovimientosComponent implements OnInit {
   }
 
   private filtroInicial() {
-    //Valores por default del filtro, -1 seria opcion TODOS por defecto
-    return this.movimientoFiltro = {
+  let dptoLogadoId = this._loginService.getDepartamentoLogado()?._id;
+
+  return this.movimientoFiltro = {
       id: "",
       idTipo: ID_OPCION_TODOS,
       nombreApellidoEntidad: "",
       fechaInicial: FechaHelpersService.getPrimerDiaDelAnho(),
       fechaFinal: new Date(),
-      idDepartamento: this._loginService.getDepartamentoLogado()?._id,
+      idDepartamento: dptoLogadoId != undefined ? dptoLogadoId : ID_OPCION_TODOS,
       keySituacion: Situacion.ACTIVO
     };
   }

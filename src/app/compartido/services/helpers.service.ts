@@ -187,7 +187,7 @@ export class HelpersService {
   }
 
   public static idTodosReturnVacio(valor: string): string {
-    return valor != "-1" ? valor : "";
+    return valor != undefined && valor != "-1" ? valor : "";
   }
 
   public static compararOpcionesSelect(opcion: any, opcionSeleccionada: any): boolean {
