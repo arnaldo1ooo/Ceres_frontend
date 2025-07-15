@@ -6,6 +6,7 @@ import { OrdenItemDTO } from '../../model/dtos/orden-item-DTO';
 import { AdicionalDTO } from '../../model/dtos/adicional-DTO';
 import { TipoAdicional, TipoAdicionalUtils } from '../../enums/tipo-adicional.enum';
 import { MonedaHelpersService } from 'src/app/compartido/services/moneda-helpers.service';
+import { Moneda } from 'src/app/modulos/monedas/models/moneda';
 interface AdicionalesPorTipo {
   tipoAdicional: TipoAdicional;
   descripcionGrupo: string;
@@ -19,13 +20,14 @@ interface AdicionalesPorTipo {
 })
 export class DialogAdicionalesComponent implements OnInit {
 
-  data: { ordenItemDTO: OrdenItemDTO };
+  data: { ordenItemDTO: OrdenItemDTO, moneda: Moneda };
   adicionalesPorTipo: AdicionalesPorTipo[] = [];
-  seleccion: { [tipo in TipoAdicional]?: AdicionalItemDTO[] } = {};
   valorUnitarioTotal: number = 0;
+  selectedAdics: { [tipo in TipoAdicional]?: AdicionalItemDTO[] } = {}; //Tipo -> adicSel
+  selectedAdicsId: { [tipo in TipoAdicional]?: number } = {}; //Tipo -> ID adic
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public injectedData: { ordenItemDTO: OrdenItemDTO },
+    @Inject(MAT_DIALOG_DATA) public injectedData: { ordenItemDTO: OrdenItemDTO, moneda: Moneda },
     private adicionalesService: AdicionalesService,
     private dialogRef: MatDialogRef<DialogAdicionalesComponent>
   ) {
@@ -39,7 +41,52 @@ export class DialogAdicionalesComponent implements OnInit {
 
 
     this.agruparAdicionalesPorTipo(this.data.ordenItemDTO.mercaderia.categoria!.adicionales);
+
+    this.seleccionarAdicPorDefault();
   }
+
+  private seleccionarAdicPorDefault() {
+    this.adicionalesPorTipo.forEach(grupo => {
+      if (!this.isSeleccionMultiple(grupo.tipoAdicional) && grupo.adicionales.length > 0) { //Solo para grupo tipo unico
+        const primerAdic = grupo.adicionales[0];
+
+        // Guarda el id seleccionado en el objeto para ngModel
+        this.selectedAdicsId[grupo.tipoAdicional] = primerAdic._id;
+
+        // Además, guarda en this.seleccion para tu lógica de confirmación
+        const adicItem: AdicionalItemDTO = {
+          _id: null,
+          ordenItem: this.data.ordenItemDTO,
+          adicional: primerAdic,
+          valor: primerAdic.valor
+        };
+
+        this.selectedAdics[grupo.tipoAdicional] = [adicItem];
+      }
+    });
+  }
+
+  onRadioChange(tipo: TipoAdicional, adicionalId: number) {
+    this.actualizarListaAdicSeleccionados(tipo, adicionalId);
+  }
+
+  private actualizarListaAdicSeleccionados(tipo: TipoAdicional, adicionalId: number) {
+    const grupo = this.adicionalesPorTipo.find(grup => grup.tipoAdicional === tipo);
+    const adicional = grupo?.adicionales.find(adic => adic._id === adicionalId);
+
+    if (adicional) {
+      const adicItem: AdicionalItemDTO = {
+        _id: adicionalId,
+        ordenItem: this.data.ordenItemDTO,
+        adicional: adicional,
+        valor: adicional.valor
+      };
+
+      // Actualizá tu seleccion para backend
+      this.selectedAdics[tipo] = [adicItem];
+    }
+  }
+
 
   private agruparAdicionalesPorTipo(adicionales: AdicionalDTO[]): void {
     const agrupados: { [key in TipoAdicional]?: AdicionalesPorTipo } = {};
@@ -62,7 +109,7 @@ export class DialogAdicionalesComponent implements OnInit {
   }
 
 
-  toggleSeleccion(adic: AdicionalDTO, tipo: TipoAdicional): void {
+  toggleMultipleSeleccion(adic: AdicionalDTO, tipo: TipoAdicional): void {
     let adicItem: AdicionalItemDTO = {
       _id: null,
       ordenItem: this.data.ordenItemDTO,
@@ -70,29 +117,29 @@ export class DialogAdicionalesComponent implements OnInit {
       valor: adic.valor
     };
 
-    if (!this.seleccion[tipo]) {
-      this.seleccion[tipo] = [];
+    if (!this.selectedAdics[tipo]) {
+      this.selectedAdics[tipo] = [];
     }
 
     const isSelMultiple = this.isSeleccionMultiple(tipo);
 
     if (isSelMultiple) {
-      const idx = this.seleccion[tipo]!.findIndex(i => i._id === adicItem._id);
+      const idx = this.selectedAdics[tipo]!.findIndex(i => i._id === adicItem._id);
 
       if (idx >= 0) {
-        this.seleccion[tipo]!.splice(idx, 1);
+        this.selectedAdics[tipo]!.splice(idx, 1);
       }
       else {
-        this.seleccion[tipo]!.push(adicItem);
+        this.selectedAdics[tipo]!.push(adicItem);
       }
     }
     else {
-      this.seleccion[tipo] = [adicItem];
+      this.selectedAdics[tipo] = [adicItem];
     }
   }
 
   confirmar(): void {
-    const adicionales: AdicionalItemDTO[] = Object.values(this.seleccion).flat();
+    const adicionales: AdicionalItemDTO[] = Object.values(this.selectedAdics).flat();
     this.dialogRef.close(adicionales);
   }
 
@@ -101,14 +148,26 @@ export class DialogAdicionalesComponent implements OnInit {
   }
 
   isItemSeleccionado(tipo: TipoAdicional, id: number): boolean {
-    return this.seleccion[tipo]?.some(i => i._id === id) ?? false;
+    return this.selectedAdics[tipo]?.some(i => i._id === id) ?? false;
   }
 
   isSeleccionMultiple(tipoAdic: TipoAdicional): boolean {
     return TipoAdicionalUtils.isSeleccionMultiple(tipoAdic);
   }
 
-  public formatearValorMoneda(valor: number, moneda: any): string {
+  public formatearValorMoneda(valor: number, moneda: Moneda): string {
     return MonedaHelpersService.formatearValorMoneda(valor, moneda);
+  }
+
+  public getValorTotal(): number {
+    let total: number = this.data.ordenItemDTO.valorUnitario; //Valor de la merc
+
+    Object.values(this.selectedAdics).forEach(adicsPorTipo => {
+      adicsPorTipo.forEach(adic => {
+        total += adic.valor;
+      });
+    });
+
+    return total;
   }
 }

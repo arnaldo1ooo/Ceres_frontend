@@ -162,7 +162,7 @@ export class OrdenesFormComponent implements OnInit {
 
   private abrirDialogoAdicionales(ordenItemDTO: OrdenItemDTO) {
     this._dialog.open(DialogAdicionalesComponent, {
-      data: { ordenItemDTO }, // Enviamos al diálogo nuestro item
+      data: { ordenItemDTO: ordenItemDTO, moneda: this.formOrdenDetalle.get('moneda')?.value }, // Enviamos al diálogo nuestro item
       maxWidth: '95vw',
       width: '80%',
       height: 'auto',
@@ -272,7 +272,7 @@ export class OrdenesFormComponent implements OnInit {
       .push(this._ordenService.crearOrdenItemFormGroup(item));
   }
 
-    public formatearValorMoneda(valor: number, moneda: any): string {
+    public formatearValorMoneda(valor: number, moneda: Moneda): string {
       return MonedaHelpersService.formatearValorMoneda(valor, moneda);
     }
 

@@ -3,7 +3,7 @@ import { CategoriaMercaderiaDTO } from '../../../mercaderias/model/dtos/categori
 import { TipoAdicional } from '../../enums/tipo-adicional.enum';
 import { Situacion } from 'src/app/compartido/enums/situacion.enum';
 export interface AdicionalDTO {
-  id: number;
+  _id: number;
   tipoAdicional: TipoAdicional;
   descripcion: string;
   valor: number;

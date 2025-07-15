@@ -15,8 +15,9 @@
 
         <!-- Selección única -->
         <ng-container *ngIf="!isSeleccionMultiple(grupoAdic.tipoAdicional); else multipleSeleccion">
-          <mat-radio-group class="ui-grupo-radio">
-            <mat-radio-button *ngFor="let adicional of grupoAdic.adicionales" [value]="adicional.id">
+          <mat-radio-group class="ui-grupo-radio" [(ngModel)]="selectedAdicsId[grupoAdic.tipoAdicional]"
+            (ngModelChange)="onRadioChange(grupoAdic.tipoAdicional, $event)">
+            <mat-radio-button *ngFor="let adicional of grupoAdic.adicionales" [value]="adicional._id">
               {{ adicional.descripcion }}
             </mat-radio-button>
           </mat-radio-group>
@@ -26,8 +27,8 @@
         <ng-template #multipleSeleccion>
           <div class="ui-grupo-checkbox ui-cuatro-columnas">
             <mat-checkbox *ngFor="let adicional of grupoAdic.adicionales"
-              [checked]="isItemSeleccionado(grupoAdic.tipoAdicional, adicional.id)"
-              (change)="toggleSeleccion(adicional, grupoAdic.tipoAdicional)">
+              [checked]="isItemSeleccionado(grupoAdic.tipoAdicional, adicional._id)"
+              (change)="toggleMultipleSeleccion(adicional, grupoAdic.tipoAdicional)">
               {{ adicional.descripcion }}
             </mat-checkbox>
           </div>
@@ -40,7 +41,7 @@
   <!-- Botones siempre visibles -->
   <mat-card-actions class="ui-dialogo-actions">
     <mat-label [ngClass]="['ui-total']">
-      Valor total: {{ valorUnitarioTotal }}
+      Valor Total: {{ formatearValorMoneda(getValorTotal(), data.moneda) }}
     </mat-label>
 
     <button mat-stroked-button color="warn" (click)="cancelar()">Cancelar</button>
