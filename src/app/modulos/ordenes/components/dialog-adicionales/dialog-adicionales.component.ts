@@ -67,26 +67,62 @@ export class DialogAdicionalesComponent implements OnInit {
   }
 
   onRadioChange(tipo: TipoAdicional, adicionalId: number) {
-    this.actualizarListaAdicSeleccionados(tipo, adicionalId);
+    this.agregarAListaAdicSeleccionados(tipo, adicionalId);
   }
 
-  private actualizarListaAdicSeleccionados(tipo: TipoAdicional, adicionalId: number) {
+  onCheckBoxChange(tipo: TipoAdicional, adicional: AdicionalDTO): void {
+    this.agregarAListaAdicSeleccionados(tipo, adicional._id);
+
+    /*let adicItem: AdicionalItemDTO = {
+      _id: null,
+      ordenItem: this.data.ordenItemDTO,
+      adicional: adic,
+      valor: adic.valor
+    };
+
+    agregar sabors a lista o remover
+    if (this.isSeleccionMultiple(tipo)) {
+      const idx = this.selectedAdics[tipo]!.findIndex(i => i._id === adicItem._id);
+
+      if (idx >= 0) {
+        this.selectedAdics[tipo]!.splice(idx, 1);
+      }
+      else {
+        this.selectedAdics[tipo]!.push(adicItem);
+      }
+    }
+    else {
+      this.selectedAdics[tipo] = [adicItem];
+    }*/
+  }
+
+  private agregarAListaAdicSeleccionados(tipo: TipoAdicional, adicionalId: number) {
     const grupo = this.adicionalesPorTipo.find(grup => grup.tipoAdicional === tipo);
     const adicional = grupo?.adicionales.find(adic => adic._id === adicionalId);
 
     if (adicional) {
       const adicItem: AdicionalItemDTO = {
-        _id: adicionalId,
+        _id: null,
         ordenItem: this.data.ordenItemDTO,
         adicional: adicional,
         valor: adicional.valor
       };
 
-      // Actualizá tu seleccion para backend
-      this.selectedAdics[tipo] = [adicItem];
+
+      if (!this.isSeleccionMultiple(tipo)) {  //Si el tipo NO es selección múltiple, se reemplaza la lista entera por este único item
+        this.selectedAdics[tipo] = [adicItem];
+      }
+      else {
+        if (!this.selectedAdics[tipo]) {
+          //Si aún no existe el array para este tipo, inicialízalo como array vacío
+          this.selectedAdics[tipo] = [];
+        }
+
+        // Agrega el adicional a la lista de seleccionados para este tipo
+        this.selectedAdics[tipo]?.push(adicItem);
+      }
     }
   }
-
 
   private agruparAdicionalesPorTipo(adicionales: AdicionalDTO[]): void {
     const agrupados: { [key in TipoAdicional]?: AdicionalesPorTipo } = {};
@@ -106,36 +142,6 @@ export class DialogAdicionalesComponent implements OnInit {
     });
 
     this.adicionalesPorTipo = Object.values(agrupados) as AdicionalesPorTipo[];
-  }
-
-
-  toggleMultipleSeleccion(adic: AdicionalDTO, tipo: TipoAdicional): void {
-    let adicItem: AdicionalItemDTO = {
-      _id: null,
-      ordenItem: this.data.ordenItemDTO,
-      adicional: adic,
-      valor: adic.valor
-    };
-
-    if (!this.selectedAdics[tipo]) {
-      this.selectedAdics[tipo] = [];
-    }
-
-    const isSelMultiple = this.isSeleccionMultiple(tipo);
-
-    if (isSelMultiple) {
-      const idx = this.selectedAdics[tipo]!.findIndex(i => i._id === adicItem._id);
-
-      if (idx >= 0) {
-        this.selectedAdics[tipo]!.splice(idx, 1);
-      }
-      else {
-        this.selectedAdics[tipo]!.push(adicItem);
-      }
-    }
-    else {
-      this.selectedAdics[tipo] = [adicItem];
-    }
   }
 
   confirmar(): void {
@@ -162,8 +168,8 @@ export class DialogAdicionalesComponent implements OnInit {
   public getValorTotal(): number {
     let total: number = this.data.ordenItemDTO.valorUnitario; //Valor de la merc
 
-    Object.values(this.selectedAdics).forEach(adicsPorTipo => {
-      adicsPorTipo.forEach(adic => {
+    Object.values(this.selectedAdics).forEach(selAdicsPorTipo => {
+      selAdicsPorTipo.forEach(adic => {
         total += adic.valor;
       });
     });
