@@ -27,6 +27,7 @@ import { MonedasService } from 'src/app/modulos/monedas/services/monedas.service
 import { Departamento } from 'src/app/modulos/departamentos/model/departamento.model';
 import { MercaderiaDetalleDTO } from 'src/app/modulos/mercaderias/model/dtos/mercaderiaDetalleDTO';
 import { MonedaHelpersService } from 'src/app/compartido/services/moneda-helpers.service';
+import { setDefaultHighWaterMark } from 'stream';
 
 @Component({
   selector: 'app-ordenes-form',
@@ -148,7 +149,7 @@ export class OrdenesFormComponent implements OnInit {
       descuento: 0,
       numeroItem: 0,
       observacion: '',
-      adicionalesSel: []
+      adicionalesItem: []
     };
 
 
@@ -170,8 +171,7 @@ export class OrdenesFormComponent implements OnInit {
       .afterClosed()
       .subscribe((adicionalesItemSel: AdicionalItemDTO[] | undefined) => {
         if (adicionalesItemSel) {
-          let adicionalesSel: AdicionalDTO[] = adicionalesItemSel.map(item => item.adicional);
-          ordenItemDTO.adicionalesSel = adicionalesSel;
+          ordenItemDTO.adicionalesItem = adicionalesItemSel;
           this.ItemsSeleccionados.push(ordenItemDTO);
         }
       });
@@ -272,8 +272,18 @@ export class OrdenesFormComponent implements OnInit {
       .push(this._ordenService.crearOrdenItemFormGroup(item));
   }
 
-    public formatearValorMoneda(valor: number, moneda: Moneda): string {
-      return MonedaHelpersService.formatearValorMoneda(valor, moneda);
-    }
+  public formatearValorMoneda(valor: number, moneda: Moneda): string {
+    return MonedaHelpersService.formatearValorMoneda(valor, moneda);
+  }
+
+  public calcularValorUnitConAdicional(ordenItem: OrdenItemDTO): number {
+    // Suma los valores de todos los adicionales
+    const valorUnitAdic = ordenItem.adicionalesItem
+      ?.map(adic => adic.valor || 0)
+      .reduce((acc, val) => acc + val, 0) || 0;
+
+    // Retorna el valor unitario base + adicionales
+    return ordenItem.valorUnitario + valorUnitAdic;
+  }
 
 }

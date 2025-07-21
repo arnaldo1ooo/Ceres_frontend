@@ -28,7 +28,7 @@
           <div class="ui-grupo-checkbox ui-cuatro-columnas">
             <mat-checkbox *ngFor="let adicional of grupoAdic.adicionales"
               [checked]="isItemSeleccionado(grupoAdic.tipoAdicional, adicional._id)"
-              (change)="onCheckBoxChange(grupoAdic.tipoAdicional, adicional)">
+              (change)="onCheckBoxChange(grupoAdic.tipoAdicional, adicional, $event)">
               {{ adicional.descripcion }}
             </mat-checkbox>
           </div>

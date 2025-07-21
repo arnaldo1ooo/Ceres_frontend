@@ -7,6 +7,8 @@ import { AdicionalDTO } from '../../model/dtos/adicional-DTO';
 import { TipoAdicional, TipoAdicionalUtils } from '../../enums/tipo-adicional.enum';
 import { MonedaHelpersService } from 'src/app/compartido/services/moneda-helpers.service';
 import { Moneda } from 'src/app/modulos/monedas/models/moneda';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { AvisoHelpersService } from 'src/app/compartido/services/aviso-helpers.service';
 interface AdicionalesPorTipo {
   tipoAdicional: TipoAdicional;
   descripcionGrupo: string;
@@ -28,8 +30,8 @@ export class DialogAdicionalesComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public injectedData: { ordenItemDTO: OrdenItemDTO, moneda: Moneda },
-    private adicionalesService: AdicionalesService,
-    private dialogRef: MatDialogRef<DialogAdicionalesComponent>
+    private dialogRef: MatDialogRef<DialogAdicionalesComponent>,
+    private _avisoHelpersService: AvisoHelpersService
   ) {
     this.data = injectedData; //Recibimos el item
     this.valorUnitarioTotal = injectedData.ordenItemDTO.valorUnitario;
@@ -56,7 +58,6 @@ export class DialogAdicionalesComponent implements OnInit {
         // Además, guarda en this.seleccion para tu lógica de confirmación
         const adicItem: AdicionalItemDTO = {
           _id: null,
-          ordenItem: this.data.ordenItemDTO,
           adicional: primerAdic,
           valor: primerAdic.valor
         };
@@ -67,59 +68,55 @@ export class DialogAdicionalesComponent implements OnInit {
   }
 
   onRadioChange(tipo: TipoAdicional, adicionalId: number) {
-    this.agregarAListaAdicSeleccionados(tipo, adicionalId);
+    this.addListaAdicSeleccionados(tipo, adicionalId);
   }
 
-  onCheckBoxChange(tipo: TipoAdicional, adicional: AdicionalDTO): void {
-    this.agregarAListaAdicSeleccionados(tipo, adicional._id);
+  onCheckBoxChange(tipo: TipoAdicional, adicional: AdicionalDTO, event: MatCheckboxChange): void {
 
-    /*let adicItem: AdicionalItemDTO = {
-      _id: null,
-      ordenItem: this.data.ordenItemDTO,
-      adicional: adic,
-      valor: adic.valor
-    };
-
-    agregar sabors a lista o remover
-    if (this.isSeleccionMultiple(tipo)) {
-      const idx = this.selectedAdics[tipo]!.findIndex(i => i._id === adicItem._id);
-
-      if (idx >= 0) {
-        this.selectedAdics[tipo]!.splice(idx, 1);
-      }
-      else {
-        this.selectedAdics[tipo]!.push(adicItem);
-      }
+    if (event.checked) {
+      this.addListaAdicSeleccionados(tipo, adicional._id);
     }
     else {
-      this.selectedAdics[tipo] = [adicItem];
-    }*/
+      this.removeListaAdicSeleccionados(tipo, adicional._id);
+    }
+
   }
 
-  private agregarAListaAdicSeleccionados(tipo: TipoAdicional, adicionalId: number) {
+  private addListaAdicSeleccionados(tipo: TipoAdicional, adicionalId: number) {
+    this.alterarListaAdicSeleccionados(tipo, adicionalId, false);
+  }
+
+  private removeListaAdicSeleccionados(tipo: TipoAdicional, adicionalId: number,) {
+    this.alterarListaAdicSeleccionados(tipo, adicionalId, true);
+  }
+
+  private alterarListaAdicSeleccionados(tipo: TipoAdicional, adicionalId: number, isRemove: boolean) {
     const grupo = this.adicionalesPorTipo.find(grup => grup.tipoAdicional === tipo);
     const adicional = grupo?.adicionales.find(adic => adic._id === adicionalId);
 
     if (adicional) {
       const adicItem: AdicionalItemDTO = {
         _id: null,
-        ordenItem: this.data.ordenItemDTO,
         adicional: adicional,
         valor: adicional.valor
       };
 
 
-      if (!this.isSeleccionMultiple(tipo)) {  //Si el tipo NO es selección múltiple, se reemplaza la lista entera por este único item
-        this.selectedAdics[tipo] = [adicItem];
+      if (isRemove && this.selectedAdics[tipo]) {
+        this.selectedAdics[tipo] = this.selectedAdics[tipo]!.filter(item => item.adicional._id !== adicionalId);
       }
       else {
-        if (!this.selectedAdics[tipo]) {
-          //Si aún no existe el array para este tipo, inicialízalo como array vacío
-          this.selectedAdics[tipo] = [];
+        if (!this.isSeleccionMultiple(tipo)) {  //Si el tipo NO es selección múltiple, se reemplaza la lista entera por este único item
+          this.selectedAdics[tipo] = [adicItem];
         }
-
-        // Agrega el adicional a la lista de seleccionados para este tipo
-        this.selectedAdics[tipo]?.push(adicItem);
+        else {
+          if (!this.selectedAdics[tipo]) {
+            //Si aún no existe el array para este tipo, inicialízalo como array vacío
+            this.selectedAdics[tipo] = [];
+          }
+          // Agrega el adicional a la lista de seleccionados para este tipo
+          this.selectedAdics[tipo]?.push(adicItem);
+        }
       }
     }
   }
@@ -145,8 +142,26 @@ export class DialogAdicionalesComponent implements OnInit {
   }
 
   confirmar(): void {
-    const adicionales: AdicionalItemDTO[] = Object.values(this.selectedAdics).flat();
-    this.dialogRef.close(adicionales);
+    if (this.isAdicsFueronSeleccionados()) {
+      const adicionales: AdicionalItemDTO[] = Object.values(this.selectedAdics).flat();
+      this.dialogRef.close(adicionales);
+    }
+  }
+
+  private isAdicsFueronSeleccionados(): boolean {
+    // Recorre cada grupo de adicionales
+    for (const grupoAdic of this.adicionalesPorTipo) {
+      const tipo = grupoAdic.tipoAdicional;
+      const seleccionados = this.selectedAdics[tipo];
+
+      // Si no hay selección o está vacío
+      if (!seleccionados || seleccionados.length === 0) {
+        this._avisoHelpersService.mostrarMensaje(`Debes seleccionar al menos un item para el tipo: ${grupoAdic.descripcionGrupo}`);
+        return false;
+      }
+    }
+
+    return true;
   }
 
   cancelar(): void {

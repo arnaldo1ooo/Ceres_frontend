@@ -16,6 +16,7 @@ import { EstadoOrden } from '../enums/estado-orden.enum';
 import { OrdenItemDTO } from '../model/dtos/orden-item-DTO';
 import { MercaderiaDTO } from '../../mercaderias/model/dtos/mercaderiaDTO';
 import { AdicionalDTO } from '../model/dtos/adicional-DTO';
+import { AdicionalItemDTO } from '../model/dtos/adicional-item-DTO';
 
 @Injectable({
   providedIn: 'root'
@@ -85,7 +86,7 @@ export class OrdenesService {
     descuento: 0,
     numeroItem: 0,
     observacion: '',
-    adicionalesSel: []
+    adicionalesItem: []
   }): FormGroup {
     return this._formBuilder.group({
       _id: new FormControl<number | null>(item._id ?? null),
@@ -95,7 +96,7 @@ export class OrdenesService {
       descuento: new FormControl<number>(item.descuento ?? 0),
       numeroItem: new FormControl<number>(item.numeroItem ?? 0),
       observacion: new FormControl<string>(item.observacion ?? ''),
-      adicionalesSel: new FormControl<AdicionalDTO[]>(item.adicionalesSel ?? [])
+      adicionalesItem: new FormControl<AdicionalItemDTO[]>(item.adicionalesItem ?? [])
     });
   }
 

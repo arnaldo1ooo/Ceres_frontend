@@ -4,7 +4,6 @@ import { OrdenItemDTO } from './orden-item-DTO';
 
 export interface AdicionalItemDTO {
   _id: number | null;
-  ordenItem: OrdenItemDTO;
   adicional: AdicionalDTO,
   valor: number;
 }
