@@ -37,7 +37,7 @@
               <div class="ui-mercaderia-detalle">
                 <span matListItemTitle>{{ mercaderia.descripcion }}</span>
                 <span matListItemLine>Id: {{ mercaderia._id }}</span>
-                <span matListItemLine>Precio: {{ mercaderia.valor }}</span>
+                <span matListItemLine>Precio base: {{ mercaderia.valor > 0 ? formatearValorMoneda(mercaderia.valor) : '-' }}</span>
               </div>
             </div>
           </mat-list-item>
@@ -67,9 +67,9 @@
                   <div class="ui-item-detalle-selected">
                     <span matListItemTitle>{{ itemSel.mercaderia.descripcion }}</span>
                     <span matListItemLine>Precio unit:
-                      {{ formatearValorMoneda(calcularValorUnitConAdicional(itemSel), formOrdenDetalle.get('moneda')?.value) }}</span>
+                      {{ formatearValorMoneda(itemSel.valorUnitConAdic) }}</span>
                     <span matListItemLine><strong>Subtotal :
-                        {{ formatearValorMoneda(itemSel.valorUnitario * itemSel.cantidad, formOrdenDetalle.get('moneda')?.value) }}</strong></span>
+                        {{ formatearValorMoneda(itemSel.valorUnitConAdic * itemSel.cantidad) }}</strong></span>
                   </div>
 
                   <!-- Columna 3: Acción -->
@@ -110,7 +110,7 @@
 
         <!-- Totales siempre abajo -->
         <div class="ui-totales">
-          <h4>Total: {{ formatearValorMoneda(getTotal(), formOrdenDetalle.get('moneda')?.value) }}</h4>
+          <h4>Total: {{ formatearValorMoneda(getTotal()) }}</h4>
           <button mat-raised-button color="accent" (click)="checkout()">Checkout</button>
         </div>
       </div>

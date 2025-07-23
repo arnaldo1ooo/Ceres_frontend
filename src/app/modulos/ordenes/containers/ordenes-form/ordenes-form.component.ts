@@ -149,12 +149,13 @@ export class OrdenesFormComponent implements OnInit {
       descuento: 0,
       numeroItem: 0,
       observacion: '',
-      adicionalesItem: []
+      adicionalesItem: [],
+      valorUnitConAdic: mercaderiaDTO.valor
     };
 
 
-    if (mercaderiaDTO.categoria != null && mercaderiaDTO.categoria.adicionales.length > 0) {
-      this.abrirDialogoAdicionales(ordenItemDTO); //Si la mercaderia sel tiene adicionales
+    if (mercaderiaDTO.categoria != null && mercaderiaDTO.categoria.adicionales.length > 0) { //Si la mercaderia sel tiene adicionales
+      this.abrirDialogoAdicionales(ordenItemDTO);
     }
     else {
       this.ItemsSeleccionados.push(ordenItemDTO);
@@ -172,13 +173,14 @@ export class OrdenesFormComponent implements OnInit {
       .subscribe((adicionalesItemSel: AdicionalItemDTO[] | undefined) => {
         if (adicionalesItemSel) {
           ordenItemDTO.adicionalesItem = adicionalesItemSel;
+          ordenItemDTO.valorUnitConAdic = this.calcularValorUnitConAdicional(ordenItemDTO);
           this.ItemsSeleccionados.push(ordenItemDTO);
         }
       });
   }
 
-  getTotal() {
-    return this.ItemsSeleccionados.reduce((total, item) => total + (item.valorUnitario * item.cantidad), 0);
+  public getTotal() {
+    return this.ItemsSeleccionados.reduce((total, item) => total + (item.valorUnitConAdic * item.cantidad), 0);
   }
 
   checkout() {
@@ -272,11 +274,11 @@ export class OrdenesFormComponent implements OnInit {
       .push(this._ordenService.crearOrdenItemFormGroup(item));
   }
 
-  public formatearValorMoneda(valor: number, moneda: Moneda): string {
-    return MonedaHelpersService.formatearValorMoneda(valor, moneda);
+  public formatearValorMoneda(valor: number): string {
+    return MonedaHelpersService.formatearValorMoneda(valor, this.formOrdenDetalle.get('moneda')?.value);
   }
 
-  public calcularValorUnitConAdicional(ordenItem: OrdenItemDTO): number {
+  private calcularValorUnitConAdicional(ordenItem: OrdenItemDTO): number {
     // Suma los valores de todos los adicionales
     const valorUnitAdic = ordenItem.adicionalesItem
       ?.map(adic => adic.valor || 0)
@@ -285,5 +287,17 @@ export class OrdenesFormComponent implements OnInit {
     // Retorna el valor unitario base + adicionales
     return ordenItem.valorUnitario + valorUnitAdic;
   }
+
+  /*public calcularValorTotal(): number {
+    let valorTotal = 0;
+
+    const items = this.formOrdenDetalle.get('items')?.value || [];
+
+    for (const item of items) {
+      valorTotal += item.valorUnitConAdic * (item.cantidad || 1);
+    }
+
+    return valorTotal;
+  }*/
 
 }

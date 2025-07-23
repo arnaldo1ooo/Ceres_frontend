@@ -1,8 +1,8 @@
 export enum TipoAdicional {
   TAMANHO = 'T',
   BORDE = 'B',
-  SABOR = 'S'
-
+  SABOR = 'S',
+  EXTRA = 'E'
 
 }
 

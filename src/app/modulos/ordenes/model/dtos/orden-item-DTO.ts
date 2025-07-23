@@ -11,4 +11,5 @@ export interface OrdenItemDTO {
   numeroItem: number;
   observacion: string;
   adicionalesItem: AdicionalItemDTO[];
+  valorUnitConAdic: number; //Temporal
 }

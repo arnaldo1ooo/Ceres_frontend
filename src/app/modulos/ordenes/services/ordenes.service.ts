@@ -86,7 +86,8 @@ export class OrdenesService {
     descuento: 0,
     numeroItem: 0,
     observacion: '',
-    adicionalesItem: []
+    adicionalesItem: [],
+    valorUnitConAdic: 0
   }): FormGroup {
     return this._formBuilder.group({
       _id: new FormControl<number | null>(item._id ?? null),
