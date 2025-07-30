@@ -164,15 +164,15 @@ export class DialogAdicionalesComponent implements OnInit {
     return true;
   }
 
-  cancelar(): void {
+  public cancelar(): void {
     this.dialogRef.close();
   }
 
-  isItemSeleccionado(tipo: TipoAdicional, id: number): boolean {
+  public isItemSeleccionado(tipo: TipoAdicional, id: number): boolean {
     return this.selectedAdics[tipo]?.some(i => i._id === id) ?? false;
   }
 
-  isSeleccionMultiple(tipoAdic: TipoAdicional): boolean {
+  public isSeleccionMultiple(tipoAdic: TipoAdicional): boolean {
     return TipoAdicionalUtils.isSeleccionMultiple(tipoAdic);
   }
 

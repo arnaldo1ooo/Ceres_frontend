@@ -68,7 +68,9 @@
                     <span matListItemTitle>{{ itemSel.mercaderia.descripcion }}</span>
                     <span matListItemLine>Precio unit:
                       {{ formatearValorMoneda(itemSel.valorUnitConAdic) }}</span>
-                    <span matListItemLine><strong>Subtotal :
+                    <span matListItemLine><strong>Subtotal:
+                        {{ formatearValorMoneda(itemSel.valorUnitConAdic * itemSel.cantidad) }}</strong></span>
+                         <span matListItemLine><strong>Adicionales selccionados :
                         {{ formatearValorMoneda(itemSel.valorUnitConAdic * itemSel.cantidad) }}</strong></span>
                   </div>
 

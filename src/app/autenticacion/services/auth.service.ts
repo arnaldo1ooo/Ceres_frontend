@@ -53,7 +53,7 @@ export class AuthService {
   }
 
   getTenantKeyAlmacenado() {
-    return HelpersService.obtenerItemDelSessionStorage('tenantKey');
+    return HelpersService.obtenerItemDelLocalStorage('tenantKey');
   }
 
   salvarTokenEnLocalStorage(token: string) {
