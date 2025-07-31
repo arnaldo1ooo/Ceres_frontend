@@ -37,7 +37,8 @@
               <div class="ui-mercaderia-detalle">
                 <span matListItemTitle>{{ mercaderia.descripcion }}</span>
                 <span matListItemLine>Id: {{ mercaderia._id }}</span>
-                <span matListItemLine>Precio base: {{ mercaderia.valor > 0 ? formatearValorMoneda(mercaderia.valor) : '-' }}</span>
+                <span matListItemLine>Precio base:
+                  {{ mercaderia.valor > 0 ? formatearValorMoneda(mercaderia.valor) : '-' }}</span>
               </div>
             </div>
           </mat-list-item>
@@ -70,7 +71,7 @@
                       {{ formatearValorMoneda(itemSel.valorUnitConAdic) }}</span>
                     <span matListItemLine><strong>Subtotal:
                         {{ formatearValorMoneda(itemSel.valorUnitConAdic * itemSel.cantidad) }}</strong></span>
-                         <span matListItemLine><strong>Adicionales seleccionados:
+                    <span matListItemLine><strong>Adicionales seleccionados:
                         {{ formatearValorMoneda(itemSel.valorUnitConAdic * itemSel.cantidad) }}</strong></span>
                   </div>
 
@@ -99,14 +100,10 @@
 
                   </div>
                 </div>
-
-                <mat-divider *ngIf="!ultimo"></mat-divider>
-
               </mat-list-item>
+
+              <mat-divider *ngIf="!ultimo"></mat-divider> <!-- Línea divisoria después de cada ítem-->
             </ng-container>
-
-            <mat-divider></mat-divider> <!-- Línea divisoria después de cada ítem-->
-
           </mat-list>
         </div>
 
