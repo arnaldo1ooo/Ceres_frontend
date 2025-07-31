@@ -32,7 +32,22 @@ export class TipoAdicionalUtils {
     return `Valor no reconocido: ${descripcion}`;
   }
 
-    public static isSeleccionMultiple(tipoAdicional: TipoAdicional): boolean {
+  public static isSeleccionMultiple(tipoAdicional: TipoAdicional): boolean {
+    switch (tipoAdicional) {
+      case TipoAdicional.TAMANHO:
+        return false;
+      case TipoAdicional.BORDE:
+        return false;
+      case TipoAdicional.SABOR:
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  //si es true, significa que el tipo de adicional debe sumar una sola vez, ej: Tipo Sabores,
+  // al seleccionar un sabor 5000gs, sumará solo ese valor, los demas sabores irán con valor 0
+  public static isSumaUnica(tipoAdicional: TipoAdicional): boolean {
     switch (tipoAdicional) {
       case TipoAdicional.TAMANHO:
         return false;

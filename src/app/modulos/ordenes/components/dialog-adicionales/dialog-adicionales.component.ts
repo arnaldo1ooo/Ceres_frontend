@@ -90,34 +90,74 @@ export class DialogAdicionalesComponent implements OnInit {
     this.alterarListaAdicSeleccionados(tipo, adicionalId, true);
   }
 
-  private alterarListaAdicSeleccionados(tipo: TipoAdicional, adicionalId: number, isRemove: boolean) {
+  private alterarListaAdicSeleccionados(tipo: TipoAdicional, adicionalId: number, isRemover: boolean) {
     const grupo = this.adicionalesPorTipo.find(grup => grup.tipoAdicional === tipo);
     const adicional = grupo?.adicionales.find(adic => adic._id === adicionalId);
 
     if (adicional) {
-      const adicItem: AdicionalItemDTO = {
+      const adicItemAgregar: AdicionalItemDTO = {
         _id: null,
         adicional: adicional,
         valor: adicional.valor
       };
 
 
-      if (isRemove && this.selectedAdics[tipo]) {
+      //REMOVER ADIC
+      if (isRemover && this.selectedAdics[tipo]) {
         this.selectedAdics[tipo] = this.selectedAdics[tipo]!.filter(item => item.adicional._id !== adicionalId);
-      }
-      else {
-        if (!this.isSeleccionMultiple(tipo)) {  //Si el tipo NO es selección múltiple, se reemplaza la lista entera por este único item
-          this.selectedAdics[tipo] = [adicItem];
+
+        if (this.isSeleccionMultiple(tipo) && TipoAdicionalUtils.isSumaUnica(tipo)) {
+          this.resetearValoresAdics(this.selectedAdics[tipo]);
         }
-        else {
-          if (!this.selectedAdics[tipo]) {
-            //Si aún no existe el array para este tipo, inicialízalo como array vacío
-            this.selectedAdics[tipo] = [];
-          }
-          // Agrega el adicional a la lista de seleccionados para este tipo
-          this.selectedAdics[tipo]?.push(adicItem);
-        }
+
+        return;
       }
+
+      //AGREGAR ADIC
+      if (!this.isSeleccionMultiple(tipo)) {  //SELECCION UNICA
+        this.selectedAdics[tipo] = [adicItemAgregar];
+      }
+      else { //SELECCION MULTIPLE
+        if (!this.selectedAdics[tipo]) { //Si aún no existe el array para este tipo, inicialízalo como array vacío
+          this.selectedAdics[tipo] = [];
+        }
+
+        if (this.isSumaUnicaAndMayorACero(tipo, this.selectedAdics[tipo])) {
+          adicItemAgregar.valor = 0;
+        }
+
+        // Agrega el adicional a la lista de seleccionados para este tipo
+        this.selectedAdics[tipo]?.push(adicItemAgregar);
+      }
+    }
+  }
+
+  private isSumaUnicaAndMayorACero(tipo: TipoAdicional, adicsPorTipo: AdicionalItemDTO[] | undefined): boolean {
+
+    let isExisteAdicMayorACero: boolean = false;
+
+    if (TipoAdicionalUtils.isSumaUnica(tipo) && adicsPorTipo != undefined) {
+      isExisteAdicMayorACero = adicsPorTipo?.some(item => item.valor > 0);
+    }
+
+    return isExisteAdicMayorACero;
+  }
+
+  private resetearValoresAdics(adicsPorTipo: AdicionalItemDTO[] | undefined): void {
+    if (adicsPorTipo != undefined) {
+      adicsPorTipo.forEach(adicItem => {
+        adicItem.valor = adicItem.adicional.valor;
+      });
+
+      // Ordenar de mayor a menor según el valor
+      adicsPorTipo.sort((a, b) => (b.valor ?? 0) - (a.valor ?? 0));
+
+      // Mantener el primer valor, y el resto poner cero
+      adicsPorTipo.forEach((adicItem, index) => {
+        if (index !== 0) {
+          adicItem.valor = 0;
+        }
+      });
     }
   }
 
