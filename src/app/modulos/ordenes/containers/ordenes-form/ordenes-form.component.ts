@@ -4,13 +4,11 @@ import { ID_OPCION_TODOS } from 'src/app/compartido/constantes/constantes';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 import { CategoriaMercaderiaDTO } from 'src/app/modulos/mercaderias/model/dtos/categoria-mercaderiaDTO';
 import { MercaderiaDTO } from 'src/app/modulos/mercaderias/model/dtos/mercaderiaDTO';
-import { MercaderiaListaDTO } from 'src/app/modulos/mercaderias/model/dtos/mercaderiaListaDTO';
 import { MercaderiasService } from 'src/app/modulos/mercaderias/services/mercaderias.service';
 import { OrdenItemDTO } from '../../model/dtos/orden-item-DTO';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAdicionalesComponent } from '../../components/dialog-adicionales/dialog-adicionales.component';
 import { AdicionalItemDTO } from '../../model/dtos/adicional-item-DTO';
-import { AdicionalDTO } from '../../model/dtos/adicional-DTO';
 import { FormArray, FormGroup } from '@angular/forms';
 import { OrdenesService } from '../../services/ordenes.service';
 import { ModoEdicion } from 'src/app/compartido/enums/modo-edicion.enum';
@@ -27,7 +25,6 @@ import { MonedasService } from 'src/app/modulos/monedas/services/monedas.service
 import { Departamento } from 'src/app/modulos/departamentos/model/departamento.model';
 import { MercaderiaDetalleDTO } from 'src/app/modulos/mercaderias/model/dtos/mercaderiaDetalleDTO';
 import { MonedaHelpersService } from 'src/app/compartido/services/moneda-helpers.service';
-import { setDefaultHighWaterMark } from 'stream';
 
 @Component({
   selector: 'app-ordenes-form',
@@ -183,11 +180,6 @@ export class OrdenesFormComponent implements OnInit {
     return this.ItemsSeleccionados.reduce((total, item) => total + (item.valorUnitConAdic * item.cantidad), 0);
   }
 
-  checkout() {
-    alert('Checkout complete!');
-    // Implement checkout logic
-  }
-
   protected compararOpcionesSelect(opcion: any, opcionRecibida: any): boolean {
     return HelpersService.compararOpcionesSelect(opcion, opcionRecibida);
   }
@@ -288,16 +280,11 @@ export class OrdenesFormComponent implements OnInit {
     return ordenItem.valorUnitario + valorUnitAdic;
   }
 
-  /*public calcularValorTotal(): number {
-    let valorTotal = 0;
+  public checkout() {
+    const ordenDetalleDTO: OrdenDetalleDTO = {
+      ...this.formOrdenDetalle.value
+    };
 
-    const items = this.formOrdenDetalle.get('items')?.value || [];
-
-    for (const item of items) {
-      valorTotal += item.valorUnitConAdic * (item.cantidad || 1);
-    }
-
-    return valorTotal;
-  }*/
-
+    this._ordenService.crear(ordenDetalleDTO);
+  }
 }

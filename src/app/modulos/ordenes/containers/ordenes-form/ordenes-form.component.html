@@ -110,7 +110,9 @@
         <!-- Totales siempre abajo -->
         <div class="ui-totales">
           <h4>Total: {{ formatearValorMoneda(getTotal()) }}</h4>
-          <button mat-raised-button color="accent" (click)="checkout()">Checkout</button>
+          <button mat-raised-button color="primary" (click)="checkout()">Confirmar</button>
+
+          <button mat-raised-button color="accent" (click)="checkout()">Confirmar y Pagar</button>
         </div>
       </div>
     </div>
