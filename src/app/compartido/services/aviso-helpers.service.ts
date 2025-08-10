@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ApiResponse } from '../interfaces/api-response';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,10 @@ export class AvisoHelpersService {
         verticalPosition: 'top'
       });
   }
+
+    public mostrarMensajes(mensaje: string, apiResponse: ApiResponse<null>, duracion: number = 4000) {
+      this.mostrarMensaje(mensaje + apiResponse.mensajes.join(', '), '', duracion);
+    }
 
   public mostrarMensajeError(mensaje: string, err: HttpErrorResponse) {
     let mensajesError: string = err != null && err.error != null && err.error.mensajes != null

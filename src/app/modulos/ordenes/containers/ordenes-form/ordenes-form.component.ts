@@ -25,6 +25,9 @@ import { MonedasService } from 'src/app/modulos/monedas/services/monedas.service
 import { Departamento } from 'src/app/modulos/departamentos/model/departamento.model';
 import { MercaderiaDetalleDTO } from 'src/app/modulos/mercaderias/model/dtos/mercaderiaDetalleDTO';
 import { MonedaHelpersService } from 'src/app/compartido/services/moneda-helpers.service';
+import { AvisoHelpersService } from 'src/app/compartido/services/aviso-helpers.service';
+import { Location } from '@angular/common';
+import { ApiResponse } from '../../../../compartido/interfaces/api-response';
 
 @Component({
   selector: 'app-ordenes-form',
@@ -41,7 +44,6 @@ export class OrdenesFormComponent implements OnInit {
   protected listaCategoriasMercaderia: CategoriaMercaderiaDTO[] = [];
 
   protected formOrdenDetalle: FormGroup = this._ordenService.crearOrdenDetalleFormGroup();
-  protected ItemsSeleccionados: OrdenItemDTO[] = [];
   protected modoEdicion: string = this._ruta.snapshot.data['modoEdicion']; //Proviene del routing
 
 
@@ -51,7 +53,9 @@ export class OrdenesFormComponent implements OnInit {
     private _loginService: LoginService,
     private _monedasService: MonedasService,
     private _dialog: MatDialog,
-    private _ruta: ActivatedRoute
+    private _ruta: ActivatedRoute,
+    private _avisoHelpersService: AvisoHelpersService,
+    private _location: Location
   ) {
 
   }
@@ -144,7 +148,7 @@ export class OrdenesFormComponent implements OnInit {
       cantidad: 1,
       valorUnitario: mercaderiaDTO.valor,
       descuento: 0,
-      numeroItem: 0,
+      numeroItem: this.getItems().length + 1,
       observacion: '',
       adicionalesItem: [],
       valorUnitConAdic: mercaderiaDTO.valor
@@ -155,7 +159,7 @@ export class OrdenesFormComponent implements OnInit {
       this.abrirDialogoAdicionales(ordenItemDTO);
     }
     else {
-      this.ItemsSeleccionados.push(ordenItemDTO);
+      this.addItem(ordenItemDTO);
     }
   }
 
@@ -171,13 +175,13 @@ export class OrdenesFormComponent implements OnInit {
         if (adicionalesItemSel) {
           ordenItemDTO.adicionalesItem = adicionalesItemSel;
           ordenItemDTO.valorUnitConAdic = this.calcularValorUnitConAdicional(ordenItemDTO);
-          this.ItemsSeleccionados.push(ordenItemDTO);
+          this.addItem(ordenItemDTO);
         }
       });
   }
 
   public getTotal() {
-    return this.ItemsSeleccionados.reduce((total, item) => total + (item.valorUnitConAdic * item.cantidad), 0);
+    return this.getItems().reduce((total, item) => total + (item.valorUnitConAdic * item.cantidad), 0);
   }
 
   protected compararOpcionesSelect(opcion: any, opcionRecibida: any): boolean {
@@ -190,14 +194,32 @@ export class OrdenesFormComponent implements OnInit {
     })
   }
 
-  cambiarCantidadItemSel(item: OrdenItemDTO, cambio: number): void {
+  public cambiarCantidadItemSel(item: OrdenItemDTO, cambio: number): void {
     const nuevaCantidad = item.cantidad + cambio;
     item.cantidad = nuevaCantidad < 1 ? 1 : nuevaCantidad;
   }
 
-  removerItemSel(itemSel: OrdenItemDTO) {
-    this.ItemsSeleccionados = this.ItemsSeleccionados
-      .filter(item => item.mercaderia.descripcion !== itemSel.mercaderia.descripcion);
+  private addItem(item: OrdenItemDTO) {
+    (this.formOrdenDetalle.get('items') as FormArray)
+      .push(this._ordenService.crearOrdenItemFormGroup(item));
+  }
+
+  public removerItemSel(itemSel: OrdenItemDTO) {
+    const items = this.formOrdenDetalle.get('items') as FormArray;
+
+    for (let i = items.length - 1; i >= 0; i--) {
+      if (items.at(i).value.numeroItem === itemSel.numeroItem) {
+        items.removeAt(i);
+      }
+    }
+
+    this.recalcularNumeroItems(items);
+  }
+
+  private recalcularNumeroItems(items: FormArray<any>) {
+    items.controls.forEach((ctrl, index) => {
+      ctrl.patchValue({ numeroItem: index + 1 });
+    });
   }
 
   private verificarModoEdicion() {
@@ -256,14 +278,10 @@ export class OrdenesFormComponent implements OnInit {
     // Limpia el array de items y vuelve a cargar
     const itemsFormArray = this.formOrdenDetalle.get('items') as FormArray;
     itemsFormArray.clear();
-    for (let item of items) {
-      this.addItem(item); // asumimos que este método ya agrega el FormGroup al array
-    }
-  }
 
-  private addItem(item: OrdenItemDTO) {
-    (this.formOrdenDetalle.get('items') as FormArray)
-      .push(this._ordenService.crearOrdenItemFormGroup(item));
+    for (let item of items) {
+      this.addItem(item);
+    }
   }
 
   public formatearValorMoneda(valor: number): string {
@@ -280,11 +298,34 @@ export class OrdenesFormComponent implements OnInit {
     return ordenItem.valorUnitario + valorUnitAdic;
   }
 
-  public checkout() {
+  public onCancelar() {
+    this._location.back(); //Para que retroceda de pagina
+  }
+
+  private onExito() {
+    this._avisoHelpersService.mostrarMensaje('Orden guardado con exito!', '', 4000);  //Mensaje cuando salva correctamente
+    this.onCancelar(); //Para que vuelva atras
+  }
+
+  private onError(apiResponse: ApiResponse<null>) {
+    this._avisoHelpersService.mostrarMensajes('Error al guardar Orden: ', apiResponse, 4000);
+  }
+
+  public onGuardar() {
     const ordenDetalleDTO: OrdenDetalleDTO = {
-      ...this.formOrdenDetalle.value
+      ...this.formOrdenDetalle.getRawValue()
     };
 
-    this._ordenService.crear(ordenDetalleDTO);
+    this._ordenService.guardar(ordenDetalleDTO)
+      .subscribe({
+        next: () => this.onExito(),
+        error: err => {
+          this.onError(err.error)
+        }
+      });
+  }
+
+  public getItems(): OrdenItemDTO[] {
+    return (this.formOrdenDetalle.get('items')?.value ?? []) as OrdenItemDTO[];
   }
 }

@@ -55,7 +55,7 @@
 
         <div class="ui-lista-scroll-selected">
           <mat-list>
-            <ng-container *ngFor="let itemSel of ItemsSeleccionados let ultimo = last">
+           <ng-container *ngFor="let itemSel of getItems(); let ultimo = last">
               <mat-list-item class="ui-list-item-selected">
                 <div class="ui-item-selected">
 
@@ -110,9 +110,9 @@
         <!-- Totales siempre abajo -->
         <div class="ui-totales">
           <h4>Total: {{ formatearValorMoneda(getTotal()) }}</h4>
-          <button mat-raised-button color="primary" (click)="checkout()">Confirmar</button>
+          <button mat-raised-button color="primary" (click)="onGuardar()">Confirmar</button>
 
-          <button mat-raised-button color="accent" (click)="checkout()">Confirmar y Pagar</button>
+          <button mat-raised-button color="accent" (click)="onGuardar()">Confirmar y Pagar</button>
         </div>
       </div>
     </div>

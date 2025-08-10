@@ -42,8 +42,16 @@ export class OrdenesService {
     return this._httpClient.get<OrdenDetalleDTO>(`${this.apiUrl}/${id}`);
   }
 
+  guardar(ordenDetalleDTO: OrdenDetalleDTO) {
+    /*if (movimiento._id == '' || movimiento._id != '0') {
+      return this.actualizar(movimiento);
+    }*/
+
+    return this.crear(ordenDetalleDTO);
+  }
+
   crear(orden: OrdenDetalleDTO): Observable<OrdenDetalleDTO> {
-    return this._httpClient.post<OrdenDetalleDTO>(this.apiUrl, orden);
+    return this._httpClient.post<OrdenDetalleDTO>(API_URL_ORDENES, orden).pipe(first());
   }
 
   actualizar(id: number, orden: OrdenDetalleDTO): Observable<OrdenDetalleDTO> {
@@ -97,7 +105,8 @@ export class OrdenesService {
       descuento: new FormControl<number>(item.descuento ?? 0),
       numeroItem: new FormControl<number>(item.numeroItem ?? 0),
       observacion: new FormControl<string>(item.observacion ?? ''),
-      adicionalesItem: new FormControl<AdicionalItemDTO[]>(item.adicionalesItem ?? [])
+      adicionalesItem: new FormControl<AdicionalItemDTO[]>(item.adicionalesItem ?? []),
+      valorUnitConAdic: new FormControl<number>(item.valorUnitConAdic, [Validators.required, Validators.min(0)])
     });
   }
 
