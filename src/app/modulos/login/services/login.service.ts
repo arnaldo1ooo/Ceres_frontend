@@ -46,7 +46,9 @@ export class LoginService {
   }
 
   public getNombreUsuarioLogado() {
-    return HelpersService.obtenerItemDelSessionStorage('nombreUsuarioLogado');
+    return this.authService.getNombreUsuarioToken();
   }
+
+
 
 }

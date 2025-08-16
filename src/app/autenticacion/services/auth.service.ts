@@ -34,8 +34,8 @@ export class AuthService {
 
         if (this.isTokenValido(token)) {
           this.sesionIniciada.next(true); //Caso el token sea valido, sesion iniciada true
+          HelpersService.salvarItemEnLocalStorage('token', token); //Se guarda el token por si el usuario cierra la ventana y con esto no tenga que volver a iniciar sesion
           HelpersService.salvarItemEnSessionStorage('departamentoLogado', credenciales.departamento);
-          this.salvarTokenEnLocalStorage(token); //Se guarda el token por si el usuario cierra la ventana y con esto no tenga que volver a iniciar sesion
         }
 
         return body;
@@ -45,6 +45,7 @@ export class AuthService {
   cerrarSesion() {
     this.sesionIniciada.next(false);
     HelpersService.removerItemDelLocalStorage('token');
+    HelpersService.removerItemDelSessionStorage('departamentoLogado');
     this._router.navigate(['login']);
   }
 
@@ -54,10 +55,6 @@ export class AuthService {
 
   getTenantKeyAlmacenado() {
     return HelpersService.obtenerItemDelLocalStorage('tenantKey');
-  }
-
-  salvarTokenEnLocalStorage(token: string) {
-    HelpersService.salvarItemEnLocalStorage('token', token);
   }
 
   public get isSesionIniciada() {
