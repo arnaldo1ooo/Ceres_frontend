@@ -28,6 +28,7 @@ import { MonedaHelpersService } from 'src/app/compartido/services/moneda-helpers
 import { AvisoHelpersService } from 'src/app/compartido/services/aviso-helpers.service';
 import { Location } from '@angular/common';
 import { ApiResponse } from '../../../../compartido/interfaces/api-response';
+import { UsuariosService } from 'src/app/modulos/usuarios/services/usuarios.service';
 
 @Component({
   selector: 'app-ordenes-form',
@@ -55,7 +56,8 @@ export class OrdenesFormComponent implements OnInit {
     private _dialog: MatDialog,
     private _ruta: ActivatedRoute,
     private _avisoHelpersService: AvisoHelpersService,
-    private _location: Location
+    private _location: Location,
+    private _usuariosService: UsuariosService,
   ) {
 
   }
@@ -84,7 +86,7 @@ export class OrdenesFormComponent implements OnInit {
           FechaHelpersService.getFechaHoraActual(),
           this._loginService.getDepartamentoLogado(),
           await this._monedasService.cargarPorId(MonedaEnum.GUARANI),
-          null,
+          await this._usuariosService.buscarPorNombreUsuario(this._loginService.getNombreUsuarioLogado()),
           0,
           TipoEntregaOrden.EN_MOSTRADOR,
           SiNo.NO,

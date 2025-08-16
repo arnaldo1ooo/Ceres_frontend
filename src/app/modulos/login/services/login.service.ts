@@ -8,6 +8,7 @@ import { Sucursal } from '../../sucursales/model/sucursal.model';
 import { Departamento } from '../../departamentos/model/departamento.model';
 import { API_URL_BD_ACTUAL, API_URL_LOGIN, API_URL_VERSION_ACTUAL } from 'src/app/compartido/constantes/constantes';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
+import { UsuarioDTO } from '../../usuarios/model/dtos/usuarioDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -45,10 +46,8 @@ export class LoginService {
     return HelpersService.obtenerItemDelSessionStorage('departamentoLogado') as Departamento;
   }
 
-  public getNombreUsuarioLogado() {
+  public getNombreUsuarioLogado(): string | null {
     return this.authService.getNombreUsuarioToken();
   }
-
-
 
 }

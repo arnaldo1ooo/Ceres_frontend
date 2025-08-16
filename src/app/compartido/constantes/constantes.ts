@@ -10,6 +10,9 @@ export const API_URL_VERSION_ACTUAL = API_URL_LOGIN + '/versionActual';
 export const API_URL_BD_ACTUAL = API_URL_LOGIN + '/bdActual';
 export const API_URL_PERMISOS_USUARIO_LOGUEADO = API_URL_LOGIN + '/permisosUsuarioLogueado';
 
+export const API_URL_USUARIOS = '/usuarios';
+export const API_URL_USUARIO_POR_NOMBRE = API_URL_USUARIOS + '/buscarUsuarioPorNombre';
+
 export const API_URL_MERCADERIAS = '/mercaderias';
 export const API_URL_MERCADERIAS_ACTIVAS = API_URL_MERCADERIAS + '/activos';
 export const API_URL_MERCADERIAS_ACTIVAS_DETALLADO = API_URL_MERCADERIAS + '/activosDetallado';
