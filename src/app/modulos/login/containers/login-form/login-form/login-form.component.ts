@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
 import { DialogoErrorComponent } from 'src/app/compartido/componentes/dialogo-error/dialogo-error.component';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
@@ -11,7 +11,6 @@ import { Sucursal } from 'src/app/modulos/sucursales/model/sucursal.model';
 import { SucursalesService } from 'src/app/modulos/sucursales/services/sucursales.service';
 import { Departamento } from '../../../../departamentos/model/departamento.model';
 import { AvisoHelpersService } from '../../../../../compartido/services/aviso-helpers.service';
-import { finalize } from 'rxjs';
 import { COD_ERROR_CONEXION, COD_ERROR_DATOS_INVALIDOS, COD_NOT_FOUND } from 'src/app/compartido/constantes/constantes';
 import { AuthService } from 'src/app/autenticacion/services/auth.service';
 
@@ -28,6 +27,7 @@ export class LoginFormComponent implements OnInit {
   public listaSucursales!: Sucursal[];
   public listaDepartamentos!: Departamento[];
   public tenantKeyInformado: boolean = false;
+  public multitenantHabilitado: boolean = false;
 
   constructor(
     private _loginService: LoginService,
@@ -40,10 +40,11 @@ export class LoginFormComponent implements OnInit {
     private _authService: AuthService) { }
 
   ngOnInit(): void {
-    this.inicializarTenantKey();
+    this.consultarisMultitenantHabilitado();
+    this.cargarTenantKeyAlmacenado();
   }
 
-  private inicializarTenantKey() {
+  private cargarTenantKeyAlmacenado() {
     const tenantKey: string = this._authService.getTenantKeyAlmacenado();
 
     if (tenantKey) {
@@ -90,7 +91,7 @@ export class LoginFormComponent implements OnInit {
       this._authService.validarTenant(tenant).subscribe({
         next: () => {
           // Si el backend responde OK (200), seguimos
-          this.tenantKeyInformado = true;
+          this.cargarTenantKeyAlmacenado();
         },
         error: (err) => {
           HelpersService.removerItemDelLocalStorage('tenantKey');
@@ -171,6 +172,17 @@ export class LoginFormComponent implements OnInit {
     this._departamentosService.listarTodosPorSucursal(idSucursal).subscribe((lista: any) => {
       this.listaDepartamentos = lista;
     })
+  }
+
+  public consultarisMultitenantHabilitado() {
+    this._authService.isMultitenantHabilitado().subscribe({
+      next: (habilitado: boolean) => {
+        this.multitenantHabilitado = habilitado;
+      },
+      error: () => {
+        this.multitenantHabilitado = false;
+      }
+    });
   }
 
 

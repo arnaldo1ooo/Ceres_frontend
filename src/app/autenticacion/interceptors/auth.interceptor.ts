@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 import { AuthService } from './../services/auth.service';
 import { ConfigService } from 'src/app/compartido/services/config.service';
-import { API_NOMBRE, API_URL_BD_ACTUAL, API_URL_DEPARTAMENTOS, API_URL_IS_NOMBRE_USUARIO_EXISTE, API_URL_LOGIN, API_URL_PERMISOS_USUARIO_LOGUEADO, API_URL_SUCURSALES, API_URL_TENANTS_VALIDAR, API_URL_VERSION_ACTUAL } from 'src/app/compartido/constantes/constantes';
+import { API_NOMBRE, API_URL_BD_ACTUAL, API_URL_DEPARTAMENTOS, API_URL_IS_NOMBRE_USUARIO_EXISTE, API_URL_LOGIN, API_URL_PERMISOS_USUARIO_LOGUEADO, API_URL_SUCURSALES, API_URL_TENANTS_MUTILTENANT_HABILITADO, API_URL_TENANTS_VALIDAR, API_URL_VERSION_ACTUAL } from 'src/app/compartido/constantes/constantes';
 
 
 
@@ -101,6 +101,7 @@ export class AuthInterceptor implements HttpInterceptor {
       && url != API_URL_VERSION_ACTUAL
       && url != API_URL_BD_ACTUAL
       && !url.includes(API_URL_TENANTS_VALIDAR)
+      && !url.includes(API_URL_TENANTS_MUTILTENANT_HABILITADO)
       && !url.includes(API_URL_SUCURSALES)
       && !url.includes(API_URL_DEPARTAMENTOS);
   }

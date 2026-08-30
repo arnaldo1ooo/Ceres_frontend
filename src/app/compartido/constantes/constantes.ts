@@ -37,7 +37,7 @@ export const API_URL_ACTUALIZAR_PARCIAL_ORDEN = API_URL_ORDENES + '/actualizarPa
 export const API_URL_ADICIONALES_POR_CATEGORIA = API_URL_ORDENES + '/adicionales';
 
 export const API_URL_TENANTS_VALIDAR = '/tenants/validar/';
-
+export const API_URL_TENANTS_MUTILTENANT_HABILITADO = '/tenants/multitenantHabilitado';
 
 
 export const DEFAULT_PAGE_TAMANHO: number = 10;

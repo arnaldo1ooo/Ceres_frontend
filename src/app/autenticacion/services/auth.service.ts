@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { catchError, firstValueFrom, map, Observable, of, tap } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Login } from 'src/app/modulos/login/model/login';
-import { API_URL_IS_NOMBRE_USUARIO_EXISTE, API_URL_PERMISOS_USUARIO_LOGUEADO, API_URL_TENANTS_VALIDAR } from 'src/app/compartido/constantes/constantes';
+import { API_URL_IS_NOMBRE_USUARIO_EXISTE, API_URL_PERMISOS_USUARIO_LOGUEADO, API_URL_TENANTS_MUTILTENANT_HABILITADO, API_URL_TENANTS_VALIDAR } from 'src/app/compartido/constantes/constantes';
 import { jwtDecode } from 'jwt-decode';
 import { ApiPageResponse } from 'src/app/compartido/interfaces/api-page-response';
 
@@ -133,6 +133,10 @@ export class AuthService {
 
   public validarTenant(tenantKey: string): Observable<ApiPageResponse> {
     return this._httpClient.get<ApiPageResponse>(API_URL_TENANTS_VALIDAR + `${tenantKey}`);
+  }
+
+  public isMultitenantHabilitado(): Observable<boolean> {
+    return this._httpClient.get<boolean>(API_URL_TENANTS_MUTILTENANT_HABILITADO);
   }
 
 
