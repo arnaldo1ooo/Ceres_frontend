@@ -89,9 +89,10 @@ export class LoginFormComponent implements OnInit {
       HelpersService.salvarItemEnLocalStorage('tenantKey', tenant);
 
       this._authService.validarTenant(tenant).subscribe({
-        next: () => {
-          // Si el backend responde OK (200), seguimos
+        next: () => { // Si el backend responde OK (200), seguimos
           this.cargarTenantKeyAlmacenado();
+          // Obtiene la BD correspondiente al tenant recién seleccionado.
+          this._loginService.cargarNombreDbActual();
         },
         error: (err) => {
           HelpersService.removerItemDelLocalStorage('tenantKey');

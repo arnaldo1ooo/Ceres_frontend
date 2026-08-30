@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { Login } from '../model/login';
 import { AuthService } from './../../../autenticacion/services/auth.service';
@@ -14,6 +14,10 @@ import { UsuarioDTO } from '../../usuarios/model/dtos/usuarioDTO';
   providedIn: 'root'
 })
 export class LoginService {
+
+  //Se utiliza BehaviorSubject para poder notificar a los componentes que se suscriban a este observable, cuando cambie el valor de la base de datos actual
+  private nombreBaseDatosSubject = new BehaviorSubject<string>('NO DISPONIBLE');
+  public nombreBaseDatos$ = this.nombreBaseDatosSubject.asObservable();
 
   constructor(
     private authService: AuthService,
@@ -48,6 +52,21 @@ export class LoginService {
 
   public getNombreUsuarioLogado(): string | null {
     return this.authService.getNombreUsuarioToken();
+  }
+
+  cargarNombreDbActual(): void {
+    this.getBaseDatosActual().subscribe({
+      next: (nombreBaseDatos: string) => {
+        this.nombreBaseDatosSubject.next(nombreBaseDatos);
+      },
+      error: (err) => {
+        console.error(
+          'Error al consultar base de datos actual: ' + err.message
+        );
+
+        this.nombreBaseDatosSubject.next('NO DISPONIBLE');
+      }
+    });
   }
 
 }
