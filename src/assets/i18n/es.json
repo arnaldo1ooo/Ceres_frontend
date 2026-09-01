@@ -4,28 +4,23 @@
     "nombre-usuario": "Nombre de usuario",
     "contrasenha": "Contraseña",
     "ingresar": "Ingresar"
-
   },
-
   "errores": {
     "error-login": "Falló el inicio de sesión",
     "error-login-incorrecto": "Nombre de usuario o contraseña incorrecta",
     "error-conexion-servidor": "Error de conexión con el servidor"
   },
-
-  "tipo-movimiento" : {
+  "tipo-movimiento": {
     "titulo": "Selecciona el tipo de movimiento",
-    "entrada" : "Entrada",
-    "salida" : "Salida",
-    "compra-normal" : "Compra normal",
-    "venta-normal" : "Venta normal"
+    "entrada": "Entrada",
+    "salida": "Salida",
+    "compra-normal": "Compra normal",
+    "venta-normal": "Venta normal"
   },
-
   "detalles": {
     "detalle-movimiento": "Detalles del Movimiento",
     "detalle-mercaderia": "Detalles de la Mercaderia"
   },
-
   "seleccion": {
     "seleccion-tipo-mercaderia": "Seleccione el tipo de mercadería",
     "seleccion-sucursal": "Seleccione la sucursal",
@@ -34,7 +29,6 @@
     "seleccion-departamento": "Seleccione el departamento",
     "seleccion-entidad": "Seleccione la entidad"
   },
-
   "titulos": {
     "descripcion": "Descripción",
     "tipo": "Tipo",
@@ -68,9 +62,10 @@
     "email": "Email",
     "celular": "Celular",
     "presenta-en-reporte": "Presentar en reporte?",
-    "tipo-iva": "Tipo Iva"
+    "tipo-iva": "Tipo Iva",
+    "sin-imagen": "Sin imagen",
+    "categoria": "Categoría"
   },
-
   "botones": {
     "guardar": "Guardar",
     "cancelar": "Cancelar",
@@ -78,8 +73,14 @@
     "filtrar": "Filtrar",
     "agregar": "Agregar",
     "reportes": "Reportes",
-    "salir": "Salir"
+    "salir": "Salir",
+    "cambiar-imagen": "Cambiar imagen",
+    "eliminar-imagen": "Eliminar imagen",
+    "seleccionar-imagen": "Seleccionar imagen"
   },
-
+  "tooltips": {
+    "departamentos-mercaderia": "Seleccione los departamentos en los que estará disponible la mercadería. Si no selecciona ninguno, se asignará a todos los departamentos.",
+    "presenta-en-reporte": "Indica si la mercadería se presentará en los reportes de libro diario"
+  },
   "sin-registros": "Sin registros"
 }

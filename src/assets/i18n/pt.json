@@ -10,29 +10,25 @@
       "error-login-incorrecto": "Nome de usuario ou senha incorreta",
       "error-conexion-servidor": "Erro de conexão com o servidor"
     },
-
-    "tipo-movimiento" : {
+    "tipo-movimiento": {
       "titulo": "Selecione o tipo de movimento",
-      "entrada" : "Entrada",
-      "salida" : "Saida",
-      "compra-normal" : "Compra normal",
-      "venta-normal" : "Venda normal"
+      "entrada": "Entrada",
+      "salida": "Saida",
+      "compra-normal": "Compra normal",
+      "venta-normal": "Venda normal"
     },
-
     "detalles": {
       "detalle-movimiento": "Detalhes do Movimento",
       "detalle-mercaderia": "Detalhes da Mercadoria"
     },
-
     "seleccion": {
-        "seleccion-tipo-mercaderia": "Selecione um tipo de mercadoría",
-        "seleccion-sucursal": "Selecione a sucursal",
-        "seleccion-tipo-movimiento": "Selecione o tipo de movimento",
-        "seleccion-moneda": "Selecione a moeda",
-        "seleccion-departamento": "Selecione o departamento",
-        "seleccion-entidad": "Selecione a entidade"
+      "seleccion-tipo-mercaderia": "Selecione um tipo de mercadoría",
+      "seleccion-sucursal": "Selecione a sucursal",
+      "seleccion-tipo-movimiento": "Selecione o tipo de movimento",
+      "seleccion-moneda": "Selecione a moeda",
+      "seleccion-departamento": "Selecione o departamento",
+      "seleccion-entidad": "Selecione a entidade"
     },
-
     "titulos": {
       "descripcion": "Descrição",
       "tipo": "Tipo",
@@ -66,9 +62,10 @@
       "email": "Email",
       "celular": "Celular",
       "presenta-en-reporte": "Presentar em relatorio?",
-      "tipo-iva": "Tipo Iva"
+      "tipo-iva": "Tipo Iva",
+      "sin-imagen": "Sem imagem",
+      "categoria": "Categoría"
     },
-
     "botones": {
       "guardar": "Salvar",
       "cancelar": "Cancelar",
@@ -76,8 +73,14 @@
       "filtrar": "Filtrar",
       "agregar": "Agregar",
       "reportes": "Relatorios",
-      "salir": "Sair"
+      "salir": "Sair",
+      "cambiar-imagen": "Mudar imagem",
+      "eliminar-imagen": "Remover imagem",
+      "seleccionar-imagen": "Selecionar imagem"
     },
-
+    "tooltips": {
+      "departamentos-mercaderia": "Indica os departamentos aos quais a mercadoria estará disponível",
+      "presenta-en-reporte": "Indica se a mercadoria será apresentada nos relatórios do livro diário"
+    },
     "sin-registros": "Sem registros"
   }

@@ -26,6 +26,7 @@ export class MercaderiaFormComponent implements OnInit {
   public listaCategoriasMercaderia!: CategoriaMercaderiaDTO[];
   public listaSituaciones: Situacion[] = Object.values(Situacion);
   public listaTiposIva: TipoIva[] = Object.values(TipoIva);
+  public ModoEdicion = ModoEdicion;
   public modoEdicion: string = this._ruta.snapshot.data['modoEdicion']; //Proviene del routing
   public formGroupMercaderia = this.formMercaderiaInicial();
   public imagenVistaPrevia: string | null = null;

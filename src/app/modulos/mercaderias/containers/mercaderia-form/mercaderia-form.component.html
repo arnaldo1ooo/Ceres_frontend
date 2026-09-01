@@ -1,165 +1,239 @@
-<mat-card>
+<mat-card class="mercaderia-card">
 
-  <mat-toolbar color="primary">{{ "detalles.detalle-mercaderia" | transloco }}</mat-toolbar>
+  <mat-toolbar color="primary">
+    {{ "detalles.detalle-mercaderia" | transloco }}
+  </mat-toolbar>
 
   <mat-card-content>
-    <form [formGroup]="formGroupMercaderia" class="anchura-minima">
 
-      <mat-grid-list [cols]="2" rowHeight="105px">
+    <form [formGroup]="formGroupMercaderia" class="form-mercaderia">
 
-        <!--Fila 1-->
-        <mat-grid-tile>
-          <mat-form-field appearance="outline" class="anchura-maxima">
-            <mat-label>{{ "titulos.id" | transloco }}</mat-label>
-            <input matInput formControlName="_id" readonly="true">
-          </mat-form-field>
-        </mat-grid-tile>
+      <!-- ID -->
+      <mat-form-field appearance="outline" class="campo">
+        <mat-label>{{ "titulos.id" | transloco }}</mat-label>
 
-        <mat-grid-tile>
-          <mat-form-field appearance="outline" class="anchura-maxima">
-            <mat-label>{{ "titulos.descripcion" | transloco }}</mat-label>
-            <input matInput #descripcionMercaderia formControlName="descripcion"
-              oninput="this.value = this.value.toUpperCase()">
-            <mat-hint align="end">{{ descripcionMercaderia.value.length || 0 }} / 100</mat-hint>
-            <mat-error *ngIf="formGroupMercaderia.get('descripcion')?.invalid">{{getMensajeError('descripcion')}}
-            </mat-error>
-            <!--verifica validaciones, invalid evita error con null o valor invalido-->
-          </mat-form-field>
-        </mat-grid-tile>
+        <input matInput formControlName="_id" maxlength="20" oninput="this.value = this.value.toUpperCase()">
 
-        <!--Fila 2-->
-        <mat-grid-tile>
-          <mat-form-field appearance="outline" class="anchura-maxima">
-            <mat-label>{{ "titulos.tipo" | transloco }}</mat-label>
-            <mat-select formControlName="tipo">
-              <mat-option disabled selected value="">{{ "seleccion.seleccion-tipo-mercaderia" | transloco }}
-              </mat-option>
-              <mat-option *ngFor="let tipoMercaderia of listaTiposMercaderia" [value]="tipoMercaderia">
-                {{tipoMercaderia | tipoMercaderiaPipe}}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="formGroupMercaderia.get('tipo')?.invalid">{{getMensajeError('tipo')}}</mat-error>
-          </mat-form-field>
-        </mat-grid-tile>
+        <mat-error *ngIf="formGroupMercaderia.get('_id')?.invalid">
+          {{ getMensajeError('_id') }}
+        </mat-error>
+      </mat-form-field>
 
-        <mat-grid-tile>
-          <mat-form-field appearance="outline" class="anchura-maxima">
-            <mat-label>{{ "titulos.departamentos" | transloco }}</mat-label>
-            <mat-select formControlName="departamentos" [compareWith]="compararOpcionesSelect"
-              matTooltip="Seleccione los departamentos en los cuales la mercadería se encontrará disponbile" multiple>
-              <mat-option *ngFor="let departamento of listaDepartamentos" [value]="departamento">
-                {{departamento._id}} - {{departamento.descripcion}}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="formGroupMercaderia.get('departamento')?.invalid">{{getMensajeError('departamento')}}
-            </mat-error>
-          </mat-form-field>
-        </mat-grid-tile>
 
-        <!--Fila 3-->
-        <mat-grid-tile>
-          <mat-form-field appearance="outline" class="anchura-maxima">
-            <mat-label>{{ "titulos.situacion" | transloco }}</mat-label>
-            <mat-select formControlName="situacion">
-              <mat-option *ngFor="let situacion of listaSituaciones" [value]="situacion">
-                {{situacion | situacionPipe}}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="formGroupMercaderia.get('situacion')?.invalid">
-              {{getMensajeError('situacion')}}
-            </mat-error>
-          </mat-form-field>
-        </mat-grid-tile>
+      <!-- Descripción -->
+      <mat-form-field appearance="outline" class="campo">
+        <mat-label>{{ "titulos.descripcion" | transloco }}</mat-label>
 
-        <mat-grid-tile style="display: flex;">
-          <div class="style-contenedor-checkboxs">
+        <input matInput #descripcionMercaderia formControlName="descripcion" maxlength="100"
+          oninput="this.value = this.value.toUpperCase()">
 
-            <mat-checkbox formControlName="presentaEnReporte">
-              {{ "titulos.presenta-en-reporte" | transloco }}
-            </mat-checkbox>
+        <mat-hint align="end">
+          {{ descripcionMercaderia.value.length || 0 }} / 100
+        </mat-hint>
 
-          </div>
+        <mat-error *ngIf="formGroupMercaderia.get('descripcion')?.invalid">
+          {{ getMensajeError('descripcion') }}
+        </mat-error>
+      </mat-form-field>
 
-        </mat-grid-tile>
 
-        <!--Fila 4-->
-        <mat-grid-tile style="display: flex;">
-          <mat-form-field appearance="outline" appearance="outline" class="anchura-maxima">
-            <mat-label>Categoria</mat-label>
-            <mat-select formControlName="categoria" [compareWith]="compararOpcionesSelect">
-              <mat-option disabled selected value="">Seleccione una categoria</mat-option>
-              <mat-option *ngFor="let categoria of listaCategoriasMercaderia"
-                [value]="categoria">{{ categoria.descripcion }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </mat-grid-tile>
+      <!-- Tipo -->
+      <mat-form-field appearance="outline" class="campo">
+        <mat-label>{{ "titulos.tipo" | transloco }}</mat-label>
 
-        <mat-grid-tile>
-          <div class="imagen-contenedor">
-            <!-- Imagen -->
-            <img *ngIf="imagenVistaPrevia" [src]="imagenVistaPrevia" class="imagen-preview" alt="Imagen seleccionada" />
+        <mat-select formControlName="tipo">
+          <mat-option *ngFor="let tipoMercaderia of listaTiposMercaderia" [value]="tipoMercaderia">
+            {{ tipoMercaderia | tipoMercaderiaPipe }}
+          </mat-option>
+        </mat-select>
 
-            <!-- Botones al costado derecho -->
-            <div *ngIf="imagenVistaPrevia" class="imagen-acciones">
-              <button mat-icon-button color="primary" (click)="actualizarInputImagen.click()"
-                matTooltip="Modificar imagen" aria-label="Modificar imagen">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button mat-icon-button color="warn" (click)="onEliminarImagen()" matTooltip="Eliminar imagen"
-                aria-label="Eliminar imagen">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </div>
+        <mat-error *ngIf="formGroupMercaderia.get('tipo')?.invalid">
+          {{ getMensajeError('tipo') }}
+        </mat-error>
+      </mat-form-field>
 
-            <!-- Input oculto para actualizar imagen -->
-            <input #actualizarInputImagen type="file" (change)="onSeleccionarImagen($event)" accept="image/*" hidden />
 
-            <!-- Carga inicial si no hay imagen -->
-            <ng-container *ngIf="!imagenVistaPrevia">
-              <input type="file" (change)="onSeleccionarImagen($event)" accept="image/*" />
-            </ng-container>
+      <!-- Departamentos -->
+      <mat-form-field appearance="outline" class="campo">
+        <mat-label>{{ "titulos.departamentos" | transloco }}</mat-label>
 
-            <mat-error *ngIf="formGroupMercaderia.get('imagen')?.invalid">
-              {{ getMensajeError('imagen') }}
-            </mat-error>
-          </div>
-        </mat-grid-tile>
+        <mat-select formControlName="departamentos" [compareWith]="compararOpcionesSelect" multiple
+          [matTooltip]="'tooltips.departamentos-mercaderia' | transloco">
 
-        <!-- Fila 5 -->
-        <mat-grid-tile>
-          <mat-form-field appearance="outline" class="anchura-maxima">
-            <mat-label>{{ "titulos.valor" | transloco }}</mat-label>
-            <input matInput type="number" formControlName="valor" min="0" step="0.01">
-            <mat-error *ngIf="formGroupMercaderia.get('valor')?.invalid">{{ getMensajeError('valor') }}</mat-error>
-          </mat-form-field>
-        </mat-grid-tile>
+          <mat-option *ngFor="let departamento of listaDepartamentos" [value]="departamento">
+            {{ departamento.descripcion }}
+          </mat-option>
 
-        <mat-grid-tile>
-          <mat-form-field appearance="outline" class="anchura-maxima">
-            <mat-label>{{ "titulos.tipo-iva" | transloco }}</mat-label>
-            <mat-select formControlName="tipoIva">
-              <mat-option *ngFor="let tipoIva of listaTiposIva" [value]="tipoIva">
-                {{tipoIva | tipoIvaPipe}}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="formGroupMercaderia.get('tipoIva')?.invalid">
-              {{getMensajeError('tipoIva')}}
-            </mat-error>
-          </mat-form-field>
-        </mat-grid-tile>
+        </mat-select>
 
-      </mat-grid-list>
+        <mat-error *ngIf="formGroupMercaderia.get('departamentos')?.invalid">
+          {{ getMensajeError('departamentos') }}
+        </mat-error>
+      </mat-form-field>
+
+
+      <!-- Situación -->
+      <mat-form-field appearance="outline" class="campo">
+        <mat-label>{{ "titulos.situacion" | transloco }}</mat-label>
+
+        <mat-select formControlName="situacion">
+          <mat-option *ngFor="let situacion of listaSituaciones" [value]="situacion">
+            {{ situacion | situacionPipe }}
+          </mat-option>
+        </mat-select>
+
+        <mat-error *ngIf="formGroupMercaderia.get('situacion')?.invalid">
+          {{ getMensajeError('situacion') }}
+        </mat-error>
+      </mat-form-field>
+
+
+      <!-- Categoría -->
+      <mat-form-field appearance="outline" class="campo">
+        <mat-label>{{ "titulos.categoria" | transloco }}</mat-label>
+
+        <mat-select formControlName="categoria" [compareWith]="compararOpcionesSelect">
+
+          <mat-option *ngFor="let categoria of listaCategoriasMercaderia" [value]="categoria">
+            {{ categoria.descripcion }}
+          </mat-option>
+
+        </mat-select>
+
+        <mat-error *ngIf="formGroupMercaderia.get('categoria')?.invalid">
+          {{ getMensajeError('categoria') }}
+        </mat-error>
+      </mat-form-field>
+
+
+      <!-- Valor -->
+      <mat-form-field appearance="outline" class="campo">
+        <mat-label>{{ "titulos.valor" | transloco }}</mat-label>
+
+        <input matInput type="number" formControlName="valor">
+
+        <mat-error *ngIf="formGroupMercaderia.get('valor')?.invalid">
+          {{ getMensajeError('valor') }}
+        </mat-error>
+      </mat-form-field>
+
+
+      <!-- Tipo IVA -->
+      <mat-form-field appearance="outline" class="campo">
+        <mat-label>{{ "titulos.tipo-iva" | transloco }}</mat-label>
+
+        <mat-select formControlName="tipoIva">
+          <mat-option *ngFor="let tipoIva of listaTiposIva" [value]="tipoIva">
+            {{ tipoIva }}
+          </mat-option>
+        </mat-select>
+
+        <mat-error *ngIf="formGroupMercaderia.get('tipoIva')?.invalid">
+          {{ getMensajeError('tipoIva') }}
+        </mat-error>
+      </mat-form-field>
+
+
+      <!-- Presenta en reporte -->
+      <div class="campo campo-checkbox">
+        <mat-checkbox formControlName="presentaEnReporte" [matTooltip]="'tooltips.presenta-en-reporte' | transloco">
+
+          {{ "titulos.presenta-en-reporte" | transloco }}
+
+        </mat-checkbox>
+      </div>
+
+
+      <!-- Imagen -->
+      <div class="campo campo-imagen">
+        <div class="imagen-preview-contenedor" [class.sin-imagen]="!imagenVistaPrevia">
+
+          <!-- Imagen -->
+          <img *ngIf="imagenVistaPrevia" [src]="imagenVistaPrevia" class="imagen-preview" alt="Imagen de la mercadería">
+
+          <!-- Sin imagen -->
+          <ng-container *ngIf="!imagenVistaPrevia">
+
+            <mat-icon class="icono-imagen">
+              image
+            </mat-icon>
+
+            <span class="texto-imagen">
+              {{ "titulos.sin-imagen" | transloco }}
+            </span>
+
+            <button type="button" mat-stroked-button color="primary" *ngIf="modoEdicion !== ModoEdicion.MODO_VISUALIZAR" (click)="actualizarInputImagen.click()">
+
+              <mat-icon>add_photo_alternate</mat-icon>
+
+              {{ "botones.seleccionar-imagen" | transloco }}
+
+            </button>
+
+            <span class="ayuda-imagen" *ngIf="modoEdicion !== ModoEdicion.MODO_VISUALIZAR">
+              JPG, PNG o WEBP · Máx. 2 MB
+            </span>
+
+          </ng-container>
+
+        </div>
+
+
+        <!-- Acciones de imagen -->
+        <div class="imagen-acciones" *ngIf="imagenVistaPrevia && modoEdicion !== ModoEdicion.MODO_VISUALIZAR">
+
+          <button type="button" mat-stroked-button color="primary" (click)="actualizarInputImagen.click()">
+
+            <mat-icon>edit</mat-icon>
+
+            {{ "botones.cambiar-imagen" | transloco }}
+
+          </button>
+
+          <button type="button" mat-stroked-button color="warn" (click)="onEliminarImagen()">
+
+            <mat-icon>delete</mat-icon>
+
+            {{ "botones.eliminar-imagen" | transloco }}
+
+          </button>
+
+        </div>
+
+
+        <!-- Input oculto -->
+        <input #actualizarInputImagen type="file" hidden accept="image/jpeg,image/png,image/webp"
+          (change)="onSeleccionarImagen($event)">
+
+        <mat-error *ngIf="formGroupMercaderia.get('imagen')?.invalid">
+
+          {{ getMensajeError('imagen') }}
+
+        </mat-error>
+
+      </div>
+
     </form>
+
   </mat-card-content>
 
-  <mat-card-actions class="style-barra-acciones">
-    <button id="botonGuardar" mat-raised-button color="primary" (click)="onGuardar()"
-      [disabled]="formGroupMercaderia.disabled">
-      {{ "botones.guardar" | transloco }}
-    </button>
-    <button id="botonCancelar" mat-raised-button color="warn" (click)="onCancelar()" class="style-espacio-boton">
+
+  <!-- Acciones -->
+  <mat-card-actions class="barra-acciones">
+
+    <button type="button" mat-button (click)="onCancelar()">
+
       {{ "botones.cancelar" | transloco }}
+
     </button>
+
+    <button type="submit" mat-raised-button color="primary" [disabled]="formGroupMercaderia.invalid"
+      (click)="onGuardar()">
+
+      {{ "botones.guardar" | transloco }}
+
+    </button>
+
   </mat-card-actions>
+
 </mat-card>
