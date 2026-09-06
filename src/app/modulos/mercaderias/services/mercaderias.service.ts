@@ -5,7 +5,6 @@ import { ApiPageRequest } from 'src/app/compartido/interfaces/api-page-request';
 import { HelpersService } from 'src/app/compartido/services/helpers.service';
 
 import { MercaderiaFiltroDTO } from '../model/dtos/mercaderiaFiltroDTO';
-import { Mercaderia } from '../model/mercaderia.model';
 import { ApiPageResponse } from '../../../compartido/interfaces/api-page-response';
 import { ApiResponse } from 'src/app/compartido/interfaces/api-response';
 import { API_URL_CATEGORIAS_MERCADERIA, API_URL_IMAGEN_MERCADERIA, API_URL_MERCADERIAS, API_URL_MERCADERIAS_ACTIVAS, API_URL_MERCADERIAS_ACTIVAS_DETALLADO } from 'src/app/compartido/constantes/constantes';
@@ -84,8 +83,6 @@ export class MercaderiasService {
       map(response => response.data)
     );
   }
-
-
 
   listarTodosMercaderiasFiltro() {
     return this._httpClient.get<MercaderiaListaDTO[]>(API_URL_MERCADERIAS + '/filtro')

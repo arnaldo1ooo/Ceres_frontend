@@ -171,7 +171,7 @@
             </button>
 
             <span class="ayuda-imagen" *ngIf="modoEdicion !== ModoEdicion.MODO_VISUALIZAR">
-              JPG, PNG o WEBP · Máx. 2 MB
+              JPG, PNG o WEBP · Máx. 1 MB
             </span>
 
           </ng-container>
@@ -227,7 +227,7 @@
 
     </button>
 
-    <button type="submit" mat-raised-button color="primary" [disabled]="formGroupMercaderia.invalid"
+    <button type="submit" mat-raised-button color="primary" [disabled]="formGroupMercaderia.invalid || modoEdicion == ModoEdicion.MODO_VISUALIZAR"
       (click)="onGuardar()">
 
       {{ "botones.guardar" | transloco }}

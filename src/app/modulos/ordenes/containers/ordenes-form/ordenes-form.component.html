@@ -31,7 +31,7 @@
 
           <mat-list-item (click)="addItemMerc(mercaderia)" class="ui-mat-list-item-mercaderia">
             <div class="ui-item-mercaderia">
-              <img class="ui-mercaderia-imagen" [src]="mercaderia.imagen || 'assets/imagenes/no_photo.png'"
+              <img class="ui-mercaderia-imagen" [src]="mercaderia.mercaderiaImagenes?.[0]?.imagen || 'assets/imagenes/no_photo.png'"
                 alt="Imagen de {{ mercaderia.descripcion }}">
 
               <div class="ui-mercaderia-detalle">
@@ -61,7 +61,7 @@
 
                   <!-- Columna 1: Imagen -->
                   <img class="ui-item-imagen-selected"
-                    [src]="itemSel.mercaderia.imagen || 'assets/imagenes/no_photo.png'"
+                    [src]="itemSel.mercaderia.mercaderiaImagenes?.[0]?.imagen || 'assets/imagenes/no_photo.png'"
                     alt="Imagen de {{ itemSel.mercaderia.descripcion }}" />
 
                   <!-- Columna 2: Detalle -->

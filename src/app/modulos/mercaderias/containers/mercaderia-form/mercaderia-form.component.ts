@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { NonNullableFormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import { NonNullableFormBuilder, Validators, FormGroup, FormControl, FormArray } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ModoEdicion } from 'src/app/compartido/enums/modo-edicion.enum';
 import { Situacion } from 'src/app/compartido/enums/situacion.enum';
@@ -59,12 +59,13 @@ export class MercaderiaFormComponent implements OnInit {
         : Situacion.ACTIVO, //Se pone por default Activo
       presentaEnReporte: mercaderiaDetalleDTO.presentaEnReporte,
       categoria: mercaderiaDetalleDTO.categoria,
-      imagen: this.formatarBase64(mercaderiaDetalleDTO.imagen),
+      mercaderiaImagenes: mercaderiaDetalleDTO.mercaderiaImagenes,
       valor: mercaderiaDetalleDTO.valor,
       tipoIva: mercaderiaDetalleDTO.tipoIva
     });
 
-    this.imagenVistaPrevia = this.formGroupMercaderia.get('imagen')?.value;
+    const imagen1 = mercaderiaDetalleDTO.mercaderiaImagenes?.[0]?.imagen ?? null;
+    this.imagenVistaPrevia = imagen1;
   }
 
   private formatarBase64(base64: string | null) {
@@ -156,32 +157,74 @@ export class MercaderiaFormComponent implements OnInit {
       categoria: new FormControl('', [
         Validators.required
       ]),
-      imagen: new FormControl(''),
+      mercaderiaImagenes: new FormControl('', []),
       valor: new FormControl(0, [Validators.required]),
       tipoIva: new FormControl('', [Validators.required])
     });
   }
 
   onSeleccionarImagen(event: any): void {
+    // Obtener el elemento input que contiene el archivo seleccionado
     const input = event.target as HTMLInputElement;
+
+    // Obtener el primer archivo seleccionado
     const file = input.files?.[0];
 
     if (file) {
+      // Crear lector para convertir el archivo a Base64
       const reader = new FileReader();
+
       reader.onload = () => {
+        // Guardar la imagen en Base64 para mostrar la vista previa
         this.imagenVistaPrevia = reader.result as string;
-        this.formGroupMercaderia.patchValue({ imagen: this.imagenVistaPrevia }); // guardar archivo en base64
-        this.formGroupMercaderia.get('imagen')?.updateValueAndValidity();
+
+        // Obtener las imágenes actuales para conservar el ID
+        const imagenes = this.formGroupMercaderia
+          .get('mercaderiaImagenes')
+          ?.value;
+
+        // Mantener el ID de la imagen existente y reemplazar únicamente
+        // su contenido. Si no existe una imagen, se crea una nueva con ID null.
+        this.formGroupMercaderia.patchValue({
+          mercaderiaImagenes: [
+            {
+              _id: imagenes?.[0]?._id ?? null,
+              imagen: this.imagenVistaPrevia
+            }
+          ]
+        });
+
+        // Actualizar el estado de validación del control
+        this.formGroupMercaderia
+          .get('mercaderiaImagenes')
+          ?.updateValueAndValidity();
       };
 
+      // Leer el archivo como Data URL (Base64)
       reader.readAsDataURL(file);
     }
   }
 
-  onEliminarImagen() {
+  onEliminarImagen(): void {
+    // Limpiar la imagen de la vista previa.
     this.imagenVistaPrevia = null;
-    this.formGroupMercaderia.patchValue({ imagen: null });
-    this.formGroupMercaderia.get('imagen')?.updateValueAndValidity();
+
+    // Obtener las imágenes actualmente almacenadas en el formulario.
+    const imagenes = this.formGroupMercaderia.get('mercaderiaImagenes')?.value;
+
+    if (imagenes?.length) {
+      // Mantener el ID de la relacion mercaderia imagen y establecer su contenido en null
+      // para indicar al backend que el registro debe ser eliminado.
+      this.formGroupMercaderia.patchValue({
+        mercaderiaImagenes: imagenes.map((imagen: any) => ({
+          ...imagen,
+          imagen: null
+        }))
+      });
+    }
+
+    // Actualizar el estado de validación del control.
+    this.formGroupMercaderia.get('mercaderiaImagenes')?.updateValueAndValidity();
   }
 
 }
